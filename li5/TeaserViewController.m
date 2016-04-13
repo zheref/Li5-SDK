@@ -7,10 +7,12 @@
 //
 
 #import "TeaserViewController.h"
-
 #import "ShapesHelper.h"
 
-@interface TeaserViewController ()
+@interface TeaserViewController () {
+    AVPlayerItem *trailerPlayerItem;
+    AVPlayerItem *videoPlayerItem;
+}
 
 @end
 
@@ -60,23 +62,22 @@
 
 -(AVPlayerLayer*)playerLayer {
     if(!_playerLayer){
-        DDLogVerbose(@"Creating Video Player instance for: %@", self.product.video);
-        // find movie file
+        DDLogVerbose(@"Creating Video Player instance for: %@", self.product.trailerURL);
         NSURL *videoUrl = nil;
-        if ([self.product.video hasPrefix:@"local://"])
+        if ([self.product.trailerURL hasPrefix:@"local://"])
         {
-            NSString *moviePath = [[NSBundle mainBundle] pathForResource:[self.product.video substringFromIndex:[@"local://" length]] ofType:@"mp4"];
+            NSString *moviePath = [[NSBundle mainBundle] pathForResource:[self.product.trailerURL substringFromIndex:[@"local://" length]] ofType:@"mp4"];
             videoUrl = [NSURL fileURLWithPath:moviePath];
         } else {
-            videoUrl = [NSURL URLWithString:self.product.video];
+            videoUrl = [NSURL URLWithString:self.product.trailerURL];
         }
-        AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:videoUrl];
-        [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
-        [playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+        trailerPlayerItem = [AVPlayerItem playerItemWithURL:videoUrl];
+        [trailerPlayerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+        [trailerPlayerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
         
-        AVPlayer *player = [[AVPlayer alloc]initWithPlayerItem:playerItem];
-        [player addPeriodicTimeObserverForInterval:CMTimeMake([self.product.teaser_duration integerValue]*10, 10) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-            if ( CMTIME_COMPARE_INLINE( time, >= , CMTimeMake([self.product.teaser_duration integerValue]*10, 10) ) && !unlocked)
+        AVPlayer *player = [[AVPlayer alloc]initWithPlayerItem:trailerPlayerItem];
+        [player addPeriodicTimeObserverForInterval:CMTimeMake([self.product.trailerDuration integerValue]*10, 10) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+            if ( CMTIME_COMPARE_INLINE( time, >= , CMTimeMake([self.product.trailerDuration integerValue]*10, 10) ) && !unlocked)
             {
                 [self redisplay];
             }
@@ -113,7 +114,8 @@
     }
     DDLogVerbose(@"rendering animations");
     UIFont *categoryFont = [UIFont fontWithName:@"Avenir-Black" size:15.0];
-    CGRect categorySize = [self.product.category boundingRectWithSize:CGSizeMake(self.view.bounds.size.width, 20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:categoryFont} context:nil];
+    NSString *category = self.product.categoryName;
+    CGRect categorySize = [category boundingRectWithSize:CGSizeMake(self.view.bounds.size.width, 20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:categoryFont} context:nil];
     
     CAShapeLayer *categoryLayer = [CAShapeLayer layer];
     UIBezierPath *hexagonPath = [ShapesHelper hexagonWithWidth:categorySize.size.width andHeight:categorySize.size.height + 24];
@@ -127,7 +129,7 @@
     
     CATextLayer *categoryText = [CATextLayer layer];
     categoryText.frame = CGRectMake(0,12,hexagonPath.bounds.size.width, hexagonPath.bounds.size.height);
-    categoryText.string = self.product.category;
+    categoryText.string = category;
     categoryText.font = (__bridge CFTypeRef)categoryFont;
     categoryText.fontSize = 15.0;
     categoryText.foregroundColor = (__bridge CGColorRef)([UIColor whiteColor]);
@@ -269,21 +271,19 @@
         DDLogVerbose(@"Ready for display %@",videoName);
         //Stop spinner
         [[self.view viewWithTag:19] stopAnimating];
-        
     }
     
     if ([self isViewLoaded] && self.view.window && object == self._playerLayer.player.currentItem)
     {
-        if ( [keyPath isEqualToString:@"status"] && self._playerLayer.player.currentItem.status == AVPlayerStatusReadyToPlay && !hidden) {
+        if ([keyPath isEqualToString:@"status"] && self._playerLayer.player.currentItem.status == AVPlayerStatusReadyToPlay && !hidden) {
             DDLogVerbose(@"Ready to play for: %@", videoName);
             
-            if ( !rendered )
+            if (!rendered)
             {
                 [self renderAnimations];
             }
             
             [self._playerLayer.player play];
-            
         }
     }
 }
@@ -374,6 +374,11 @@
 
 - (void) hide
 {
+    NSLog(@"User saw %@ (%@) during %f", self.product.id, self.product.title, CMTimeGetSeconds(_playerLayer.player.currentTime));
+    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+    [li5 postUserWatchedVideoWithId:self.product.id during:[NSNumber numberWithFloat:CMTimeGetSeconds(_playerLayer.player.currentTime)] withCompletion:^(NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+    }];
     [_playerLayer.player pause];
     self.hidden = TRUE;
 }
@@ -400,6 +405,14 @@
         {
             //unlock video
             self.unlocked = TRUE;
+            
+            [trailerPlayerItem removeObserver:self forKeyPath:@"status" context:nil];
+            [trailerPlayerItem removeObserver:self forKeyPath:@"loadedTimeRanges" context:nil];
+            
+            videoPlayerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.product.videoURL]];
+            [videoPlayerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+            [videoPlayerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+            [self._playerLayer.player replaceCurrentItemWithPlayerItem:videoPlayerItem];
             
             //Long Tap transparent Background Rectangle
             CGFloat animationDuration = 0.5f;

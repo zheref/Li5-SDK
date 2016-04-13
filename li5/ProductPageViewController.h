@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "Logger.h"
-#import "Product.h"
+#import "Li5ApiHandler.h"
 #import "TeaserViewController.h"
 #import "DetailsViewController.h"
 

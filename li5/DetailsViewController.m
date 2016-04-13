@@ -45,13 +45,15 @@
     scrollView.delaysContentTouches = NO;
     
     //Vendor Name Label
+#warning Hardcoded vendor
+    NSString *vendor = @"Amazon";
     UIFont *vendorFont = [UIFont fontWithName:@"Avenir" size:14];
-    CGRect vendorSize = [product.vendor boundingRectWithSize:CGSizeMake(scrollView.frame.size.width-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:vendorFont} context:nil];
+    CGRect vendorSize = [vendor boundingRectWithSize:CGSizeMake(scrollView.frame.size.width-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:vendorFont} context:nil];
     UILabel *vendorLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,[self currentBottomIn:scrollView].size.height+10,scrollView.frame.size.width-120,vendorSize.size.height)];
     [vendorLabel setTextColor:[UIColor blueColor]];
     [vendorLabel setNumberOfLines:0];
     [vendorLabel setFont:vendorFont];
-    [vendorLabel setText: product.vendor];
+    [vendorLabel setText:vendor];
     [vendorLabel setTextAlignment: NSTextAlignmentLeft];
     [scrollView addSubview:vendorLabel];
     
@@ -71,7 +73,7 @@
     [titleLabel setTextColor:[UIColor blackColor]];
     [titleLabel setNumberOfLines:0];
     [titleLabel setFont:productTitleFont];
-    [titleLabel setText: product.title];
+    [titleLabel setText:product.title];
     [titleLabel setTextAlignment: NSTextAlignmentLeft];
     [scrollView addSubview:titleLabel];
     
@@ -129,14 +131,15 @@
     
     //Product Price Label
     NSString *price = @"Price: ";
+    NSString *productPrice = [product.price stringValue];
     UIFont *productPriceFont = [UIFont fontWithName:@"Avenir-Black" size:16];
-    CGRect productPriceSize = [product.price boundingRectWithSize:CGSizeMake(self.view.frame.size.width-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:productPriceFont} context:nil];
+    CGRect productPriceSize = [productPrice boundingRectWithSize:CGSizeMake(self.view.frame.size.width-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:productPriceFont} context:nil];
     UILabel *productPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,[self currentBottomIn:scrollView].size.height+10,self.view.frame.size.width-20,productPriceSize.size.height)];
     [productPriceLabel setTextColor:[UIColor blackColor]];
     [productPriceLabel setNumberOfLines:0];
     [productPriceLabel setFont:productPriceFont];
     NSMutableAttributedString *attributedProductPrice = [[NSMutableAttributedString alloc] initWithString:price attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Avenir" size:14], NSForegroundColorAttributeName: [UIColor grayColor]}];
-    [attributedProductPrice appendAttributedString:[[NSMutableAttributedString alloc] initWithString:product.price attributes:@{NSFontAttributeName:productPriceFont, NSForegroundColorAttributeName: [UIColor blackColor]}]];
+    [attributedProductPrice appendAttributedString:[[NSMutableAttributedString alloc] initWithString:productPrice attributes:@{NSFontAttributeName:productPriceFont, NSForegroundColorAttributeName: [UIColor blackColor]}]];
     [productPriceLabel setAttributedText: attributedProductPrice];
     [productPriceLabel setTextAlignment: NSTextAlignmentLeft];
     [scrollView addSubview:productPriceLabel];
@@ -148,7 +151,7 @@
     descriptionLabel.numberOfLines = 0;
     descriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [descriptionLabel setTextAlignment: NSTextAlignmentLeft];
-    descriptionLabel.text = product.desc;
+    descriptionLabel.text = product.body;
     descriptionLabel.contentScaleFactor = [UIScreen mainScreen].scale;
     [descriptionLabel sizeToFit];
     [scrollView addSubview:descriptionLabel];
@@ -160,8 +163,10 @@
     [self.view addSubview:scrollView];
     
     //Add Buy button
+#warning Hardcoded BUY
+    NSString *cta = @"BUY";
     UIButton *firstButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [firstButton setTitle:product.cta forState:UIControlStateNormal];
+    [firstButton setTitle:cta forState:UIControlStateNormal];
     [firstButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     firstButton.frame = CGRectMake(12.5,self.view.bounds.size.height-60, self.view.bounds.size.width-25, 50);
     firstButton.backgroundColor = [UIColor yellowColor];

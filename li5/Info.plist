@@ -32,7 +32,7 @@
 	<key>FacebookAppID</key>
 	<string>1680814975507775</string>
 	<key>FacebookDisplayName</key>
-	<string>Shoun</string>
+	<string>Li5</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -44,6 +44,8 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>akamaihd.net</key>

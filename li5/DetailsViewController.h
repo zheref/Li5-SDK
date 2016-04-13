@@ -11,7 +11,7 @@
 #import "Logger.h"
 #import "LinkedViewController.h"
 #import "ShapesHelper.h"
-#import "Product.h"
+#import "Li5ApiHandler.h"
 #import "IndexedViewController.h"
 
 @interface DetailsViewController : LinkedViewController<UIScrollViewDelegate, DisplayableProtocol, UIPageViewControllerDataSource,UIPageViewControllerDelegate>

@@ -23,7 +23,6 @@
 		5B602C6B1C565FBF00F0D362 /* girl.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B602C611C565FBF00F0D362 /* girl.jpg */; };
 		5B602C6C1C565FBF00F0D362 /* girl.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B602C611C565FBF00F0D362 /* girl.jpg */; };
 		5B602C861C5A6A9F00F0D362 /* ShapesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B602C851C5A6A9F00F0D362 /* ShapesHelper.m */; };
-		5B602C8D1C5BB4DC00F0D362 /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B602C8C1C5BB4DC00F0D362 /* Product.m */; };
 		5B79755B1C6D03A800F78C9F /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
 		5B79755C1C6D03A800F78C9F /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
 		5B79755D1C6D03A800F78C9F /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
@@ -47,6 +46,10 @@
 		5BB4AB171C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
 		5BB4AB181C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
 		5BB4AB191C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
+		9CFFC24E1CC16057005AC8DC /* CategoriesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC24C1CC16057005AC8DC /* CategoriesCollectionViewCell.m */; };
+		9CFFC24F1CC16057005AC8DC /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */; };
+		9CFFC2531CC17EC5005AC8DC /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2511CC17EC5005AC8DC /* CategoriesViewController.m */; };
+		9CFFC2541CC17EC5005AC8DC /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */; };
 		B0087F35B15FEE5719CB48A1 /* libPods-li5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24EA10E8E8164CA535D2CD1B /* libPods-li5.a */; };
 		D0EF374E733587FE402A3C7E /* libPods-li5Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A39FC22EF264E0F2D0BE858F /* libPods-li5Tests.a */; };
 /* End PBXBuildFile section */
@@ -86,8 +89,6 @@
 		5B602C611C565FBF00F0D362 /* girl.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = girl.jpg; sourceTree = "<group>"; };
 		5B602C841C5A6A9F00F0D362 /* ShapesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapesHelper.h; sourceTree = "<group>"; };
 		5B602C851C5A6A9F00F0D362 /* ShapesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShapesHelper.m; sourceTree = "<group>"; };
-		5B602C8B1C5BB4DC00F0D362 /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
-		5B602C8C1C5BB4DC00F0D362 /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
 		5B7975591C6D03A800F78C9F /* ProductPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPageViewController.h; sourceTree = "<group>"; };
 		5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPageViewController.m; sourceTree = "<group>"; };
 		5B8625CD1C763CE4006869DE /* IndexedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexedViewController.h; sourceTree = "<group>"; };
@@ -123,6 +124,12 @@
 		5C60F4492BDEF4F78D8E3E47 /* libPods-li5UITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-li5UITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC6EBF89996FCB9077F8F35 /* Pods-li5Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-li5Tests/Pods-li5Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		7A1E7C812F1E03D4613CE31A /* Pods-li5UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-li5UITests/Pods-li5UITests.debug.xcconfig"; sourceTree = "<group>"; };
+		9CFFC24B1CC16057005AC8DC /* CategoriesCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesCollectionViewCell.h; sourceTree = "<group>"; };
+		9CFFC24C1CC16057005AC8DC /* CategoriesCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesCollectionViewCell.m; sourceTree = "<group>"; };
+		9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesCollectionViewCell.xib; sourceTree = "<group>"; };
+		9CFFC2501CC17EC5005AC8DC /* CategoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesViewController.h; sourceTree = "<group>"; };
+		9CFFC2511CC17EC5005AC8DC /* CategoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
+		9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesViewController.xib; sourceTree = "<group>"; };
 		A39FC22EF264E0F2D0BE858F /* libPods-li5Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-li5Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07CEEC08BA6684861EA3AC6 /* Pods-li5.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5.release.xcconfig"; path = "Pods/Target Support Files/Pods-li5/Pods-li5.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -200,12 +207,16 @@
 			children = (
 				5BB4AAC31C4D60B9002C22C8 /* AppDelegate.h */,
 				5BB4AAC41C4D60B9002C22C8 /* AppDelegate.m */,
-				5B602C8B1C5BB4DC00F0D362 /* Product.h */,
-				5B602C8C1C5BB4DC00F0D362 /* Product.m */,
 				5B602C5A1C565D4A00F0D362 /* LoginViewController.h */,
 				5B602C5B1C565D4A00F0D362 /* LoginViewController.m */,
 				5BB4AB101C4ED3DC002C22C8 /* RootViewController.h */,
 				5BB4AB111C4ED3DC002C22C8 /* RootViewController.m */,
+				9CFFC2501CC17EC5005AC8DC /* CategoriesViewController.h */,
+				9CFFC2511CC17EC5005AC8DC /* CategoriesViewController.m */,
+				9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */,
+				9CFFC24B1CC16057005AC8DC /* CategoriesCollectionViewCell.h */,
+				9CFFC24C1CC16057005AC8DC /* CategoriesCollectionViewCell.m */,
+				9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */,
 				5B7975591C6D03A800F78C9F /* ProductPageViewController.h */,
 				5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */,
 				5BB4AAC61C4D60B9002C22C8 /* TeaserViewController.h */,
@@ -393,9 +404,11 @@
 				5B5076971C7B59A3004605DF /* beats_b.mp4 in Resources */,
 				5B602C6A1C565FBF00F0D362 /* girl.jpg in Resources */,
 				5B2AD39A1C7F329D0074FE83 /* sandwiche_low.mp4 in Resources */,
+				9CFFC2541CC17EC5005AC8DC /* CategoriesViewController.xib in Resources */,
 				5B39086C1C7E364000850A96 /* backpack_.mp4 in Resources */,
 				5BB4AACD1C4D60B9002C22C8 /* Assets.xcassets in Resources */,
 				5B50769D1C7B59E9004605DF /* quell2.mp4 in Resources */,
+				9CFFC24F1CC16057005AC8DC /* CategoriesCollectionViewCell.xib in Resources */,
 				5B39086D1C7E364000850A96 /* lighter_2.mp4 in Resources */,
 				5B3908691C7E361800850A96 /* dogclothes.mp4 in Resources */,
 				5BB4AACB1C4D60B9002C22C8 /* Main.storyboard in Resources */,
@@ -554,11 +567,12 @@
 				5B9584DB1C6D16DD00026BB2 /* LinkedViewController.m in Sources */,
 				5B8625CF1C763CE4006869DE /* IndexedViewController.m in Sources */,
 				5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */,
-				5B602C8D1C5BB4DC00F0D362 /* Product.m in Sources */,
+				9CFFC2531CC17EC5005AC8DC /* CategoriesViewController.m in Sources */,
 				5BB4AAC21C4D60B9002C22C8 /* main.m in Sources */,
 				5BB4AB121C4ED3DC002C22C8 /* RootViewController.m in Sources */,
 				5B602C861C5A6A9F00F0D362 /* ShapesHelper.m in Sources */,
 				5B602C5C1C565D4A00F0D362 /* LoginViewController.m in Sources */,
+				9CFFC24E1CC16057005AC8DC /* CategoriesCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,7 +723,7 @@
 				INFOPLIST_FILE = li5/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.thrivecom.li5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thrivecom.li5.consumer;
 				PRODUCT_NAME = li5;
 				PROVISIONING_PROFILE = "";
 			};
@@ -729,7 +743,7 @@
 				INFOPLIST_FILE = li5/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.thrivecom.li5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thrivecom.li5.consumer;
 				PRODUCT_NAME = li5;
 				PROVISIONING_PROFILE = "";
 			};

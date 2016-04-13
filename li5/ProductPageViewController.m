@@ -18,7 +18,7 @@
 
 - (id)initWithProduct:(Product *) thisProduct andIndex: (NSInteger) idx
 {
-    //DDLogVerbose(@"Initializing ProductPageViewController for: %@", thisProduct.title);
+    DDLogVerbose(@"Initializing ProductPageViewController for: %@", thisProduct.title);
     self = [super initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationVertical options:nil];
     if (self) {
         self.product = thisProduct;

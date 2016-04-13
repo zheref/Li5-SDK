@@ -7,9 +7,7 @@
 //
 
 #import "RootViewController.h"
-
-#import "Product.h"
-#import <Parse/Parse.h>
+#import "Li5ApiHandler.h"
 #import "ProductPageViewController.h"
 
 @interface RootViewController ()
@@ -18,30 +16,25 @@
 
 @implementation RootViewController
 
-@synthesize products, pageViewController;
+@synthesize productPages, pageViewController;
 
 - (instancetype)init
 {
     //DDLogVerbose(@"initializing RootController");
     self = [super init];
     if (self) {
-        self.products = [NSMutableArray array];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
+        self.productPages = [NSMutableArray array];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
             //Background Thread
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"displayed_at = NULL"];
-            PFQuery *query = [Product queryWithPredicate:predicate];
-            [query addAscendingOrder:@"order"];
-            NSLog(@"Querying products");
-            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                if (!error) {
-                    // The find succeeded.
-                    NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
-                    
-                    [self.products addObject:[[ProductPageViewController alloc] initWithProduct:objects[0] andIndex:0]];
+            Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+            [li5 requestDiscoverProductsWithCompletion:^(NSError *error, NSArray<Product *> *products) {
+                NSLog(@"PRODUCTS: %@", products);
+                if (error == nil) {
+                    [self.productPages addObject:[[ProductPageViewController alloc] initWithProduct:products[0] andIndex:0]];
                     
                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                        for (int i = 1; i < objects.count; i++) {
-                            [self.products addObject:[[ProductPageViewController alloc] initWithProduct:objects[i] andIndex:i]];
+                        for (int i = 1; i < products.count; i++) {
+                            [self.productPages addObject:[[ProductPageViewController alloc] initWithProduct:products[i] andIndex:i]];
                         }
                     });
                     
@@ -49,7 +42,6 @@
                         //Run UI Updates
                         [self renderPage];
                     });
-                    
                 } else {
                     // Log details of the failure
                     NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -86,7 +78,7 @@
     self.pageViewController = [[UIPageViewController alloc ]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageViewController.dataSource = self;
     self.pageViewController.delegate = self;
-    NSArray *viewControllers = @[self.products[0]];
+    NSArray *viewControllers = @[self.productPages[0]];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     //Stop spinner
@@ -129,7 +121,7 @@
         {
             return nil;
         }
-        return self.products[index-1];
+        return self.productPages[index-1];
     }
     return nil;
 }
@@ -140,11 +132,11 @@
     {
         NSUInteger index = ((ProductPageViewController*) viewController).index;
         
-        if ((index+1 == [self.products count]) || (index == NSNotFound))
+        if ((index+1 == [self.productPages count]) || (index == NSNotFound))
         {
             return nil;
         }
-        return self.products[index+1];
+        return self.productPages[index+1];
     }
     return nil;
 }

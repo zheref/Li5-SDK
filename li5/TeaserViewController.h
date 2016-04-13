@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Logger.h"
-
 #import "LinkedViewController.h"
-#import "Product.h"
+#import "Li5ApiHandler.h"
 
 @import AVFoundation;
 

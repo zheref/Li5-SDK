@@ -7,11 +7,10 @@
 //
 
 #import "AppDelegate.h"
-
-#import <Parse/Parse.h>
-
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import "Li5ApiHandler.h"
+#import "CategoriesViewController.h"
 
 @interface AppDelegate ()
 
@@ -25,30 +24,42 @@
     //[DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     
-    //Loading Parse application
-    [Product registerSubclass];
-    [Parse setApplicationId:@"AR0sS91VNyMqwgaLvIWN3LoxyQuoacuGZWCFPVfG"
-                  clientKey:@"CwcFIeAFliKQY8HjPvcLkQMxAk4HPXib52rnt1lO"];
+    //Facebook SDK
+    [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
-    LoginViewController *initialController = [[LoginViewController alloc] init];
-    self.navController = [[UINavigationController alloc] initWithRootViewController:initialController];
+    // Li5ApiHandler
+    [[Li5ApiHandler sharedInstance] setBaseURL:@"http://t.li5.tv"];
     
-    self.navController.navigationBarHidden = YES;
-    
-    [self.window setRootViewController:self.navController];
-    [self.window makeKeyAndVisible];
+    // LoginViewController
+    __block UIViewController *initialController = [[LoginViewController alloc] init];
+    if ( FBSDKAccessToken.currentAccessToken != nil )
+    {
+        __weak typeof(self) welf = self;
+        [[Li5ApiHandler sharedInstance] requestProfile:^(NSError *error, Profile *profile) {
+            if (error == nil) {
+                if ([profile.preferences.data count] >= 2) {
+                    initialController = [[RootViewController alloc] init];
+                } else {
+                    initialController = [[CategoriesViewController alloc] initWithNibName:@"CategoriesViewController" bundle:[NSBundle mainBundle]];
+                }
+                [welf startNavigationWithViewController:initialController];
+            }
+        }];
+    }
+    [self startNavigationWithViewController:initialController];
     
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                          openURL:url
-                                                sourceApplication:sourceApplication
-                                                       annotation:annotation];
+- (void)startNavigationWithViewController:(UIViewController *)viewController {
+    self.navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    self.navController.navigationBarHidden = YES;
+    [self.window setRootViewController:self.navController];
+    [self.window makeKeyAndVisible];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -59,7 +70,6 @@
     if ( [currentViewController isKindOfClass:[RootViewController class]] )
     {
         [((ProductPageViewController*)[((RootViewController*)currentViewController).pageViewController.viewControllers firstObject]) hide];
-        
     }
 }
 
@@ -75,6 +85,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     //DDLogDebug(@"App Did Become Active");
+    
+    [FBSDKAppEvents activateApp];
+    
     UIViewController *currentViewController = [self.navController.viewControllers lastObject];
     if ( [currentViewController isKindOfClass:[RootViewController class]] )
     {

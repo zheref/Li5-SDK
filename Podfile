@@ -5,7 +5,7 @@ platform :ios, '7.0'
 
 target 'li5' do
   pod 'CocoaLumberjack'
-  pod 'Parse'
+  pod 'li5-api-ios', :git => 'https://github.com/thrivecom/li5-api-ios.git', :branch => 'master'
 end
 
 target 'li5Tests' do

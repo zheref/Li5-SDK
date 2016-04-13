@@ -7,6 +7,8 @@
 //
 
 #import "LoginViewController.h"
+#import "Li5ApiHandler.h"
+#import "CategoriesViewController.h"
 
 @interface LoginViewController ()
 
@@ -61,6 +63,7 @@
     
     FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
     loginButton.center = CGPointMake(self.view.center.x, self.view.frame.size.height - 100);
+    loginButton.readPermissions = @[@"public_profile", @"email"];
     loginButton.delegate = self;
     [self.view addSubview:loginButton];
     
@@ -85,22 +88,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL) loginButtonWillLogin:(FBSDKLoginButton *)loginButton {
-    RootViewController *rootViewController = [[RootViewController alloc] init];
-    [self.navigationController pushViewController:rootViewController animated:NO];
-    return FALSE;
-}
-
-- (void) loginButton:(FBSDKLoginButton *)loginButton didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error
-{
-    
-}
-
-- (void) loginButtonDidLogOut:(FBSDKLoginButton *)loginButton
-{
-    
-}
-
 - (void) enterAction: (UITapGestureRecognizer *)gestureRecognizer {
     //DDLogVerbose(@"Login Button tapped");
     
@@ -123,5 +110,60 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - FBSDKLoginButtonDelegate
+
+- (void)loginButton:(FBSDKLoginButton *)loginButton didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error {
+    if (error == nil) {
+        DDLogVerbose(@"FB Token: %@", FBSDKAccessToken.currentAccessToken.tokenString);
+        NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
+        [parameters setValue:@"id, name, email" forKey:@"fields"];
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:parameters]
+         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+                                      id result, NSError *error) {
+             if (error == nil) {
+                 DDLogVerbose(@"Mail: %@", [(NSDictionary *)result objectForKey:@"email"]);
+                 Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+                 [li5 login:[(NSDictionary *)result objectForKey:@"email"] withFacebookToken:FBSDKAccessToken.currentAccessToken.tokenString withCompletion:^(NSError *error) {
+                     if (error == nil) {
+                         [li5 requestProfile:^(NSError *error, Profile *profile) {
+                             BOOL showCategoriesSelection = false;
+                             if (error == nil) {
+                                 if ([profile.preferences.data count] >= 2) {
+#warning Change this to hide categories selection
+                                     showCategoriesSelection = false;
+                                 } else {
+                                     showCategoriesSelection = true;
+                                 }
+                             }
+                             
+                             if (showCategoriesSelection) {
+                                 CategoriesViewController *categoriesViewController = [[CategoriesViewController alloc] initWithNibName:@"CategoriesViewController" bundle:[NSBundle mainBundle]];
+                                 [self.navigationController pushViewController:categoriesViewController animated:NO];
+                             } else {
+                                 RootViewController *rootViewController = [[RootViewController alloc] init];
+                                 [self.navigationController pushViewController:rootViewController animated:NO];
+                             }
+                         }];
+                     } else {
+                         DDLogVerbose(@"Couldn't login with Facebook: %@", error.localizedDescription);
+                     }
+                 }];
+             } else {
+                 DDLogVerbose(@"Error when fetching email: %@", error);
+             }
+         }];
+    } else {
+        DDLogVerbose(@"Couldn't login: %@", error);
+    }
+}
+
+- (void)loginButtonDidLogOut:(FBSDKLoginButton *)loginButton {
+    
+}
+
+//- (BOOL)loginButtonWillLogin:(FBSDKLoginButton *)loginButton {
+//    
+//}
 
 @end

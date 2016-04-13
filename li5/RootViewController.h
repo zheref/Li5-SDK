@@ -16,6 +16,6 @@
 @interface RootViewController : UIViewController<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
 
 @property (nonatomic,strong) UIPageViewController *pageViewController;
-@property (nonatomic,strong) NSMutableArray<ProductPageViewController*> *products;
+@property (nonatomic,strong) NSMutableArray<ProductPageViewController*> *productPages;
 
 @end
