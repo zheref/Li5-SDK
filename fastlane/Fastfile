@@ -18,21 +18,29 @@ default_platform :ios
 platform :ios do
   before_all do
     ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
-
-    git_pull
+    
+    #git_pull
 
     cocoapods
     
   end
 
   desc "Build"
-  lane :build do
-    gym(scheme:"li5")
+  private_lane :build do
+
+    increment_build_number # version bump
+
+    gym(
+      scheme: "li5"
+    )
   end
 
   desc "Runs all the tests"
   lane :test do
-    scan
+    scan(
+      clean: true,
+      scheme: "li5"
+    )
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
@@ -45,7 +53,14 @@ platform :ios do
       app_version: '0.1'
     )
 
-    pilot
+    pilot(
+      skip_submission: true
+    )
+
+    commit_version_bump(
+      message: 'Build Version Bump by fastlane',
+      force: true
+    )
 
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)
@@ -55,8 +70,21 @@ platform :ios do
   lane :appstore do
     # match(type: "appstore")
     # snapshot
-    gym # Build your app - more options available
-    deliver(force: true)
+    increment_version_number(
+      bump_type: 'patch'
+    )
+
+    gym(scheme: "li5") # Build your app - more options available
+
+    produce(
+      app_version: '0.1'
+    )
+
+    deliver(
+      skip_deploy: true,
+      force: true,
+      app_version: "0.1"
+    )
     # frameit
   end
 
@@ -72,7 +100,7 @@ platform :ios do
   end
 
   error do |lane, exception|
-    slack(
+     slack(
        message: exception.message,
        channel: "li5-apps",
        success: false

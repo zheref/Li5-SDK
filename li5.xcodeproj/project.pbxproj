@@ -8,14 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		54D94B4CC6B2B8AF0AD57D32 /* libPods-li5UITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C60F4492BDEF4F78D8E3E47 /* libPods-li5UITests.a */; };
-		5B2AD39A1C7F329D0074FE83 /* sandwiche_low.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5B2AD3991C7F329D0074FE83 /* sandwiche_low.mp4 */; };
-		5B2AD39C1C7F33250074FE83 /* precisharp_low.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5B2AD39B1C7F33250074FE83 /* precisharp_low.mp4 */; };
-		5B2AD39E1C7F33A20074FE83 /* noodle_ninja_low.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5B2AD39D1C7F33A20074FE83 /* noodle_ninja_low.mp4 */; };
-		5B3908691C7E361800850A96 /* dogclothes.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5B3908681C7E361800850A96 /* dogclothes.mp4 */; };
-		5B39086C1C7E364000850A96 /* backpack_.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5B39086A1C7E364000850A96 /* backpack_.mp4 */; };
-		5B39086D1C7E364000850A96 /* lighter_2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5B39086B1C7E364000850A96 /* lighter_2.mp4 */; };
-		5B5076971C7B59A3004605DF /* beats_b.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5B5076951C7B59A3004605DF /* beats_b.mp4 */; };
-		5B50769D1C7B59E9004605DF /* quell2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5B50769C1C7B59E9004605DF /* quell2.mp4 */; };
 		5B602C5C1C565D4A00F0D362 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B602C5B1C565D4A00F0D362 /* LoginViewController.m */; };
 		5B602C5D1C565D4A00F0D362 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B602C5B1C565D4A00F0D362 /* LoginViewController.m */; };
 		5B602C5E1C565D4A00F0D362 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B602C5B1C565D4A00F0D362 /* LoginViewController.m */; };
@@ -33,6 +25,7 @@
 		5B9584DB1C6D16DD00026BB2 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
 		5B9584DC1C6D16DD00026BB2 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
 		5B9584DD1C6D16DD00026BB2 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
+		5B9DFAB11CC6C40B00436D0A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B9DFAB01CC6C40B00436D0A /* Launch Screen.storyboard */; };
 		5BB4AAC21C4D60B9002C22C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC11C4D60B9002C22C8 /* main.m */; };
 		5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC41C4D60B9002C22C8 /* AppDelegate.m */; };
 		5BB4AAC81C4D60B9002C22C8 /* TeaserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */; };
@@ -76,14 +69,6 @@
 		108E69A8574FE942BF87B4F9 /* Pods-li5.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5.debug.xcconfig"; path = "Pods/Target Support Files/Pods-li5/Pods-li5.debug.xcconfig"; sourceTree = "<group>"; };
 		24EA10E8E8164CA535D2CD1B /* libPods-li5.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-li5.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		496E7F6AAF7EE2A7BC04EF3B /* Pods-li5UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-li5UITests/Pods-li5UITests.release.xcconfig"; sourceTree = "<group>"; };
-		5B2AD3991C7F329D0074FE83 /* sandwiche_low.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sandwiche_low.mp4; sourceTree = "<group>"; };
-		5B2AD39B1C7F33250074FE83 /* precisharp_low.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = precisharp_low.mp4; sourceTree = "<group>"; };
-		5B2AD39D1C7F33A20074FE83 /* noodle_ninja_low.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = noodle_ninja_low.mp4; sourceTree = "<group>"; };
-		5B3908681C7E361800850A96 /* dogclothes.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = dogclothes.mp4; sourceTree = "<group>"; };
-		5B39086A1C7E364000850A96 /* backpack_.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = backpack_.mp4; sourceTree = "<group>"; };
-		5B39086B1C7E364000850A96 /* lighter_2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = lighter_2.mp4; sourceTree = "<group>"; };
-		5B5076951C7B59A3004605DF /* beats_b.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = beats_b.mp4; sourceTree = "<group>"; };
-		5B50769C1C7B59E9004605DF /* quell2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = quell2.mp4; sourceTree = "<group>"; };
 		5B602C5A1C565D4A00F0D362 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		5B602C5B1C565D4A00F0D362 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		5B602C611C565FBF00F0D362 /* girl.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = girl.jpg; sourceTree = "<group>"; };
@@ -99,6 +84,7 @@
 		5B9584D91C6D16DD00026BB2 /* LinkedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedViewController.h; sourceTree = "<group>"; };
 		5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedViewController.m; sourceTree = "<group>"; };
 		5B9584DE1C6D23FB00026BB2 /* DisplayableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayableProtocol.h; sourceTree = "<group>"; };
+		5B9DFAB01CC6C40B00436D0A /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		5BB4AABD1C4D60B9002C22C8 /* li5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = li5.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BB4AAC11C4D60B9002C22C8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5BB4AAC31C4D60B9002C22C8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -235,6 +221,7 @@
 				5BB4AACC1C4D60B9002C22C8 /* Assets.xcassets */,
 				5BB4AAD11C4D60B9002C22C8 /* Info.plist */,
 				5BB4AAC01C4D60B9002C22C8 /* Supporting Files */,
+				5B9DFAB01CC6C40B00436D0A /* Launch Screen.storyboard */,
 			);
 			path = li5;
 			sourceTree = "<group>";
@@ -242,14 +229,6 @@
 		5BB4AAC01C4D60B9002C22C8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5B3908681C7E361800850A96 /* dogclothes.mp4 */,
-				5B2AD3991C7F329D0074FE83 /* sandwiche_low.mp4 */,
-				5B2AD39B1C7F33250074FE83 /* precisharp_low.mp4 */,
-				5B2AD39D1C7F33A20074FE83 /* noodle_ninja_low.mp4 */,
-				5B50769C1C7B59E9004605DF /* quell2.mp4 */,
-				5B39086A1C7E364000850A96 /* backpack_.mp4 */,
-				5B39086B1C7E364000850A96 /* lighter_2.mp4 */,
-				5B5076951C7B59A3004605DF /* beats_b.mp4 */,
 				5B602C611C565FBF00F0D362 /* girl.jpg */,
 				5BB4AAC11C4D60B9002C22C8 /* main.m */,
 			);
@@ -399,18 +378,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B2AD39E1C7F33A20074FE83 /* noodle_ninja_low.mp4 in Resources */,
-				5B2AD39C1C7F33250074FE83 /* precisharp_low.mp4 in Resources */,
-				5B5076971C7B59A3004605DF /* beats_b.mp4 in Resources */,
+				5B9DFAB11CC6C40B00436D0A /* Launch Screen.storyboard in Resources */,
 				5B602C6A1C565FBF00F0D362 /* girl.jpg in Resources */,
-				5B2AD39A1C7F329D0074FE83 /* sandwiche_low.mp4 in Resources */,
 				9CFFC2541CC17EC5005AC8DC /* CategoriesViewController.xib in Resources */,
-				5B39086C1C7E364000850A96 /* backpack_.mp4 in Resources */,
 				5BB4AACD1C4D60B9002C22C8 /* Assets.xcassets in Resources */,
-				5B50769D1C7B59E9004605DF /* quell2.mp4 in Resources */,
 				9CFFC24F1CC16057005AC8DC /* CategoriesCollectionViewCell.xib in Resources */,
-				5B39086D1C7E364000850A96 /* lighter_2.mp4 in Resources */,
-				5B3908691C7E361800850A96 /* dogclothes.mp4 in Resources */,
 				5BB4AACB1C4D60B9002C22C8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -716,16 +688,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = li5/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thrivecom.li5.consumer;
 				PRODUCT_NAME = li5;
 				PROVISIONING_PROFILE = "";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -736,16 +710,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = li5/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thrivecom.li5.consumer;
 				PRODUCT_NAME = li5;
 				PROVISIONING_PROFILE = "";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};

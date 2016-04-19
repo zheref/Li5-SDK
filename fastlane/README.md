@@ -6,11 +6,6 @@ sudo gem install fastlane
 ```
 # Available Actions
 ## iOS
-### ios build
-```
-fastlane ios build
-```
-Build
 ### ios test
 ```
 fastlane ios test
