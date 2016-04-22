@@ -12,10 +12,10 @@
 #import "TeaserViewController.h"
 #import "DetailsViewController.h"
 #import "ProductPageViewController.h"
+#import "Li5PageViewController.h"
 
-@interface RootViewController : UIViewController<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+@interface RootViewController : UIViewController <UIPageViewControllerDelegate>
 
-@property (nonatomic,strong) UIPageViewController *pageViewController;
-@property (nonatomic,strong) NSMutableArray<ProductPageViewController*> *productPages;
+@property (nonatomic,strong) Li5PageViewController *pageViewController;
 
 @end

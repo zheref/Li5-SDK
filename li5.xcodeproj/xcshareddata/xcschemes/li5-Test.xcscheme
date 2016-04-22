@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BB4AABC1C4D60B9002C22C8"
-               BuildableName = "li5.app"
-               BlueprintName = "li5"
+               BlueprintIdentifier = "5B62046E1CCA7625003C9390"
+               BuildableName = "li5-Test.app"
+               BlueprintName = "li5-Test"
                ReferencedContainer = "container:li5.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,33 +28,13 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BB4AAD51C4D60B9002C22C8"
-               BuildableName = "li5.xctest"
-               BlueprintName = "li5Tests"
-               ReferencedContainer = "container:li5.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BB4AAE01C4D60B9002C22C8"
-               BuildableName = "li5.xctest"
-               BlueprintName = "li5UITests"
-               ReferencedContainer = "container:li5.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BB4AABC1C4D60B9002C22C8"
-            BuildableName = "li5.app"
-            BlueprintName = "li5"
+            BlueprintIdentifier = "5B62046E1CCA7625003C9390"
+            BuildableName = "li5-Test.app"
+            BlueprintName = "li5-Test"
             ReferencedContainer = "container:li5.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -75,16 +55,16 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BB4AABC1C4D60B9002C22C8"
-            BuildableName = "li5.app"
-            BlueprintName = "li5"
+            BlueprintIdentifier = "5B62046E1CCA7625003C9390"
+            BuildableName = "li5-Test.app"
+            BlueprintName = "li5-Test"
             ReferencedContainer = "container:li5.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "SERVER_URL"
-            value = "https://li5.tv"
+            value = "http://t.li5.tv"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
@@ -101,9 +81,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BB4AABC1C4D60B9002C22C8"
-            BuildableName = "li5.app"
-            BlueprintName = "li5"
+            BlueprintIdentifier = "5B62046E1CCA7625003C9390"
+            BuildableName = "li5-Test.app"
+            BlueprintName = "li5-Test"
             ReferencedContainer = "container:li5.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

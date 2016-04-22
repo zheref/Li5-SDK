@@ -9,45 +9,35 @@
 #import "RootViewController.h"
 #import "Li5ApiHandler.h"
 #import "ProductPageViewController.h"
+#import "RootViewControllerDataSource.h"
 
 @interface RootViewController ()
+
+@property (nonatomic, strong) RootViewControllerDataSource *dataSource;
 
 @end
 
 @implementation RootViewController
 
-@synthesize productPages, pageViewController;
+@synthesize pageViewController;
 
 - (instancetype)init
 {
     //DDLogVerbose(@"initializing RootController");
     self = [super init];
     if (self) {
-        self.productPages = [NSMutableArray array];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
-            //Background Thread
-            Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-            [li5 requestDiscoverProductsWithCompletion:^(NSError *error, NSArray<Product *> *products) {
-                NSLog(@"PRODUCTS: %@", products);
-                if (error == nil) {
-                    [self.productPages addObject:[[ProductPageViewController alloc] initWithProduct:products[0] andIndex:0]];
-                    
-                    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                        for (int i = 1; i < products.count; i++) {
-                            [self.productPages addObject:[[ProductPageViewController alloc] initWithProduct:products[i] andIndex:i]];
-                        }
-                    });
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^(void){
-                        //Run UI Updates
-                        [self renderPage];
-                    });
-                } else {
-                    // Log details of the failure
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                }
-            }];
-        });
+        
+        self.dataSource = [[RootViewControllerDataSource alloc] init];
+        [self.dataSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
+            if (error != nil) {
+                DDLogVerbose(@"ERROR");
+            } else {
+                DDLogVerbose(@"OK");
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    [self renderPage];
+                });
+            }
+        }];
     }
     return self;
 }
@@ -66,7 +56,7 @@
     [spinner startAnimating];
 }
 
-- (void) renderPage {
+- (void)renderPage {
     //DDLogVerbose(@"Rendering ProductPageViewController");
     // loop movie
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -75,10 +65,11 @@
                                                object: nil];
     
     // Create page view controller
-    self.pageViewController = [[UIPageViewController alloc ]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageViewController.dataSource = self;
+    self.pageViewController = [[Li5PageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    self.pageViewController.dataSource = self.dataSource;
     self.pageViewController.delegate = self;
-    NSArray *viewControllers = @[self.productPages[0]];
+    
+    NSArray *viewControllers = @[[self.dataSource productPageViewControllerAtIndex:0]];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     //Stop spinner
@@ -89,6 +80,10 @@
     [self addChildViewController:self.pageViewController];
     [self.view addSubview:self.pageViewController.view];
     [self.pageViewController didMoveToParentViewController:self];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [self.dataSource productPageViewControllerAtIndex:1];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,44 +96,16 @@
     //DDLogVerbose(@"After transition %d, %d", finished, completed);
     if (finished && completed)
     {
-        [((ProductPageViewController*)[previousViewControllers lastObject]) hide];
+        [((ProductPageViewController*)[previousViewControllers lastObject]) hideAndMoveToViewController:[self.pageViewController.viewControllers firstObject]];
         [(ProductPageViewController*)[self.pageViewController.viewControllers firstObject] redisplay];
     }
 }
 
--(void)replayMovie:(NSNotification *)notification
+#pragma mark - Helpers
+
+- (void)replayMovie:(NSNotification *)notification
 {
     [((ProductPageViewController*)[self.pageViewController.viewControllers firstObject]) redisplay];
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-{
-    if ( thisPageViewController == self.pageViewController )
-    {
-        NSUInteger index = ((ProductPageViewController*) viewController).index;
-        
-        if ((index == 0) || (index == NSNotFound))
-        {
-            return nil;
-        }
-        return self.productPages[index-1];
-    }
-    return nil;
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerAfterViewController:(UIViewController *)viewController
-{
-    if ( thisPageViewController == self.pageViewController )
-    {
-        NSUInteger index = ((ProductPageViewController*) viewController).index;
-        
-        if ((index+1 == [self.productPages count]) || (index == NSNotFound))
-        {
-            return nil;
-        }
-        return self.productPages[index+1];
-    }
-    return nil;
 }
 
 /*

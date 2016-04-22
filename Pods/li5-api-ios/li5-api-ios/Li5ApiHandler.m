@@ -393,6 +393,58 @@
     }];
 }
 
+- (void)postLoveForProductWithSlug:(NSString *)productSlug withCompletion:(void (^)(NSError *error))completion {
+    [self checkAccessTokenAvailabilityAndPerform:^(NSError *error) {
+        if (error == nil) {
+            NSURLSession *session = [self createSession];
+            
+            NSURL *url = [self urlForEndpoint:[Li5API_ENDPOINT_LOVE stringByReplacingOccurrencesOfString:@"{slug}" withString:productSlug]];
+            NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+            [urlRequest setHTTPMethod:@"POST"];
+            [urlRequest setAllHTTPHeaderFields:@{   @"Accept": @"application/vnd.api+json; version=1.0",
+                                                    @"Authorization": [NSString stringWithFormat:@"Bearer %@", [self accessToken]]}];
+            NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                if ([(NSHTTPURLResponse *)response statusCode] >= 400) {
+                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                    completion([NSError errorWithDomain:[[httpResponse URL] absoluteString] code:[httpResponse statusCode] userInfo:[httpResponse allHeaderFields]]);
+                } else {
+                    completion(error);
+                }
+            }];
+            
+            [dataTask resume];
+        } else {
+            completion(error);
+        }
+    }];
+}
+
+- (void)deleteLoveForProductWithSlug:(NSString *)productSlug withCompletion:(void (^)(NSError *error))completion {
+    [self checkAccessTokenAvailabilityAndPerform:^(NSError *error) {
+        if (error == nil) {
+            NSURLSession *session = [self createSession];
+            
+            NSURL *url = [self urlForEndpoint:[Li5API_ENDPOINT_LOVE stringByReplacingOccurrencesOfString:@"{slug}" withString:productSlug]];
+            NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+            [urlRequest setHTTPMethod:@"DELETE"];
+            [urlRequest setAllHTTPHeaderFields:@{   @"Accept": @"application/vnd.api+json; version=1.0",
+                                                    @"Authorization": [NSString stringWithFormat:@"Bearer %@", [self accessToken]]}];
+            NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                if ([(NSHTTPURLResponse *)response statusCode] >= 400) {
+                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                    completion([NSError errorWithDomain:[[httpResponse URL] absoluteString] code:[httpResponse statusCode] userInfo:[httpResponse allHeaderFields]]);
+                } else {
+                    completion(error);
+                }
+            }];
+            
+            [dataTask resume];
+        } else {
+            completion(error);
+        }
+    }];
+}
+
 - (NSString *)user {
     return [[NSUserDefaults standardUserDefaults] objectForKey:Li5API_USERDEFAULTS_KEY_USER];
 }

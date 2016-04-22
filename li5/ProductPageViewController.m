@@ -16,7 +16,7 @@
 
 @synthesize index, product, teaserViewController, detailsViewController;
 
-- (id)initWithProduct:(Product *) thisProduct andIndex: (NSInteger) idx
+- (id)initWithProduct:(Product *)thisProduct andIndex:(NSInteger)idx
 {
     DDLogVerbose(@"Initializing ProductPageViewController for: %@", thisProduct.title);
     self = [super initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationVertical options:nil];
@@ -40,6 +40,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:[UIScrollView class]]) {
+            UIScrollView *scrollView = (UIScrollView *)view;
+            scrollView.delaysContentTouches = false;
+        }
+    }
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
@@ -47,7 +54,7 @@
     //DDLogVerbose(@"After transition %d, %d", finished, completed);
     if (self == pageViewController && finished && completed)
     {
-        [((LinkedViewController<DisplayableProtocol>*)[previousViewControllers lastObject]) hide];
+        [((LinkedViewController<DisplayableProtocol>*)[previousViewControllers lastObject]) hideAndMoveToViewController:[pageViewController.viewControllers firstObject]];
         [((LinkedViewController<DisplayableProtocol>*)[pageViewController.viewControllers firstObject]) show];
     }
 }
@@ -70,17 +77,17 @@
     return nil;
 }
 
-- (void) hide
+- (void)hideAndMoveToViewController:(UIViewController *)viewController
 {
-    [((LinkedViewController<DisplayableProtocol>*)[self.viewControllers firstObject]) hide];
+    [((LinkedViewController<DisplayableProtocol>*)[self.viewControllers firstObject]) hideAndMoveToViewController:viewController];
 }
 
-- (void) show
+- (void)show
 {
     [((LinkedViewController<DisplayableProtocol>*)[self.viewControllers firstObject]) show];
 }
 
-- (void) redisplay
+- (void)redisplay
 {
     [((LinkedViewController<DisplayableProtocol>*)[self.viewControllers firstObject]) redisplay];
 }

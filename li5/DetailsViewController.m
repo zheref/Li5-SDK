@@ -265,7 +265,7 @@
     //DDLogVerbose(@"Did begin dragging");
 }
 
-- (void) hide
+- (void)hideAndMoveToViewController:(UIViewController *)viewController
 {
     //Do nothing
 }

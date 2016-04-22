@@ -29,6 +29,7 @@
 #define Li5API_ENDPOINT_REVOKE_REFRESH_ACCESS_TOKEN             @"credentials"
 #define Li5API_ENDPOINT_GET_CATEGORIES                          @"categories"
 #define Li5API_ENDPOINT_PROFILE                                 @"profile"
+#define Li5API_ENDPOINT_LOVE                                    @"products/{slug}/actions/love"
 
 @interface Li5ApiHandler : NSObject
 
@@ -46,6 +47,8 @@
 - (void)requestProfile:(void (^)(NSError *error, Profile *profile))completion;
 - (void)changeUserProfileWithCategoriesIDs:(NSArray *)categories withCompletion:(void (^)(NSError *error))completion;
 - (void)postUserWatchedVideoWithId:(NSString *)product_id during:(NSNumber *)seconds withCompletion:(void (^)(NSError *error))completion;
+- (void)postLoveForProductWithSlug:(NSString *)productSlug withCompletion:(void (^)(NSError *error))completion;
+- (void)deleteLoveForProductWithSlug:(NSString *)productSlug withCompletion:(void (^)(NSError *error))completion;
 
 - (NSString *)user;
 - (NSString *)accessToken;

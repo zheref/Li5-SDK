@@ -10,8 +10,8 @@
 
 @protocol DisplayableProtocol <NSObject>
 
-- (void) hide;
-- (void) show;
-- (void) redisplay;
+- (void)hideAndMoveToViewController:(UIViewController *)viewController;
+- (void)show;
+- (void)redisplay;
 
 @end

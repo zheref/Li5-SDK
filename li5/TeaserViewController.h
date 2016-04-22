@@ -10,12 +10,12 @@
 #import "Logger.h"
 #import "LinkedViewController.h"
 #import "Li5ApiHandler.h"
+#import "Li5Player.h"
 
 @import AVFoundation;
 
-@interface TeaserViewController : LinkedViewController<UIGestureRecognizerDelegate>
+@interface TeaserViewController : LinkedViewController <UIGestureRecognizerDelegate, Li5PlayerDelegate>
 
-@property (nonatomic, strong) AVPlayerLayer *_playerLayer;
 @property (nonatomic, weak) Product *product;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) CATextLayer *timeText;
@@ -25,8 +25,7 @@
 @property BOOL rendered;
 @property BOOL hidden;
 
-- (id) initWithProduct:(Product *) thisProduct;
-
+- (id) initWithProduct:(Product *)thisProduct;
 - (void)handleTap:(UITapGestureRecognizer *)sender;
 - (void)handleLongTap:(UITapGestureRecognizer *)sender;
 

@@ -27,8 +27,16 @@
     //Facebook SDK
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
+    //Environment endpoint, uses preprocessor macro by default, overwritten by environment url
+    NSString *serverUrl  = [[NSBundle mainBundle].infoDictionary objectForKey:@"Li5ApiEndpoint"];
+    NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+    if ( environment[@"SERVER_URL"]) {
+        serverUrl = environment[@"SERVER_URL"];
+    }
+    DDLogVerbose(@"Using Li5 server: %@", serverUrl);
+    
     // Li5ApiHandler
-    [[Li5ApiHandler sharedInstance] setBaseURL:@"http://t.li5.tv"];
+    [[Li5ApiHandler sharedInstance] setBaseURL:serverUrl];
     
     // LoginViewController
     __block UIViewController *initialController = [[LoginViewController alloc] init];
@@ -43,10 +51,13 @@
                     initialController = [[CategoriesViewController alloc] initWithNibName:@"CategoriesViewController" bundle:[NSBundle mainBundle]];
                 }
                 [welf startNavigationWithViewController:initialController];
+            } else {
+                DDLogVerbose(@"Error while requesting Profile %@", error.description);
             }
         }];
+    } else {
+        [self startNavigationWithViewController:initialController];
     }
-    [self startNavigationWithViewController:initialController];
     
     return YES;
 }
@@ -69,7 +80,7 @@
     UIViewController *currentViewController = [self.navController.viewControllers lastObject];
     if ( [currentViewController isKindOfClass:[RootViewController class]] )
     {
-        [((ProductPageViewController*)[((RootViewController*)currentViewController).pageViewController.viewControllers firstObject]) hide];
+        [((ProductPageViewController*)[((RootViewController*)currentViewController).pageViewController.viewControllers firstObject]) hideAndMoveToViewController:nil];
     }
 }
 
