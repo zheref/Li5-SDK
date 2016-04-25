@@ -19,7 +19,6 @@
                                                        @"id": @"id",
                                                        @"images": @"images",
                                                        @"price": @"price",
-                                                       @"slug": @"slug",
                                                        @"title": @"title",
                                                        @"updated_at": @"updated_at",
                                                        @"category.data.id": @"categoryId",

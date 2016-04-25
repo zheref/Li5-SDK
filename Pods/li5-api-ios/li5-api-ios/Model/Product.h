@@ -17,7 +17,6 @@
 @property (nonatomic, strong) NSString *id;
 @property (nonatomic, strong) NSArray <NSString *> *images;
 @property (nonatomic, strong) NSNumber *price;
-@property (nonatomic, strong) NSString *slug;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *updated_at;
 @property (nonatomic, strong) NSString *categoryId;

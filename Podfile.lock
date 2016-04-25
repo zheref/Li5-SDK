@@ -24,7 +24,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   li5-api-ios:
-    :commit: 90ce6bd2e18fe990140d7c43ab89e8a216685bd6
+    :commit: bc0ce2f9f0d748e5f1c023d8c7992653a64f9b2c
     :git: https://github.com/thrivecom/li5-api-ios.git
 
 SPEC CHECKSUMS:

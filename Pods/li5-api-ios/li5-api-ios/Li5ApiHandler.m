@@ -357,18 +357,43 @@
     }];
 }
 
-- (void)postUserWatchedVideoWithId:(NSString *)product_id during:(NSNumber *)seconds withCompletion:(void (^)(NSError *error))completion {
+- (void)postUserWatchedVideoWithID:(NSString *)productID withType:(Li5VideoType)type during:(NSNumber *)seconds inContext:(Li5Context)context withCompletion:(void (^)(NSError *error))completion {
     [self checkAccessTokenAvailabilityAndPerform:^(NSError *error) {
         if (error == nil) {
+            
+            NSString *typeStr;
+            switch (type) {
+                case Li5VideoTypeTrailer:
+                    typeStr = @"trailer";
+                    break;
+                case Li5VideoTypeFull:
+                    typeStr = @"full";
+                    break;
+            }
+            
+            NSString *contextStr;
+            switch (context) {
+                case Li5ContextDiscover:
+                    contextStr = @"discover";
+                    break;
+                case Li5ContextSearch:
+                    contextStr = @"search";
+                    break;
+                case Li5ContextRelated:
+                    contextStr = @"related";
+                    break;
+            }
+            
             NSURLSession *session = [self createSession];
             
-            NSURL *url = [self urlForEndpoint:Li5API_ENDPOINT_DISCOVER_PRODUCTS];
+            NSURL *url = [self urlForEndpoint:[Li5API_ENDPOINT_VIEW stringByReplacingOccurrencesOfString:@"{id}" withString:productID]];
             NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
             [urlRequest setHTTPMethod:@"POST"];
             [urlRequest setAllHTTPHeaderFields:@{   @"Accept": @"application/vnd.api+json; version=1.0",
                                                     @"Authorization": [NSString stringWithFormat:@"Bearer %@", [self accessToken]]}];
-            NSDictionary *parametersDict = @{   @"product_id": product_id,
-                                                @"time_viewed": seconds};
+            NSDictionary *parametersDict = @{   @"type": typeStr,
+                                                @"time": seconds,
+                                                @"context": contextStr};
             NSError *error = nil;
             NSData *json = [NSJSONSerialization dataWithJSONObject:parametersDict options:NSJSONWritingPrettyPrinted error:&error];
             if (error == nil) {
@@ -393,12 +418,12 @@
     }];
 }
 
-- (void)postLoveForProductWithSlug:(NSString *)productSlug withCompletion:(void (^)(NSError *error))completion {
+- (void)postLoveForProductWithID:(NSString *)productID withCompletion:(void (^)(NSError *error))completion {
     [self checkAccessTokenAvailabilityAndPerform:^(NSError *error) {
         if (error == nil) {
             NSURLSession *session = [self createSession];
             
-            NSURL *url = [self urlForEndpoint:[Li5API_ENDPOINT_LOVE stringByReplacingOccurrencesOfString:@"{slug}" withString:productSlug]];
+            NSURL *url = [self urlForEndpoint:[Li5API_ENDPOINT_LOVE stringByReplacingOccurrencesOfString:@"{id}" withString:productID]];
             NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
             [urlRequest setHTTPMethod:@"POST"];
             [urlRequest setAllHTTPHeaderFields:@{   @"Accept": @"application/vnd.api+json; version=1.0",
@@ -419,12 +444,12 @@
     }];
 }
 
-- (void)deleteLoveForProductWithSlug:(NSString *)productSlug withCompletion:(void (^)(NSError *error))completion {
+- (void)deleteLoveForProductWithID:(NSString *)productID withCompletion:(void (^)(NSError *error))completion {
     [self checkAccessTokenAvailabilityAndPerform:^(NSError *error) {
         if (error == nil) {
             NSURLSession *session = [self createSession];
             
-            NSURL *url = [self urlForEndpoint:[Li5API_ENDPOINT_LOVE stringByReplacingOccurrencesOfString:@"{slug}" withString:productSlug]];
+            NSURL *url = [self urlForEndpoint:[Li5API_ENDPOINT_LOVE stringByReplacingOccurrencesOfString:@"{id}" withString:productID]];
             NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
             [urlRequest setHTTPMethod:@"DELETE"];
             [urlRequest setAllHTTPHeaderFields:@{   @"Accept": @"application/vnd.api+json; version=1.0",

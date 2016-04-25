@@ -29,7 +29,19 @@
 #define Li5API_ENDPOINT_REVOKE_REFRESH_ACCESS_TOKEN             @"credentials"
 #define Li5API_ENDPOINT_GET_CATEGORIES                          @"categories"
 #define Li5API_ENDPOINT_PROFILE                                 @"profile"
-#define Li5API_ENDPOINT_LOVE                                    @"products/{slug}/actions/love"
+#define Li5API_ENDPOINT_VIEW                                    @"products/{id}/actions/view"
+#define Li5API_ENDPOINT_LOVE                                    @"products/{id}/actions/love"
+
+typedef enum {
+    Li5VideoTypeTrailer = 1,
+    Li5VideoTypeFull = 2,
+} Li5VideoType;
+
+typedef enum {
+    Li5ContextDiscover = 1,
+    Li5ContextSearch = 2,
+    Li5ContextRelated = 3
+} Li5Context;
 
 @interface Li5ApiHandler : NSObject
 
@@ -46,9 +58,9 @@
 - (void)requestCategoriesWithCompletion:(void (^)(NSError *error, NSArray<Category *> *categories))completion;
 - (void)requestProfile:(void (^)(NSError *error, Profile *profile))completion;
 - (void)changeUserProfileWithCategoriesIDs:(NSArray *)categories withCompletion:(void (^)(NSError *error))completion;
-- (void)postUserWatchedVideoWithId:(NSString *)product_id during:(NSNumber *)seconds withCompletion:(void (^)(NSError *error))completion;
-- (void)postLoveForProductWithSlug:(NSString *)productSlug withCompletion:(void (^)(NSError *error))completion;
-- (void)deleteLoveForProductWithSlug:(NSString *)productSlug withCompletion:(void (^)(NSError *error))completion;
+- (void)postUserWatchedVideoWithID:(NSString *)productID withType:(Li5VideoType)type during:(NSNumber *)seconds inContext:(Li5Context)context withCompletion:(void (^)(NSError *error))completion;
+- (void)postLoveForProductWithID:(NSString *)productID withCompletion:(void (^)(NSError *error))completion;
+- (void)deleteLoveForProductWithID:(NSString *)productID withCompletion:(void (^)(NSError *error))completion;
 
 - (NSString *)user;
 - (NSString *)accessToken;

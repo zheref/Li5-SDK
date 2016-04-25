@@ -233,8 +233,8 @@ typedef enum {
     
     DDLogVerbose(@"User saw %@ (%@) during %f", self.product.id, self.product.title, CMTimeGetSeconds([self myActivePlayerLayer].player.currentTime));
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-    [li5 postUserWatchedVideoWithId:self.product.id during:[NSNumber numberWithFloat:CMTimeGetSeconds([self myActivePlayerLayer].player.currentTime)] withCompletion:^(NSError *error) {
-        DDLogVerbose(@"Error: %@", error.localizedDescription);
+    [li5 postUserWatchedVideoWithID:self.product.id withType:(self.activePlayerLayer == TeaserPlayerLayer ? Li5VideoTypeTrailer : Li5VideoTypeFull) during:[NSNumber numberWithFloat:CMTimeGetSeconds([self myActivePlayerLayer].player.currentTime)] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
+         DDLogVerbose(@"Error: %@", error.localizedDescription);
     }];
 
     [[self myActivePlayerLayer].player pause];
@@ -381,7 +381,7 @@ typedef enum {
 - (void)shareBtnPressed:(UIButton *)button {
     DDLogVerbose(@"Share Button Pressed");
     NSString *textToShare = @"Look at this awesome product!";
-    NSURL *productURL = [NSURL URLWithString:[[[[Li5ApiHandler sharedInstance] baseURL] stringByAppendingPathComponent:@"p"] stringByAppendingPathComponent:self.product.slug]];
+    NSURL *productURL = [NSURL URLWithString:[[[[Li5ApiHandler sharedInstance] baseURL] stringByAppendingPathComponent:@"p"] stringByAppendingPathComponent:self.product.id]];
     
     NSArray *objectsToShare = @[textToShare, productURL];
     
@@ -405,14 +405,14 @@ typedef enum {
     DDLogVerbose(@"Love Button Pressed");
     if (button.selected) {
         [button setSelected:false];
-        [[Li5ApiHandler sharedInstance] deleteLoveForProductWithSlug:self.product.slug withCompletion:^(NSError *error) {
+        [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil) {
                 [button setSelected:true];
             }
         }];
     } else {
         [button setSelected:true];
-        [[Li5ApiHandler sharedInstance] postLoveForProductWithSlug:self.product.slug withCompletion:^(NSError *error) {
+        [[Li5ApiHandler sharedInstance] postLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil) {
                 [button setSelected:false];
             }
