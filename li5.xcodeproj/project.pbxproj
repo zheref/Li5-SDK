@@ -79,6 +79,11 @@
 		5B9584DC1C6D16DD00026BB2 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
 		5B9584DD1C6D16DD00026BB2 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
 		5B9DFAB11CC6C40B00436D0A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B9DFAB01CC6C40B00436D0A /* Launch Screen.storyboard */; };
+		5BB1F9FE1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */; };
+		5BB1F9FF1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */; };
+		5BB1FA001CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */; };
+		5BB1FA011CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */; };
+		5BB1FA021CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */; };
 		5BB4AAC21C4D60B9002C22C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC11C4D60B9002C22C8 /* main.m */; };
 		5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC41C4D60B9002C22C8 /* AppDelegate.m */; };
 		5BB4AAC81C4D60B9002C22C8 /* TeaserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */; };
@@ -92,6 +97,11 @@
 		5BB4AB171C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
 		5BB4AB181C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
 		5BB4AB191C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
+		5BECB7C81CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
+		5BECB7C91CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
+		5BECB7CA1CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
+		5BECB7CB1CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
+		5BECB7CC1CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
 		9CEC17D61CC82E2F0041BDFA /* Li5PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEC17D51CC82E2F0041BDFA /* Li5PageViewController.m */; };
 		9CFFC24E1CC16057005AC8DC /* CategoriesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC24C1CC16057005AC8DC /* CategoriesCollectionViewCell.m */; };
 		9CFFC24F1CC16057005AC8DC /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */; };
@@ -147,6 +157,8 @@
 		5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedViewController.m; sourceTree = "<group>"; };
 		5B9584DE1C6D23FB00026BB2 /* DisplayableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayableProtocol.h; sourceTree = "<group>"; };
 		5B9DFAB01CC6C40B00436D0A /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		5BB1F9FC1CCC233100FA03F6 /* PrimeTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimeTimeViewController.h; sourceTree = "<group>"; };
+		5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrimeTimeViewController.m; sourceTree = "<group>"; };
 		5BB4AABD1C4D60B9002C22C8 /* li5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = li5.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BB4AAC11C4D60B9002C22C8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5BB4AAC31C4D60B9002C22C8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -169,6 +181,9 @@
 		5BB4AB111C4ED3DC002C22C8 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		5BB4AB151C4FC631002C22C8 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		5BECB7BE1CCD788500D6482C /* Li5-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Li5-Prefix.pch"; sourceTree = "<group>"; };
+		5BECB7C61CCD79C000D6482C /* Li5UISlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5UISlider.h; sourceTree = "<group>"; };
+		5BECB7C71CCD79C000D6482C /* Li5UISlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5UISlider.m; sourceTree = "<group>"; };
 		5C60F4492BDEF4F78D8E3E47 /* libPods-li5UITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-li5UITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC6EBF89996FCB9077F8F35 /* Pods-li5Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-li5Tests/Pods-li5Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		7A1E7C812F1E03D4613CE31A /* Pods-li5UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-li5UITests/Pods-li5UITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -266,10 +281,10 @@
 		5B6204421CCA5DBB003C9390 /* Prime Time */ = {
 			isa = PBXGroup;
 			children = (
+				5BB1F9FC1CCC233100FA03F6 /* PrimeTimeViewController.h */,
+				5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */,
 				9CEC17D41CC82E2F0041BDFA /* Li5PageViewController.h */,
 				9CEC17D51CC82E2F0041BDFA /* Li5PageViewController.m */,
-				5BB4AB101C4ED3DC002C22C8 /* RootViewController.h */,
-				5BB4AB111C4ED3DC002C22C8 /* RootViewController.m */,
 				9CFFC2581CC6EBE6005AC8DC /* RootViewControllerDataSource.h */,
 				9CFFC2591CC6EBE6005AC8DC /* RootViewControllerDataSource.m */,
 				5B7975591C6D03A800F78C9F /* ProductPageViewController.h */,
@@ -283,13 +298,13 @@
 			name = "Prime Time";
 			sourceTree = "<group>";
 		};
-		5B6204431CCA5DC5003C9390 /* Teaser */ = {
+		5B6204431CCA5DC5003C9390 /* Video */ = {
 			isa = PBXGroup;
 			children = (
 				5BB4AAC61C4D60B9002C22C8 /* TeaserViewController.h */,
 				5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */,
 			);
-			name = Teaser;
+			name = Video;
 			sourceTree = "<group>";
 		};
 		5B6204441CCA5DCF003C9390 /* Details */ = {
@@ -313,11 +328,22 @@
 		5B6204461CCA5DEB003C9390 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				5BECB7C61CCD79C000D6482C /* Li5UISlider.h */,
+				5BECB7C71CCD79C000D6482C /* Li5UISlider.m */,
 				5BB4AB011C4E7D52002C22C8 /* Logger.h */,
 				5B602C841C5A6A9F00F0D362 /* ShapesHelper.h */,
 				5B602C851C5A6A9F00F0D362 /* ShapesHelper.m */,
 			);
 			name = Util;
+			sourceTree = "<group>";
+		};
+		5BB1F9FB1CCC190400FA03F6 /* App Flow */ = {
+			isa = PBXGroup;
+			children = (
+				5BB4AB101C4ED3DC002C22C8 /* RootViewController.h */,
+				5BB4AB111C4ED3DC002C22C8 /* RootViewController.m */,
+			);
+			name = "App Flow";
 			sourceTree = "<group>";
 		};
 		5BB4AAB41C4D60B9002C22C8 = {
@@ -351,10 +377,11 @@
 			children = (
 				5BB4AAC31C4D60B9002C22C8 /* AppDelegate.h */,
 				5BB4AAC41C4D60B9002C22C8 /* AppDelegate.m */,
+				5BB1F9FB1CCC190400FA03F6 /* App Flow */,
 				5B6204411CCA5D94003C9390 /* Login */,
 				9CF7DC121CC9127900F7CAF7 /* Categories */,
 				5B6204421CCA5DBB003C9390 /* Prime Time */,
-				5B6204431CCA5DC5003C9390 /* Teaser */,
+				5B6204431CCA5DC5003C9390 /* Video */,
 				5B6204441CCA5DCF003C9390 /* Details */,
 				5B6204451CCA5DE1003C9390 /* Player */,
 				5B6204461CCA5DEB003C9390 /* Util */,
@@ -376,6 +403,7 @@
 				5B6204941CCA7667003C9390 /* Launch Screen_Test.storyboard */,
 				5B602C611C565FBF00F0D362 /* girl.jpg */,
 				5BB4AAC11C4D60B9002C22C8 /* main.m */,
+				5BECB7BE1CCD788500D6482C /* Li5-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -866,6 +894,7 @@
 				5B62044F1CCA7116003C9390 /* IndexedViewController.m in Sources */,
 				5B6204501CCA7116003C9390 /* RootViewControllerDataSource.m in Sources */,
 				5B6204511CCA7116003C9390 /* AppDelegate.m in Sources */,
+				5BECB7C91CCD79C000D6482C /* Li5UISlider.m in Sources */,
 				5B6204521CCA7116003C9390 /* CategoriesViewController.m in Sources */,
 				5B6204531CCA7116003C9390 /* main.m in Sources */,
 				5B6204541CCA7116003C9390 /* RootViewController.m in Sources */,
@@ -873,6 +902,7 @@
 				5B6204561CCA7116003C9390 /* ShapesHelper.m in Sources */,
 				5B6204571CCA7116003C9390 /* LoginViewController.m in Sources */,
 				5B6204581CCA7116003C9390 /* CategoriesCollectionViewCell.m in Sources */,
+				5BB1F9FF1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -888,6 +918,7 @@
 				5B6204761CCA7625003C9390 /* IndexedViewController.m in Sources */,
 				5B6204771CCA7625003C9390 /* RootViewControllerDataSource.m in Sources */,
 				5B6204781CCA7625003C9390 /* AppDelegate.m in Sources */,
+				5BECB7CA1CCD79C000D6482C /* Li5UISlider.m in Sources */,
 				5B6204791CCA7625003C9390 /* CategoriesViewController.m in Sources */,
 				5B62047A1CCA7625003C9390 /* main.m in Sources */,
 				5B62047B1CCA7625003C9390 /* RootViewController.m in Sources */,
@@ -895,6 +926,7 @@
 				5B62047D1CCA7625003C9390 /* ShapesHelper.m in Sources */,
 				5B62047E1CCA7625003C9390 /* LoginViewController.m in Sources */,
 				5B62047F1CCA7625003C9390 /* CategoriesCollectionViewCell.m in Sources */,
+				5BB1FA001CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -910,6 +942,7 @@
 				5B8625CF1C763CE4006869DE /* IndexedViewController.m in Sources */,
 				9CFFC25A1CC6EBE6005AC8DC /* RootViewControllerDataSource.m in Sources */,
 				5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */,
+				5BECB7C81CCD79C000D6482C /* Li5UISlider.m in Sources */,
 				9CFFC2531CC17EC5005AC8DC /* CategoriesViewController.m in Sources */,
 				5BB4AAC21C4D60B9002C22C8 /* main.m in Sources */,
 				5BB4AB121C4ED3DC002C22C8 /* RootViewController.m in Sources */,
@@ -917,6 +950,7 @@
 				5B602C861C5A6A9F00F0D362 /* ShapesHelper.m in Sources */,
 				5B602C5C1C565D4A00F0D362 /* LoginViewController.m in Sources */,
 				9CFFC24E1CC16057005AC8DC /* CategoriesCollectionViewCell.m in Sources */,
+				5BB1F9FE1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,7 +958,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BECB7CB1CCD79C000D6482C /* Li5UISlider.m in Sources */,
 				5B79755C1C6D03A800F78C9F /* ProductPageViewController.m in Sources */,
+				5BB1FA011CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 				5B602C5D1C565D4A00F0D362 /* LoginViewController.m in Sources */,
 				5BB4AB181C4FC631002C22C8 /* DetailsViewController.m in Sources */,
 				5BB4AADB1C4D60B9002C22C8 /* shounTests.m in Sources */,
@@ -937,7 +973,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BECB7CC1CCD79C000D6482C /* Li5UISlider.m in Sources */,
 				5B79755D1C6D03A800F78C9F /* ProductPageViewController.m in Sources */,
+				5BB1FA021CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 				5B602C5E1C565D4A00F0D362 /* LoginViewController.m in Sources */,
 				5BB4AB191C4FC631002C22C8 /* DetailsViewController.m in Sources */,
 				5BB4AAE61C4D60B9002C22C8 /* shounUITests.m in Sources */,
@@ -1080,6 +1118,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "li5/Li5-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1123,6 +1162,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "li5/Li5-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

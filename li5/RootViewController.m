@@ -8,36 +8,41 @@
 
 #import "RootViewController.h"
 #import "Li5ApiHandler.h"
-#import "ProductPageViewController.h"
-#import "RootViewControllerDataSource.h"
-
-@interface RootViewController ()
-
-@property (nonatomic, strong) RootViewControllerDataSource *dataSource;
-
-@end
+#import "CategoriesViewController.h"
+#import "PrimeTimeViewController.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 @implementation RootViewController
-
-@synthesize pageViewController;
 
 - (instancetype)init
 {
     //DDLogVerbose(@"initializing RootController");
     self = [super init];
     if (self) {
-        
-        self.dataSource = [[RootViewControllerDataSource alloc] init];
-        [self.dataSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
-            if (error != nil) {
-                DDLogVerbose(@"ERROR");
-            } else {
-                DDLogVerbose(@"OK");
-                dispatch_async(dispatch_get_main_queue(), ^(void){
-                    [self renderPage];
-                });
-            }
-        }];
+        if (FBSDKAccessToken.currentAccessToken != nil)
+        {
+            __weak typeof(self) welf = self;
+            [self requestUserProfileWithCompletion:^(NSError *profileError, Profile *profile) {
+                if ( profileError != nil )
+                {
+                    DDLogVerbose(@"Error while requesting Profile %@", profileError.description);
+                    //Logging out user - force them to log in again
+                    [FBSDKAccessToken setCurrentAccessToken:nil];
+                    [welf renderError:profileError];
+                } else {
+                    BOOL showCategoriesSelection = [profile.preferences.data count] < 2;
+                    
+                    UIViewController *nextViewController = ( showCategoriesSelection ?
+                                                            [[CategoriesViewController alloc] initWithNibName:@"CategoriesViewController" bundle:[NSBundle mainBundle]] : [[PrimeTimeViewController alloc] init]);
+                    
+                    [self.navigationController pushViewController:nextViewController animated:NO];
+
+                }
+            }];
+        } else {
+            DDLogVerbose(@"User not logged in");
+        }
     }
     return self;
 }
@@ -47,7 +52,7 @@
     // Do any additional setup after loading the view.
     //DDLogVerbose(@"Loading RootViewController");
 
-    [self.view setBackgroundColor:[UIColor colorWithRed:139.00/255.00 green:223.00/255.00 blue:210.00/255.00 alpha:1.0]];
+    [self.view setBackgroundColor:[UIColor redColor]];
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = self.view.center;
@@ -56,56 +61,40 @@
     [spinner startAnimating];
 }
 
-- (void)renderPage {
-    //DDLogVerbose(@"Rendering ProductPageViewController");
-    // loop movie
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(replayMovie:)
-                                                 name: AVPlayerItemDidPlayToEndTimeNotification
-                                               object: nil];
+#pragma mark - App Flow
+
+- (void)requestUserProfileWithCompletion:(void (^)(NSError *error, Profile *profile)) completion {
     
-    // Create page view controller
-    self.pageViewController = [[Li5PageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageViewController.dataSource = self.dataSource;
-    self.pageViewController.delegate = self;
+    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+    [li5 requestProfile:^(NSError *error, Profile *profile) {
+        completion(error,profile);
+    }];
     
-    NSArray *viewControllers = @[[self.dataSource productPageViewControllerAtIndex:0]];
-    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    
+}
+
+#pragma mark - Pages
+
+- (void) renderError:(NSError *) error
+{
     //Stop spinner
     [[self.view viewWithTag:12] stopAnimating];
     
-    // Change the size of page view controller
-    self.pageViewController.view.frame = self.view.bounds;
-    [self addChildViewController:self.pageViewController];
-    [self.view addSubview:self.pageViewController.view];
-    [self.pageViewController didMoveToParentViewController:self];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [self.dataSource productPageViewControllerAtIndex:1];
-    });
+    NSString *errorMessage = @"There was a problem requesting your query. Please try again in a minute!";
+    UIFont *errorMessageFont = [UIFont fontWithName:@"Avenir" size:14];
+    CGRect errorMessageSize = [errorMessage boundingRectWithSize:CGSizeMake(self.view.frame.size.width-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:errorMessageFont} context:nil];
+    UILabel *errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,self.view.center.y,errorMessageSize.size.width,errorMessageSize.size.height)];
+    errorLabel.center = self.view.center;
+    [errorLabel setTextColor:[UIColor whiteColor]];
+    [errorLabel setNumberOfLines:0];
+    [errorLabel setFont:errorMessageFont];
+    [errorLabel setText:errorMessage];
+    [errorLabel setTextAlignment: NSTextAlignmentCenter];
+    [self.view addSubview:errorLabel];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
-{
-    //DDLogVerbose(@"After transition %d, %d", finished, completed);
-    if (finished && completed)
-    {
-        [((ProductPageViewController*)[previousViewControllers lastObject]) hideAndMoveToViewController:[self.pageViewController.viewControllers firstObject]];
-        [(ProductPageViewController*)[self.pageViewController.viewControllers firstObject] redisplay];
-    }
-}
-
-#pragma mark - Helpers
-
-- (void)replayMovie:(NSNotification *)notification
-{
-    [((ProductPageViewController*)[self.pageViewController.viewControllers firstObject]) redisplay];
 }
 
 /*

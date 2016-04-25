@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 #import "Li5ApiHandler.h"
-#import "CategoriesViewController.h"
+#import "RootViewController.h"
 
 @interface LoginViewController ()
 
@@ -51,7 +51,6 @@
     
     [self.view addSubview:appName];
     
-    
     UILabel *appTagline = [[UILabel alloc] initWithFrame:CGRectMake(50,150,self.view.frame.size.width - 100,200)];
     [appTagline setTextColor:[UIColor whiteColor]];
     [appTagline setNumberOfLines:0];
@@ -62,25 +61,12 @@
     [self.view addSubview:appTagline];
     
     FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
+    loginButton.loginBehavior = FBSDKLoginBehaviorSystemAccount;
     loginButton.center = CGPointMake(self.view.center.x, self.view.frame.size.height - 100);
     loginButton.readPermissions = @[@"public_profile", @"email"];
     loginButton.delegate = self;
     [self.view addSubview:loginButton];
     
-    /*
-    UIButton *firstButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [firstButton setTitle:@"Enter!" forState:UIControlStateNormal];
-    [firstButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    firstButton.frame = CGRectMake(50, 50, 150, 40);
-    firstButton.backgroundColor = [UIColor colorWithRed:139.00/255.00 green:223.00/255.00 blue:210.00/255.00 alpha:1.0];
-    firstButton.layer.cornerRadius = 10;
-    firstButton.clipsToBounds = YES;
-    firstButton.center = self.view.center;
-    UIGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(enterAction:)];
-    [firstButton addGestureRecognizer:tapGesture];
-    
-    [self.view addSubview:firstButton];
-     */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,33 +104,14 @@
         DDLogVerbose(@"FB Token: %@", FBSDKAccessToken.currentAccessToken.tokenString);
         NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
         [parameters setValue:@"id, name, email" forKey:@"fields"];
-        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:parameters]
-         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
-                                      id result, NSError *error) {
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:parameters] startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,id result, NSError *error) {
              if (error == nil) {
                  DDLogVerbose(@"Mail: %@", [(NSDictionary *)result objectForKey:@"email"]);
                  Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
                  [li5 login:[(NSDictionary *)result objectForKey:@"email"] withFacebookToken:FBSDKAccessToken.currentAccessToken.tokenString withCompletion:^(NSError *error) {
                      if (error == nil) {
-                         [li5 requestProfile:^(NSError *error, Profile *profile) {
-                             BOOL showCategoriesSelection = false;
-                             if (error == nil) {
-                                 if ([profile.preferences.data count] >= 2) {
-#warning Change this to hide categories selection
-                                     showCategoriesSelection = false;
-                                 } else {
-                                     showCategoriesSelection = true;
-                                 }
-                             }
-                             
-                             if (showCategoriesSelection) {
-                                 CategoriesViewController *categoriesViewController = [[CategoriesViewController alloc] initWithNibName:@"CategoriesViewController" bundle:[NSBundle mainBundle]];
-                                 [self.navigationController pushViewController:categoriesViewController animated:NO];
-                             } else {
-                                 RootViewController *rootViewController = [[RootViewController alloc] init];
-                                 [self.navigationController pushViewController:rootViewController animated:NO];
-                             }
-                         }];
+                         UIViewController *initialController = [[RootViewController alloc] init];
+                         [self.navigationController pushViewController:initialController animated:FALSE];
                      } else {
                          DDLogVerbose(@"Couldn't login with Facebook: %@", error.localizedDescription);
                      }

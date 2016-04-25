@@ -6,15 +6,14 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "Logger.h"
 #import "LinkedViewController.h"
 #import "Li5ApiHandler.h"
 #import "Li5Player.h"
+#import "Li5UISlider.h"
 
 @import AVFoundation;
 
-@interface TeaserViewController : LinkedViewController <UIGestureRecognizerDelegate, Li5PlayerDelegate>
+@interface TeaserViewController : LinkedViewController <UIGestureRecognizerDelegate, Li5PlayerDelegate, Li5SliderDelegate>
 
 @property (nonatomic, weak) Product *product;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;

@@ -6,9 +6,6 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "Logger.h"
 #import "DisplayableProtocol.h"
 
 @interface LinkedViewController : UIViewController

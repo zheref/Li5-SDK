@@ -9,7 +9,7 @@
 #import "CategoriesViewController.h"
 #import "Li5ApiHandler.h"
 #import "CategoriesCollectionViewCell.h"
-#import "RootViewController.h"
+#import "PrimeTimeViewController.h"
 
 @interface CategoriesViewController ()
 
@@ -111,8 +111,8 @@
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     [li5 changeUserProfileWithCategoriesIDs:[NSArray arrayWithArray:_selectedCategoriesIDs] withCompletion:^(NSError *error) {
         if (error == nil) {
-            RootViewController *rootViewController = [[RootViewController alloc] init];
-            [self.navigationController pushViewController:rootViewController animated:NO];
+            PrimeTimeViewController *primeTimeViewController = [[PrimeTimeViewController alloc] init];
+            [self.navigationController pushViewController:primeTimeViewController animated:NO];
         } else {
             DDLogVerbose(@"Couldn't commit selected categories.");
         }

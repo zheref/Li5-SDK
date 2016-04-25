@@ -6,10 +6,6 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "Logger.h"
-
 @interface ShapesHelper : UIView
 
 + (UIBezierPath *)heartShape:(CGRect)originalFrame;

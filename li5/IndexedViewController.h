@@ -6,8 +6,6 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @interface IndexedViewController : UIViewController
 
 @property NSInteger index;

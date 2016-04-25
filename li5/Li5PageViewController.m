@@ -8,8 +8,6 @@
 
 #import "Li5PageViewController.h"
 
-#import "Logger.h"
-
 @interface Li5PageViewController () {
     UIPanGestureRecognizer *_scrollViewPanGestureRecognzier;
 }

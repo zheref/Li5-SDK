@@ -7,7 +7,6 @@
 //
 
 #import "Li5Player.h"
-#import "Logger.h"
 
 @implementation Li5Player
 

@@ -6,9 +6,6 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "Logger.h"
 #import "LinkedViewController.h"
 #import "ShapesHelper.h"
 #import "Li5ApiHandler.h"

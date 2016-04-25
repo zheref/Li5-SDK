@@ -6,8 +6,6 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @protocol DisplayableProtocol <NSObject>
 
 - (void)hideAndMoveToViewController:(UIViewController *)viewController;

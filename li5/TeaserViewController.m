@@ -9,6 +9,8 @@
 #import "TeaserViewController.h"
 #import "ShapesHelper.h"
 #import "RootViewController.h"
+#import "ProductPageViewController.h"
+#import "Li5UISlider.h"
 
 typedef enum {
     TeaserPlayerLayer = 1,
@@ -35,7 +37,7 @@ typedef enum {
 @property (nonatomic, assign) ActivePlayerLayer activePlayerLayer;
 
 @property (nonatomic, strong) UIButton *lockBtn;
-@property (nonatomic, strong) UISlider *seekSlider;
+@property (nonatomic, strong) Li5UISlider *seekSlider;
 @property (nonatomic, strong) UILabel *timeLabel;
 
 @property (nonatomic, strong) UIButton *shareBtn;
@@ -303,7 +305,8 @@ typedef enum {
     [self.view addSubview:self.lockBtn];
     
     if (!self.seekSlider) {
-        self.seekSlider = [[UISlider alloc] initWithFrame:CGRectMake(100, 30, self.view.frame.size.width-200, 10)];
+        self.seekSlider = [[Li5UISlider alloc] initWithFrame:CGRectMake(60, 30, self.view.frame.size.width-100, 10)];
+        self.seekSlider.delegate = self;
         [self.seekSlider addTarget:self action:@selector(beginScrubbing:) forControlEvents:UIControlEventTouchDown];
         [self.seekSlider addTarget:self action:@selector(scrub:) forControlEvents:UIControlEventValueChanged];
         [self.seekSlider addTarget:self action:@selector(scrub:) forControlEvents:UIControlEventTouchDragInside];
@@ -316,7 +319,7 @@ typedef enum {
     [self.view addSubview:self.seekSlider];
     
     if (!self.timeLabel) {
-        self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 60, 20, 40, 40)];
+        self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40, 20, 40, 30)];
         [self.timeLabel setTextColor:[UIColor whiteColor]];
     }
     [self.view addSubview:self.timeLabel];
@@ -446,7 +449,6 @@ typedef enum {
                          {
                              [weakSelf syncScrubber];
                          }];
-        DDLogVerbose(@"init scrubber with %@",mTimeObserver);
     }
 }
 
@@ -486,11 +488,11 @@ typedef enum {
 /* Set the player current time to match the scrubber position. */
 - (void)scrub:(id)sender
 {
-    if ([sender isKindOfClass:[UISlider class]] && !isSeeking)
+    if ([sender isKindOfClass:[Li5UISlider class]] && !isSeeking)
     {
         //DDLogVerbose(@"scrubbing");
         isSeeking = YES;
-        UISlider* slider = sender;
+        Li5UISlider* slider = sender;
         
         CMTime playerDuration = [self playerItemDuration];
         if (CMTIME_IS_INVALID(playerDuration)) {
@@ -504,11 +506,11 @@ typedef enum {
             float maxValue = [slider maximumValue];
             float value = [slider value];
             
-            double time = duration * (value - minValue) / (maxValue - minValue);
+            __block double time = duration * (value - minValue) / (maxValue - minValue);
             
-            DDLogVerbose(@"seeking to time %f",time);
             [[self currentPlayer] seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    DDLogVerbose(@"seeking to time %f",time);
                     isSeeking = NO;
                 });
             }];
@@ -547,6 +549,20 @@ typedef enum {
     {
         [[self currentPlayer] setRate:mRestoreAfterScrubbingRate];
         mRestoreAfterScrubbingRate = 0.f;
+    }
+}
+
+- (void)tapSlider:(Li5UISlider *)tapSlider valueDidChange:(float)value
+{
+    if (tapSlider == self.seekSlider )
+    {
+        [[self currentPlayer] seekToTime:CMTimeMakeWithSeconds(value, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                DDLogVerbose(@"tap, swipe - seeking to time %f",value);
+                isSeeking = NO;
+            });
+        }];
+        
     }
 }
 

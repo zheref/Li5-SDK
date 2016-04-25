@@ -6,8 +6,6 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @interface Li5PageViewController : UIPageViewController <UIGestureRecognizerDelegate>
 
 @end

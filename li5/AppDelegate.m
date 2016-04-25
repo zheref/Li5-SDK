@@ -11,6 +11,8 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "Li5ApiHandler.h"
 #import "CategoriesViewController.h"
+#import "PrimeTimeViewController.h"
+#import "RootViewController.h"
 
 @interface AppDelegate ()
 
@@ -21,8 +23,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    //[DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    
+    // And we also enable colors
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor greenColor] backgroundColor:nil forFlag:DDLogFlagInfo];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagDebug];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
     
     //Facebook SDK
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
@@ -39,25 +47,10 @@
     [[Li5ApiHandler sharedInstance] setBaseURL:serverUrl];
     
     // LoginViewController
-    __block UIViewController *initialController = [[LoginViewController alloc] init];
-    if ( FBSDKAccessToken.currentAccessToken != nil )
-    {
-        __weak typeof(self) welf = self;
-        [[Li5ApiHandler sharedInstance] requestProfile:^(NSError *error, Profile *profile) {
-            if (error == nil) {
-                if ([profile.preferences.data count] >= 2) {
-                    initialController = [[RootViewController alloc] init];
-                } else {
-                    initialController = [[CategoriesViewController alloc] initWithNibName:@"CategoriesViewController" bundle:[NSBundle mainBundle]];
-                }
-                [welf startNavigationWithViewController:initialController];
-            } else {
-                DDLogVerbose(@"Error while requesting Profile %@", error.description);
-            }
-        }];
-    } else {
-        [self startNavigationWithViewController:initialController];
-    }
+    UIViewController *initialController = ( FBSDKAccessToken.currentAccessToken != nil ?
+                                           [[RootViewController alloc] init] : [[LoginViewController alloc] init] );
+    
+    [self startNavigationWithViewController:initialController];
     
     return YES;
 }
@@ -78,9 +71,9 @@
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     //DDLogDebug(@"App resigining Active State");
     UIViewController *currentViewController = [self.navController.viewControllers lastObject];
-    if ( [currentViewController isKindOfClass:[RootViewController class]] )
+    if ( [currentViewController isKindOfClass:[PrimeTimeViewController class]] )
     {
-        [((ProductPageViewController*)[((RootViewController*)currentViewController).pageViewController.viewControllers firstObject]) hideAndMoveToViewController:nil];
+        [((ProductPageViewController*)[((PrimeTimeViewController*)currentViewController).pageViewController.viewControllers firstObject]) hideAndMoveToViewController:nil];
     }
 }
 
@@ -100,9 +93,9 @@
     [FBSDKAppEvents activateApp];
     
     UIViewController *currentViewController = [self.navController.viewControllers lastObject];
-    if ( [currentViewController isKindOfClass:[RootViewController class]] )
+    if ( [currentViewController isKindOfClass:[PrimeTimeViewController class]] )
     {
-        [((ProductPageViewController*)[((RootViewController*)currentViewController).pageViewController.viewControllers firstObject]) show];
+        [((ProductPageViewController*)[((PrimeTimeViewController*)currentViewController).pageViewController.viewControllers firstObject]) show];
     }
 }
 

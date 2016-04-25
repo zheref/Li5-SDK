@@ -21,37 +21,32 @@
 - (void)startFetchingProductsInBackgroundWithCompletion:(void (^)(NSError *error))completion{
     
     self.productPages = [NSMutableArray array];
+    self.products = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
         //Background Thread
         Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
         [li5 requestDiscoverProductsWithCompletion:^(NSError *error, NSArray<Product *> *products) {
-            DDLogVerbose(@"PRODUCTS: %@", products);
+            DDLogVerbose(@"Total products: %lu", (unsigned long)products.count);
             if (error == nil) {
-                self.products = [NSMutableArray arrayWithArray:products];
-                [self productPageViewControllerAtIndex:0];
-                completion(error);
+                if ( products.count > 0 ) {
+                    self.products = [NSMutableArray arrayWithArray:products];
+                    [self productPageViewControllerAtIndex:0];
+                }
             } else {
                 DDLogVerbose(@"Error retrieving products: %@ %@", error, [error userInfo]);
-                completion(error);
             }
+            
+            completion(error);
         }];
     });
 }
 
 - (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index {
-    BOOL createNewPageViewController = false;
-    if ([self.productPages count] == 0) {
-        createNewPageViewController = true;
-    } else if (index > [self.productPages count]-1) {
-        createNewPageViewController = true;
-    }
-    
-    if (createNewPageViewController) {
+    if (![self.productPages count] || index > [self.productPages count]-1) {
         DDLogVerbose(@"CREATING PRODUCT PAGE FOR PRODUCT %lu", (unsigned long)index);
         [self.productPages addObject:[[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] andIndex:index]];
     }
     
-    DDLogVerbose(@"RETRIEVING PRODUCT PAGE FOR PRODUCT %lu", (unsigned long)index);
     return [self.productPages objectAtIndex:index];
 }
 

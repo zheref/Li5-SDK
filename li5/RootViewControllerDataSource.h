@@ -6,7 +6,6 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "ProductPageViewController.h"
 
 @interface RootViewControllerDataSource : NSObject <UIPageViewControllerDataSource>

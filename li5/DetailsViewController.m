@@ -163,7 +163,6 @@
     [self.view addSubview:scrollView];
     
     //Add Buy button
-#warning Hardcoded BUY
     NSString *cta = @"BUY";
     UIButton *firstButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [firstButton setTitle:cta forState:UIControlStateNormal];
