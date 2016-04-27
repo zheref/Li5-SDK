@@ -6,10 +6,6 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "Li5PageViewController.h"
-
-@interface PrimeTimeViewController : UIViewController <UIPageViewControllerDelegate>
-
-@property (nonatomic,strong) Li5PageViewController *pageViewController;
+@interface PrimeTimeViewController : UIPageViewController <UIPageViewControllerDelegate,UIGestureRecognizerDelegate>
 
 @end

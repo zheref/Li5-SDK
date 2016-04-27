@@ -8,7 +8,7 @@
 
 #import "ProductPageViewController.h"
 
-@interface RootViewControllerDataSource : NSObject <UIPageViewControllerDataSource>
+@interface PrimeTimeViewControllerDataSource : NSObject <UIPageViewControllerDataSource>
 
 - (void)startFetchingProductsInBackgroundWithCompletion:(void (^)(NSError *error))completion;
 - (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index;

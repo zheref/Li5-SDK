@@ -26,11 +26,12 @@
             [self requestUserProfileWithCompletion:^(NSError *profileError, Profile *profile) {
                 if ( profileError != nil )
                 {
-                    DDLogVerbose(@"Error while requesting Profile %@", profileError.description);
+                    DDLogError(@"Error while requesting Profile %@", profileError.description);
                     //Logging out user - force them to log in again
                     [FBSDKAccessToken setCurrentAccessToken:nil];
                     [welf renderError:profileError];
                 } else {
+                    DDLogInfo(@"Profile requested successfully");
                     BOOL showCategoriesSelection = [profile.preferences.data count] < 2;
                     
                     UIViewController *nextViewController = ( showCategoriesSelection ?

@@ -6,17 +6,17 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "RootViewControllerDataSource.h"
+#import "PrimeTimeViewControllerDataSource.h"
 #import "Li5ApiHandler.h"
 
-@interface RootViewControllerDataSource ()
+@interface PrimeTimeViewControllerDataSource ()
 
 @property (nonatomic, strong) NSMutableArray <Product *> *products;
 @property (nonatomic, strong) NSMutableArray <ProductPageViewController *> *productPages;
 
 @end
 
-@implementation RootViewControllerDataSource
+@implementation PrimeTimeViewControllerDataSource
 
 - (void)startFetchingProductsInBackgroundWithCompletion:(void (^)(NSError *error))completion{
     

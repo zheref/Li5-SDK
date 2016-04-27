@@ -13,6 +13,7 @@
 #import "CategoriesViewController.h"
 #import "PrimeTimeViewController.h"
 #import "RootViewController.h"
+#import "Li5LoggerFormatter.h"
 
 @interface AppDelegate ()
 
@@ -26,23 +27,25 @@
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     
+    //Adding custom formatter for TTY
+    [DDTTYLogger sharedInstance].logFormatter = [[Li5LoggerFormatter alloc] init];
+    
     // And we also enable colors
     [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor redColor] backgroundColor:nil forFlag:DDLogFlagError];
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor greenColor] backgroundColor:nil forFlag:DDLogFlagInfo];
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagDebug];
-    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blackColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
     
     //Facebook SDK
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
     //Environment endpoint, uses preprocessor macro by default, overwritten by environment url
-    NSString *serverUrl  = [[NSBundle mainBundle].infoDictionary objectForKey:@"Li5ApiEndpoint"];
     NSDictionary *environment = [[NSProcessInfo processInfo] environment];
-    if ( environment[@"SERVER_URL"]) {
-        serverUrl = environment[@"SERVER_URL"];
-    }
+    NSString *serverUrl = (environment[@"SERVER_URL"] ? environment[@"SERVER_URL"]
+                                                      : [[NSBundle mainBundle].infoDictionary objectForKey:@"Li5ApiEndpoint"]);
     DDLogVerbose(@"Using Li5 server: %@", serverUrl);
-    
+
     // Li5ApiHandler
     [[Li5ApiHandler sharedInstance] setBaseURL:serverUrl];
     
@@ -50,16 +53,12 @@
     UIViewController *initialController = ( FBSDKAccessToken.currentAccessToken != nil ?
                                            [[RootViewController alloc] init] : [[LoginViewController alloc] init] );
     
-    [self startNavigationWithViewController:initialController];
-    
-    return YES;
-}
-
-- (void)startNavigationWithViewController:(UIViewController *)viewController {
-    self.navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    self.navController = [[UINavigationController alloc] initWithRootViewController:initialController];
     self.navController.navigationBarHidden = YES;
     [self.window setRootViewController:self.navController];
     [self.window makeKeyAndVisible];
+    
+    return YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
@@ -73,7 +72,7 @@
     UIViewController *currentViewController = [self.navController.viewControllers lastObject];
     if ( [currentViewController isKindOfClass:[PrimeTimeViewController class]] )
     {
-        [((ProductPageViewController*)[((PrimeTimeViewController*)currentViewController).pageViewController.viewControllers firstObject]) hideAndMoveToViewController:nil];
+        [((ProductPageViewController*)[((PrimeTimeViewController*)currentViewController).viewControllers firstObject]) hideAndMoveToViewController:nil];
     }
 }
 
@@ -95,7 +94,7 @@
     UIViewController *currentViewController = [self.navController.viewControllers lastObject];
     if ( [currentViewController isKindOfClass:[PrimeTimeViewController class]] )
     {
-        [((ProductPageViewController*)[((PrimeTimeViewController*)currentViewController).pageViewController.viewControllers firstObject]) show];
+        [((ProductPageViewController*)[((PrimeTimeViewController*)currentViewController).viewControllers firstObject]) show];
     }
 }
 

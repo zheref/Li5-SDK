@@ -17,11 +17,9 @@
 		5B602C861C5A6A9F00F0D362 /* ShapesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B602C851C5A6A9F00F0D362 /* ShapesHelper.m */; };
 		5B62044A1CCA7116003C9390 /* TeaserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */; };
 		5B62044B1CCA7116003C9390 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
-		5B62044C1CCA7116003C9390 /* Li5PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEC17D51CC82E2F0041BDFA /* Li5PageViewController.m */; };
 		5B62044D1CCA7116003C9390 /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
-		5B62044E1CCA7116003C9390 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
 		5B62044F1CCA7116003C9390 /* IndexedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8625CE1C763CE4006869DE /* IndexedViewController.m */; };
-		5B6204501CCA7116003C9390 /* RootViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2591CC6EBE6005AC8DC /* RootViewControllerDataSource.m */; };
+		5B6204501CCA7116003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2591CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m */; };
 		5B6204511CCA7116003C9390 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC41C4D60B9002C22C8 /* AppDelegate.m */; };
 		5B6204521CCA7116003C9390 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2511CC17EC5005AC8DC /* CategoriesViewController.m */; };
 		5B6204531CCA7116003C9390 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC11C4D60B9002C22C8 /* main.m */; };
@@ -43,11 +41,9 @@
 		5B62046D1CCA7177003C9390 /* Launch Screen_Dev.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B62046C1CCA7177003C9390 /* Launch Screen_Dev.storyboard */; };
 		5B6204711CCA7625003C9390 /* TeaserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */; };
 		5B6204721CCA7625003C9390 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
-		5B6204731CCA7625003C9390 /* Li5PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEC17D51CC82E2F0041BDFA /* Li5PageViewController.m */; };
 		5B6204741CCA7625003C9390 /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
-		5B6204751CCA7625003C9390 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
 		5B6204761CCA7625003C9390 /* IndexedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8625CE1C763CE4006869DE /* IndexedViewController.m */; };
-		5B6204771CCA7625003C9390 /* RootViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2591CC6EBE6005AC8DC /* RootViewControllerDataSource.m */; };
+		5B6204771CCA7625003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2591CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m */; };
 		5B6204781CCA7625003C9390 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC41C4D60B9002C22C8 /* AppDelegate.m */; };
 		5B6204791CCA7625003C9390 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2511CC17EC5005AC8DC /* CategoriesViewController.m */; };
 		5B62047A1CCA7625003C9390 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC11C4D60B9002C22C8 /* main.m */; };
@@ -68,6 +64,26 @@
 		5B62048B1CCA7625003C9390 /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */; };
 		5B62048C1CCA7625003C9390 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC91C4D60B9002C22C8 /* Main.storyboard */; };
 		5B6204951CCA7667003C9390 /* Launch Screen_Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B6204941CCA7667003C9390 /* Launch Screen_Test.storyboard */; };
+		5B7551951CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */; };
+		5B7551961CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */; };
+		5B7551971CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */; };
+		5B7551981CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */; };
+		5B7551991CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */; };
+		5B75519D1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */; };
+		5B75519E1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */; };
+		5B75519F1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */; };
+		5B7551A01CCFAECE007FAF67 /* UnlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */; };
+		5B7551A11CCFAECE007FAF67 /* UnlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */; };
+		5B7551A61CCFBEBC007FAF67 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */; };
+		5B7551A71CCFBEBC007FAF67 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */; };
+		5B7551A81CCFBEBC007FAF67 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */; };
+		5B7551A91CCFBEBC007FAF67 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */; };
+		5B7551AA1CCFBEBC007FAF67 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */; };
+		5B7551BB1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
+		5B7551BC1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
+		5B7551BD1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
+		5B7551BE1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
+		5B7551BF1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
 		5B79755B1C6D03A800F78C9F /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
 		5B79755C1C6D03A800F78C9F /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
 		5B79755D1C6D03A800F78C9F /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
@@ -75,9 +91,6 @@
 		5B8625D31C764C33006869DE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8625D01C764C33006869DE /* FBSDKCoreKit.framework */; };
 		5B8625D41C764C33006869DE /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8625D11C764C33006869DE /* FBSDKLoginKit.framework */; };
 		5B8625D51C764C33006869DE /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8625D21C764C33006869DE /* FBSDKShareKit.framework */; };
-		5B9584DB1C6D16DD00026BB2 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
-		5B9584DC1C6D16DD00026BB2 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
-		5B9584DD1C6D16DD00026BB2 /* LinkedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */; };
 		5B9DFAB11CC6C40B00436D0A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B9DFAB01CC6C40B00436D0A /* Launch Screen.storyboard */; };
 		5BB1F9FE1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */; };
 		5BB1F9FF1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */; };
@@ -97,18 +110,12 @@
 		5BB4AB171C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
 		5BB4AB181C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
 		5BB4AB191C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
-		5BECB7C81CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
-		5BECB7C91CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
-		5BECB7CA1CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
-		5BECB7CB1CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
-		5BECB7CC1CCD79C000D6482C /* Li5UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BECB7C71CCD79C000D6482C /* Li5UISlider.m */; };
-		9CEC17D61CC82E2F0041BDFA /* Li5PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEC17D51CC82E2F0041BDFA /* Li5PageViewController.m */; };
 		9CFFC24E1CC16057005AC8DC /* CategoriesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC24C1CC16057005AC8DC /* CategoriesCollectionViewCell.m */; };
 		9CFFC24F1CC16057005AC8DC /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */; };
 		9CFFC2531CC17EC5005AC8DC /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2511CC17EC5005AC8DC /* CategoriesViewController.m */; };
 		9CFFC2541CC17EC5005AC8DC /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */; };
 		9CFFC2571CC6E38A005AC8DC /* Li5Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2561CC6E389005AC8DC /* Li5Player.m */; };
-		9CFFC25A1CC6EBE6005AC8DC /* RootViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2591CC6EBE6005AC8DC /* RootViewControllerDataSource.m */; };
+		9CFFC25A1CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2591CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m */; };
 		B0087F35B15FEE5719CB48A1 /* libPods-li5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24EA10E8E8164CA535D2CD1B /* libPods-li5.a */; };
 		D0EF374E733587FE402A3C7E /* libPods-li5Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A39FC22EF264E0F2D0BE858F /* libPods-li5Tests.a */; };
 /* End PBXBuildFile section */
@@ -146,6 +153,14 @@
 		5B6204921CCA7625003C9390 /* li5-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "li5-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B6204931CCA7625003C9390 /* li5-Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "li5-Test-Info.plist"; path = "li5/li5-Test-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5B6204941CCA7667003C9390 /* Launch Screen_Test.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen_Test.storyboard"; sourceTree = "<group>"; };
+		5B7551931CCE7433007FAF67 /* Li5PlayerUISlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5PlayerUISlider.h; sourceTree = "<group>"; };
+		5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5PlayerUISlider.m; sourceTree = "<group>"; };
+		5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlockedViewController.h; sourceTree = "<group>"; };
+		5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlockedViewController.m; sourceTree = "<group>"; };
+		5B7551A41CCFBEBC007FAF67 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
+		5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
+		5B7551B91CCFED36007FAF67 /* Li5LoggerFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5LoggerFormatter.h; sourceTree = "<group>"; };
+		5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5LoggerFormatter.m; sourceTree = "<group>"; };
 		5B7975591C6D03A800F78C9F /* ProductPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPageViewController.h; sourceTree = "<group>"; };
 		5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPageViewController.m; sourceTree = "<group>"; };
 		5B8625CD1C763CE4006869DE /* IndexedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexedViewController.h; sourceTree = "<group>"; };
@@ -153,9 +168,7 @@
 		5B8625D01C764C33006869DE /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		5B8625D11C764C33006869DE /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		5B8625D21C764C33006869DE /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
-		5B9584D91C6D16DD00026BB2 /* LinkedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedViewController.h; sourceTree = "<group>"; };
-		5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedViewController.m; sourceTree = "<group>"; };
-		5B9584DE1C6D23FB00026BB2 /* DisplayableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayableProtocol.h; sourceTree = "<group>"; };
+		5B9584DE1C6D23FB00026BB2 /* ProductPageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPageProtocol.h; sourceTree = "<group>"; };
 		5B9DFAB01CC6C40B00436D0A /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		5BB1F9FC1CCC233100FA03F6 /* PrimeTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimeTimeViewController.h; sourceTree = "<group>"; };
 		5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrimeTimeViewController.m; sourceTree = "<group>"; };
@@ -182,13 +195,9 @@
 		5BB4AB151C4FC631002C22C8 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		5BECB7BE1CCD788500D6482C /* Li5-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Li5-Prefix.pch"; sourceTree = "<group>"; };
-		5BECB7C61CCD79C000D6482C /* Li5UISlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5UISlider.h; sourceTree = "<group>"; };
-		5BECB7C71CCD79C000D6482C /* Li5UISlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5UISlider.m; sourceTree = "<group>"; };
 		5C60F4492BDEF4F78D8E3E47 /* libPods-li5UITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-li5UITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC6EBF89996FCB9077F8F35 /* Pods-li5Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-li5Tests/Pods-li5Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		7A1E7C812F1E03D4613CE31A /* Pods-li5UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-li5UITests/Pods-li5UITests.debug.xcconfig"; sourceTree = "<group>"; };
-		9CEC17D41CC82E2F0041BDFA /* Li5PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5PageViewController.h; sourceTree = "<group>"; };
-		9CEC17D51CC82E2F0041BDFA /* Li5PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5PageViewController.m; sourceTree = "<group>"; };
 		9CFFC24B1CC16057005AC8DC /* CategoriesCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesCollectionViewCell.h; sourceTree = "<group>"; };
 		9CFFC24C1CC16057005AC8DC /* CategoriesCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesCollectionViewCell.m; sourceTree = "<group>"; };
 		9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -197,8 +206,8 @@
 		9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesViewController.xib; sourceTree = "<group>"; };
 		9CFFC2551CC6E389005AC8DC /* Li5Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5Player.h; sourceTree = "<group>"; };
 		9CFFC2561CC6E389005AC8DC /* Li5Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5Player.m; sourceTree = "<group>"; };
-		9CFFC2581CC6EBE6005AC8DC /* RootViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewControllerDataSource.h; sourceTree = "<group>"; };
-		9CFFC2591CC6EBE6005AC8DC /* RootViewControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewControllerDataSource.m; sourceTree = "<group>"; };
+		9CFFC2581CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimeTimeViewControllerDataSource.h; sourceTree = "<group>"; };
+		9CFFC2591CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrimeTimeViewControllerDataSource.m; sourceTree = "<group>"; };
 		A39FC22EF264E0F2D0BE858F /* libPods-li5Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-li5Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07CEEC08BA6684861EA3AC6 /* Pods-li5.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5.release.xcconfig"; path = "Pods/Target Support Files/Pods-li5/Pods-li5.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -283,28 +292,21 @@
 			children = (
 				5BB1F9FC1CCC233100FA03F6 /* PrimeTimeViewController.h */,
 				5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */,
-				9CEC17D41CC82E2F0041BDFA /* Li5PageViewController.h */,
-				9CEC17D51CC82E2F0041BDFA /* Li5PageViewController.m */,
-				9CFFC2581CC6EBE6005AC8DC /* RootViewControllerDataSource.h */,
-				9CFFC2591CC6EBE6005AC8DC /* RootViewControllerDataSource.m */,
-				5B7975591C6D03A800F78C9F /* ProductPageViewController.h */,
-				5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */,
-				5B9584D91C6D16DD00026BB2 /* LinkedViewController.h */,
-				5B9584DA1C6D16DD00026BB2 /* LinkedViewController.m */,
+				9CFFC2581CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.h */,
+				9CFFC2591CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m */,
 				5B8625CD1C763CE4006869DE /* IndexedViewController.h */,
 				5B8625CE1C763CE4006869DE /* IndexedViewController.m */,
-				5B9584DE1C6D23FB00026BB2 /* DisplayableProtocol.h */,
 			);
 			name = "Prime Time";
 			sourceTree = "<group>";
 		};
-		5B6204431CCA5DC5003C9390 /* Video */ = {
+		5B6204431CCA5DC5003C9390 /* Teaser */ = {
 			isa = PBXGroup;
 			children = (
 				5BB4AAC61C4D60B9002C22C8 /* TeaserViewController.h */,
 				5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */,
 			);
-			name = Video;
+			name = Teaser;
 			sourceTree = "<group>";
 		};
 		5B6204441CCA5DCF003C9390 /* Details */ = {
@@ -321,6 +323,8 @@
 			children = (
 				9CFFC2551CC6E389005AC8DC /* Li5Player.h */,
 				9CFFC2561CC6E389005AC8DC /* Li5Player.m */,
+				5B7551931CCE7433007FAF67 /* Li5PlayerUISlider.h */,
+				5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -328,13 +332,45 @@
 		5B6204461CCA5DEB003C9390 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				5BECB7C61CCD79C000D6482C /* Li5UISlider.h */,
-				5BECB7C71CCD79C000D6482C /* Li5UISlider.m */,
 				5BB4AB011C4E7D52002C22C8 /* Logger.h */,
 				5B602C841C5A6A9F00F0D362 /* ShapesHelper.h */,
 				5B602C851C5A6A9F00F0D362 /* ShapesHelper.m */,
+				5B7551B91CCFED36007FAF67 /* Li5LoggerFormatter.h */,
+				5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */,
 			);
 			name = Util;
+			sourceTree = "<group>";
+		};
+		5B75519A1CCFAE88007FAF67 /* Unlocked */ = {
+			isa = PBXGroup;
+			children = (
+				5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */,
+				5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */,
+			);
+			name = Unlocked;
+			sourceTree = "<group>";
+		};
+		5B7551A21CCFBE4E007FAF67 /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				5B7975591C6D03A800F78C9F /* ProductPageViewController.h */,
+				5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */,
+				5B9584DE1C6D23FB00026BB2 /* ProductPageProtocol.h */,
+				5B7551A31CCFBE9F007FAF67 /* Video */,
+				5B6204441CCA5DCF003C9390 /* Details */,
+			);
+			name = Product;
+			sourceTree = "<group>";
+		};
+		5B7551A31CCFBE9F007FAF67 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				5B7551A41CCFBEBC007FAF67 /* VideoViewController.h */,
+				5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */,
+				5B6204431CCA5DC5003C9390 /* Teaser */,
+				5B75519A1CCFAE88007FAF67 /* Unlocked */,
+			);
+			name = Video;
 			sourceTree = "<group>";
 		};
 		5BB1F9FB1CCC190400FA03F6 /* App Flow */ = {
@@ -381,8 +417,7 @@
 				5B6204411CCA5D94003C9390 /* Login */,
 				9CF7DC121CC9127900F7CAF7 /* Categories */,
 				5B6204421CCA5DBB003C9390 /* Prime Time */,
-				5B6204431CCA5DC5003C9390 /* Video */,
-				5B6204441CCA5DCF003C9390 /* Details */,
+				5B7551A21CCFBE4E007FAF67 /* Product */,
 				5B6204451CCA5DE1003C9390 /* Player */,
 				5B6204461CCA5DEB003C9390 /* Util */,
 				5BB4AAC01C4D60B9002C22C8 /* Supporting Files */,
@@ -888,17 +923,18 @@
 			files = (
 				5B62044A1CCA7116003C9390 /* TeaserViewController.m in Sources */,
 				5B62044B1CCA7116003C9390 /* DetailsViewController.m in Sources */,
-				5B62044C1CCA7116003C9390 /* Li5PageViewController.m in Sources */,
+				5B7551A71CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B62044D1CCA7116003C9390 /* ProductPageViewController.m in Sources */,
-				5B62044E1CCA7116003C9390 /* LinkedViewController.m in Sources */,
+				5B7551961CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
 				5B62044F1CCA7116003C9390 /* IndexedViewController.m in Sources */,
-				5B6204501CCA7116003C9390 /* RootViewControllerDataSource.m in Sources */,
+				5B6204501CCA7116003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5B6204511CCA7116003C9390 /* AppDelegate.m in Sources */,
-				5BECB7C91CCD79C000D6482C /* Li5UISlider.m in Sources */,
 				5B6204521CCA7116003C9390 /* CategoriesViewController.m in Sources */,
+				5B7551BC1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
 				5B6204531CCA7116003C9390 /* main.m in Sources */,
 				5B6204541CCA7116003C9390 /* RootViewController.m in Sources */,
 				5B6204551CCA7116003C9390 /* Li5Player.m in Sources */,
+				5B75519E1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5B6204561CCA7116003C9390 /* ShapesHelper.m in Sources */,
 				5B6204571CCA7116003C9390 /* LoginViewController.m in Sources */,
 				5B6204581CCA7116003C9390 /* CategoriesCollectionViewCell.m in Sources */,
@@ -912,17 +948,18 @@
 			files = (
 				5B6204711CCA7625003C9390 /* TeaserViewController.m in Sources */,
 				5B6204721CCA7625003C9390 /* DetailsViewController.m in Sources */,
-				5B6204731CCA7625003C9390 /* Li5PageViewController.m in Sources */,
+				5B7551A81CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B6204741CCA7625003C9390 /* ProductPageViewController.m in Sources */,
-				5B6204751CCA7625003C9390 /* LinkedViewController.m in Sources */,
+				5B7551971CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
 				5B6204761CCA7625003C9390 /* IndexedViewController.m in Sources */,
-				5B6204771CCA7625003C9390 /* RootViewControllerDataSource.m in Sources */,
+				5B6204771CCA7625003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5B6204781CCA7625003C9390 /* AppDelegate.m in Sources */,
-				5BECB7CA1CCD79C000D6482C /* Li5UISlider.m in Sources */,
 				5B6204791CCA7625003C9390 /* CategoriesViewController.m in Sources */,
+				5B7551BD1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
 				5B62047A1CCA7625003C9390 /* main.m in Sources */,
 				5B62047B1CCA7625003C9390 /* RootViewController.m in Sources */,
 				5B62047C1CCA7625003C9390 /* Li5Player.m in Sources */,
+				5B75519F1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5B62047D1CCA7625003C9390 /* ShapesHelper.m in Sources */,
 				5B62047E1CCA7625003C9390 /* LoginViewController.m in Sources */,
 				5B62047F1CCA7625003C9390 /* CategoriesCollectionViewCell.m in Sources */,
@@ -936,17 +973,18 @@
 			files = (
 				5BB4AAC81C4D60B9002C22C8 /* TeaserViewController.m in Sources */,
 				5BB4AB171C4FC631002C22C8 /* DetailsViewController.m in Sources */,
-				9CEC17D61CC82E2F0041BDFA /* Li5PageViewController.m in Sources */,
+				5B7551A61CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B79755B1C6D03A800F78C9F /* ProductPageViewController.m in Sources */,
-				5B9584DB1C6D16DD00026BB2 /* LinkedViewController.m in Sources */,
+				5B7551951CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
 				5B8625CF1C763CE4006869DE /* IndexedViewController.m in Sources */,
-				9CFFC25A1CC6EBE6005AC8DC /* RootViewControllerDataSource.m in Sources */,
+				9CFFC25A1CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */,
-				5BECB7C81CCD79C000D6482C /* Li5UISlider.m in Sources */,
 				9CFFC2531CC17EC5005AC8DC /* CategoriesViewController.m in Sources */,
+				5B7551BB1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
 				5BB4AAC21C4D60B9002C22C8 /* main.m in Sources */,
 				5BB4AB121C4ED3DC002C22C8 /* RootViewController.m in Sources */,
 				9CFFC2571CC6E38A005AC8DC /* Li5Player.m in Sources */,
+				5B75519D1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5B602C861C5A6A9F00F0D362 /* ShapesHelper.m in Sources */,
 				5B602C5C1C565D4A00F0D362 /* LoginViewController.m in Sources */,
 				9CFFC24E1CC16057005AC8DC /* CategoriesCollectionViewCell.m in Sources */,
@@ -958,14 +996,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BECB7CB1CCD79C000D6482C /* Li5UISlider.m in Sources */,
+				5B7551A91CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B79755C1C6D03A800F78C9F /* ProductPageViewController.m in Sources */,
 				5BB1FA011CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 				5B602C5D1C565D4A00F0D362 /* LoginViewController.m in Sources */,
+				5B7551981CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
+				5B7551BE1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
+				5B7551A01CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5BB4AB181C4FC631002C22C8 /* DetailsViewController.m in Sources */,
 				5BB4AADB1C4D60B9002C22C8 /* shounTests.m in Sources */,
 				5BB4AB131C4ED3DC002C22C8 /* RootViewController.m in Sources */,
-				5B9584DC1C6D16DD00026BB2 /* LinkedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,14 +1013,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BECB7CC1CCD79C000D6482C /* Li5UISlider.m in Sources */,
+				5B7551AA1CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B79755D1C6D03A800F78C9F /* ProductPageViewController.m in Sources */,
 				5BB1FA021CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 				5B602C5E1C565D4A00F0D362 /* LoginViewController.m in Sources */,
+				5B7551991CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
+				5B7551BF1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
+				5B7551A11CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5BB4AB191C4FC631002C22C8 /* DetailsViewController.m in Sources */,
 				5BB4AAE61C4D60B9002C22C8 /* shounUITests.m in Sources */,
 				5BB4AB141C4ED3DC002C22C8 /* RootViewController.m in Sources */,
-				5B9584DD1C6D16DD00026BB2 /* LinkedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
