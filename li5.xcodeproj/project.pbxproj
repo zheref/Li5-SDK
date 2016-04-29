@@ -84,6 +84,21 @@
 		5B7551BD1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
 		5B7551BE1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
 		5B7551BF1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
+		5B7551CA1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */; };
+		5B7551CB1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */; };
+		5B7551CC1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */; };
+		5B7551CD1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */; };
+		5B7551CE1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */; };
+		5B7551D11CD178A0007FAF67 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */; };
+		5B7551D21CD178A0007FAF67 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */; };
+		5B7551D31CD178A0007FAF67 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */; };
+		5B7551D41CD178A0007FAF67 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */; };
+		5B7551D51CD178A0007FAF67 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */; };
+		5B7551D71CD26A69007FAF67 /* UserProfile.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B7551D61CD26A69007FAF67 /* UserProfile.Storyboard */; };
+		5B7551D81CD26A69007FAF67 /* UserProfile.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B7551D61CD26A69007FAF67 /* UserProfile.Storyboard */; };
+		5B7551D91CD26A69007FAF67 /* UserProfile.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B7551D61CD26A69007FAF67 /* UserProfile.Storyboard */; };
+		5B7551DA1CD26A69007FAF67 /* UserProfile.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B7551D61CD26A69007FAF67 /* UserProfile.Storyboard */; };
+		5B7551DB1CD26A69007FAF67 /* UserProfile.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B7551D61CD26A69007FAF67 /* UserProfile.Storyboard */; };
 		5B79755B1C6D03A800F78C9F /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
 		5B79755C1C6D03A800F78C9F /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
 		5B79755D1C6D03A800F78C9F /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
@@ -161,6 +176,11 @@
 		5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
 		5B7551B91CCFED36007FAF67 /* Li5LoggerFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5LoggerFormatter.h; sourceTree = "<group>"; };
 		5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5LoggerFormatter.m; sourceTree = "<group>"; };
+		5B7551C81CD17725007FAF67 /* UserProfileDynamicInteractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileDynamicInteractor.h; sourceTree = "<group>"; };
+		5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileDynamicInteractor.m; sourceTree = "<group>"; };
+		5B7551CF1CD178A0007FAF67 /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
+		5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileViewController.m; sourceTree = "<group>"; };
+		5B7551D61CD26A69007FAF67 /* UserProfile.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserProfile.Storyboard; sourceTree = "<group>"; };
 		5B7975591C6D03A800F78C9F /* ProductPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPageViewController.h; sourceTree = "<group>"; };
 		5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPageViewController.m; sourceTree = "<group>"; };
 		5B8625CD1C763CE4006869DE /* IndexedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexedViewController.h; sourceTree = "<group>"; };
@@ -373,6 +393,18 @@
 			name = Video;
 			sourceTree = "<group>";
 		};
+		5B7551C71CD176BD007FAF67 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5B7551CF1CD178A0007FAF67 /* UserProfileViewController.h */,
+				5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */,
+				5B7551C81CD17725007FAF67 /* UserProfileDynamicInteractor.h */,
+				5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */,
+				5B7551D61CD26A69007FAF67 /* UserProfile.Storyboard */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		5BB1F9FB1CCC190400FA03F6 /* App Flow */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +450,7 @@
 				9CF7DC121CC9127900F7CAF7 /* Categories */,
 				5B6204421CCA5DBB003C9390 /* Prime Time */,
 				5B7551A21CCFBE4E007FAF67 /* Product */,
+				5B7551C71CD176BD007FAF67 /* Profile */,
 				5B6204451CCA5DE1003C9390 /* Player */,
 				5B6204461CCA5DEB003C9390 /* Util */,
 				5BB4AAC01C4D60B9002C22C8 /* Supporting Files */,
@@ -652,6 +685,7 @@
 				5B6204611CCA7116003C9390 /* CategoriesViewController.xib in Resources */,
 				5B62046D1CCA7177003C9390 /* Launch Screen_Dev.storyboard in Resources */,
 				5B6204621CCA7116003C9390 /* Assets.xcassets in Resources */,
+				5B7551D81CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
 				5B6204631CCA7116003C9390 /* CategoriesCollectionViewCell.xib in Resources */,
 				5B6204641CCA7116003C9390 /* Main.storyboard in Resources */,
 			);
@@ -662,6 +696,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B6204861CCA7625003C9390 /* Launch Screen.storyboard in Resources */,
+				5B7551D91CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
 				5B6204871CCA7625003C9390 /* girl.jpg in Resources */,
 				5B6204881CCA7625003C9390 /* CategoriesViewController.xib in Resources */,
 				5B6204891CCA7625003C9390 /* Launch Screen_Dev.storyboard in Resources */,
@@ -678,6 +713,7 @@
 			files = (
 				5B9DFAB11CC6C40B00436D0A /* Launch Screen.storyboard in Resources */,
 				5B602C6A1C565FBF00F0D362 /* girl.jpg in Resources */,
+				5B7551D71CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
 				9CFFC2541CC17EC5005AC8DC /* CategoriesViewController.xib in Resources */,
 				5BB4AACD1C4D60B9002C22C8 /* Assets.xcassets in Resources */,
 				9CFFC24F1CC16057005AC8DC /* CategoriesCollectionViewCell.xib in Resources */,
@@ -690,6 +726,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B602C6B1C565FBF00F0D362 /* girl.jpg in Resources */,
+				5B7551DA1CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -698,6 +735,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B602C6C1C565FBF00F0D362 /* girl.jpg in Resources */,
+				5B7551DB1CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -926,6 +964,8 @@
 				5B7551A71CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B62044D1CCA7116003C9390 /* ProductPageViewController.m in Sources */,
 				5B7551961CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
+				5B7551D21CD178A0007FAF67 /* UserProfileViewController.m in Sources */,
+				5B7551CB1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */,
 				5B62044F1CCA7116003C9390 /* IndexedViewController.m in Sources */,
 				5B6204501CCA7116003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5B6204511CCA7116003C9390 /* AppDelegate.m in Sources */,
@@ -951,6 +991,8 @@
 				5B7551A81CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B6204741CCA7625003C9390 /* ProductPageViewController.m in Sources */,
 				5B7551971CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
+				5B7551D31CD178A0007FAF67 /* UserProfileViewController.m in Sources */,
+				5B7551CC1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */,
 				5B6204761CCA7625003C9390 /* IndexedViewController.m in Sources */,
 				5B6204771CCA7625003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5B6204781CCA7625003C9390 /* AppDelegate.m in Sources */,
@@ -976,6 +1018,8 @@
 				5B7551A61CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B79755B1C6D03A800F78C9F /* ProductPageViewController.m in Sources */,
 				5B7551951CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
+				5B7551D11CD178A0007FAF67 /* UserProfileViewController.m in Sources */,
+				5B7551CA1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */,
 				5B8625CF1C763CE4006869DE /* IndexedViewController.m in Sources */,
 				9CFFC25A1CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */,
@@ -1004,6 +1048,8 @@
 				5B7551BE1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
 				5B7551A01CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5BB4AB181C4FC631002C22C8 /* DetailsViewController.m in Sources */,
+				5B7551CD1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */,
+				5B7551D41CD178A0007FAF67 /* UserProfileViewController.m in Sources */,
 				5BB4AADB1C4D60B9002C22C8 /* shounTests.m in Sources */,
 				5BB4AB131C4ED3DC002C22C8 /* RootViewController.m in Sources */,
 			);
@@ -1021,6 +1067,8 @@
 				5B7551BF1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
 				5B7551A11CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5BB4AB191C4FC631002C22C8 /* DetailsViewController.m in Sources */,
+				5B7551CE1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */,
+				5B7551D51CD178A0007FAF67 /* UserProfileViewController.m in Sources */,
 				5BB4AAE61C4D60B9002C22C8 /* shounUITests.m in Sources */,
 				5BB4AB141C4ED3DC002C22C8 /* RootViewController.m in Sources */,
 			);

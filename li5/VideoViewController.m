@@ -32,7 +32,7 @@
         //DDLogVerbose(@"Initializing DetailsViewController for: %@", thisProduct.title);
         self.product = thisProduct;
         teaserViewController = [[TeaserViewController alloc] initWithProduct:self.product];
-        if(self.product.videoURL!=nil && self.product.videoURL.length > 0)
+        if (self.product.videoURL != nil && self.product.videoURL.length > 0)
         {
             unlockedViewController = [[UnlockedViewController alloc] initWithProduct:self.product];
         }
@@ -45,20 +45,20 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
     [self showViewController:teaserViewController];
 }
 
 - (void)hideViewController:(UIViewController<DisplayableProtocol> *)vc
 {
     [vc hideAndMoveToViewController:nil];
+    [vc willMoveToParentViewController:nil];
     [vc.view removeFromSuperview];
     [vc removeFromParentViewController];
 }
 
 - (void)showViewController:(UIViewController<DisplayableProtocol> *)vc
 {
-    [vc willMoveToParentViewController:self];
     [self addChildViewController:vc];
     vc.view.frame = self.view.bounds;
     [self.view addSubview:vc.view];
@@ -72,15 +72,40 @@
 - (void)handleLongTap:(UITapGestureRecognizer *)sender
 {
     DDLogDebug(@"Handling Long Tap");
-    
+
+    //    [oldVC willMoveToParentViewController:nil];
+    //    [self addChildViewController:newVC];
+    //
+    //    // Get the start frame of the new view controller and the end frame
+    //    // for the old view controller. Both rectangles are offscreen.
+    //    newVC.view.frame = [self newViewStartFrame];
+    //    CGRect endFrame = [self oldViewEndFrame];
+    //
+    //    UIViewControllerAnimatedTransitioning
+    //
+    //    // Queue up the transition animation.
+    //    [self transitionFromViewController: oldVC toViewController: newVC
+    //                              duration: 0.25 options:0
+    //                            animations:^{
+    //                                // Animate the views to their final positions.
+    //                                newVC.view.frame = oldVC.view.frame;
+    //                                oldVC.view.frame = endFrame;
+    //                            }
+    //                            completion:^(BOOL finished) {
+    //                                // Remove the old view controller and send the final
+    //                                // notification to the new view controller.
+    //                                [oldVC removeFromParentViewController];
+    //                                [newVC didMoveToParentViewController:self];
+    //                            }];
+
     [self hideViewController:teaserViewController];
     [self showViewController:unlockedViewController];
 }
 
-- (void)handleLockTap:(UIButton*) sender
+- (void)handleLockTap:(UIButton *)sender
 {
     DDLogDebug(@"Handling Lock Tap");
-    
+
     [self hideViewController:unlockedViewController];
     [self showViewController:teaserViewController];
 }

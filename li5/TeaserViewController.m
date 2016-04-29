@@ -6,12 +6,8 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "Li5PlayerUISlider.h"
-#import "ProductPageViewController.h"
-#import "RootViewController.h"
-#import "ShapesHelper.h"
 #import "TeaserViewController.h"
-#import "PrimeTimeViewController.h"
+#import "ShapesHelper.h"
 
 #pragma mark - Class Definitions
 
@@ -126,8 +122,9 @@
 - (void)show
 {
     if (self.teaserPlayer.player.status == AVPlayerStatusReadyToPlay &&
-        self.parentViewController.parentViewController !=nil &&
-        self.parentViewController.parentViewController == [((PrimeTimeViewController*)self.parentViewController.parentViewController.parentViewController).viewControllers firstObject])
+        self.parentViewController.parentViewController !=nil && //is contained within a ProductPageViewController
+        self.parentViewController.parentViewController == [((UIPageViewController*)self.parentViewController.parentViewController.parentViewController).viewControllers firstObject] &&
+        self.parentViewController == [((UIPageViewController*)self.parentViewController.parentViewController).viewControllers firstObject]) //ProductPageViewController is currently being viewed at PrimeTime
     {
         DDLogVerbose(@"Show %@.", [[(AVURLAsset *)self.teaserPlayer.player.currentItem.asset URL] lastPathComponent]);
         [self.teaserPlayer.player play];
@@ -255,7 +252,7 @@
         if (!playEndObserver)
         {
             __weak typeof(id) welf = self;
-            playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.teaserPlayer.player queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
+            playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.teaserPlayer.player.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
                 [welf replayMovie:note];
             }];
         }
