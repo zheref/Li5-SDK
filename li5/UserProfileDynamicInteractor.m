@@ -22,19 +22,25 @@
 @property (nonatomic, strong) UIAttachmentBehavior *attachmentBehaviour;
 @property (nonatomic, assign) CGPoint lastKnownVelocity;
 
+@property (nonatomic, readonly, strong) UserProfileViewController *presentingViewController;
+
 @end
 
 @implementation UserProfileDynamicInteractor
 
 #pragma mark - Public Methods
 
-- (id)initWithParentViewController:(UIViewController *)viewController
+- (id)initWithParentViewController:(UIViewController<DisplayableProtocol> *)parentVC
 {
     if (!(self = [super init]))
         return nil;
     
-    _parentViewController = viewController;
+    _parentViewController = parentVC;
 
+    _presentingViewController = [[UserProfileViewController alloc] initWithPanTarget:self];
+    _presentingViewController.modalPresentationStyle = UIModalPresentationCustom;
+    _presentingViewController.transitioningDelegate = self;
+    
     return self;
 }
 
@@ -42,7 +48,7 @@
  Note: Unlike when we connect a gesture recognizer to a view via an attachment behaviour,
  our recognizer is going to remain agnostic to how the view controller is presented.
  */
-- (void)userDidPan:(UIScreenEdgePanGestureRecognizer *)recognizer
+- (void)userDidPan:(UIPanGestureRecognizer *)recognizer
 {
     CGPoint location = [recognizer locationInView:self.parentViewController.view];
     CGPoint velocity = [recognizer velocityInView:self.parentViewController.view];
@@ -65,15 +71,16 @@
             {
                 DDLogVerbose(@"beginning menu presentation");
                 self.presenting = YES;
-                UserProfileViewController *viewController = [[UserProfileViewController alloc] initWithPanTarget:self];
-                viewController.modalPresentationStyle = UIModalPresentationCustom;
-                viewController.transitioningDelegate = self;
-                [self.parentViewController presentViewController:viewController animated:NO completion:nil];
+                [self.parentViewController presentViewController:_presentingViewController animated:YES completion:^{
+                    [self.parentViewController viewDidDisappear:NO];
+                }];
             }
             else
             {
                 DDLogVerbose(@"dismissing menu presentation");
-                [self.parentViewController dismissViewControllerAnimated:NO completion:nil];
+                [self.parentViewController dismissViewControllerAnimated:YES completion:^{
+                    [self.parentViewController viewDidAppear:NO];
+                }];
             }
         }
     }
@@ -245,7 +252,6 @@
         if (self.presenting)
         {
             // The order of these matters – determines the view hierarchy order.
-            [transitionContext.containerView addSubview:fromViewController.view];
             [transitionContext.containerView addSubview:toViewController.view];
 
             startFrame.origin.y -= CGRectGetHeight([[transitionContext containerView] bounds]);
@@ -267,9 +273,6 @@
         }
         else
         {
-            [transitionContext.containerView addSubview:toViewController.view];
-            [transitionContext.containerView addSubview:fromViewController.view];
-
             endFrame.origin.y -= CGRectGetHeight(self.transitionContext.containerView.bounds);
 
             fromViewController.view.frame = startFrame;
@@ -311,16 +314,9 @@
 
     if (self.presenting)
     {
-        // The order of these matters – determines the view hierarchy order.
-        [transitionContext.containerView addSubview:fromViewController.view];
         [transitionContext.containerView addSubview:toViewController.view];
 
         frame.origin.y -= CGRectGetHeight([[transitionContext containerView] bounds]);
-    }
-    else
-    {
-        [transitionContext.containerView addSubview:toViewController.view];
-        [transitionContext.containerView addSubview:fromViewController.view];
     }
 
     toViewController.view.frame = frame;
@@ -384,7 +380,7 @@
     {
         dynamicItem = fromViewController.view;
         gravityYComponent = -5.0f;
-
+        
         endFrame.origin.y -= CGRectGetHeight(endFrame);
     }
 

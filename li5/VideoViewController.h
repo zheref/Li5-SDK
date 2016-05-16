@@ -10,9 +10,5 @@
 
 @interface VideoViewController : UIViewController <LinkedViewControllerProtocol, DisplayableProtocol, UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) UIViewController *previousViewController;
-@property (nonatomic, strong) UIViewController *nextViewController;
-
-@property (nonatomic, strong) Product *product;
 
 @end

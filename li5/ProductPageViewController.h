@@ -6,16 +6,17 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
+@import Li5Api;
+
 #import "DetailsViewController.h"
-#import "Li5ApiHandler.h"
 #import "VideoViewController.h"
 
-@interface ProductPageViewController : UIPageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate, DisplayableProtocol, UIGestureRecognizerDelegate>
+@interface ProductPageViewController : UIViewController <UIScrollViewDelegate, DisplayableProtocol>
 
 @property NSUInteger index;
 
-@property (nonatomic, strong) Product *product;
+- (id)initWithProduct:(Product *)thisProduct andIndex:(NSInteger)idx forContext:(ProductContext)context;
 
-- (id)initWithProduct:(Product *)thisProduct andIndex:(NSInteger)idx;
+- (UIViewController<DisplayableProtocol>*) currentViewController;
 
 @end

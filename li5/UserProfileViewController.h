@@ -9,7 +9,7 @@
 // This protocol is only to silence the compiler since we're using one of two different classes.
 @protocol UserProfileViewControllerPanTargetDelegate <NSObject>
 
-- (void)userDidPan:(UIScreenEdgePanGestureRecognizer *)gestureRecognizer;
+- (void)userDidPan:(UIPanGestureRecognizer *)gestureRecognizer;
 
 @end
 

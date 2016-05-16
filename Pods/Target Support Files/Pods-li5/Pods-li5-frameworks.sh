@@ -82,3 +82,20 @@ strip_invalid_archs() {
   fi
 }
 
+
+if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-li5/BCVideoPlayer.framework"
+  install_framework "Pods-li5/CocoaLumberjack.framework"
+  install_framework "Pods-li5/JSONModel.framework"
+  install_framework "Pods-li5/Li5Api.framework"
+  install_framework "Pods-li5/SDWebImage.framework"
+  install_framework "Pods-li5/SSKeychain.framework"
+fi
+if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-li5/BCVideoPlayer.framework"
+  install_framework "Pods-li5/CocoaLumberjack.framework"
+  install_framework "Pods-li5/JSONModel.framework"
+  install_framework "Pods-li5/Li5Api.framework"
+  install_framework "Pods-li5/SDWebImage.framework"
+  install_framework "Pods-li5/SSKeychain.framework"
+fi

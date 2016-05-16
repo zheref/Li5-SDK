@@ -6,10 +6,12 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
+@import Li5Api;
+
 #import "CategoriesViewController.h"
-#import "Li5ApiHandler.h"
 #import "CategoriesCollectionViewCell.h"
 #import "PrimeTimeViewController.h"
+#import "PrimeTimeViewControllerDataSource.h"
 
 @interface CategoriesViewController ()
 
@@ -95,24 +97,23 @@
     [self checkSelectedCategories];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 #pragma mark - Actions
 
 - (IBAction)continueBtnPressed:(id)sender {
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     [li5 changeUserProfileWithCategoriesIDs:[NSArray arrayWithArray:_selectedCategoriesIDs] withCompletion:^(NSError *error) {
         if (error == nil) {
-            PrimeTimeViewController *primeTimeViewController = [[PrimeTimeViewController alloc] init];
-            [self.navigationController pushViewController:primeTimeViewController animated:NO];
+            PrimeTimeViewControllerDataSource *primeTimeSource = [PrimeTimeViewControllerDataSource new];
+            PrimeTimeViewController *primeTimeVC = [[PrimeTimeViewController alloc] initWithDataSource:primeTimeSource];
+            [primeTimeSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
+                if (error != nil)
+                {
+                    DDLogVerbose(@"ERROR %@", error.description);
+                }
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    [self.navigationController pushViewController:primeTimeVC animated:NO];
+                });
+            }];
         } else {
             DDLogVerbose(@"Couldn't commit selected categories.");
         }

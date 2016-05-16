@@ -28,7 +28,21 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>13</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>FacebookAppID</key>
 	<string>1680814975507775</string>
 	<key>FacebookDisplayName</key>
@@ -42,6 +56,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>Li5ApiEndpoint</key>
+	<string>https://api.li5.tv</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -87,8 +103,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>Li5ApiEndpoint</key>
-	<string>https://api.li5.tv</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

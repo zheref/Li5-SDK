@@ -16,7 +16,7 @@
 
 @synthesize product, imagesViewController, images, imagePageControl, previousViewController, nextViewController;
 
-- (id)initWithProduct:(Product *)thisProduct
+- (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
     self = [super init];
     if (self)
@@ -43,8 +43,9 @@
 
     //Scroll View
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 70)];
-    scrollView.delegate = self;
-    scrollView.delaysContentTouches = NO;
+    //scrollView.delegate = self;
+    //scrollView.delaysContentTouches = NO;
+    //scrollView.bounces = FALSE;
 
     //Vendor Name Label
     NSString *vendor = self.product.brand;
@@ -118,17 +119,19 @@
         });
     }
 
-    [imagesViewController setViewControllers:@[ self.images[0] ] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-
-    [scrollView addSubview:imagesViewController.view];
-
-    imagePageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, [self currentBottomIn:scrollView].size.height - 37, self.view.frame.size.width, 37)];
-    imagePageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-    imagePageControl.currentPageIndicatorTintColor = [UIColor blackColor];
-    imagePageControl.backgroundColor = [UIColor clearColor];
-    imagePageControl.currentPage = 0;
-    imagePageControl.numberOfPages = self.product.images.count;
-    [scrollView addSubview:imagePageControl];
+    if(self.images.count > 0)
+    {
+        [imagesViewController setViewControllers:@[ self.images[0] ] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+        
+        [scrollView addSubview:imagesViewController.view];
+        imagePageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, [self currentBottomIn:scrollView].size.height - 37, self.view.frame.size.width, 37)];
+        imagePageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+        imagePageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+        imagePageControl.backgroundColor = [UIColor clearColor];
+        imagePageControl.currentPage = 0;
+        imagePageControl.numberOfPages = self.product.images.count;
+        [scrollView addSubview:imagePageControl];
+    }
 
     //Product Price Label
     NSString *price = @"Price: ";
@@ -245,48 +248,7 @@
     //DDLogVerbose(@"Buy Button tapped");
 }
 
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
-    return nil;
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    //DDLogVerbose(@"Did end decelerating");
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    //DDLogVerbose(@"Did scroll");
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
-                  willDecelerate:(BOOL)decelerate
-{
-    //DDLogVerbose(@"Did end dragging");
-}
-
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
-{
-    //DDLogVerbose(@"Did begin decelerating");
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    //DDLogVerbose(@"Did begin dragging");
-}
-
 - (void)hideAndMoveToViewController:(UIViewController *)viewController
-{
-    //Do nothing
-}
-
-- (void)show
-{
-    //Do nothing
-}
-
-- (void)redisplay
 {
     //Do nothing
 }

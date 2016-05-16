@@ -6,13 +6,12 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "Li5ApiHandler.h"
+@import AVFoundation;
+@import BCVideoPlayer;
+
 #import "ProductPageProtocol.h"
 
-@interface UnlockedViewController : UIViewController <UIGestureRecognizerDelegate, Li5PlayerDelegate, DisplayableProtocol>
+@interface UnlockedViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate>
 
-@property (nonatomic, strong) Product *product;
-
-- (id) initWithProduct:(Product *) thisProduct;
 
 @end

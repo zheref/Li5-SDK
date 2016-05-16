@@ -6,10 +6,13 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
+@import Li5Api;
+@import FBSDKCoreKit;
+@import FBSDKLoginKit;
+@import Fabric;
+@import Crashlytics;
+
 #import "AppDelegate.h"
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import "Li5ApiHandler.h"
 #import "CategoriesViewController.h"
 #import "PrimeTimeViewController.h"
 #import "RootViewController.h"
@@ -24,6 +27,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [Fabric with:@[[Crashlytics class]]];
+
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     
@@ -68,12 +73,13 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    //DDLogDebug(@"App resigining Active State");
+    DDLogDebug(@"App resigining Active State");
     UIViewController *currentViewController = [self.navController.viewControllers lastObject];
     if ( [currentViewController isKindOfClass:[PrimeTimeViewController class]] )
     {
-        [((ProductPageViewController*)[((PrimeTimeViewController*)currentViewController).viewControllers firstObject]) hideAndMoveToViewController:nil];
+        [[((PrimeTimeViewController*)currentViewController).viewControllers firstObject] viewDidDisappear:NO];
     }
+
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -87,14 +93,14 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    //DDLogDebug(@"App Did Become Active");
+    DDLogDebug(@"App Did Become Active");
     
     [FBSDKAppEvents activateApp];
     
     UIViewController *currentViewController = [self.navController.viewControllers lastObject];
     if ( [currentViewController isKindOfClass:[PrimeTimeViewController class]] )
     {
-        [((ProductPageViewController*)[((PrimeTimeViewController*)currentViewController).viewControllers firstObject]) show];
+        [[((PrimeTimeViewController*)currentViewController).viewControllers firstObject] viewDidAppear:NO];
     }
 }
 

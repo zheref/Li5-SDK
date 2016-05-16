@@ -6,7 +6,8 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "Li5ApiHandler.h"
+@import Li5Api;
+
 #import "TeaserViewController.h"
 #import "UnlockedViewController.h"
 #import "VideoViewController.h"
@@ -24,17 +25,17 @@
 
 @synthesize product, previousViewController, nextViewController;
 
-- (id)initWithProduct:(Product *)thisProduct
+- (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
     self = [super init];
     if (self)
     {
-        //DDLogVerbose(@"Initializing DetailsViewController for: %@", thisProduct.title);
+        DDLogVerbose(@"");
         self.product = thisProduct;
-        teaserViewController = [[TeaserViewController alloc] initWithProduct:self.product];
+        teaserViewController = [[TeaserViewController alloc] initWithProduct:self.product andContext:ctx];
         if (self.product.videoURL != nil && self.product.videoURL.length > 0)
         {
-            unlockedViewController = [[UnlockedViewController alloc] initWithProduct:self.product];
+            unlockedViewController = [[UnlockedViewController alloc] initWithProduct:self.product andContext:ctx];
         }
         currentViewController = nil;
     }
@@ -45,25 +46,44 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    DDLogVerbose(@"");
     [self showViewController:teaserViewController];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    DDLogVerbose(@"");
+    
+    [currentViewController viewDidAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    DDLogVerbose(@"");
+    [currentViewController viewDidDisappear:animated];
 }
 
 - (void)hideViewController:(UIViewController<DisplayableProtocol> *)vc
 {
-    [vc hideAndMoveToViewController:nil];
     [vc willMoveToParentViewController:nil];
+    //[vc viewWillDisappear:false];
     [vc.view removeFromSuperview];
+    //[vc viewDidDisappear:false];
     [vc removeFromParentViewController];
+    [vc didMoveToParentViewController:nil];
 }
 
 - (void)showViewController:(UIViewController<DisplayableProtocol> *)vc
 {
+    [vc willMoveToParentViewController:self];
     [self addChildViewController:vc];
     vc.view.frame = self.view.bounds;
+    //[vc viewWillAppear:false];
     [self.view addSubview:vc.view];
+    //[vc viewDidAppear:false];
     [vc didMoveToParentViewController:self];
-    [vc show];
     currentViewController = vc;
 }
 
@@ -102,7 +122,7 @@
     [self showViewController:unlockedViewController];
 }
 
-- (void)handleLockTap:(UIButton *)sender
+- (void)handleLockTap:(UIGestureRecognizer *)recognizer
 {
     DDLogDebug(@"Handling Lock Tap");
 
@@ -114,17 +134,21 @@
 
 - (void)hideAndMoveToViewController:(UIViewController *)viewController
 {
-    [currentViewController hideAndMoveToViewController:viewController];
+    [teaserViewController hideAndMoveToViewController:viewController];
+    if (unlockedViewController)
+    {
+        [unlockedViewController hideAndMoveToViewController:viewController];
+    }
 }
 
-- (void)show
-{
-    [currentViewController show];
-}
+#pragma mark - iOS Actions
 
-- (void)redisplay
+-(void)dealloc
 {
-    [currentViewController redisplay];
+    DDLogDebug(@"no longer needed");
+    teaserViewController = nil;
+    unlockedViewController = nil;
+    currentViewController = nil;
 }
 
 - (void)didReceiveMemoryWarning

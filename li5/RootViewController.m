@@ -6,15 +6,21 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
+@import Li5Api;
+@import FBSDKCoreKit;
+@import FBSDKLoginKit;
+@import AVFoundation;
+
 #import "CategoriesViewController.h"
-#import "Li5ApiHandler.h"
 #import "LoginViewController.h"
 #import "PrimeTimeViewController.h"
 #import "RootViewController.h"
 
 @interface RootViewController ()
+{
+    AVPlayerLayer *loadingLayer;
+    id playEndObserver;
+}
 
 @end
 
@@ -26,25 +32,6 @@
     self = [super init];
     if (self)
     {
-        [self requestUserProfileWithCompletion:^(NSError *profileError, Profile *profile) {
-          //If anything, take the user back to login as default
-          UIViewController *nextViewController = [[LoginViewController alloc] init];
-          if (profileError != nil)
-          {
-              DDLogError(@"Error while requesting Profile %@", profileError.description);
-              //Logging out user - force them to log in again
-              [FBSDKAccessToken setCurrentAccessToken:nil];
-          }
-          else
-          {
-              DDLogInfo(@"Profile requested successfully");
-              BOOL showCategoriesSelection = [profile.preferences.data count] < 2;
-
-              nextViewController = (showCategoriesSelection ? [[CategoriesViewController alloc] initWithNibName:@"CategoriesViewController" bundle:[NSBundle mainBundle]] : [[PrimeTimeViewController alloc] init]);
-          }
-
-          [self.navigationController pushViewController:nextViewController animated:NO];
-        }];
     }
     return self;
 }
@@ -52,46 +39,88 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    DDLogVerbose(@"");
+    
+    NSString *loadingPath = [[NSBundle mainBundle] pathForResource:@"logo_loading" ofType:@"mp4"];
+    AVPlayer *player = [[AVPlayer alloc] initWithURL:[NSURL fileURLWithPath:loadingPath]];
+    loadingLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+    loadingLayer.frame = self.view.bounds;
+    loadingLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    
+    if (!playEndObserver)
+    {
+        __weak typeof(id) welf = self;
+        playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:loadingLayer.player.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
+            [welf replayMovie:note];
+        }];
+    }
+    
+    [self.view.layer addSublayer:loadingLayer];
+    
     // Do any additional setup after loading the view.
-    //DDLogVerbose(@"Loading RootViewController");
-
-    [self.view setBackgroundColor:[UIColor redColor]];
-
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = self.view.center;
-    spinner.tag = 12;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
-}
-
-#pragma mark - App Flow
-
-- (void)requestUserProfileWithCompletion:(void (^)(NSError *error, Profile *profile))completion
-{
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-    [li5 requestProfile:^(NSError *error, Profile *profile) {
-      completion(error, profile);
+    [li5 requestProfile:^(NSError *profileError, Profile *profile) {
+        //If anything, take the user back to login as default
+        UIViewController *nextViewController = [[LoginViewController alloc] init];
+        if (profileError != nil)
+        {
+            DDLogError(@"Error while requesting Profile %@", profileError.description);
+            //Logging out user - force them to log in again
+            [FBSDKAccessToken setCurrentAccessToken:nil];
+            [self.navigationController pushViewController:nextViewController animated:NO];
+        }
+        else
+        {
+            DDLogInfo(@"Profile requested successfully");
+            BOOL showCategoriesSelection = [profile.preferences.data count] < 2;
+            
+            if (showCategoriesSelection)
+            {
+                nextViewController = [[CategoriesViewController alloc] initWithNibName:@"CategoriesViewController" bundle:[NSBundle mainBundle]];
+                [self.navigationController pushViewController:nextViewController animated:NO];
+            }
+            else
+            {
+                PrimeTimeViewControllerDataSource *primeTimeSource = [PrimeTimeViewControllerDataSource new];
+                PrimeTimeViewController *primeTimeVC = [[PrimeTimeViewController alloc] initWithDataSource:primeTimeSource];
+                [primeTimeSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
+                    if (error != nil)
+                    {
+                        DDLogVerbose(@"ERROR %@", error.description);
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^(void) {
+                        [loadingLayer.player pause];
+                        [loadingLayer.player replaceCurrentItemWithPlayerItem:nil];
+                        [loadingLayer removeFromSuperlayer];
+                        loadingLayer = nil;
+                        
+                        [self.navigationController pushViewController:primeTimeVC animated:NO];
+                    });
+                }];
+            }
+        }
+        
+        
     }];
 }
 
-#pragma mark - Pages
-
-- (void)renderError:(NSError *)error
+- (void)viewDidAppear:(BOOL)animated
 {
-    //Stop spinner
-    [[self.view viewWithTag:12] stopAnimating];
+    DDLogVerbose(@"");
+    [loadingLayer.player play];
+}
 
-    NSString *errorMessage = @"There was a problem requesting your query. Please try again in a minute!";
-    UIFont *errorMessageFont = [UIFont fontWithName:@"Avenir" size:14];
-    CGRect errorMessageSize = [errorMessage boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName : errorMessageFont } context:nil];
-    UILabel *errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.view.center.y, errorMessageSize.size.width, errorMessageSize.size.height)];
-    errorLabel.center = self.view.center;
-    [errorLabel setTextColor:[UIColor whiteColor]];
-    [errorLabel setNumberOfLines:0];
-    [errorLabel setFont:errorMessageFont];
-    [errorLabel setText:errorMessage];
-    [errorLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.view addSubview:errorLabel];
+- (void)viewDidDisappear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [loadingLayer.player pause];
+}
+
+- (void)replayMovie:(NSNotification *)notification
+{
+    DDLogVerbose(@"replaying animation");
+    [loadingLayer.player seekToTime:kCMTimeZero];
+    [loadingLayer.player play];
 }
 
 #pragma mark - OS Actions

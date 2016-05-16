@@ -1,0 +1,25 @@
+{
+  "name": "BCVideoPlayer",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "summary": "BCVideoPlayer, a custom Video Player.",
+  "requires_arc": true,
+  "version": "0.1.0",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Gustavo Hansen": "gustavo.hansen@becoders.com"
+  },
+  "homepage": "https://github.com/gustavohansen/BCPlayerView",
+  "source": {
+    "git": "https://github.com/gustavohansen/BCPlayerView.git"
+  },
+  "frameworks": "AVFoundation",
+  "source_files": [
+    "BCVideoPlayer",
+    "BCVideoPlayer/**/*.{h,m,swift}"
+  ]
+}

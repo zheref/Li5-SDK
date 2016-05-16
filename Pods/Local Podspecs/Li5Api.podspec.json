@@ -1,0 +1,34 @@
+{
+  "name": "Li5Api",
+  "version": "0.0.1",
+  "summary": "li5-api-ios is a private API to be used in Li5 apps.",
+  "description": "li5-api-ios is a private API to be used in Li5 apps in order to connect with the internal API.",
+  "homepage": "http://ringcaptcha.com/",
+  "license": {
+    "type": "Apache 2.0",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Leandro Fournier": "leandro.fournier@gmail.com"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source": {
+    "git": "https://github.com/thrivecom/li5-api-ios.git",
+    "tag": "0.0.1"
+  },
+  "source_files": [
+    "Api",
+    "Api/**/*.{h,m}"
+  ],
+  "requires_arc": true,
+  "dependencies": {
+    "SSKeychain": [
+
+    ],
+    "JSONModel": [
+
+    ]
+  }
+}

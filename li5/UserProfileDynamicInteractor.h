@@ -7,11 +7,12 @@
 //
 
 #import "UserProfileViewController.h"
+#import "ProductPageProtocol.h"
 
 @interface UserProfileDynamicInteractor : UIPercentDrivenInteractiveTransition <UserProfileViewControllerPanTargetDelegate>
 
-- (id)initWithParentViewController:(UIViewController *)viewController;
+- (id)initWithParentViewController:(UIViewController<DisplayableProtocol> *)viewController;
 
-@property (nonatomic, readonly) UIViewController *parentViewController;
+@property (nonatomic, readonly, weak) UIViewController<DisplayableProtocol> *parentViewController;
 
 @end

@@ -1,0 +1,6 @@
+framework module Li5Api {
+  umbrella header "Li5Api-umbrella.h"
+
+  export *
+  module * { export * }
+}

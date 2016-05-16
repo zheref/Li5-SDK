@@ -6,6 +6,12 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-@interface PrimeTimeViewController : UIPageViewController <UIPageViewControllerDelegate,UIGestureRecognizerDelegate>
+#import "PrimeTimeViewControllerDataSource.h"
+
+@interface PrimeTimeViewController : UIPageViewController <UIPageViewControllerDelegate>
+
+- (instancetype)initWithDataSource:(PrimeTimeViewControllerDataSource*)source;
+
+- (void)setStartIndex:(NSInteger)idx;
 
 @end

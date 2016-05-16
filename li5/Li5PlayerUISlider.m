@@ -320,6 +320,7 @@
     {
         //DDLogVerbose(@"removing %@ from player %@",timeObserver,[self currentPlayer]);
         [self.player removeTimeObserver:mTimeObserver];
+        [mTimeObserver invalidate];
         mTimeObserver = nil;
     }
 }
@@ -328,6 +329,7 @@
 
 - (void)dealloc
 {
+    DDLogDebug(@"no longer needed");
     [self removePlayerTimeObserver];
 }
 

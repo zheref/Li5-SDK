@@ -6,21 +6,35 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "TeaserViewController.h"
+@import BCVideoPlayer;
+
 #import "ShapesHelper.h"
+#import "TeaserViewController.h"
+#import "ProductPageViewController.h"
+#import "ProductsViewController.h"
+#import "UserProfileDynamicInteractor.h"
+#import "ProductsListDynamicInteractor.h"
 
 #pragma mark - Class Definitions
 
 @interface TeaserViewController ()
 {
+    ProductContext pContext;
     id mTeaserRemainingObserver;
     id playEndObserver;
     CAShapeLayer *progressLayer;
     CATextLayer *timeText;
     NSMutableArray<CALayer *> *removableItems;
+    
+    UIPanGestureRecognizer *profilePanGestureRecognizer;
+    UIPanGestureRecognizer *searchPanGestureRecognizer;
+    UIPanGestureRecognizer *backToSearchPanGestureRecognzier;
+    UILongPressGestureRecognizer *longTapGestureRecognizer;
+    id<UserProfileViewControllerPanTargetDelegate> profileInteractor;
+    id<ProductsViewControllerPanTargetDelegate> searchInteractor;
 }
 
-@property (nonatomic, strong) AVPlayerLayer *teaserPlayer;
+@property (nonatomic, weak) AVPlayerLayer *teaserPlayer;
 
 @end
 
@@ -28,16 +42,16 @@
 
 @synthesize product, previousViewController, nextViewController;
 
-- (id)initWithProduct:(Product *)thisProduct
+- (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
     self = [super init];
     if (self)
     {
         DDLogVerbose(@"Initializing TeaserViewController for: %@", thisProduct.id);
         self.product = thisProduct;
+        pContext = ctx;
+        [self teaserPlayer];
 
-        [self playerLayerForTeaser];
-        
         removableItems = [NSMutableArray<CALayer *> array];
     }
     return self;
@@ -51,7 +65,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     DDLogVerbose(@"Loading TeaserViewController for: %@", self.product.id);
 
-    [self.view setBackgroundColor:[UIColor greenColor]];
+    [self.view setBackgroundColor:[UIColor colorWithRed:(255/255.0) green:(20/255.0) blue:(147/255.0) alpha:1]];
 
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = self.view.center;
@@ -59,42 +73,60 @@
     [self.view addSubview:spinner];
     [spinner startAnimating];
 
-    if (product.videoURL != nil && ![product.videoURL isEqualToString:@""])
-    {
-        UILongPressGestureRecognizer *longTapGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongTap:)];
-        longTapGestureRecognizer.minimumPressDuration = 1.0f;
-        longTapGestureRecognizer.allowableMovement = 100.0f;
-
-        [self.view addGestureRecognizer:longTapGestureRecognizer];
-    }
+    [self setupGestureRecognizers];
 
     [self.view.layer addSublayer:self.teaserPlayer];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    DDLogDebug(@"");
+    [super viewDidDisappear:animated];
+    
+    [((BCPlayer*)self.teaserPlayer.player) pause];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    DDLogDebug(@"");
+    [super viewDidAppear:animated];
+    
+    [self show];
+}
+
 #pragma mark - Players
 
-- (AVPlayerLayer *)playerLayerForTeaser
+- (AVPlayerLayer *)teaserPlayer
 {
-    if (self.teaserPlayer == nil)
+    if (_teaserPlayer == nil)
     {
         NSURL *playerUrl = [NSURL URLWithString:self.product.trailerURL];
         DDLogVerbose(@"Creating Teaser Video Player Layer for: %@", [playerUrl lastPathComponent]);
-        Li5Player *player = [[Li5Player alloc] initWithItemAtURL:playerUrl];
-        player.delegate = self;
+        BCPlayer *player = [[BCPlayer alloc] initWithPlayListUrl:playerUrl bufferInSeconds:20.0 priority:BCPriorityHigth delegate:self];
+        //AVPlayer *player = [[AVPlayer alloc] initWithURL:playerUrl];
 
-        self.teaserPlayer = [AVPlayerLayer playerLayerWithPlayer:player];
-        //[self.teaserPlayer addObserver:self forKeyPath:@"readyForDisplay" options:NSKeyValueObservingOptionNew context:nil];
-        self.teaserPlayer.frame = self.view.bounds;
-        self.teaserPlayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        _teaserPlayer = [AVPlayerLayer playerLayerWithPlayer:player];
+        _teaserPlayer.frame = self.view.bounds;
+        _teaserPlayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     }
 
-    return self.teaserPlayer;
+    return _teaserPlayer;
 }
 
 - (void)replayMovie:(NSNotification *)notification
 {
     DDLogVerbose(@"replaying video");
     [self redisplay];
+}
+
+- (void)readyToPlay
+{
+    DDLogDebug(@"Ready to play trailer for: %lu", (unsigned long)[((ProductPageViewController*)self.parentViewController.parentViewController) index]);
+    
+    //Stop spinner
+    [[self.view viewWithTag:19] stopAnimating];
+    
+    [self show];
 }
 
 #pragma mark - Displayable Protocol
@@ -111,34 +143,78 @@
       }
     }];
 
-    [self.teaserPlayer.player pause];
-    if (playEndObserver)
-    {
-        [[NSNotificationCenter defaultCenter] removeObserver:playEndObserver];
-        playEndObserver = nil;
-    }
+    [((BCPlayer*)self.teaserPlayer.player) pauseAndDestroy];
+    
+    [self prepareForRemoval];
 }
 
 - (void)show
 {
-    if (self.teaserPlayer.player.status == AVPlayerStatusReadyToPlay &&
-        self.parentViewController.parentViewController !=nil && //is contained within a ProductPageViewController
-        self.parentViewController.parentViewController == [((UIPageViewController*)self.parentViewController.parentViewController.parentViewController).viewControllers firstObject] &&
-        self.parentViewController == [((UIPageViewController*)self.parentViewController.parentViewController).viewControllers firstObject]) //ProductPageViewController is currently being viewed at PrimeTime
+    if (
+        self.teaserPlayer.player.status == AVPlayerStatusReadyToPlay //Player is ready to Play
+        && self.parentViewController.parentViewController != nil //Teaser is contained within a ProductPageViewController
+        && self.parentViewController.parentViewController == [((UIPageViewController *)self.parentViewController.parentViewController.parentViewController).viewControllers firstObject] //ProductPageViewController is currently being viewed at PrimeTime
+        && self.parentViewController == [((ProductPageViewController *)self.parentViewController.parentViewController) currentViewController] //Video is being watched
+        )
     {
         DDLogVerbose(@"Show %@.", [[(AVURLAsset *)self.teaserPlayer.player.currentItem.asset URL] lastPathComponent]);
+        
         [self.teaserPlayer.player play];
+        
+        [self renderAnimations];
+        [self setupObservers];
     }
-
 }
 
 - (void)redisplay
 {
     [self.teaserPlayer.player seekToTime:kCMTimeZero];
-    //[self.teaserPlayer.player play];
+    [self.teaserPlayer.player play];
+}
+
+- (void)prepareForRemoval
+{
+    if (playEndObserver)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:playEndObserver];
+        playEndObserver = nil;
+    }
+    if (mTeaserRemainingObserver)
+    {
+        [_teaserPlayer.player removeTimeObserver:mTeaserRemainingObserver];
+        [mTeaserRemainingObserver invalidate];
+        mTeaserRemainingObserver = nil;
+    }
+}
+
+- (void)setupObservers
+{
+    if (!mTeaserRemainingObserver)
+    {
+        __weak typeof(self) weakSelf = self;
+        mTeaserRemainingObserver = [self.teaserPlayer.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, NSEC_PER_SEC)
+                                                                                          queue:NULL /* If you pass NULL, the main queue is used. */
+                                                                                     usingBlock:^(CMTime time) {
+                                                                                         [weakSelf updateProgressTimerWithSecondsPlayed:CMTimeGetSeconds(time)];
+                                                                                     }];
+    }
+    
+    if (!playEndObserver)
+    {
+        __weak typeof(id) welf = self;
+        playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.teaserPlayer.player.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
+            [welf replayMovie:note];
+        }];
+    }
 }
 
 #pragma mark - User Actions
+
+- (void)userDidPan:(UIPanGestureRecognizer*)gestureRecognizer
+{
+    [((BCPlayer*)self.teaserPlayer.player) pause];
+    [searchInteractor userDidPan:gestureRecognizer];
+}
 
 - (void)handleLongTap:(UITapGestureRecognizer *)sender
 {
@@ -206,66 +282,110 @@
 - (void)loveProduct:(UIButton *)button
 {
     DDLogVerbose(@"Love Button Pressed");
+    __weak typeof(self) welf = self;
     if (button.selected)
     {
+        welf.product.is_loved = false;
         [button setSelected:false];
         [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
           if (error != nil)
           {
+              welf.product.is_loved = true;
               [button setSelected:true];
           }
         }];
     }
     else
     {
+        welf.product.is_loved = true;
         [button setSelected:true];
         [[Li5ApiHandler sharedInstance] postLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
           if (error != nil)
           {
+              welf.product.is_loved = false;
               [button setSelected:false];
           }
         }];
     }
 }
 
-#pragma mark - Li5PlayerDelegate
-
-- (void)li5Player:(Li5Player *)li5Player changedStatusForPlayerItem:(AVPlayerItem *)playerItem withStatus:(AVPlayerItemStatus)status
+- (void)goBackToSearch:(UIPanGestureRecognizer *)recognizer
 {
-    if (status == AVPlayerStatusReadyToPlay)
-    {
-        DDLogVerbose(@"Ready to play for: %@", [[(AVURLAsset *)self.teaserPlayer.player.currentItem.asset URL] lastPathComponent]);
-
-        //Stop spinner
-        [[self.view viewWithTag:19] stopAnimating];
-
-        if (!mTeaserRemainingObserver)
-        {
-            __weak typeof(self) weakSelf = self;
-            mTeaserRemainingObserver = [self.teaserPlayer.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, NSEC_PER_SEC)
-                                                                                                      queue:NULL /* If you pass NULL, the main queue is used. */
-                                                                                                 usingBlock:^(CMTime time) {
-                                                                                                   [weakSelf updateProgressTimerWithSecondsPlayed:CMTimeGetSeconds(time)];
-                                                                                                 }];
-        }
-        
-        if (!playEndObserver)
-        {
-            __weak typeof(id) welf = self;
-            playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.teaserPlayer.player.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
-                [welf replayMovie:note];
-            }];
-        }
-        
-        [self renderAnimations];
-
-        [self show];
-    }
+    [self hideAndMoveToViewController:nil];
+    [searchInteractor userDidPan:nil];
 }
 
-- (void)li5Player:(Li5Player *)li5Player updatedLoadedSecondsForPlayerItem:(AVPlayerItem *)playerItem withSeconds:(CGFloat)seconds
+#pragma mark - Gesture Recognizers
+
+- (void)setupGestureRecognizers
 {
-    //DDLogVerbose(@"%@ Loaded %f seconds of %f", [[(AVURLAsset *)playerItem.asset URL] lastPathComponent], seconds, CMTimeGetSeconds(playerItem.duration));
+    //Unlock Video Long Tap Gesture Recognizer - Tap & Hold
+    if (product.videoURL != nil && ![product.videoURL isEqualToString:@""])
+    {
+        longTapGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongTap:)];
+        longTapGestureRecognizer.minimumPressDuration = 1.0f;
+        longTapGestureRecognizer.allowableMovement = 100.0f;
+        
+        [self.view addGestureRecognizer:longTapGestureRecognizer];
+    }
+    
+    //User Profile Gesture Recognizer - Swipe Down from 0-100px
+    profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
+    profilePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:profileInteractor action:@selector(userDidPan:)];
+    [profilePanGestureRecognizer setDelegate:self];
+    [self.view addGestureRecognizer:profilePanGestureRecognizer];
+    
+    searchInteractor = [[ProductsListDynamicInteractor alloc] initWithParentViewController:self];
+    if (pContext != kProductContextSearch)
+    {
+        //Search Products Gesture Recognizer - Swipe Down from below 100px
+        searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userDidPan:)];
+        [searchPanGestureRecognizer setDelegate:self];
+        [self.view addGestureRecognizer:searchPanGestureRecognizer];
+    }
+    else
+    {
+        backToSearchPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(goBackToSearch:)];
+        backToSearchPanGestureRecognzier.delegate = self;
+        [self.view addGestureRecognizer:backToSearchPanGestureRecognzier];
+    }
+    
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return NO;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    CGPoint touch = [gestureRecognizer locationInView:gestureRecognizer.view];
+    if (gestureRecognizer == profilePanGestureRecognizer)
+    {
+        CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
+        return (touch.y < 150) && (velocity.y > 0);
+    }
+    else if (gestureRecognizer == searchPanGestureRecognizer || gestureRecognizer == backToSearchPanGestureRecognzier)
+    {
+        CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
+        double degree = atan(velocity.y/velocity.x) * 180 / M_PI;
+        return (touch.y >= 150) && (fabs(degree) > 20.0) && (velocity.y > 0);
+    }
+    return false;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+    shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if ([[gestureRecognizer view] isKindOfClass:[UIScrollView class]])
+    {
+        if (otherGestureRecognizer == profilePanGestureRecognizer || otherGestureRecognizer == searchPanGestureRecognizer)
+        {
+            return YES;
+        }
+    }
+    return (gestureRecognizer == profilePanGestureRecognizer &&
+            (otherGestureRecognizer == searchPanGestureRecognizer || otherGestureRecognizer == backToSearchPanGestureRecognzier));
 }
 
 #pragma mark - Animations
@@ -288,57 +408,8 @@
 {
     [self removeAnimations];
     DDLogVerbose(@"rendering animations");
-    UIFont *categoryFont = [UIFont fontWithName:@"Avenir-Black" size:15.0];
-    NSString *category = self.product.categoryName;
-    CGRect categorySize = [category boundingRectWithSize:CGSizeMake(self.view.bounds.size.width, 20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName : categoryFont } context:nil];
-
-    CAShapeLayer *categoryLayer = [CAShapeLayer layer];
-    UIBezierPath *hexagonPath = [ShapesHelper hexagonWithWidth:categorySize.size.width andHeight:categorySize.size.height + 24];
-    hexagonPath.lineJoinStyle = kCGLineJoinRound;
-    hexagonPath.lineCapStyle = kCGLineCapRound;
-    [categoryLayer setPath:[hexagonPath CGPath]];
-    [categoryLayer setFrame:CGRectMake(25, 17, hexagonPath.bounds.size.width, hexagonPath.bounds.size.height)];
-    [categoryLayer setFillColor:[[UIColor blackColor] CGColor]];
-    [categoryLayer setLineCap:kCALineCapRound];
-    [categoryLayer setLineJoin:kCALineJoinRound];
-
-    CATextLayer *categoryText = [CATextLayer layer];
-    categoryText.frame = CGRectMake(0, 12, hexagonPath.bounds.size.width, hexagonPath.bounds.size.height);
-    categoryText.string = category;
-    categoryText.font = (__bridge CFTypeRef)categoryFont;
-    categoryText.fontSize = 15.0;
-    categoryText.foregroundColor = (__bridge CGColorRef)([UIColor whiteColor]);
-    categoryText.alignmentMode = kCAAlignmentCenter;
-    categoryText.contentsGravity = kCAGravityCenter;
-    categoryText.contentsScale = [UIScreen mainScreen].scale;
-
-    CAShapeLayer *lineLayer = [CAShapeLayer layer];
-    [lineLayer setPath:[[ShapesHelper rectangleWithWidth:15 andHeight:2] CGPath]];
-    [lineLayer setFillColor:[[UIColor blackColor] CGColor]];
-    [lineLayer setPosition:CGPointMake(0, categoryLayer.position.y)];
-
-    CABasicAnimation *extendToRight = [CABasicAnimation animationWithKeyPath:@"path"];
-    extendToRight.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    extendToRight.fromValue = (__bridge id _Nullable)([[ShapesHelper rectangleWithWidth:15 andHeight:2] CGPath]);
-    extendToRight.toValue = (__bridge id _Nullable)([[ShapesHelper rectangleWithWidth:self.view.frame.size.width andHeight:2] CGPath]);
-    extendToRight.duration = 1.0f;
-    extendToRight.delegate = self;
-    [lineLayer addAnimation:extendToRight forKey:@"extendToRight"];
-
-    CABasicAnimation *extendToLeft = [CABasicAnimation animationWithKeyPath:@"path"];
-    extendToLeft.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    extendToLeft.fromValue = (__bridge id _Nullable)([[ShapesHelper rectangleWithWidth:self.view.frame.size.width andHeight:2] CGPath]);
-    extendToLeft.toValue = (__bridge id _Nullable)([[ShapesHelper rectangleWithWidth:15 andHeight:2] CGPath]);
-    extendToLeft.duration = 1.0f;
-    extendToLeft.beginTime = CACurrentMediaTime() + 1.0;
-    [lineLayer addAnimation:extendToLeft forKey:@"extendToLeft"];
-
-    [self.view.layer addSublayer:lineLayer];
-    [self.view.layer addSublayer:categoryLayer];
-    [categoryLayer addSublayer:categoryText];
-
-    [removableItems addObject:lineLayer];
-    [removableItems addObject:categoryLayer];
+    
+    [self renderCategory];
 
     UIButton *loveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [loveBtn setImage:[UIImage imageNamed:@"Love"] forState:UIControlStateNormal];
@@ -346,6 +417,7 @@
     [loveBtn setImage:[UIImage imageNamed:@"LoveSelected"] forState:UIControlStateSelected];
     [loveBtn setFrame:CGRectMake(self.view.frame.size.width - 50, self.view.frame.size.height - 180, 30, 30)];
     [loveBtn addTarget:self action:@selector(loveProduct:) forControlEvents:UIControlEventTouchUpInside];
+    [loveBtn setSelected:self.product.is_loved];
     [self.view addSubview:loveBtn];
 
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -397,6 +469,69 @@
     moveUpAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 10)];
 
     [readMore addAnimation:moveUpAnimation forKey:@"position"];
+}
+
+//- (void)renderBackButton
+//{
+//    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [backBtn setTitle:@"<" forState:UIControlStateNormal];
+//    [backBtn setFrame:CGRectMake(10, 10, 30, 30)];
+//    [backBtn addTarget:self action:@selector(goBackToSearch:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:backBtn];
+//}
+
+- (void)renderCategory
+{
+    UIFont *categoryFont = [UIFont fontWithName:@"Avenir-Black" size:15.0];
+    NSString *category = self.product.categoryName;
+    CGRect categorySize = [category boundingRectWithSize:CGSizeMake(self.view.bounds.size.width, 20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName : categoryFont } context:nil];
+    
+    CAShapeLayer *categoryLayer = [CAShapeLayer layer];
+    UIBezierPath *hexagonPath = [ShapesHelper hexagonWithWidth:categorySize.size.width andHeight:categorySize.size.height + 24];
+    hexagonPath.lineJoinStyle = kCGLineJoinRound;
+    hexagonPath.lineCapStyle = kCGLineCapRound;
+    [categoryLayer setPath:[hexagonPath CGPath]];
+    [categoryLayer setFrame:CGRectMake(25, 17, hexagonPath.bounds.size.width, hexagonPath.bounds.size.height)];
+    [categoryLayer setFillColor:[[UIColor blackColor] CGColor]];
+    [categoryLayer setLineCap:kCALineCapRound];
+    [categoryLayer setLineJoin:kCALineJoinRound];
+    
+    CATextLayer *categoryText = [CATextLayer layer];
+    categoryText.frame = CGRectMake(0, 12, hexagonPath.bounds.size.width, hexagonPath.bounds.size.height);
+    categoryText.string = category;
+    categoryText.font = (__bridge CFTypeRef)categoryFont;
+    categoryText.fontSize = 15.0;
+    categoryText.foregroundColor = (__bridge CGColorRef)([UIColor whiteColor]);
+    categoryText.alignmentMode = kCAAlignmentCenter;
+    categoryText.contentsGravity = kCAGravityCenter;
+    categoryText.contentsScale = [UIScreen mainScreen].scale;
+    
+    CAShapeLayer *lineLayer = [CAShapeLayer layer];
+    [lineLayer setPath:[[ShapesHelper rectangleWithWidth:15 andHeight:2] CGPath]];
+    [lineLayer setFillColor:[[UIColor blackColor] CGColor]];
+    [lineLayer setPosition:CGPointMake(0, categoryLayer.position.y)];
+    
+    CABasicAnimation *extendToRight = [CABasicAnimation animationWithKeyPath:@"path"];
+    extendToRight.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    extendToRight.fromValue = (__bridge id _Nullable)([[ShapesHelper rectangleWithWidth:15 andHeight:2] CGPath]);
+    extendToRight.toValue = (__bridge id _Nullable)([[ShapesHelper rectangleWithWidth:self.view.frame.size.width andHeight:2] CGPath]);
+    extendToRight.duration = 1.0f;
+    [lineLayer addAnimation:extendToRight forKey:@"extendToRight"];
+    
+    CABasicAnimation *extendToLeft = [CABasicAnimation animationWithKeyPath:@"path"];
+    extendToLeft.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    extendToLeft.fromValue = (__bridge id _Nullable)([[ShapesHelper rectangleWithWidth:self.view.frame.size.width andHeight:2] CGPath]);
+    extendToLeft.toValue = (__bridge id _Nullable)([[ShapesHelper rectangleWithWidth:15 andHeight:2] CGPath]);
+    extendToLeft.duration = 1.0f;
+    extendToLeft.beginTime = CACurrentMediaTime() + 1.0;
+    [lineLayer addAnimation:extendToLeft forKey:@"extendToLeft"];
+    
+    [self.view.layer addSublayer:lineLayer];
+    [self.view.layer addSublayer:categoryLayer];
+    [categoryLayer addSublayer:categoryText];
+    
+    [removableItems addObject:lineLayer];
+    [removableItems addObject:categoryLayer];
 }
 
 - (void)updateProgressTimerWithSecondsPlayed:(CGFloat)timePlayed
@@ -472,21 +607,9 @@
 
 - (void)dealloc
 {
-    if (playEndObserver)
-    {
-        [[NSNotificationCenter defaultCenter] removeObserver:playEndObserver];
-        playEndObserver = nil;
-    }
-    if (mTeaserRemainingObserver)
-    {
-        [self.teaserPlayer.player removeTimeObserver:mTeaserRemainingObserver];
-        mTeaserRemainingObserver = nil;
-    }
-    if (self.teaserPlayer != nil)
-    {
-        //[self.teaserPlayer removeObserver:self forKeyPath:@"readyForDisplay"];
-        self.teaserPlayer = nil;
-    }
+    DDLogDebug(@"");
+    [self prepareForRemoval];
+    _teaserPlayer = nil;
 }
 
 @end

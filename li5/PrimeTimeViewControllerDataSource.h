@@ -12,7 +12,7 @@
 
 - (void)startFetchingProductsInBackgroundWithCompletion:(void (^)(NSError *error))completion;
 - (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index;
-- (NSUInteger)numberOfLoadedProductPages;
+
 - (NSUInteger)numberOfProducts;
 
 @end

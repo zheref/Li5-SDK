@@ -25,6 +25,20 @@ platform :ios do
     
   end
 
+  desc "Installs XCode plugin to disable fix it!"
+  lane :xcode do
+    install_xcode_plugin(
+      url: "https://github.com/fastlane/FixCode/releases/download/0.5.0/FixCode.xcplugin.zip"
+    )
+  end
+
+  desc "Installs all required provisionin profiles and certificates"
+  lane :match do
+    match(app_identifier: "com.thrivecom.li5.buy", type:"development")
+    match(app_identifier: "com.thrivecom.li5.buy.dev", type:"development")
+    match(app_identifier: "com.thrivecom.li5.buy.test", type:"development")
+  end
+
   desc "Runs all the tests"
   lane :test do
     scan(
@@ -40,16 +54,29 @@ platform :ios do
 
     increment_build_number # version bump
 
-    gym(
-      scheme: "li5-Test"
-    ) # Build your app - more options available
-
-    produce(
-      app_version: '0.1'
+    match(
+      app_identifier: "com.thrivecom.li5.buy.test", 
+      type:"development"
     )
 
-    pilot(
-      skip_submission: true
+    gym(
+      scheme: "li5-Test",
+      use_legacy_build_api: true
+    ) # Build your app - more options available
+
+    #produce(
+    #  app_version: '0.1'
+    #)
+
+    #pilot(
+    #  skip_submission: true
+    #)
+    crashlytics(
+      crashlytics_path: "./Pods/Crashlytics",
+      api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
+      build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
+      groups: [“internal”],
+      notifications: true
     )
 
     # sh "your_script.sh"

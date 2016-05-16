@@ -6,14 +6,19 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "Li5ApiHandler.h"
+@import Li5Api;
+
+typedef NS_ENUM(NSUInteger, ProductContext) {
+    kProductContextDiscover=0,
+    kProductContextSearch=1
+};
 
 @protocol LinkedViewControllerProtocol <NSObject>
 
 @required
 
-@property (nonatomic, strong) UIViewController *previousViewController;
-@property (nonatomic, strong) UIViewController *nextViewController;
+@property (nonatomic, weak) UIViewController *previousViewController;
+@property (nonatomic, weak) UIViewController *nextViewController;
 
 @end
 
@@ -24,11 +29,9 @@
 @property (nonatomic, strong) Product *product;
 
 - (void)hideAndMoveToViewController:(UIViewController *)viewController;
-- (void)show;
-- (void)redisplay;
 
 @optional
 
-- (id)initWithProduct:(Product *)thisProduct;
+- (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext) ctx;
 
 @end

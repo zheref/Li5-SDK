@@ -6,7 +6,8 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "Li5ApiHandler.h"
+@import Li5Api;
+
 #import "LoginViewController.h"
 #import "RootViewController.h"
 
@@ -70,37 +71,6 @@
     [self.view addSubview:loginButton];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)enterAction:(UITapGestureRecognizer *)gestureRecognizer
-{
-    //DDLogVerbose(@"Login Button tapped");
-
-    //Extend to frame bounds
-    [UIView animateWithDuration:0.5 animations:^{
-      [((UIButton *)gestureRecognizer.view) setTitle:@"" forState:UIControlStateNormal];
-      gestureRecognizer.view.frame = CGRectMake(-5, -5, self.view.frame.size.width + 10, self.view.frame.size.height + 10);
-    }
-        completion:^(BOOL finished) {
-          RootViewController *rootViewController = [[RootViewController alloc] init];
-          [self.navigationController pushViewController:rootViewController animated:NO];
-        }];
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 #pragma mark - FBSDKLoginButtonDelegate
 
 - (void)loginButton:(FBSDKLoginButton *)loginButton didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error
@@ -148,5 +118,13 @@
 //- (BOOL)loginButtonWillLogin:(FBSDKLoginButton *)loginButton {
 //
 //}
+
+#pragma mark - OS Actions
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 @end

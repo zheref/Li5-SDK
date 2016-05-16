@@ -6,8 +6,8 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
+@import FBSDKCoreKit;
+@import FBSDKLoginKit;
 
 @interface LoginViewController : UIViewController <FBSDKLoginButtonDelegate>
 

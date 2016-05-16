@@ -32,8 +32,8 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BB4AAD51C4D60B9002C22C8"
-               BuildableName = "li5.xctest"
+               BlueprintIdentifier = "5B13D3091CDEA0070015ECFC"
+               BuildableName = "li5Tests.xctest"
                BlueprintName = "li5Tests"
                ReferencedContainer = "container:li5.xcodeproj">
             </BuildableReference>
@@ -42,8 +42,8 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BB4AAE01C4D60B9002C22C8"
-               BuildableName = "li5.xctest"
+               BlueprintIdentifier = "5B13D3171CDEA0400015ECFC"
+               BuildableName = "li5UITests.xctest"
                BlueprintName = "li5UITests"
                ReferencedContainer = "container:li5.xcodeproj">
             </BuildableReference>

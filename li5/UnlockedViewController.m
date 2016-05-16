@@ -6,24 +6,32 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "Li5Player.h"
+@import Li5Api;
+
 #import "Li5PlayerUISlider.h"
 #import "PrimeTimeViewController.h"
 #import "UnlockedViewController.h"
-
-@import AVFoundation;
+#import "ProductPageViewController.h"
 
 @interface UnlockedViewController ()
 {
     id mFullVideoRemainingObserver;
+    NSTimer *hideControlsTimer;
 
-    UIPanGestureRecognizer *_scrollViewPanGestureRecognzier;
-    UIScrollView *_scrollView;
+    UIPanGestureRecognizer *_lockPanGestureRecognzier;
+    UIPanGestureRecognizer *_scrubberPanGestureRecognzier;
+    
+    Li5PlayerUISlider *seekSlider;
+    UILabel *timeLabel;
+    UIButton *loveBtn;
+    UIButton *shareBtn;
+    
+    BOOL controlsDisplayed;
 }
 
-@property (nonatomic, strong) AVPlayerLayer *extendedVideo;
-@property (nonatomic, strong) Li5PlayerUISlider *seekSlider;
-@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, weak) AVPlayerLayer *extendedVideo;
+
+- (void)removeAnimations;
 
 @end
 
@@ -31,13 +39,15 @@
 
 @synthesize product;
 
-- (id)initWithProduct:(Product *)thisProduct
+- (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
     self = [super init];
     if (self)
     {
         self.product = thisProduct;
-        [self playerLayerForExtendedVideo];
+        [self extendedVideo];
+        
+        controlsDisplayed = NO;
     }
     return self;
 }
@@ -52,134 +62,156 @@
 
     [self.view.layer addSublayer:self.extendedVideo];
 
-    UIButton *lockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [lockBtn setFrame:CGRectMake(20, 20, 30, 30)];
-    [lockBtn setImage:[UIImage imageNamed:@"Close"] forState:UIControlStateNormal];
-    [lockBtn setImage:[UIImage imageNamed:@"CloseSelected"] forState:UIControlStateHighlighted];
-    [lockBtn addTarget:self action:@selector(handleLockTap:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:lockBtn];
+    [self setupGestureRecognizers];
+    
+    [self renderAnimations];
+}
 
-    UITapGestureRecognizer *simpleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePauseTap:)];
-    [self.view addGestureRecognizer:simpleTapGestureRecognizer];
+- (void)viewDidDisappear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewDidDisappear:animated];
+    
+    [((BCPlayer*)self.extendedVideo.player) pause];
+}
 
-    _scrollViewPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleSliderSwipe:)];
-    _scrollViewPanGestureRecognzier.delegate = self;
+- (void)viewDidAppear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewDidAppear:animated];
+    
+    [self show];
 }
 
 - (void)renderAnimations
 {
     DDLogVerbose(@"rendering animations for unlocked video");
-    if (!self.seekSlider)
+    if (!seekSlider)
     {
-        self.seekSlider = [[Li5PlayerUISlider alloc] initWithFrame:CGRectMake(60, 30, self.view.frame.size.width - 100, 10)];
+        seekSlider = [[Li5PlayerUISlider alloc] initWithFrame:CGRectMake(10, 30, self.view.frame.size.width - 60, 10)];
     }
-    [self.view addSubview:self.seekSlider];
-
-    if (!self.timeLabel)
+    
+    if (!timeLabel)
     {
-        self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40, 20, 40, 30)];
-        [self.timeLabel setTextColor:[UIColor whiteColor]];
+        timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40, 20, 40, 30)];
+        [timeLabel setTextColor:[UIColor whiteColor]];
     }
-    [self.view addSubview:self.timeLabel];
+    
+    if (!loveBtn)
+    {
+        loveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [loveBtn setImage:[UIImage imageNamed:@"Love"] forState:UIControlStateNormal];
+        [loveBtn setImage:[UIImage imageNamed:@"LoveSelected"] forState:UIControlStateHighlighted];
+        [loveBtn setImage:[UIImage imageNamed:@"LoveSelected"] forState:UIControlStateSelected];
+        [loveBtn setFrame:CGRectMake(self.view.frame.size.width - 50, self.view.frame.size.height - 180, 30, 30)];
+        [loveBtn addTarget:self action:@selector(loveProduct:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    if (!shareBtn)
+    {
+        shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [shareBtn setImage:[UIImage imageNamed:@"Share"] forState:UIControlStateNormal];
+        [shareBtn setImage:[UIImage imageNamed:@"ShareSelected"] forState:UIControlStateHighlighted];
+        [shareBtn setFrame:CGRectMake(self.view.frame.size.width - 50, self.view.frame.size.height - 130, 30, 30)];
+        [shareBtn addTarget:self action:@selector(shareProduct:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    if (!controlsDisplayed)
+    {
+        [loveBtn setSelected:self.product.is_loved];
+        
+        [self.view addSubview:seekSlider];
+        [self.view addSubview:timeLabel];
+        [self.view addSubview:loveBtn];
+        [self.view addSubview:shareBtn];
+        
+        controlsDisplayed = YES;
+    }
+}
 
-    UIButton *loveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [loveBtn setImage:[UIImage imageNamed:@"Love"] forState:UIControlStateNormal];
-    [loveBtn setImage:[UIImage imageNamed:@"LoveSelected"] forState:UIControlStateHighlighted];
-    [loveBtn setImage:[UIImage imageNamed:@"LoveSelected"] forState:UIControlStateSelected];
-    [loveBtn setFrame:CGRectMake(self.view.frame.size.width - 50, self.view.frame.size.height - 180, 30, 30)];
-    [loveBtn addTarget:self action:@selector(loveProduct:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:loveBtn];
-
-    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shareBtn setImage:[UIImage imageNamed:@"Share"] forState:UIControlStateNormal];
-    [shareBtn setImage:[UIImage imageNamed:@"ShareSelected"] forState:UIControlStateHighlighted];
-    [shareBtn setFrame:CGRectMake(self.view.frame.size.width - 50, self.view.frame.size.height - 130, 30, 30)];
-    [shareBtn addTarget:self action:@selector(shareProduct:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:shareBtn];
+- (void)removeAnimations
+{
+    DDLogDebug(@"");
+    [seekSlider removeFromSuperview];
+    [timeLabel removeFromSuperview];
+    [loveBtn removeFromSuperview];
+    [shareBtn removeFromSuperview];
+    
+    [self.view setNeedsDisplay];
+    controlsDisplayed = NO;
+    
+    if (hideControlsTimer)
+    {
+        [hideControlsTimer invalidate];
+        hideControlsTimer = nil;
+    }
 }
 
 #pragma mark - Player
 
-- (AVPlayerLayer *)playerLayerForExtendedVideo
+- (AVPlayerLayer *)extendedVideo
 {
-    if (self.extendedVideo == nil)
+    if (_extendedVideo == nil)
     {
         NSURL *videoUrl = [NSURL URLWithString:self.product.videoURL];
         DDLogVerbose(@"Creating Full Video Player Layer for: %@", [videoUrl lastPathComponent]);
-        Li5Player *player = [[Li5Player alloc] initWithItemAtURL:videoUrl];
-        player.delegate = self;
+        BCPlayer *player = [[BCPlayer alloc] initWithPlayListUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityNormal delegate:self];
 
-        self.extendedVideo = [AVPlayerLayer playerLayerWithPlayer:player];
-        //[self.extendedVideo addObserver:self forKeyPath:@"readyForDisplay" options:NSKeyValueObservingOptionNew context:nil];
-        self.extendedVideo.frame = self.view.bounds;
-        self.extendedVideo.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        _extendedVideo = [AVPlayerLayer playerLayerWithPlayer:player];
+        _extendedVideo.frame = self.view.bounds;
+        _extendedVideo.videoGravity = AVLayerVideoGravityResizeAspectFill;
     }
 
-    return self.extendedVideo;
+    return _extendedVideo;
 }
 
-#pragma mark - Player Delegate
-
-- (void)li5Player:(Li5Player *)li5Player changedStatusForPlayerItem:(AVPlayerItem *)playerItem withStatus:(AVPlayerItemStatus)status
+- (void)readyToPlay
 {
-    if (status == AVPlayerStatusReadyToPlay)
-    {
-        DDLogVerbose(@"Ready to play for: %@ at %@", self.product.title, [(AVURLAsset *)li5Player.currentItem.asset URL]);
-
-        if (!mFullVideoRemainingObserver)
-        {
-            __weak typeof(self) weakSelf = self;
-            mFullVideoRemainingObserver = [self.extendedVideo.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, NSEC_PER_SEC)
-                                                                                                  queue:NULL /* If you pass NULL, the main queue is used. */
-                                                                                             usingBlock:^(CMTime time) {
-                                                                                               [weakSelf updatedTimerWithSecondsRemaining:CMTimeGetSeconds(time)];
-                                                                                             }];
-        }
-
-        [self renderAnimations];
-        [self.seekSlider setPlayer:self.extendedVideo.player];
-        [self show];
-    }
-}
-
-- (void)li5Player:(Li5Player *)li5Player updatedLoadedSecondsForPlayerItem:(AVPlayerItem *)playerItem withSeconds:(CGFloat)seconds
-{
-    //DDLogVerbose(@"%@ at %@ ---> Loaded %f seconds of %f", [[(AVURLAsset *)playerItem.asset URL] lastPathComponent], [(AVURLAsset *)playerItem.asset URL], seconds, CMTimeGetSeconds(playerItem.duration));
+    DDLogDebug(@"Ready to play extended for: %lu", (unsigned long)[((ProductPageViewController*)self.parentViewController.parentViewController) index]);
+    
+    [self show];
 }
 
 #pragma mark - User Actions
 
-- (void)handleLockTap:(UIButton *)sender
+- (void)handleLockTap:(UIGestureRecognizer *)recognizer
 {
-    [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:sender waitUntilDone:NO];
+    [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:recognizer waitUntilDone:NO];
 }
 
-- (void)handlePauseTap:(UIGestureRecognizer *)sender
+- (void)handleSimpleTap:(UIGestureRecognizer *)sender
 {
-    DDLogVerbose(@"Playing/Pausing player");
-    CGPoint locationInView = [sender locationInView:self.view];
-    if (locationInView.y >= 100)
+    DDLogVerbose(@"");
+    if (sender.state == UIGestureRecognizerStateEnded)
     {
-        if (sender.state == UIGestureRecognizerStateEnded)
+        if (!controlsDisplayed)
         {
-            if (self.extendedVideo.player.rate > 0 && self.extendedVideo.player.error == nil)
+            [self renderAnimations];
+            [self setupObservers];
+        }
+        else
+        {
+            CGPoint locationInView = [sender locationInView:self.view];
+            if (locationInView.y >= 100)
             {
-                [self.extendedVideo.player pause];
-            }
-            else
-            {
-                [self.extendedVideo.player play];
+                [self removeAnimations];
             }
         }
     }
 }
 
-- (void)handleSliderSwipe:(UIGestureRecognizer*)sender
+- (void)handleSliderSwipe:(UIGestureRecognizer *)sender
 {
-    if (sender.state == UIGestureRecognizerStateEnded)
+    if (sender.state == UIGestureRecognizerStateBegan)
     {
-        [self.seekSlider sliderGestureRecognized:sender];
+        [self removeObservers];
     }
+    else if (sender.state == UIGestureRecognizerStateEnded)
+    {
+        [self setupObservers];
+    }
+    
+    [seekSlider sliderGestureRecognized:sender];
 }
 
 - (void)shareProduct:(UIButton *)button
@@ -209,24 +241,29 @@
 - (void)loveProduct:(UIButton *)button
 {
     DDLogVerbose(@"Love Button Pressed");
+    __weak typeof(self) welf = self;
     if (button.selected)
     {
+        welf.product.is_loved = false;
         [button setSelected:false];
         [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
-          if (error != nil)
-          {
-              [button setSelected:true];
-          }
+            if (error != nil)
+            {
+                welf.product.is_loved = true;
+                [button setSelected:true];
+            }
         }];
     }
     else
     {
+        welf.product.is_loved = true;
         [button setSelected:true];
         [[Li5ApiHandler sharedInstance] postLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
-          if (error != nil)
-          {
-              [button setSelected:false];
-          }
+            if (error != nil)
+            {
+                welf.product.is_loved = false;
+                [button setSelected:false];
+            }
         }];
     }
 }
@@ -245,9 +282,9 @@
       }
     }];
 
-    [_scrollView removeGestureRecognizer:_scrollViewPanGestureRecognzier];
-
-    [self.extendedVideo.player pause];
+    [((BCPlayer*)self.extendedVideo.player) pauseAndDestroy];
+    
+    [self removeObservers];
 }
 
 - (void)show
@@ -258,31 +295,61 @@
     {
         DDLogVerbose(@"Show %@.", [[(AVURLAsset *)self.extendedVideo.player.currentItem.asset URL] lastPathComponent]);
 
-        if (!_scrollView)
-        {
-            for (UIView *view in self.parentViewController.parentViewController.parentViewController.view.subviews)
-            {
-                if ([view isKindOfClass:[UIScrollView class]])
-                {
-                    _scrollView = (UIScrollView *)view;
-                    _scrollView.delaysContentTouches = false;
-                }
-            }
-        }
-
-        [_scrollView addGestureRecognizer:_scrollViewPanGestureRecognzier];
-
+        [seekSlider setPlayer:self.extendedVideo.player];
         [self.extendedVideo.player play];
+        
+        [self renderAnimations];
+        [self setupObservers];
     }
 }
 
-- (void)redisplay
+- (void)setupObservers
 {
-    [self.extendedVideo.player seekToTime:kCMTimeZero];
-    //[self.extendedVideo.player play]; //called already by seektotime
+    if (!mFullVideoRemainingObserver)
+    {
+        __weak typeof(self) weakSelf = self;
+        mFullVideoRemainingObserver = [self.extendedVideo.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, NSEC_PER_SEC)
+                                                                                              queue:NULL /* If you pass NULL, the main queue is used. */
+                                                                                         usingBlock:^(CMTime time) {
+                                                                                             [weakSelf updatedTimerWithSecondsRemaining:CMTimeGetSeconds(time)];
+                                                                                         }];
+    }
+    
+    
+    hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(removeAnimations) userInfo:nil repeats:NO];
+}
+
+- (void)removeObservers
+{
+    if (mFullVideoRemainingObserver)
+    {
+        [_extendedVideo.player removeTimeObserver:mFullVideoRemainingObserver];
+        [mFullVideoRemainingObserver invalidate];
+        mFullVideoRemainingObserver = nil;
+    }
+    
+    if (hideControlsTimer)
+    {
+        [hideControlsTimer invalidate];
+        hideControlsTimer = nil;
+    }
 }
 
 #pragma mark - Gesture Recognizers
+
+- (void)setupGestureRecognizers
+{
+    UITapGestureRecognizer *simpleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSimpleTap:)];
+    [self.view addGestureRecognizer:simpleTapGestureRecognizer];
+    
+    _scrubberPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleSliderSwipe:)];
+    _scrubberPanGestureRecognzier.delegate = self;
+    [self.view addGestureRecognizer:_scrubberPanGestureRecognzier];
+    
+    _lockPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleLockTap:)];
+    _lockPanGestureRecognzier.delegate = self;
+    [self.view addGestureRecognizer:_lockPanGestureRecognzier];
+}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
     shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -292,38 +359,46 @@
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
-    if (gestureRecognizer == _scrollViewPanGestureRecognzier)
+    CGPoint touch = [gestureRecognizer locationInView:self.view];
+    if (gestureRecognizer == _scrubberPanGestureRecognzier)
     {
-        CGPoint locationInView = [gestureRecognizer locationInView:self.view];
-        if (locationInView.y < 100)
+        if (touch.y < 100)
         {
             return YES;
         }
-        return NO;
+    }
+    else if (gestureRecognizer == _lockPanGestureRecognzier)
+    {
+        CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
+        double degree = atan(velocity.y/velocity.x) * 180 / M_PI;
+        return (touch.y >= 100) && (fabs(degree) > 20.0) && (velocity.y > 0);
     }
     return NO;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
-    shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+    shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    BOOL result = NO;
-    if ((otherGestureRecognizer == _scrollViewPanGestureRecognzier) && [[gestureRecognizer view] isKindOfClass:[UIScrollView class]])
+    if([[gestureRecognizer view] isKindOfClass:[UIScrollView class]])
     {
-        result = YES;
+        if (otherGestureRecognizer == _scrubberPanGestureRecognzier || otherGestureRecognizer == _lockPanGestureRecognzier)
+        {
+            return YES;
+        }
     }
-    return result;
+    return (gestureRecognizer == _lockPanGestureRecognzier && otherGestureRecognizer == _scrubberPanGestureRecognzier);
 }
-
-//gestureRecognizer:shouldRequireFailureOfGestureRecognizer:
-//gestureRecognizer:shouldBeRequiredToFailByGestureRecognizer:
 
 #pragma mark - Observer Actions
 
 - (void)updatedTimerWithSecondsRemaining:(CGFloat)seconds
 {
     float remainingSeconds = CMTimeGetSeconds(self.extendedVideo.player.currentItem.duration) - seconds;
-    self.timeLabel.text = (remainingSeconds >= 0 ? [NSString stringWithFormat:@"%.0f", remainingSeconds] : @"");
+    timeLabel.text = (remainingSeconds >= 0 ? [NSString stringWithFormat:@"%.0f", remainingSeconds] : @"");
+    if (lroundf(remainingSeconds)==0)
+    {
+        [self renderAnimations];
+    }
 }
 
 #pragma mark - Device Actions
@@ -336,17 +411,9 @@
 
 - (void)dealloc
 {
-    if (mFullVideoRemainingObserver)
-    {
-        //DDLogVerbose(@"removing %@ from player %@",timeObserver,[self currentPlayer]);
-        [self.extendedVideo.player removeTimeObserver:mFullVideoRemainingObserver];
-        mFullVideoRemainingObserver = nil;
-    }
-    if (self.extendedVideo != nil)
-    {
-        //[self.extendedVideo removeObserver:self forKeyPath:@"readyForDisplay"];
-        self.extendedVideo = nil;
-    }
+    DDLogDebug(@"");
+    [self removeObservers];
+    _extendedVideo = nil;
 }
 
 @end

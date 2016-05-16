@@ -6,7 +6,7 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <AVFoundation/AVFoundation.h>
+@import AVFoundation;
 
 @interface Li5PlayerUISlider : UISlider
 

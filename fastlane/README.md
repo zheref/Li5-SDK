@@ -6,6 +6,16 @@ sudo gem install fastlane
 ```
 # Available Actions
 ## iOS
+### ios xcode
+```
+fastlane ios xcode
+```
+Installs XCode plugin to disable fix it!
+### ios match
+```
+fastlane ios match
+```
+Installs all required provisionin profiles and certificates
 ### ios test
 ```
 fastlane ios test
