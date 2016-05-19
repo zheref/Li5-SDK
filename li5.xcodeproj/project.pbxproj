@@ -13,9 +13,38 @@
 		5B13D31B1CDEA0400015ECFC /* li5UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B13D31A1CDEA0400015ECFC /* li5UITests.m */; };
 		5B13D3261CDEBBD90015ECFC /* Pods_li5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C682FB51A13CBD729BDFFBB5 /* Pods_li5.framework */; };
 		5B13D3271CDEBBE30015ECFC /* Pods_li5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C682FB51A13CBD729BDFFBB5 /* Pods_li5.framework */; };
+		5B2617531CEA12B200B51593 /* CrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */; };
+		5B2617541CEA12B200B51593 /* CrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */; };
+		5B2617551CEA12B200B51593 /* CrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */; };
+		5B2617671CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617651CEA5E1800B51593 /* TagsCollectionViewCell.m */; };
+		5B2617681CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617651CEA5E1800B51593 /* TagsCollectionViewCell.m */; };
+		5B2617691CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617651CEA5E1800B51593 /* TagsCollectionViewCell.m */; };
+		5B26176A1CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617651CEA5E1800B51593 /* TagsCollectionViewCell.m */; };
+		5B26176B1CEA5E1800B51593 /* TagsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B2617661CEA5E1800B51593 /* TagsCollectionViewCell.xib */; };
+		5B26176C1CEA5E1800B51593 /* TagsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B2617661CEA5E1800B51593 /* TagsCollectionViewCell.xib */; };
+		5B26176D1CEA5E1800B51593 /* TagsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B2617661CEA5E1800B51593 /* TagsCollectionViewCell.xib */; };
+		5B26176E1CEA5E1800B51593 /* TagsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B2617661CEA5E1800B51593 /* TagsCollectionViewCell.xib */; };
+		5B2617711CEA72A900B51593 /* TagsViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617701CEA72A900B51593 /* TagsViewDataSource.m */; };
+		5B2617721CEA72A900B51593 /* TagsViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617701CEA72A900B51593 /* TagsViewDataSource.m */; };
+		5B2617731CEA72A900B51593 /* TagsViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617701CEA72A900B51593 /* TagsViewDataSource.m */; };
+		5B2617741CEA72A900B51593 /* TagsViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617701CEA72A900B51593 /* TagsViewDataSource.m */; };
+		5B2617751CEA72A900B51593 /* TagsViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617701CEA72A900B51593 /* TagsViewDataSource.m */; };
+		5B427E121CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
+		5B427E131CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
+		5B427E141CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
+		5B427E151CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
 		5B48F2861CE0E21F00EBE566 /* ProductsListDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B48F2851CE0E21F00EBE566 /* ProductsListDynamicInteractor.m */; };
 		5B48F2871CE0E21F00EBE566 /* ProductsListDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B48F2851CE0E21F00EBE566 /* ProductsListDynamicInteractor.m */; };
 		5B48F2881CE0E21F00EBE566 /* ProductsListDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B48F2851CE0E21F00EBE566 /* ProductsListDynamicInteractor.m */; };
+		5B5E4E161CED06B400155A6F /* UserProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E4E151CED06B400155A6F /* UserProductsViewController.m */; };
+		5B5E4E171CED06B400155A6F /* UserProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E4E151CED06B400155A6F /* UserProductsViewController.m */; };
+		5B5E4E181CED06B400155A6F /* UserProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E4E151CED06B400155A6F /* UserProductsViewController.m */; };
+		5B5E4E191CED06B400155A6F /* UserProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E4E151CED06B400155A6F /* UserProductsViewController.m */; };
+		5B5E4E1C1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E4E1B1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m */; };
+		5B5E4E1D1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E4E1B1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m */; };
+		5B5E4E1E1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E4E1B1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m */; };
+		5B5E4E1F1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E4E1B1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m */; };
+		5B5E4E201CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E4E1B1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m */; };
 		5B602C5C1C565D4A00F0D362 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B602C5B1C565D4A00F0D362 /* LoginViewController.m */; };
 		5B602C6A1C565FBF00F0D362 /* girl.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B602C611C565FBF00F0D362 /* girl.jpg */; };
 		5B602C861C5A6A9F00F0D362 /* ShapesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B602C851C5A6A9F00F0D362 /* ShapesHelper.m */; };
@@ -175,8 +204,21 @@
 		5B13D3181CDEA0400015ECFC /* li5UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = li5UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B13D31A1CDEA0400015ECFC /* li5UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = li5UITests.m; sourceTree = "<group>"; };
 		5B13D31C1CDEA0400015ECFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashlyticsLogger.m; sourceTree = "<group>"; };
+		5B2617561CEA12C500B51593 /* CrashlyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsLogger.h; sourceTree = "<group>"; };
+		5B2617641CEA5E1800B51593 /* TagsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsCollectionViewCell.h; sourceTree = "<group>"; };
+		5B2617651CEA5E1800B51593 /* TagsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsCollectionViewCell.m; sourceTree = "<group>"; };
+		5B2617661CEA5E1800B51593 /* TagsCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagsCollectionViewCell.xib; sourceTree = "<group>"; };
+		5B26176F1CEA72A900B51593 /* TagsViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsViewDataSource.h; sourceTree = "<group>"; };
+		5B2617701CEA72A900B51593 /* TagsViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsViewDataSource.m; sourceTree = "<group>"; };
+		5B427E101CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalUICollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalUICollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		5B48F2841CE0E21F00EBE566 /* ProductsListDynamicInteractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsListDynamicInteractor.h; sourceTree = "<group>"; };
 		5B48F2851CE0E21F00EBE566 /* ProductsListDynamicInteractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsListDynamicInteractor.m; sourceTree = "<group>"; };
+		5B5E4E141CED06B400155A6F /* UserProductsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProductsViewController.h; sourceTree = "<group>"; };
+		5B5E4E151CED06B400155A6F /* UserProductsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProductsViewController.m; sourceTree = "<group>"; };
+		5B5E4E1A1CED0B2000155A6F /* UserProductsCollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProductsCollectionViewDataSource.h; sourceTree = "<group>"; };
+		5B5E4E1B1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProductsCollectionViewDataSource.m; sourceTree = "<group>"; };
 		5B602C5A1C565D4A00F0D362 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		5B602C5B1C565D4A00F0D362 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		5B602C611C565FBF00F0D362 /* girl.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = girl.jpg; sourceTree = "<group>"; };
@@ -342,6 +384,24 @@
 			path = li5UITests;
 			sourceTree = "<group>";
 		};
+		5B427E0E1CEBA768000EF9E5 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				5B48F2841CE0E21F00EBE566 /* ProductsListDynamicInteractor.h */,
+				5B48F2851CE0E21F00EBE566 /* ProductsListDynamicInteractor.m */,
+			);
+			name = Interactors;
+			sourceTree = "<group>";
+		};
+		5B427E0F1CEBA7AB000EF9E5 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				5B7551C81CD17725007FAF67 /* UserProfileDynamicInteractor.h */,
+				5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */,
+			);
+			name = Interactors;
+			sourceTree = "<group>";
+		};
 		5B6204411CCA5D94003C9390 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,6 +462,8 @@
 				5B602C851C5A6A9F00F0D362 /* ShapesHelper.m */,
 				5B7551B91CCFED36007FAF67 /* Li5LoggerFormatter.h */,
 				5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */,
+				5B2617561CEA12C500B51593 /* CrashlyticsLogger.h */,
+				5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -443,9 +505,12 @@
 			children = (
 				5B7551CF1CD178A0007FAF67 /* UserProfileViewController.h */,
 				5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */,
-				5B7551C81CD17725007FAF67 /* UserProfileDynamicInteractor.h */,
-				5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */,
+				5B5E4E141CED06B400155A6F /* UserProductsViewController.h */,
+				5B5E4E151CED06B400155A6F /* UserProductsViewController.m */,
+				5B5E4E1A1CED0B2000155A6F /* UserProductsCollectionViewDataSource.h */,
+				5B5E4E1B1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m */,
 				5B7551D61CD26A69007FAF67 /* UserProfile.Storyboard */,
+				5B427E0F1CEBA7AB000EF9E5 /* Interactors */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -492,7 +557,7 @@
 				5B6204411CCA5D94003C9390 /* Login */,
 				9CF7DC121CC9127900F7CAF7 /* Categories */,
 				5B6204421CCA5DBB003C9390 /* Prime Time */,
-				9C5AA80F1CD02E4900F3DE08 /* Product List */,
+				9C5AA80F1CD02E4900F3DE08 /* Search */,
 				5B7551A21CCFBE4E007FAF67 /* Product */,
 				5B7551C71CD176BD007FAF67 /* Profile */,
 				5B6204451CCA5DE1003C9390 /* Player */,
@@ -521,7 +586,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9C5AA80F1CD02E4900F3DE08 /* Product List */ = {
+		9C5AA80F1CD02E4900F3DE08 /* Search */ = {
 			isa = PBXGroup;
 			children = (
 				9C5AA8101CD02E7100F3DE08 /* ProductsCollectionViewCell.h */,
@@ -532,10 +597,16 @@
 				9C5AA8151CD02E7100F3DE08 /* ProductsViewController.xib */,
 				9CBB88321CD38CD200F8DF57 /* ProductsCollectionViewDataSource.h */,
 				9CBB88331CD38CD300F8DF57 /* ProductsCollectionViewDataSource.m */,
-				5B48F2841CE0E21F00EBE566 /* ProductsListDynamicInteractor.h */,
-				5B48F2851CE0E21F00EBE566 /* ProductsListDynamicInteractor.m */,
+				5B2617641CEA5E1800B51593 /* TagsCollectionViewCell.h */,
+				5B2617651CEA5E1800B51593 /* TagsCollectionViewCell.m */,
+				5B2617661CEA5E1800B51593 /* TagsCollectionViewCell.xib */,
+				5B26176F1CEA72A900B51593 /* TagsViewDataSource.h */,
+				5B2617701CEA72A900B51593 /* TagsViewDataSource.m */,
+				5B427E101CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.h */,
+				5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */,
+				5B427E0E1CEBA768000EF9E5 /* Interactors */,
 			);
-			name = "Product List";
+			name = Search;
 			sourceTree = "<group>";
 		};
 		9CF7DC121CC9127900F7CAF7 /* Categories */ = {
@@ -729,6 +800,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B26176E1CEA5E1800B51593 /* TagsCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,6 +814,7 @@
 				9C5AA81E1CD0341600F3DE08 /* ProductsCollectionViewCell.xib in Resources */,
 				5B6204611CCA7116003C9390 /* CategoriesViewController.xib in Resources */,
 				5B62046D1CCA7177003C9390 /* Launch Screen_Dev.storyboard in Resources */,
+				5B26176C1CEA5E1800B51593 /* TagsCollectionViewCell.xib in Resources */,
 				5B6204621CCA7116003C9390 /* Assets.xcassets in Resources */,
 				9C5AA8291CD10F9500F3DE08 /* LastPageViewController.xib in Resources */,
 				5B7551D81CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
@@ -756,6 +829,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BC4546C1CDB8EC90067BD52 /* logo_loading.mp4 in Resources */,
+				5B26176D1CEA5E1800B51593 /* TagsCollectionViewCell.xib in Resources */,
 				5B6204861CCA7625003C9390 /* Launch Screen.storyboard in Resources */,
 				5B7551D91CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
 				5B6204871CCA7625003C9390 /* girl.jpg in Resources */,
@@ -782,6 +856,7 @@
 				5B7551D71CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
 				9CFFC2541CC17EC5005AC8DC /* CategoriesViewController.xib in Resources */,
 				5BB4AACD1C4D60B9002C22C8 /* Assets.xcassets in Resources */,
+				5B26176B1CEA5E1800B51593 /* TagsCollectionViewCell.xib in Resources */,
 				9CFFC24F1CC16057005AC8DC /* CategoriesCollectionViewCell.xib in Resources */,
 				9C5AA8171CD02E7100F3DE08 /* ProductsCollectionViewCell.xib in Resources */,
 				9C5AA8191CD02E7100F3DE08 /* ProductsViewController.xib in Resources */,
@@ -1048,7 +1123,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B2617741CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
 				5B13D30D1CDEA0070015ECFC /* li5Tests.m in Sources */,
+				5B5E4E1F1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1056,7 +1133,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B2617751CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
 				5B13D31B1CDEA0400015ECFC /* li5UITests.m in Sources */,
+				5B5E4E201CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
+				5B5E4E191CED06B400155A6F /* UserProductsViewController.m in Sources */,
+				5B427E151CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
+				5B26176A1CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1077,6 +1159,8 @@
 				5B6204501CCA7116003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5B6204511CCA7116003C9390 /* AppDelegate.m in Sources */,
 				5B6204521CCA7116003C9390 /* CategoriesViewController.m in Sources */,
+				5B2617681CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
+				5B5E4E1D1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
 				5B7551BC1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
 				5B6204531CCA7116003C9390 /* main.m in Sources */,
 				9C5AA81C1CD0341100F3DE08 /* ProductsCollectionViewCell.m in Sources */,
@@ -1084,9 +1168,13 @@
 				5B75519E1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5B48F2871CE0E21F00EBE566 /* ProductsListDynamicInteractor.m in Sources */,
 				5B6204561CCA7116003C9390 /* ShapesHelper.m in Sources */,
+				5B2617721CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
+				5B427E131CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				5B6204571CCA7116003C9390 /* LoginViewController.m in Sources */,
 				5B6204581CCA7116003C9390 /* CategoriesCollectionViewCell.m in Sources */,
+				5B5E4E171CED06B400155A6F /* UserProductsViewController.m in Sources */,
 				9C5AA81A1CD0340C00F3DE08 /* ProductsViewController.m in Sources */,
+				5B2617541CEA12B200B51593 /* CrashlyticsLogger.m in Sources */,
 				5BB1F9FF1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1108,6 +1196,8 @@
 				5B6204771CCA7625003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5B6204781CCA7625003C9390 /* AppDelegate.m in Sources */,
 				5B6204791CCA7625003C9390 /* CategoriesViewController.m in Sources */,
+				5B2617691CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
+				5B5E4E1E1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
 				5B7551BD1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
 				5B62047A1CCA7625003C9390 /* main.m in Sources */,
 				9C5AA81D1CD0341200F3DE08 /* ProductsCollectionViewCell.m in Sources */,
@@ -1115,9 +1205,13 @@
 				5B75519F1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5B48F2881CE0E21F00EBE566 /* ProductsListDynamicInteractor.m in Sources */,
 				5B62047D1CCA7625003C9390 /* ShapesHelper.m in Sources */,
+				5B2617731CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
+				5B427E141CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				5B62047E1CCA7625003C9390 /* LoginViewController.m in Sources */,
 				5B62047F1CCA7625003C9390 /* CategoriesCollectionViewCell.m in Sources */,
+				5B5E4E181CED06B400155A6F /* UserProductsViewController.m in Sources */,
 				9C5AA81B1CD0340C00F3DE08 /* ProductsViewController.m in Sources */,
+				5B2617551CEA12B200B51593 /* CrashlyticsLogger.m in Sources */,
 				5BB1FA001CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1139,6 +1233,8 @@
 				9C5AA8161CD02E7100F3DE08 /* ProductsCollectionViewCell.m in Sources */,
 				9CFFC25A1CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */,
+				5B2617671CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
+				5B5E4E1C1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
 				9CFFC2531CC17EC5005AC8DC /* CategoriesViewController.m in Sources */,
 				5B7551BB1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
 				5BB4AAC21C4D60B9002C22C8 /* main.m in Sources */,
@@ -1146,9 +1242,13 @@
 				9C5AA8181CD02E7100F3DE08 /* ProductsViewController.m in Sources */,
 				5B48F2861CE0E21F00EBE566 /* ProductsListDynamicInteractor.m in Sources */,
 				5B75519D1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
+				5B2617711CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
+				5B427E121CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				5B602C861C5A6A9F00F0D362 /* ShapesHelper.m in Sources */,
 				5B602C5C1C565D4A00F0D362 /* LoginViewController.m in Sources */,
+				5B5E4E161CED06B400155A6F /* UserProductsViewController.m in Sources */,
 				9CFFC24E1CC16057005AC8DC /* CategoriesCollectionViewCell.m in Sources */,
+				5B2617531CEA12B200B51593 /* CrashlyticsLogger.m in Sources */,
 				5BB1F9FE1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1353,7 +1453,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 16;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1402,7 +1502,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 16;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;

@@ -31,6 +31,7 @@
 
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    [DDLog addLogger:[CrashlyticsLogger sharedInstance]];
     
     //Adding custom formatter for TTY
     [DDTTYLogger sharedInstance].logFormatter = [[Li5LoggerFormatter alloc] init];

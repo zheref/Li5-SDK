@@ -102,7 +102,7 @@
     {
         NSURL *playerUrl = [NSURL URLWithString:self.product.trailerURL];
         DDLogVerbose(@"Creating Teaser Video Player Layer for: %@", [playerUrl lastPathComponent]);
-        BCPlayer *player = [[BCPlayer alloc] initWithPlayListUrl:playerUrl bufferInSeconds:20.0 priority:BCPriorityHigth delegate:self];
+        BCPlayer *player = [[BCPlayer alloc] initWithPlayListUrl:playerUrl bufferInSeconds:20.0 priority:BCPriorityHigh delegate:self];
         //AVPlayer *player = [[AVPlayer alloc] initWithURL:playerUrl];
 
         _teaserPlayer = [AVPlayerLayer playerLayerWithPlayer:player];

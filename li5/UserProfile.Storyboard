@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--User Profile View Controller-->
@@ -16,19 +19,141 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8kn-RM-ijj">
-                                <rect key="frame" x="255" y="28" width="90" height="21"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="CaO-KW-zDU">
+                                <rect key="frame" x="241" y="25" width="119" height="125"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="125" id="SNu-bM-zMQ"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-Zs-D1V">
+                                <rect key="frame" x="516" y="25" width="64" height="63"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="L1o-6c-erG"/>
+                                    <constraint firstAttribute="width" secondItem="3c0-Zs-D1V" secondAttribute="height" multiplier="64:63" id="VyN-Np-hc5"/>
+                                    <constraint firstAttribute="height" constant="63" id="hdc-mp-kNI"/>
+                                </constraints>
+                                <state key="normal" image="cogwheel"/>
+                                <connections>
+                                    <action selector="settingsButtonTouched:" destination="JPB-nZ-wc1" eventType="touchDown" id="ckm-ut-Cgj"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mr Superman" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="my7-U8-C6p">
+                                <rect key="frame" x="248" y="158" width="104" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="CpG-Yd-6bh"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KzQ-GW-0Bq">
+                                <rect key="frame" x="0.0" y="187" width="600" height="413"/>
+                                <connections>
+                                    <segue destination="DPg-oy-hkm" kind="embed" identifier="products_embed" id="ks0-7m-nfM"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.68422911980751655" blue="0.035424925453658052" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="my7-U8-C6p" firstAttribute="centerX" secondItem="0py-Hg-DR5" secondAttribute="centerX" id="Adu-UP-UeZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3c0-Zs-D1V" secondAttribute="trailing" id="DCC-pj-oKg"/>
+                            <constraint firstItem="CaO-KW-zDU" firstAttribute="top" secondItem="I6n-KT-pSk" secondAttribute="bottom" constant="5" id="HSW-A7-D5E"/>
+                            <constraint firstItem="3c0-Zs-D1V" firstAttribute="top" secondItem="I6n-KT-pSk" secondAttribute="bottom" constant="5" id="Kht-FQ-CPc"/>
+                            <constraint firstItem="KzQ-GW-0Bq" firstAttribute="leading" secondItem="0py-Hg-DR5" secondAttribute="leading" id="RKE-rk-x8T"/>
+                            <constraint firstAttribute="trailing" secondItem="KzQ-GW-0Bq" secondAttribute="trailing" id="VuQ-Z1-YQa"/>
+                            <constraint firstItem="KzQ-GW-0Bq" firstAttribute="top" secondItem="my7-U8-C6p" secondAttribute="bottom" constant="8" id="Ybp-Cp-kb8"/>
+                            <constraint firstItem="my7-U8-C6p" firstAttribute="top" secondItem="CaO-KW-zDU" secondAttribute="bottom" constant="8" symbolic="YES" id="Z51-VK-jgB"/>
+                            <constraint firstItem="my7-U8-C6p" firstAttribute="centerX" secondItem="0py-Hg-DR5" secondAttribute="centerX" id="fW8-OE-8IG"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="KzQ-GW-0Bq" secondAttribute="trailing" id="g0X-Wx-Et7"/>
+                            <constraint firstItem="KzQ-GW-0Bq" firstAttribute="leading" secondItem="0py-Hg-DR5" secondAttribute="leadingMargin" id="h3s-iU-1bh"/>
+                            <constraint firstItem="CaO-KW-zDU" firstAttribute="width" secondItem="0py-Hg-DR5" secondAttribute="height" multiplier="119:600" id="laP-WV-P3t"/>
+                            <constraint firstItem="Ltn-q6-mDn" firstAttribute="top" secondItem="KzQ-GW-0Bq" secondAttribute="bottom" id="pKT-Zh-56k"/>
+                            <constraint firstItem="my7-U8-C6p" firstAttribute="leading" secondItem="CaO-KW-zDU" secondAttribute="leading" id="ppi-m2-E12"/>
+                            <constraint firstItem="CaO-KW-zDU" firstAttribute="centerX" secondItem="0py-Hg-DR5" secondAttribute="centerX" id="sWW-a0-oG2"/>
+                            <constraint firstItem="Ltn-q6-mDn" firstAttribute="top" secondItem="KzQ-GW-0Bq" secondAttribute="bottom" id="wSb-bp-aFO"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="g0X-Wx-Et7"/>
+                                <exclude reference="h3s-iU-1bh"/>
+                                <exclude reference="ppi-m2-E12"/>
+                                <exclude reference="pKT-Zh-56k"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="avatarImg" destination="CaO-KW-zDU" id="WmV-TV-44S"/>
+                        <outlet property="settingsBtn" destination="3c0-Zs-D1V" id="Llk-af-sbu"/>
+                        <outlet property="userNameLabel" destination="my7-U8-C6p" id="oio-XV-M0Q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ao2-bI-AnC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="579" y="313"/>
         </scene>
+        <!--User Products View Controller-->
+        <scene sceneID="dJ5-Id-e67">
+            <objects>
+                <viewController id="DPg-oy-hkm" customClass="UserProductsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ze2-7D-sAB">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="413"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sd3-aw-jqe">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="49" id="TMP-Yx-hfl"/>
+                                </constraints>
+                                <items>
+                                    <tabBarItem title="My Loves" id="Yss-zU-HFT"/>
+                                    <tabBarItem title="My Orders" id="lUy-6q-yRD"/>
+                                </items>
+                            </tabBar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nUu-3T-OlE">
+                                <rect key="frame" x="0.0" y="49" width="600" height="364"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="1Kx-sw-Rgn">
+                                    <size key="itemSize" width="125" height="206"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sd3-aw-jqe" firstAttribute="leading" secondItem="ze2-7D-sAB" secondAttribute="leadingMargin" id="0PK-H8-EKq"/>
+                            <constraint firstAttribute="bottom" secondItem="nUu-3T-OlE" secondAttribute="bottom" id="Atf-XY-OJt"/>
+                            <constraint firstItem="nUu-3T-OlE" firstAttribute="top" secondItem="sd3-aw-jqe" secondAttribute="bottom" id="PoN-cT-brc"/>
+                            <constraint firstItem="sd3-aw-jqe" firstAttribute="top" secondItem="ze2-7D-sAB" secondAttribute="top" id="R2e-Gl-7PO"/>
+                            <constraint firstAttribute="trailing" secondItem="nUu-3T-OlE" secondAttribute="trailing" id="Wi1-fa-7kE"/>
+                            <constraint firstItem="sd3-aw-jqe" firstAttribute="leading" secondItem="ze2-7D-sAB" secondAttribute="leading" id="cGf-hx-xbX"/>
+                            <constraint firstItem="sd3-aw-jqe" firstAttribute="top" secondItem="ze2-7D-sAB" secondAttribute="topMargin" id="hDM-7m-uEC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sd3-aw-jqe" secondAttribute="trailing" id="jnw-Nu-IXr"/>
+                            <constraint firstAttribute="trailing" secondItem="sd3-aw-jqe" secondAttribute="trailing" id="nNW-P0-sjS"/>
+                            <constraint firstItem="nUu-3T-OlE" firstAttribute="leading" secondItem="ze2-7D-sAB" secondAttribute="leading" id="rwo-8T-hYa"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="0PK-H8-EKq"/>
+                                <exclude reference="hDM-7m-uEC"/>
+                                <exclude reference="jnw-Nu-IXr"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="lovesCollectionView" destination="nUu-3T-OlE" id="f6I-ht-4bW"/>
+                        <outlet property="tabBar" destination="sd3-aw-jqe" id="FUk-c3-zmR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aet-mi-juu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="579" y="994.5"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="avatar" width="256" height="256"/>
+        <image name="cogwheel" width="128" height="128"/>
+    </resources>
 </document>

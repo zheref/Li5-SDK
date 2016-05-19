@@ -9,6 +9,8 @@
 #import "ProductToUpload.h"
 #import "Profile.h"
 #import "Profiles.h"
+#import "Tag.h"
+#import "Tags.h"
 
 FOUNDATION_EXPORT double Li5ApiVersionNumber;
 FOUNDATION_EXPORT const unsigned char Li5ApiVersionString[];

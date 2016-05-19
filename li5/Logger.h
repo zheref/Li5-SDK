@@ -11,6 +11,7 @@
 
 #define LOG_LEVEL_DEF ddLogLevel
 @import CocoaLumberjack;
+#import "CrashlyticsLogger.h"
 
 #ifdef DEBUG
 static const DDLogLevel ddLogLevel = DDLogLevelVerbose;

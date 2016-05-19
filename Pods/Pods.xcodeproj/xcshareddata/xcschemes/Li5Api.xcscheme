@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'A66E91E9633D9E54DF74EE5C'
+               BlueprintIdentifier = '63ED0ADBDE7E4671B876DDA4'
                BlueprintName = 'Li5Api'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Li5Api.framework'>

@@ -123,7 +123,9 @@ platform :ios do
 
   error do |lane, exception|
 
-    reset_git_repo
+    reset_git_repo(
+      force: true
+    )
 
     slack(
        message: exception.message,

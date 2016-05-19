@@ -82,6 +82,9 @@
     ProductsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
     Product *product = (_searching ? [_filteredProducts objectAtIndex:indexPath.row] : [_allProducts objectAtIndex:indexPath.row] );
     
+    cell.layer.shouldRasterize = YES;
+    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    
     // Here we use the new provided sd_setImageWithURL: method to load the web image
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:product.videoPreview]
                       placeholderImage:nil

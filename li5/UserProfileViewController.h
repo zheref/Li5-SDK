@@ -15,6 +15,12 @@
 
 @interface UserProfileViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *settingsBtn;
+
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImg;
+
+@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+
 - (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget;
 
 @property (nonatomic, readonly) id<UserProfileViewControllerPanTargetDelegate> panTarget;
