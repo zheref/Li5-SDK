@@ -6,6 +6,7 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
+@import AudioToolbox;
 @import BCVideoPlayer;
 
 #import "ShapesHelper.h"
@@ -127,6 +128,16 @@
     [[self.view viewWithTag:19] stopAnimating];
     
     [self show];
+}
+
+- (void)failToLoadItem
+{
+    DDLogVerbose(@"");
+}
+
+- (void)bufferEmpty
+{
+    DDLogVerbose(@"");
 }
 
 #pragma mark - Displayable Protocol
@@ -299,6 +310,10 @@
     {
         welf.product.is_loved = true;
         [button setSelected:true];
+        
+        //Vibrate sound
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        
         [[Li5ApiHandler sharedInstance] postLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
           if (error != nil)
           {
@@ -312,7 +327,7 @@
 - (void)goBackToSearch:(UIPanGestureRecognizer *)recognizer
 {
     [self hideAndMoveToViewController:nil];
-    [searchInteractor userDidPan:nil];
+    [searchInteractor userDidPan:recognizer];
 }
 
 #pragma mark - Gesture Recognizers

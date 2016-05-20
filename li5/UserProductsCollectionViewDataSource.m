@@ -67,4 +67,29 @@
     return cell;
 }
 
+#pragma mark - ProductPageViewControllerDataSource
+
+- (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index {
+    if ((index >= [self numberOfProducts]) || (index == NSNotFound))
+    {
+        return nil;
+    }
+    
+    return [[ProductPageViewController alloc] initWithProduct:[_loves objectAtIndex:index] andIndex:index forContext:kProductContextSearch];
+}
+
+- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+{
+    return [super pageViewController:thisPageViewController viewControllerBeforeViewController:viewController];
+}
+
+- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerAfterViewController:(UIViewController *)viewController
+{
+    return [super pageViewController:thisPageViewController viewControllerAfterViewController:viewController];
+}
+
+- (NSUInteger)numberOfProducts {
+    return [_loves count];
+}
+
 @end

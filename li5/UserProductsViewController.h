@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserProductsViewController : UIViewController
+@interface UserProductsViewController : UIViewController <UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 

@@ -22,7 +22,9 @@
 @property (nonatomic, strong) UIAttachmentBehavior *attachmentBehaviour;
 @property (nonatomic, assign) CGPoint lastKnownVelocity;
 
-@property (nonatomic, readonly, strong) UserProfileViewController *presentingViewController;
+@property (nonatomic, assign) BOOL presented;
+
+@property (nonatomic, readonly, strong) UINavigationController *presentingViewController;
 
 @end
 
@@ -37,9 +39,12 @@
     
     _parentViewController = parentVC;
 
-    _presentingViewController = [[UserProfileViewController alloc] initWithPanTarget:self];
+    _presentingViewController = [[UINavigationController alloc] initWithRootViewController:[[UserProfileViewController alloc] initWithPanTarget:self]];
+    _presentingViewController.navigationBarHidden = TRUE;
     _presentingViewController.modalPresentationStyle = UIModalPresentationCustom;
     _presentingViewController.transitioningDelegate = self;
+    
+    _presented = FALSE;
     
     return self;
 }
@@ -67,11 +72,12 @@
             self.interactive = YES;
 
             // The side of the screen we're panning from determines whether this is a presentation (left) or dismissal (right)
-            if (location.y < CGRectGetMidY(recognizer.view.bounds))
+            if (location.y < CGRectGetMidY(recognizer.view.bounds) && !self.presenting && !self.presented)
             {
                 DDLogVerbose(@"beginning menu presentation");
                 self.presenting = YES;
                 [self.parentViewController presentViewController:_presentingViewController animated:YES completion:^{
+                    self.presented = YES;
                     [self.parentViewController viewDidDisappear:NO];
                 }];
             }
@@ -79,6 +85,7 @@
             {
                 DDLogVerbose(@"dismissing menu presentation");
                 [self.parentViewController dismissViewControllerAnimated:YES completion:^{
+                    self.presented = NO;
                     [self.parentViewController viewDidAppear:NO];
                 }];
             }
@@ -399,6 +406,7 @@
 - (void)cancelInteractiveTransition
 {
     self.interactiveTransitionInteracting = NO;
+    self.presented = NO;
     id<UIViewControllerContextTransitioning> transitionContext = self.transitionContext;
 
     [self.animator removeBehavior:self.attachmentBehaviour];

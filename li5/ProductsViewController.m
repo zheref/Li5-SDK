@@ -245,10 +245,7 @@
 
 - (void)userDidPan:(UIPanGestureRecognizer *)recognizer
 {
-    if ( recognizer.state == UIGestureRecognizerStateBegan )
-    {
-        [_panTarget userDidPan:nil];
-    }
+    [_panTarget userDidPan:recognizer];
 }
 
 - (void)setupGestureRecognizers

@@ -83,11 +83,6 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "SERVER_URL"
-            value = "http://t.li5.tv:1080"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
             key = "XcodeColors"
             value = "YES"
             isEnabled = "YES">

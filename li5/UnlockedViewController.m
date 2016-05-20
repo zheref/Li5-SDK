@@ -172,47 +172,17 @@
     [self show];
 }
 
-#pragma mark - User Actions
-
-- (void)handleLockTap:(UIGestureRecognizer *)recognizer
-{
-    [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:recognizer waitUntilDone:NO];
-}
-
-- (void)handleSimpleTap:(UIGestureRecognizer *)sender
+- (void)failToLoadItem
 {
     DDLogVerbose(@"");
-    if (sender.state == UIGestureRecognizerStateEnded)
-    {
-        if (!controlsDisplayed)
-        {
-            [self renderAnimations];
-            [self setupObservers];
-        }
-        else
-        {
-            CGPoint locationInView = [sender locationInView:self.view];
-            if (locationInView.y >= 100)
-            {
-                [self removeAnimations];
-            }
-        }
-    }
 }
 
-- (void)handleSliderSwipe:(UIGestureRecognizer *)sender
+- (void)bufferEmpty
 {
-    if (sender.state == UIGestureRecognizerStateBegan)
-    {
-        [self removeObservers];
-    }
-    else if (sender.state == UIGestureRecognizerStateEnded)
-    {
-        [self setupObservers];
-    }
-    
-    [seekSlider sliderGestureRecognized:sender];
+    DDLogVerbose(@"");
 }
+
+#pragma mark - User Actions
 
 - (void)shareProduct:(UIButton *)button
 {
@@ -336,6 +306,53 @@
 }
 
 #pragma mark - Gesture Recognizers
+
+- (void)handleLockTap:(UIGestureRecognizer *)recognizer
+{
+    if (recognizer.state == UIGestureRecognizerStateEnded)
+    {
+        CGPoint distance = [(UIPanGestureRecognizer*)recognizer translationInView:recognizer.view];
+        if (distance.y > 15)
+        {
+            [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:recognizer waitUntilDone:NO];
+        }
+    }
+}
+
+- (void)handleSimpleTap:(UIGestureRecognizer *)sender
+{
+    DDLogVerbose(@"");
+    if (sender.state == UIGestureRecognizerStateEnded)
+    {
+        if (!controlsDisplayed)
+        {
+            [self renderAnimations];
+            [self setupObservers];
+        }
+        else
+        {
+            CGPoint locationInView = [sender locationInView:self.view];
+            if (locationInView.y >= 100)
+            {
+                [self removeAnimations];
+            }
+        }
+    }
+}
+
+- (void)handleSliderSwipe:(UIGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateBegan)
+    {
+        [self removeObservers];
+    }
+    else if (sender.state == UIGestureRecognizerStateEnded)
+    {
+        [self setupObservers];
+    }
+    
+    [seekSlider sliderGestureRecognized:sender];
+}
 
 - (void)setupGestureRecognizers
 {

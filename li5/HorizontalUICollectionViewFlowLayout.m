@@ -23,10 +23,22 @@
     self = [super init];
     if (self)
     {
-        nbColumns = 3;
-        nbLines = 3;
+        [self initialize];
     }
     return self;
+}
+
+- (void)awakeFromNib
+{
+    [self initialize];
+}
+
+- (void)initialize
+{
+    nbColumns = 3;
+    nbLines = 3;
+    [self setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+    
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath

@@ -32,6 +32,11 @@
     return self;
 }
 
+- (void)awakeFromNib
+{
+    //Do needed
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

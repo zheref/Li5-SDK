@@ -11,6 +11,8 @@
 @interface ProductsListDynamicInteractor ()
 {
     ProductsViewController *productsVC;
+    
+    BOOL presented;
 }
 
 @end
@@ -25,6 +27,8 @@
     _parentViewController = viewController;
     productsVC = [[ProductsViewController alloc] initWithNibName:@"ProductsViewController" bundle:[NSBundle mainBundle] panTarget:self];
     
+    presented = NO;
+    
     return self;
 }
 
@@ -34,30 +38,35 @@
  */
 - (void)userDidPan:(UIPanGestureRecognizer *)recognizer
 {
-    DDLogInfo(@"");
-    if (recognizer)
+    CGPoint distance = [recognizer translationInView:recognizer.view];
+    if (recognizer.state == UIGestureRecognizerStateEnded)
     {
-        if (recognizer.state == UIGestureRecognizerStateBegan)
+        if (fabs(distance.y) > 15)
         {
-            DDLogVerbose(@"displaying search");
-            [self presentViewWithCompletion:nil];
+            if (distance.y > 0 && !presented)
+            {
+                DDLogVerbose(@"presenting search");
+                [self presentViewWithCompletion:nil];
+            }
+            else
+            {
+                DDLogVerbose(@"dismissing search");
+                [self dismissViewWithCompletion:nil];
+            }
         }
-    }
-    else
-    {
-        DDLogVerbose(@"dismissing search");
-        [self dismissViewWithCompletion:nil];
     }
 }
 
 - (void)presentViewWithCompletion:(void (^)(void))completion
 {
     [self.parentViewController.navigationController pushViewController:productsVC animated:NO];
+    presented = YES;
 }
 
 - (void)dismissViewWithCompletion:(void (^)(void))completion
 {
     [self.parentViewController.navigationController popViewControllerAnimated:NO];
+    presented = NO;
 }
 
 @end

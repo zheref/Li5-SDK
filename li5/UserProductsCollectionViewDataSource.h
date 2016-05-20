@@ -6,9 +6,9 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "PrimeTimeViewControllerDataSource.h"
 
-@interface UserProductsCollectionViewDataSource : NSObject <UICollectionViewDataSource>
+@interface UserProductsCollectionViewDataSource : PrimeTimeViewControllerDataSource <UICollectionViewDataSource>
 
 - (void)getUserLovesWithCompletion:(void (^)(NSError *error))completion;
 
