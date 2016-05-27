@@ -15,5 +15,7 @@
 
 @property(nonatomic, retain) UINavigationController *navController;
 
+@property (nonatomic, strong) DDFileLogger *logger;
+
 @end
 

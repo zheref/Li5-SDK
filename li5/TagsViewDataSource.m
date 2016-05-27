@@ -53,7 +53,7 @@
             }
             else
             {
-                DDLogVerbose(@"%@", tags);
+                DDLogVerbose(@"total tags: %lu", (unsigned long)tags.count);
                 _tags = [NSArray arrayWithArray:tags];
                 completion(error, _tags);
             }
@@ -69,7 +69,7 @@
             }
             else
             {
-                DDLogVerbose(@"%@", categories);
+                DDLogVerbose(@"total categories: %lu", (unsigned long)categories.count);
                 _tags = [NSArray arrayWithArray:categories];
                 completion(error, _tags);
             }
@@ -92,7 +92,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    TagsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"tagsViewCell" forIndexPath:indexPath];
+    TagsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"tagView" forIndexPath:indexPath];
     Tag *tag = [_tags objectAtIndex:indexPath.row];
     cell.tagNameLbl.text = tag.name;
 

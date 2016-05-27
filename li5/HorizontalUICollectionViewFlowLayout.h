@@ -10,4 +10,6 @@
 
 @interface HorizontalUICollectionViewFlowLayout : UICollectionViewFlowLayout
 
+- (instancetype)initWithColumns:(NSInteger)col andRows:(NSInteger)rows;
+
 @end

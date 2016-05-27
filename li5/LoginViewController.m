@@ -90,8 +90,8 @@
                 if (error == nil)
                 {
                     DDLogInfo(@"Successfully logged in into Li5");
-                    UIViewController *initialController = [[RootViewController alloc] init];
-                    [self.navigationController pushViewController:initialController animated:FALSE];
+                    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                    [notificationCenter postNotificationName:@"LoginSuccessful" object:nil];
                 }
                 else
                 {

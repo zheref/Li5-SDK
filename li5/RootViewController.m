@@ -26,15 +26,29 @@
 
 @implementation RootViewController
 
+#pragma mark - Init
+
 - (instancetype)init
 {
     DDLogVerbose(@"initializing RootController");
     self = [super init];
     if (self)
     {
+        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        [notificationCenter addObserver:self
+                               selector:@selector(flow)
+                                   name:@"LoginSuccessful"
+                                 object:nil];
+
+        [notificationCenter addObserver:self
+                               selector:@selector(flow)
+                                   name:@"LogoutSuccessful"
+                                 object:nil];
     }
     return self;
 }
+
+#pragma mark - UI Setup
 
 - (void)viewDidLoad
 {
@@ -57,6 +71,32 @@
     
     [self.view.layer addSublayer:loadingLayer];
     
+    [self flow];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [loadingLayer.player play];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [loadingLayer.player pause];
+}
+
+- (void)replayMovie:(NSNotification *)notification
+{
+    DDLogVerbose(@"replaying animation");
+    [loadingLayer.player seekToTime:kCMTimeZero];
+    [loadingLayer.player play];
+}
+
+#pragma mark - App Actions
+
+- (void)flow
+{
     // Do any additional setup after loading the view.
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     [li5 requestProfile:^(NSError *profileError, Profile *profile) {
@@ -99,31 +139,16 @@
                 }];
             }
         }
-        
-        
     }];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    DDLogVerbose(@"");
-    [loadingLayer.player play];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    DDLogVerbose(@"");
-    [loadingLayer.player pause];
-}
-
-- (void)replayMovie:(NSNotification *)notification
-{
-    DDLogVerbose(@"replaying animation");
-    [loadingLayer.player seekToTime:kCMTimeZero];
-    [loadingLayer.player play];
-}
-
 #pragma mark - OS Actions
+
+- (void)dealloc
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter removeObserver:self];
+}
 
 - (void)didReceiveMemoryWarning
 {

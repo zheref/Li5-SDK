@@ -15,6 +15,7 @@
 #import "ProductsViewController.h"
 #import "UserProfileDynamicInteractor.h"
 #import "ProductsListDynamicInteractor.h"
+#import "UIColor+Li5UIColor.h"
 
 #pragma mark - Class Definitions
 
@@ -32,7 +33,7 @@
     UIPanGestureRecognizer *backToSearchPanGestureRecognzier;
     UILongPressGestureRecognizer *longTapGestureRecognizer;
     id<UserProfileViewControllerPanTargetDelegate> profileInteractor;
-    id<ProductsViewControllerPanTargetDelegate> searchInteractor;
+    id<ExploreViewControllerPanTargetDelegate> searchInteractor;
 }
 
 @property (nonatomic, weak) AVPlayerLayer *teaserPlayer;
@@ -66,7 +67,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     DDLogVerbose(@"Loading TeaserViewController for: %@", self.product.id);
 
-    [self.view setBackgroundColor:[UIColor colorWithRed:(255/255.0) green:(20/255.0) blue:(147/255.0) alpha:1]];
+    [self.view setBackgroundColor:[UIColor li5_redColor]];
 
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = self.view.center;
@@ -75,8 +76,16 @@
     [spinner startAnimating];
 
     [self setupGestureRecognizers];
-
+    
     [self.view.layer addSublayer:self.teaserPlayer];
+    
+    if (pContext == kProductContextSearch)
+    {
+        CALayer *contextLayer = [[CALayer alloc] init];
+        contextLayer.backgroundColor = [UIColor li5_redColor].CGColor;
+        contextLayer.frame = CGRectMake(0,0,self.view.frame.size.width,5);
+        [self.view.layer addSublayer:contextLayer];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -326,8 +335,9 @@
 
 - (void)goBackToSearch:(UIPanGestureRecognizer *)recognizer
 {
+    //TODO use Search interactor
+    [self.navigationController popViewControllerAnimated:NO];
     [self hideAndMoveToViewController:nil];
-    [searchInteractor userDidPan:recognizer];
 }
 
 #pragma mark - Gesture Recognizers

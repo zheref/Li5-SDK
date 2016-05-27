@@ -6,23 +6,11 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-@protocol ProductsViewControllerPanTargetDelegate <NSObject>
+#import "ProductsListView.h"
+#import "ExploreViewController.h"
 
-- (void)userDidPan:(UIPanGestureRecognizer *)gestureRecognizer;
+@interface ProductsViewController : UIViewController <ProductsListViewDelegate, UISearchBarDelegate>
 
-- (void)presentViewWithCompletion:(void (^)(void))completion;
-
-- (void)dismissViewWithCompletion:(void (^)(void))completion;
-
-@end
-
-@interface ProductsViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate>
-
-@property (nonatomic, readonly) id<ProductsViewControllerPanTargetDelegate> panTarget;
-
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-
--(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil panTarget:(id<ProductsViewControllerPanTargetDelegate>)panTarget;
+@property (weak, nonatomic) IBOutlet ProductsListView *productListView;
 
 @end

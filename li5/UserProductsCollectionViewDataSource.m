@@ -13,7 +13,9 @@
 
 @interface UserProductsCollectionViewDataSource ()
 
-@property (nonatomic, strong) NSArray<Product *> *loves;
+@property (nonatomic, strong) NSMutableArray<Product *> *loves;
+
+@property (nonatomic, strong) Cursor *cursor;
 
 @end
 
@@ -38,9 +40,28 @@
     __weak typeof(self) welf = self;
     [li5 requestUserLovesWithCompletion:^(NSError *error, NSArray<Product *> *products) {
         DDLogVerbose(@"total loves: %lu", (unsigned long)products.count);
-        welf.loves = [NSArray arrayWithArray:products];
-        completion (error);
-    }];
+        welf.loves = [NSMutableArray arrayWithArray:products];
+        //TODO loves with cursor data
+        welf.cursor = nil;
+        if (completion)
+        {
+            completion (error);
+        }
+    } andCursor:nil];
+}
+
+- (void)fetchMoreUserLovesWithCompletion:(void (^)(NSError *error))completion
+{
+    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+    __weak typeof(self) welf = self;
+    [li5 requestUserLovesWithCompletion:^(NSError *error, NSArray<Product *> *products) {
+        DDLogVerbose(@"total loves: %lu", (unsigned long)products.count);
+        [welf.loves arrayByAddingObjectsFromArray:products];
+        if (completion)
+        {
+            completion (error);
+        }
+    } andCursor:self.cursor];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -54,7 +75,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ProductsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"lovesCollectionCell" forIndexPath:indexPath];
+    ProductsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"productListCell" forIndexPath:indexPath];
     Product *product = [_loves objectAtIndex:indexPath.row];
     
     // Here we use the new provided sd_setImageWithURL: method to load the web image

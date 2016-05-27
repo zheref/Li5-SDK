@@ -12,4 +12,6 @@
 
 - (void)getUserLovesWithCompletion:(void (^)(NSError *error))completion;
 
+- (void)fetchMoreUserLovesWithCompletion:(void (^)(NSError *error))completion;
+
 @end

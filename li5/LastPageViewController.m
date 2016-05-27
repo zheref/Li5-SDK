@@ -15,7 +15,7 @@
     UIPanGestureRecognizer *profilePanGestureRecognizer;
     UIPanGestureRecognizer *searchPanGestureRecognizer;
     id<UserProfileViewControllerPanTargetDelegate> profileInteractor;
-    id<ProductsViewControllerPanTargetDelegate> searchInteractor;
+    id<ExploreViewControllerPanTargetDelegate> searchInteractor;
 }
 
 @end

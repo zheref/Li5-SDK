@@ -14,7 +14,7 @@
 @interface ProductsCollectionViewDataSource : PrimeTimeViewControllerDataSource <UICollectionViewDataSource>
 
 - (void)getProductsWithQuery:(NSString *)query withCompletion:(void (^)(NSError *error))completion;
-- (void)isSearching;
-- (void)isNotSearching;
+
+- (void)fetchMoreProductsWithCompletion:(void (^)(NSError *error))completion;
 
 @end

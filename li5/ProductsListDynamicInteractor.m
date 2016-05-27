@@ -7,10 +7,11 @@
 //
 
 #import "ProductsListDynamicInteractor.h"
+#import "ExploreViewController.h"
 
 @interface ProductsListDynamicInteractor ()
 {
-    ProductsViewController *productsVC;
+    ExploreViewController *productsVC;
     
     BOOL presented;
 }
@@ -25,7 +26,9 @@
         return nil;
     
     _parentViewController = viewController;
-    productsVC = [[ProductsViewController alloc] initWithNibName:@"ProductsViewController" bundle:[NSBundle mainBundle] panTarget:self];
+    UIStoryboard *searchStoryboard = [UIStoryboard storyboardWithName:@"SearchProductsViews" bundle:[NSBundle mainBundle]];
+    productsVC = [searchStoryboard instantiateInitialViewController];
+    [productsVC setPanTarget:self];
     
     presented = NO;
     

@@ -24,14 +24,20 @@
 
 @implementation AppDelegate
 
+@synthesize logger;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [Fabric with:@[[Crashlytics class]]];
 
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     [DDLog addLogger:[CrashlyticsLogger sharedInstance]];
+    
+    logger = [DDFileLogger new];
+    logger.rollingFrequency = 60*60*24;
+    [logger.logFileManager setMaximumNumberOfLogFiles:7];
+    logger.doNotReuseLogFiles = YES;
+    [DDLog addLogger:logger];
     
     //Adding custom formatter for TTY
     [DDTTYLogger sharedInstance].logFormatter = [[Li5LoggerFormatter alloc] init];
@@ -56,8 +62,7 @@
     [[Li5ApiHandler sharedInstance] setBaseURL:serverUrl];
     
     // LoginViewController
-    UIViewController *initialController = ( FBSDKAccessToken.currentAccessToken != nil ?
-                                           [[RootViewController alloc] init] : [[LoginViewController alloc] init] );
+    UIViewController *initialController = [RootViewController new];
     
     self.navController = [[UINavigationController alloc] initWithRootViewController:initialController];
     self.navController.navigationBarHidden = YES;

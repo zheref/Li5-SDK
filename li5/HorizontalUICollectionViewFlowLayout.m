@@ -10,19 +10,21 @@
 
 @interface HorizontalUICollectionViewFlowLayout ()
 {
-    NSInteger nbColumns;
-    NSInteger nbLines;
+    NSInteger __nbColumns;
+    NSInteger __nbLines;
 }
 
 @end
 
 @implementation HorizontalUICollectionViewFlowLayout
 
-- (instancetype)init
+- (instancetype)initWithColumns:(NSInteger)col andRows:(NSInteger)rows
 {
     self = [super init];
     if (self)
     {
+        __nbColumns = col;
+        __nbLines = rows;
         [self initialize];
     }
     return self;
@@ -35,22 +37,23 @@
 
 - (void)initialize
 {
-    nbColumns = 3;
-    nbLines = 3;
+    __nbColumns = __nbColumns ?: 3;
+    __nbLines = __nbLines ?: 3;
+    
     [self setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger idxPage = (int)indexPath.row / (nbColumns * nbLines);
+    NSInteger idxPage = (int)indexPath.row / (__nbColumns * __nbLines);
 
-    NSInteger O = indexPath.row - (idxPage * nbColumns * nbLines);
+    NSInteger O = indexPath.row - (idxPage * __nbColumns * __nbLines);
 
-    NSInteger xD = (int)(O / nbColumns);
-    NSInteger yD = O % nbColumns;
+    NSInteger xD = (int)(O / __nbColumns);
+    NSInteger yD = O % __nbColumns;
 
-    NSInteger D = xD + yD * nbLines + idxPage * nbColumns * nbLines;
+    NSInteger D = xD + yD * __nbLines + idxPage * __nbColumns * __nbLines;
 
     NSIndexPath *fakeIndexPath = [NSIndexPath indexPathForItem:D inSection:indexPath.section];
     UICollectionViewLayoutAttributes *attributes = [super layoutAttributesForItemAtIndexPath:fakeIndexPath];

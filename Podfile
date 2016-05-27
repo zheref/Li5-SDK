@@ -3,21 +3,33 @@ platform :ios, '8.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
 
-target 'li5' do
+abstract_target 'Li5Base' do
   pod 'CocoaLumberjack'
   pod 'Li5Api', :path => '../li5-api-ios'
   pod 'BCVideoPlayer', :path => '../BCPlayerView'
   pod 'SDWebImage', '~>3.7'
-  pod 'Fabric'
-  pod 'Crashlytics'
-end
+  
+  target 'li5' do
+    pod 'Fabric'
+    pod 'Crashlytics'
+  end
+  
+  target 'li5-Dev' do
+    pod 'Fabric'
+    pod 'Crashlytics'
+  end
+  
+  target 'li5-Test' do
+    pod 'Fabric'
+    pod 'Crashlytics'
+  end
+  
+  target 'li5Tests' do
+  end
+  
+  target 'li5UITests' do
+  end
 
-target 'li5Tests' do
-  pod 'CocoaLumberjack'
-end
-
-target 'li5UITests' do
-  pod 'CocoaLumberjack'
 end
 
 # post install

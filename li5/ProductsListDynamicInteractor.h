@@ -6,10 +6,10 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "ProductsViewController.h"
+#import "ExploreViewController.h"
 #import "ProductPageProtocol.h"
 
-@interface ProductsListDynamicInteractor : NSObject <ProductsViewControllerPanTargetDelegate>
+@interface ProductsListDynamicInteractor : NSObject <ExploreViewControllerPanTargetDelegate>
 
 - (id)initWithParentViewController:(UIViewController<DisplayableProtocol> *)viewController;
 

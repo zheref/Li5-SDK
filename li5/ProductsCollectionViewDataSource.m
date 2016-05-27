@@ -11,11 +11,10 @@
 
 @interface ProductsCollectionViewDataSource ()
 
-@property (nonatomic, strong) NSMutableArray<Product *> *allProducts;
-@property (nonatomic, strong) NSMutableArray<Product *> *filteredProducts;
-@property (nonatomic, strong) Cursor *actualCursor;
-@property (nonatomic, strong) Cursor *searchActualCursor;
-@property (nonatomic, assign) BOOL searching;
+@property (nonatomic, strong) NSMutableArray<Product *> *products;
+
+@property (nonatomic, strong) NSString *lastSearch;
+@property (nonatomic, strong) Cursor *cursor;
 
 @end
 
@@ -23,8 +22,9 @@
 
 - (id)init {
     if (self = [super init]) {
-        _allProducts = [NSMutableArray array];
-        _filteredProducts = [NSMutableArray array];
+        _products = [NSMutableArray array];
+        _lastSearch = nil;
+        _cursor = nil;
     }
     return self;
 }
@@ -32,36 +32,31 @@
 - (void)getProductsWithQuery:(NSString *)query withCompletion:(void (^)(NSError *error))completion {
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     __weak typeof(self) welf = self;
-    [li5 requestProductsWithQuery:query andCursor:(_searching ? _searchActualCursor : _actualCursor) withCompletion:^(NSError *error, NSArray<Product *> *products, Cursor *cursor) {
-        DDLogVerbose(@"total products: %lu", (unsigned long)products.count);
-        if (error == nil) {
-            if (_searching) {
-                [welf.filteredProducts addObjectsFromArray:products];
-                welf.searchActualCursor = cursor;
-            } else {
-                [welf.allProducts addObjectsFromArray:products];
-                welf.actualCursor = cursor;
-            }
-            completion (nil);
-        } else {
-            completion (error);
+    [li5 requestProductsWithQuery:query andCursor:nil withCompletion:^(NSError *error, NSArray<Product *> *products, Cursor *cursor) {
+        if (error != nil) {
+            DDLogError(@"%@",error.description);
         }
+        DDLogVerbose(@"total products: %lu", (unsigned long)products.count);
+        welf.products = [NSMutableArray arrayWithArray:products];
+        welf.lastSearch = query;
+        welf.cursor = cursor;
+        completion (error);
     }];
 }
 
-- (void)isSearching {
-    _searching = true;
-    [self resetSearchStatus];
-}
-
-- (void)isNotSearching {
-    _searching = false;
-    [self resetSearchStatus];
-}
-
-- (void)resetSearchStatus {
-    _searchActualCursor = nil;
-    [_filteredProducts removeAllObjects];
+- (void)fetchMoreProductsWithCompletion:(void (^)(NSError *))completion
+{
+    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+    __weak typeof(self) welf = self;
+    [li5 requestProductsWithQuery:self.lastSearch andCursor:self.cursor withCompletion:^(NSError *error, NSArray<Product *> *products, Cursor *cursor) {
+        if (error != nil) {
+            DDLogError(@"%@",error.description);
+        }
+        DDLogVerbose(@"total new products: %lu", (unsigned long)products.count);
+        [welf.products addObjectsFromArray:products];
+        welf.cursor = cursor;
+        completion (error);
+    }];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -71,16 +66,12 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (_searching) {
-        return [_filteredProducts count];
-    } else {
-        return [_allProducts count];
-    }
+    return [self.products count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ProductsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
-    Product *product = (_searching ? [_filteredProducts objectAtIndex:indexPath.row] : [_allProducts objectAtIndex:indexPath.row] );
+    ProductsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"productListCell" forIndexPath:indexPath];
+    Product *product = [self.products objectAtIndex:indexPath.row];
     
     cell.layer.shouldRasterize = YES;
     cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
@@ -103,7 +94,7 @@
 }
 
 - (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index {
-    return [[ProductPageViewController alloc] initWithProduct:[(_searching ? _filteredProducts : _allProducts) objectAtIndex:index] andIndex:index forContext:kProductContextSearch];
+    return [[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] andIndex:index forContext:kProductContextSearch];
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerBeforeViewController:(UIViewController *)viewController
@@ -134,7 +125,7 @@
 }
 
 - (NSUInteger)numberOfProducts {
-    return (_searching ? [_filteredProducts count] : [_allProducts count]);
+    return [self.products count];
 }
 
 @end

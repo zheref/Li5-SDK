@@ -9,13 +9,12 @@
 @import Li5Api;
 
 #import "UserProfileViewController.h"
-#import "UserProductsViewController.h"
 
 @interface UserProfileViewController ()
 
-@property (nonatomic, strong) Profile *userProfile;
+@property (weak, nonatomic) IBOutlet UIButton *logsButton;
 
-@property (nonatomic, weak) UserProductsViewController *childViewController;
+@property (nonatomic, strong) Profile *userProfile;
 
 @end
 
@@ -24,7 +23,7 @@
 - (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"UserProfile" bundle:[NSBundle mainBundle]];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"UserProfile"];
+    self = [storyboard instantiateInitialViewController];
     if (self)
     {
         _panTarget = panTarget;
@@ -41,7 +40,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
     Li5ApiHandler *handler = [Li5ApiHandler sharedInstance];
     [handler requestProfile:^(NSError *error, Profile *profile) {
       if (!error)
@@ -50,16 +49,21 @@
           [_userNameLabel setText:_userProfile.email];
       }
     }];
-
+    
     UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userDidPan:)];
     [self.view addGestureRecognizer:gestureRecognizer];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSString * segueName = segue.identifier;
     if ([segueName isEqualToString: @"products_embed"]) {
-        _childViewController = (UserProductsViewController *) [segue destinationViewController];
+        //_childViewController = (UserProductsViewController *) [segue destinationViewController];
     }
 }
 
