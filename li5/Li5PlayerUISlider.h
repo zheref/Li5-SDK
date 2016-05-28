@@ -8,12 +8,12 @@
 
 @import AVFoundation;
 
-@interface Li5PlayerUISlider : UISlider
+@interface Li5PlayerUISlider : UIView
 
-- (void)setPlayer:(AVPlayer *)aPlayer;
+@property (nonatomic, weak) AVPlayer *player;
 
-- (void)sliderGestureRecognized:(id)sender;
+- (CGFloat)getProgress;
 
-- (instancetype)initWithFrame:(CGRect)frame andPlayer:(AVPlayer*) aPlayer;
+- (CGFloat)setProgress:(CGFloat)percentage animated:(BOOL)animated;
 
 @end

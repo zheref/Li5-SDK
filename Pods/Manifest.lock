@@ -15,6 +15,7 @@ PODS:
   - Li5Api (0.0.1):
     - JSONModel
     - SSKeychain
+  - Masonry (1.0.0)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
@@ -26,6 +27,7 @@ DEPENDENCIES:
   - Crashlytics
   - Fabric
   - Li5Api (from `../li5-api-ios`)
+  - Masonry
   - SDWebImage (~> 3.7)
 
 EXTERNAL SOURCES:
@@ -41,9 +43,10 @@ SPEC CHECKSUMS:
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
   Li5Api: 3f125e1964ff1227e35beba90f52594e6e0176af
+  Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
 
-PODFILE CHECKSUM: 73a21a64c7a7e9e430a7ae0b17b44ccff61081a2
+PODFILE CHECKSUM: 1fef3366b0eaea006220870ca31bbd37bb66ee4d
 
 COCOAPODS: 1.0.0

@@ -17,6 +17,10 @@
 @import Foundation;
 
 #import "Logger.h"
+
+#define MAS_SHORTHAND
+#import "Masonry.h"
+
 #endif
 
 #endif /* Li5_Prefix_pch */

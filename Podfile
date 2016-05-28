@@ -8,6 +8,7 @@ abstract_target 'Li5Base' do
   pod 'Li5Api', :path => '../li5-api-ios'
   pod 'BCVideoPlayer', :path => '../BCPlayerView'
   pod 'SDWebImage', '~>3.7'
+  pod 'Masonry'
   
   target 'li5' do
     pod 'Fabric'

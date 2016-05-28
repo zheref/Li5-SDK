@@ -13,16 +13,15 @@
 #import "UnlockedViewController.h"
 #import "ProductPageViewController.h"
 
+static const CGFloat sliderHeight = 50.0;
+
 @interface UnlockedViewController ()
 {
-    id mFullVideoRemainingObserver;
     NSTimer *hideControlsTimer;
 
     UIPanGestureRecognizer *_lockPanGestureRecognzier;
-    UIPanGestureRecognizer *_scrubberPanGestureRecognzier;
     
     Li5PlayerUISlider *seekSlider;
-    UILabel *timeLabel;
     UIButton *loveBtn;
     UIButton *shareBtn;
     
@@ -65,6 +64,8 @@
     [self setupGestureRecognizers];
     
     [self renderAnimations];
+    
+    [self updateConstraints];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -88,13 +89,7 @@
     DDLogVerbose(@"rendering animations for unlocked video");
     if (!seekSlider)
     {
-        seekSlider = [[Li5PlayerUISlider alloc] initWithFrame:CGRectMake(10, 30, self.view.frame.size.width - 60, 10)];
-    }
-    
-    if (!timeLabel)
-    {
-        timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40, 20, 40, 30)];
-        [timeLabel setTextColor:[UIColor whiteColor]];
+        seekSlider = [[Li5PlayerUISlider alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,sliderHeight)];
     }
     
     if (!loveBtn)
@@ -121,7 +116,6 @@
         [loveBtn setSelected:self.product.is_loved];
         
         [self.view addSubview:seekSlider];
-        [self.view addSubview:timeLabel];
         [self.view addSubview:loveBtn];
         [self.view addSubview:shareBtn];
         
@@ -133,18 +127,23 @@
 {
     DDLogDebug(@"");
     [seekSlider removeFromSuperview];
-    [timeLabel removeFromSuperview];
     [loveBtn removeFromSuperview];
     [shareBtn removeFromSuperview];
     
     [self.view setNeedsDisplay];
     controlsDisplayed = NO;
     
-    if (hideControlsTimer)
-    {
-        [hideControlsTimer invalidate];
-        hideControlsTimer = nil;
-    }
+    [self removeObservers];
+}
+
+- (void)updateConstraints
+{
+//    [seekSlider makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view);
+//        make.left.equalTo(self.view);
+//        make.right.equalTo(self.view);
+//        make.height.equalTo(@(sliderHeight));
+//    }];
 }
 
 #pragma mark - Player
@@ -275,32 +274,17 @@
 
 - (void)setupObservers
 {
-    if (!mFullVideoRemainingObserver)
-    {
-        __weak typeof(self) weakSelf = self;
-        mFullVideoRemainingObserver = [self.extendedVideo.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, NSEC_PER_SEC)
-                                                                                              queue:NULL /* If you pass NULL, the main queue is used. */
-                                                                                         usingBlock:^(CMTime time) {
-                                                                                             [weakSelf updatedTimerWithSecondsRemaining:CMTimeGetSeconds(time)];
-                                                                                         }];
-    }
-    
-    
     hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(removeAnimations) userInfo:nil repeats:NO];
 }
 
 - (void)removeObservers
 {
-    if (mFullVideoRemainingObserver)
-    {
-        [_extendedVideo.player removeTimeObserver:mFullVideoRemainingObserver];
-        [mFullVideoRemainingObserver invalidate];
-        mFullVideoRemainingObserver = nil;
-    }
-    
     if (hideControlsTimer)
     {
-        [hideControlsTimer invalidate];
+        if ([hideControlsTimer isValid])
+        {
+            [hideControlsTimer invalidate];
+        }
         hideControlsTimer = nil;
     }
 }
@@ -331,27 +315,9 @@
         }
         else
         {
-            CGPoint locationInView = [sender locationInView:self.view];
-            if (locationInView.y >= 100)
-            {
-                [self removeAnimations];
-            }
+            [self removeAnimations];
         }
     }
-}
-
-- (void)handleSliderSwipe:(UIGestureRecognizer *)sender
-{
-    if (sender.state == UIGestureRecognizerStateBegan)
-    {
-        [self removeObservers];
-    }
-    else if (sender.state == UIGestureRecognizerStateEnded)
-    {
-        [self setupObservers];
-    }
-    
-    [seekSlider sliderGestureRecognized:sender];
 }
 
 - (void)setupGestureRecognizers
@@ -359,12 +325,10 @@
     UITapGestureRecognizer *simpleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSimpleTap:)];
     [self.view addGestureRecognizer:simpleTapGestureRecognizer];
     
-    _scrubberPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleSliderSwipe:)];
-    _scrubberPanGestureRecognzier.delegate = self;
-    [self.view addGestureRecognizer:_scrubberPanGestureRecognzier];
-    
     _lockPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleLockTap:)];
     _lockPanGestureRecognzier.delegate = self;
+    _lockPanGestureRecognzier.cancelsTouchesInView = NO;
+    
     [self.view addGestureRecognizer:_lockPanGestureRecognzier];
 }
 
@@ -377,18 +341,11 @@
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     CGPoint touch = [gestureRecognizer locationInView:self.view];
-    if (gestureRecognizer == _scrubberPanGestureRecognzier)
-    {
-        if (touch.y < 100)
-        {
-            return YES;
-        }
-    }
-    else if (gestureRecognizer == _lockPanGestureRecognzier)
+    if (gestureRecognizer == _lockPanGestureRecognzier)
     {
         CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
         double degree = atan(velocity.y/velocity.x) * 180 / M_PI;
-        return (touch.y >= 100) && (fabs(degree) > 20.0) && (velocity.y > 0);
+        return (touch.y >= sliderHeight) && (fabs(degree) > 20.0) && (velocity.y > 0);
     }
     return NO;
 }
@@ -398,24 +355,30 @@
 {
     if([[gestureRecognizer view] isKindOfClass:[UIScrollView class]])
     {
-        if (otherGestureRecognizer == _scrubberPanGestureRecognzier || otherGestureRecognizer == _lockPanGestureRecognzier)
+        if (otherGestureRecognizer == _lockPanGestureRecognzier)
         {
             return YES;
         }
     }
-    return (gestureRecognizer == _lockPanGestureRecognzier && otherGestureRecognizer == _scrubberPanGestureRecognzier);
+    return NO;
 }
 
-#pragma mark - Observer Actions
-
-- (void)updatedTimerWithSecondsRemaining:(CGFloat)seconds
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    float remainingSeconds = CMTimeGetSeconds(self.extendedVideo.player.currentItem.duration) - seconds;
-    timeLabel.text = (remainingSeconds >= 0 ? [NSString stringWithFormat:@"%.0f", remainingSeconds] : @"");
-    if (lroundf(remainingSeconds)==0)
-    {
-        [self renderAnimations];
-    }
+    [self removeObservers];
+    [super touchesBegan:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self setupObservers];
+    [super touchesEnded:touches withEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self setupObservers];
+    [super touchesCancelled:touches withEvent:event];
 }
 
 #pragma mark - Device Actions

@@ -524,6 +524,33 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		5B06F3B81CF8C22A007FA3AB /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5B4C78BE1CF2087A00770311 /* UserSettingsViewController.h */,
+				5B4C78BF1CF2087A00770311 /* UserSettingsViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		5B06F3B91CF8C233007FA3AB /* Loves */ = {
+			isa = PBXGroup;
+			children = (
+				5B5E4E1A1CED0B2000155A6F /* UserProductsCollectionViewDataSource.h */,
+				5B5E4E1B1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m */,
+				5B4C78B71CF12E2300770311 /* UserLovesViewController.h */,
+				5B4C78B81CF12E2300770311 /* UserLovesViewController.m */,
+			);
+			name = Loves;
+			sourceTree = "<group>";
+		};
+		5B06F3BA1CF8C237007FA3AB /* Orders */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Orders;
+			sourceTree = "<group>";
+		};
 		5B13D30B1CDEA0070015ECFC /* li5Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -654,7 +681,6 @@
 			children = (
 				5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */,
 				5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */,
-				5B6204451CCA5DE1003C9390 /* Player */,
 			);
 			name = Unlocked;
 			sourceTree = "<group>";
@@ -675,6 +701,7 @@
 				5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */,
 				5B6204431CCA5DC5003C9390 /* Teaser */,
 				5B75519A1CCFAE88007FAF67 /* Unlocked */,
+				5B6204451CCA5DE1003C9390 /* Player */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -684,13 +711,10 @@
 			children = (
 				5B7551CF1CD178A0007FAF67 /* UserProfileViewController.h */,
 				5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */,
-				5B4C78B71CF12E2300770311 /* UserLovesViewController.h */,
-				5B4C78B81CF12E2300770311 /* UserLovesViewController.m */,
-				5B4C78BE1CF2087A00770311 /* UserSettingsViewController.h */,
-				5B4C78BF1CF2087A00770311 /* UserSettingsViewController.m */,
-				5B5E4E1A1CED0B2000155A6F /* UserProductsCollectionViewDataSource.h */,
-				5B5E4E1B1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m */,
 				5B7551D61CD26A69007FAF67 /* UserProfile.Storyboard */,
+				5B06F3BA1CF8C237007FA3AB /* Orders */,
+				5B06F3B91CF8C233007FA3AB /* Loves */,
+				5B06F3B81CF8C22A007FA3AB /* Settings */,
 				5B427E0F1CEBA7AB000EF9E5 /* Interactors */,
 			);
 			name = Profile;

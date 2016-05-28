@@ -61,7 +61,8 @@ platform :ios do
 
     gym(
       scheme: "li5-Test",
-      use_legacy_build_api: true
+      use_legacy_build_api: true,
+      configuration: "debug"
     ) # Build your app - more options available
 
     #produce(
