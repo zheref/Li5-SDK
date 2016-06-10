@@ -9,8 +9,6 @@
 @import Li5Api;
 
 #import "PrimeTimeViewController.h"
-#import "PrimeTimeViewController.h"
-#import "ProductsCollectionViewCell.h"
 #import "ProductsCollectionViewDataSource.h"
 #import "ProductsViewController.h"
 
@@ -40,12 +38,12 @@
 
 #pragma mark - User Actions
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+- (void)searchButtonClicked:(Li5SearchBarUIView *)searchBar
 {
     [self exploreProducts:searchBar.text];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+- (void)cancelButtonClicked:(Li5SearchBarUIView *)searchBar
 {
     [self exploreProducts:searchBar.text];
 }

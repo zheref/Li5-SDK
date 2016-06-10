@@ -17,6 +17,13 @@
   "source": {
     "git": "https://github.com/gustavohansen/BCPlayerView.git"
   },
+  "ios": {
+    "libraries": [
+      "z",
+      "xml2"
+    ]
+  },
+  "compiler_flags": "-I$(SDKROOT)/usr/include/libxml2",
   "frameworks": "AVFoundation",
   "source_files": [
     "BCVideoPlayer",

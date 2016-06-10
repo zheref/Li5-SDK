@@ -5,247 +5,100 @@
 //  Created by Martin Cocaro on 1/20/16.
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
+@import Li5Api;
+@import SDWebImage;
 
 #import "DetailsViewController.h"
+#import "ImageUICollectionViewCell.h"
+#import "UILabel+Li5.h"
 
 @interface DetailsViewController ()
+
+@property (weak, nonatomic) IBOutlet UILabel *productTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *productVendorLabel;
+@property (weak, nonatomic) IBOutlet UILabel *productDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *shippingInfoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *buyNowBtn;
+
+@property (nonatomic, weak) Order *order;
 
 @end
 
 @implementation DetailsViewController
 
-@synthesize product, imagesViewController, images, imagePageControl, previousViewController, nextViewController;
+@synthesize product, previousViewController, nextViewController;
+
+#pragma mark - Init
 
 - (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
-    self = [super init];
+    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+    self = [productPageStoryboard instantiateViewControllerWithIdentifier:@"DetailsView"];
     if (self)
     {
-        //DDLogVerbose(@"Initializing DetailsViewController for: %@", thisProduct.title);
         self.product = thisProduct;
-        self.imagesViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-        self.imagesViewController.dataSource = self;
-        self.imagesViewController.delegate = self;
-        [self addChildViewController:imagesViewController];
-        self.images = [NSMutableArray array];
     }
     return self;
 }
+
+- (id)initWithOrder:(Order*)thisOrder andContext:(ProductContext)ctx
+{
+    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+    self = [productPageStoryboard instantiateViewControllerWithIdentifier:@"DetailsView"];
+    if (self)
+    {
+        self.order = thisOrder;
+        self.product = thisOrder.product;
+    }
+    return self;
+}
+
+#pragma mark - UI Setup
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //DDLogVerbose(@"Loading DetailsViewController for: %@", self.product.title);
+    DDLogVerbose(@"%@", self.product.title);
 
-    //Set white background color
-    [self.view setBackgroundColor:[UIColor whiteColor]];
+    self.productTitleLabel.text = self.product.title;
+    self.productVendorLabel.text = [self.product.brand uppercaseString];
 
-    //Scroll View
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 70)];
-    //scrollView.delegate = self;
-    //scrollView.delaysContentTouches = NO;
-    //scrollView.bounces = FALSE;
+    NSString *readMoreText = @" READ MORE";
+    NSString *productDescription = [self.product.body stringByAppendingString:readMoreText];
 
-    //Vendor Name Label
-    NSString *vendor = self.product.brand;
-    UIFont *vendorFont = [UIFont fontWithName:@"Avenir" size:14];
-    CGRect vendorSize = [vendor boundingRectWithSize:CGSizeMake(scrollView.frame.size.width - 10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName : vendorFont } context:nil];
-    UILabel *vendorLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, [self currentBottomIn:scrollView].size.height + 10, scrollView.frame.size.width - 120, vendorSize.size.height)];
-    [vendorLabel setTextColor:[UIColor blueColor]];
-    [vendorLabel setNumberOfLines:0];
-    [vendorLabel setFont:vendorFont];
-    [vendorLabel setText:vendor];
-    [vendorLabel setTextAlignment:NSTextAlignmentLeft];
-    [scrollView addSubview:vendorLabel];
+    NSMutableAttributedString *bodyText = [[NSMutableAttributedString alloc] initWithString:productDescription
+                                                                                 attributes:@{
+                                                                                     NSFontAttributeName : [UIFont fontWithName:@"Rubik" size:18.0],
+                                                                                     NSForegroundColorAttributeName : [UIColor blackColor]
+                                                                                 }];
 
-    //Ratings section
-    CGRect ratingFrame = CGRectMake(scrollView.frame.size.width - 100, vendorLabel.frame.origin.y, 80, vendorLabel.frame.size.height);
-    UIBezierPath *trianglePath = [ShapesHelper stars:5 shapeInFrame:ratingFrame];
-    CAShapeLayer *ratingLayer = [CAShapeLayer layer];
-    [ratingLayer setFrame:ratingFrame];
-    [ratingLayer setPath:trianglePath.CGPath];
-    [ratingLayer setFillColor:[[UIColor yellowColor] CGColor]];
-    [scrollView.layer addSublayer:ratingLayer];
+    NSRange readMoreRange = [productDescription rangeOfString:readMoreText];
+    [bodyText addAttribute:NSForegroundColorAttributeName value:[UIColor li5_cyanColor] range:readMoreRange];
+    [bodyText addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Rubik-Medium" size:16.0] range:readMoreRange];
 
-    //Product Title Label
-    UIFont *productTitleFont = [UIFont fontWithName:@"Avenir-Black" size:18];
-    CGRect productTitleSize = [product.title boundingRectWithSize:CGSizeMake(scrollView.frame.size.width - 10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName : productTitleFont } context:nil];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, [self currentBottomIn:scrollView].size.height + 5, self.view.frame.size.width - 20, productTitleSize.size.height)];
-    [titleLabel setTextColor:[UIColor blackColor]];
-    [titleLabel setNumberOfLines:0];
-    [titleLabel setFont:productTitleFont];
-    [titleLabel setText:product.title];
-    [titleLabel setTextAlignment:NSTextAlignmentLeft];
-    [scrollView addSubview:titleLabel];
+    [self.productDescriptionLabel setAttributedText:bodyText];
+    [self.productDescriptionLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.productDescriptionLabel setContentScaleFactor:[[UIScreen mainScreen] scale]];
 
-    //Add product image resized
-    CGRect imageFrame = CGRectMake(0, 0, self.view.frame.size.width, 375);
-    CGRect swipeFrame = CGRectMake(0, [self currentBottomIn:scrollView].size.height + 10, self.view.frame.size.width, 375);
-
-    [imagesViewController.view setFrame:swipeFrame];
-
-    //Request image data from the URL:
-    for (int i = 0; i < self.product.images.count; i++)
+    NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
+    NSString *buyNow = @"BUY NOW ";
+    NSString *buttonCTA = [NSString stringWithFormat:@"%@%@", buyNow, price];
+    if (self.order != nil)
     {
-        NSString *image = self.product.images[i];
-        IndexedViewController *imageViewController = [[IndexedViewController alloc] init];
-        imageViewController.index = i;
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageFrame];
-        [imageViewController.view addSubview:imageView];
-
-        [self.images addObject:imageViewController];
-
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-          NSData *imgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:image]];
-
-          dispatch_async(dispatch_get_main_queue(), ^{
-            if (imgData)
-            {
-                //Load the data into an UIImage:
-                UIImage *backgroundImage = [UIImage imageWithData:imgData];
-                //Check if your image loaded successfully:
-                if (backgroundImage)
-                {
-                    UIGraphicsBeginImageContextWithOptions(imageFrame.size, NO, 0);
-                    [backgroundImage drawInRect:imageFrame];
-                    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
-                    UIGraphicsEndImageContext();
-                    imageView.image = resizedImage;
-                    [self.view bringSubviewToFront:imagePageControl];
-                }
-            }
-          });
-        });
+        buttonCTA = self.order.status;
+        [self.buyNowBtn setEnabled:NO];
     }
 
-    if(self.images.count > 0)
-    {
-        [imagesViewController setViewControllers:@[ self.images[0] ] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-        
-        [scrollView addSubview:imagesViewController.view];
-        imagePageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, [self currentBottomIn:scrollView].size.height - 37, self.view.frame.size.width, 37)];
-        imagePageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-        imagePageControl.currentPageIndicatorTintColor = [UIColor blackColor];
-        imagePageControl.backgroundColor = [UIColor clearColor];
-        imagePageControl.currentPage = 0;
-        imagePageControl.numberOfPages = self.product.images.count;
-        [scrollView addSubview:imagePageControl];
-    }
+    NSMutableAttributedString *buyNowText = [[NSMutableAttributedString alloc] initWithString:buttonCTA
+                                                                                   attributes:@{
+                                                                                       NSFontAttributeName : [UIFont fontWithName:@"Rubik-Bold" size:20.0],
+                                                                                       NSForegroundColorAttributeName : [UIColor lightGrayColor]
+                                                                                   }];
 
-    //Product Price Label
-    NSString *price = @"Price: ";
-    NSString *productPrice = [product.price stringValue];
-    UIFont *productPriceFont = [UIFont fontWithName:@"Avenir-Black" size:16];
-    CGRect productPriceSize = [productPrice boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName : productPriceFont } context:nil];
-    UILabel *productPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, [self currentBottomIn:scrollView].size.height + 10, self.view.frame.size.width - 20, productPriceSize.size.height)];
-    [productPriceLabel setTextColor:[UIColor blackColor]];
-    [productPriceLabel setNumberOfLines:0];
-    [productPriceLabel setFont:productPriceFont];
-    NSMutableAttributedString *attributedProductPrice = [[NSMutableAttributedString alloc] initWithString:price attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Avenir" size:14],
-                                                                                                                              NSForegroundColorAttributeName : [UIColor grayColor] }];
-    [attributedProductPrice appendAttributedString:[[NSMutableAttributedString alloc] initWithString:productPrice attributes:@{NSFontAttributeName : productPriceFont, NSForegroundColorAttributeName : [UIColor blackColor]}]];
-    [productPriceLabel setAttributedText:attributedProductPrice];
-    [productPriceLabel setTextAlignment:NSTextAlignmentLeft];
-    [scrollView addSubview:productPriceLabel];
+    [buyNowText addAttribute:NSForegroundColorAttributeName value:[UIColor li5_whiteColor] range:[buttonCTA rangeOfString:price]];
 
-    //Add Product Description
-    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectIntegral(CGRectMake(20, [self currentBottomIn:scrollView].size.height + 10, self.view.frame.size.width - 40, self.view.frame.size.height))];
-    [descriptionLabel setTextColor:[UIColor blackColor]];
-    [descriptionLabel setFont:[UIFont fontWithName:@"Avenir" size:16]];
-    descriptionLabel.numberOfLines = 0;
-    descriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    [descriptionLabel setTextAlignment:NSTextAlignmentLeft];
-    descriptionLabel.text = product.body;
-    descriptionLabel.contentScaleFactor = [UIScreen mainScreen].scale;
-    [descriptionLabel sizeToFit];
-    [scrollView addSubview:descriptionLabel];
-
-    //Update scrollview content size based on subviews
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, [self currentBottomIn:scrollView].size.height);
-
-    //Add ScrollView to View
-    [self.view addSubview:scrollView];
-
-    //Add Buy button
-    NSString *cta = @"BUY";
-    UIButton *firstButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [firstButton setTitle:cta forState:UIControlStateNormal];
-    [firstButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    firstButton.frame = CGRectMake(12.5, self.view.bounds.size.height - 60, self.view.bounds.size.width - 25, 50);
-    firstButton.backgroundColor = [UIColor yellowColor];
-    firstButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Black" size:18];
-    firstButton.layer.cornerRadius = 5;
-    firstButton.clipsToBounds = YES;
-    firstButton.layer.contentsGravity = kCAGravityBottom;
-    UIGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(buyAction:)];
-    [firstButton addGestureRecognizer:tapGesture];
-
-    [self.view addSubview:firstButton];
-}
-
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
-{
-    if (imagesViewController == pageViewController)
-    {
-        imagePageControl.currentPage = [(IndexedViewController *)[imagesViewController.viewControllers firstObject] index];
-    }
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-{
-    if (pageViewController == self.imagesViewController)
-    {
-        NSUInteger index = ((IndexedViewController *)viewController).index;
-
-        if ((index == 0) || (index == NSNotFound))
-        {
-            return nil;
-        }
-        return self.images[index - 1];
-    }
-    return nil;
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
-{
-    if (pageViewController == self.imagesViewController)
-    {
-        NSUInteger index = ((IndexedViewController *)viewController).index;
-
-        if ((index + 1 == [self.images count]) || (index == NSNotFound))
-        {
-            return nil;
-        }
-        return self.images[index + 1];
-    }
-    return nil;
-}
-
-- (CGRect)currentBottomIn:(UIView *)currentView
-{
-    CGRect contentRect = CGRectZero;
-    for (UIView *view in currentView.subviews)
-    {
-        contentRect = CGRectUnion(contentRect, view.frame);
-    }
-    return contentRect;
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [self.view layoutIfNeeded];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)buyAction:(UITapGestureRecognizer *)gestureRecognizer
-{
-    //DDLogVerbose(@"Buy Button tapped");
+    [self.buyNowBtn setAttributedTitle:buyNowText forState:UIControlStateNormal];
 }
 
 - (void)hideAndMoveToViewController:(UIViewController *)viewController
@@ -253,14 +106,52 @@
     //Do nothing
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - UICollectionViewDataSource
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
 }
-*/
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    if (!self.product.images || !self.product.images.count)
+        return 0;
+    return self.product.images.count < 3 ?: 3;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    ImageUICollectionViewCell *imageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageView" forIndexPath:indexPath];
+
+    // Here we use the new provided sd_setImageWithURL: method to load the web image
+    [imageCell.imageView sd_setImageWithURL:[NSURL URLWithString:self.product.images[indexPath.row]]
+                           placeholderImage:nil
+                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
+                                      //DDLogVerbose(@"completed");
+                                  }];
+
+    return imageCell;
+}
+
+#pragma mark - User Actions
+
+- (IBAction)buyAction:(UITapGestureRecognizer *)gestureRecognizer
+{
+    //DDLogVerbose(@"Buy Button tapped");
+}
+
+- (IBAction)seePictures:(UITapGestureRecognizer*)sender
+{
+    
+}
+
+#pragma mark - OS Actions
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 @end

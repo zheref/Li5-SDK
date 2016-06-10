@@ -48,6 +48,10 @@
     [self renderPrimeTime];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 #pragma mark - Prime Time Flow
 
 -(void)setStartIndex:(NSInteger)idx

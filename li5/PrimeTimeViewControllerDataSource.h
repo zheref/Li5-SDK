@@ -11,8 +11,8 @@
 @interface PrimeTimeViewControllerDataSource : NSObject <UIPageViewControllerDataSource>
 
 - (void)startFetchingProductsInBackgroundWithCompletion:(void (^)(NSError *error))completion;
-- (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index;
-
+- (void)fetchMoreProductsWithCompletion:(void (^)(NSError *error))completion;
 - (NSUInteger)numberOfProducts;
+- (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index;
 
 @end

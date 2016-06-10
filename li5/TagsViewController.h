@@ -8,7 +8,7 @@
 
 #import "ExploreViewController.h"
 
-@interface TagsViewController : UIViewController <UISearchBarDelegate>
+@interface TagsViewController : UIViewController <Li5SearchBarUIViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *tagsCollectionView;
 

@@ -16,9 +16,10 @@
 
 @implementation Li5View
 
+#pragma mark - Init
+
 - (instancetype)init
 {
-    DDLogDebug(@"");
     self = [super init];
     if (self)
     {
@@ -29,7 +30,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    DDLogDebug(@"");
     self = [super initWithFrame:frame];
     if (self)
     {
@@ -40,7 +40,6 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    DDLogDebug(@"");
     self = [super initWithCoder:aDecoder];
     if (self)
     {
@@ -51,13 +50,13 @@
 
 - (void)initialize
 {
-    DDLogDebug(@"");
     [self setupFromXib];
 }
 
+#pragma mark - UI Setup
+
 - (void)setupFromXib
 {
-    DDLogDebug(@"");
     if (!self.view)
     {
         NSString *xibName = self.xibName ?: NSStringFromClass(self.class);
@@ -75,6 +74,14 @@
                                                                      metrics:nil
                                                                        views:views]];
     }
+}
+
+- (UIViewController *)parentViewController
+{
+    UIResponder *responder = self;
+    while ([responder isKindOfClass:[UIView class]])
+        responder = [responder nextResponder];
+    return (UIViewController *)responder;
 }
 
 @end

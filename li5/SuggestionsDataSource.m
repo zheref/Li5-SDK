@@ -13,7 +13,8 @@
 
 @interface SuggestionsDataSource ()
 
-@property (nonatomic, strong) NSArray<Tag *> *tags;
+@property (nonatomic, strong) NSString *searchText;
+@property (nonatomic, strong) NSArray<NSString *> *tags;
 
 @end
 
@@ -31,21 +32,22 @@
     return self;
 }
 
-- (Tag *)getSuggestion:(NSInteger)pos
+- (NSString *)getSuggestion:(NSInteger)pos
 {
     if (pos >= 0 && pos < _tags.count)
     {
-        return (Tag *)_tags[pos];
+        return _tags[pos];
     }
     return nil;
 }
 
-- (void)getSuggestions:(NSString *)word withCompletion:(void (^)(NSError *, NSArray<JSONModel *> *))completion
+- (void)getSuggestions:(NSString *)word withCompletion:(void (^)(NSError *, NSArray<NSString *> *))completion
 {
     Li5ApiHandler *handler = [Li5ApiHandler sharedInstance];
     if (word && word.length > 0)
     {
-        [handler autocompleteFor:word withCompletion:^(NSError *error, NSArray<Tag *> *tags) {
+        self.searchText = word;
+        [handler autocompleteFor:word orFetchTags:NO withCompletion:^(NSError *error, NSArray<NSString *> *tags) {
             if (error)
             {
                 DDLogError(@"%@", error);
@@ -77,8 +79,16 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SuggestionsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"suggestionView" forIndexPath:indexPath];
-    Tag *tag = [_tags objectAtIndex:indexPath.row];
-    cell.suggestionLbl.text = tag.name;
+    NSString *tag = [_tags objectAtIndex:indexPath.row];
+
+    NSMutableAttributedString *attTag = [[NSMutableAttributedString alloc] initWithString:tag
+                                                                               attributes:@{
+                                                                                   NSFontAttributeName : [UIFont fontWithName:@"Rubik-Medium" size:24.0],
+                                                                                   NSForegroundColorAttributeName : [UIColor lightGrayColor]
+                                                                               }];
+    [attTag addAttribute:NSForegroundColorAttributeName value:[UIColor li5_charcoalColor] range:[tag rangeOfString:self.searchText]];
+
+    cell.suggestionLbl.attributedText = attTag;
     
     return cell;
 }

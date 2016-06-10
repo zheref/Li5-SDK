@@ -13,7 +13,7 @@
 
 @interface TagsViewDataSource ()
 
-@property (nonatomic, strong) NSArray<JSONModel *> *tags;
+@property (nonatomic, strong) NSArray<NSString *> *tags;
 
 @end
 
@@ -31,50 +31,31 @@
     return self;
 }
 
-- (Tag *)getTag:(NSInteger)pos
+- (NSString *)getTag:(NSInteger)pos
 {
     if (pos >= 0 && pos < _tags.count)
     {
-        return (Tag *)_tags[pos];
+        return _tags[pos];
     }
     return nil;
 }
 
-- (void)getTags:(NSString *)word withCompletion:(void (^)(NSError *, NSArray<JSONModel *> *))completion
+- (void)getTags:(NSString *)word withCompletion:(void (^)(NSError *, NSArray<NSString *> *))completion
 {
     Li5ApiHandler *handler = [Li5ApiHandler sharedInstance];
-    if (word && word.length > 0)
-    {
-        [handler autocompleteFor:word withCompletion:^(NSError *error, NSArray<Tag *> *tags) {
-            if (error)
-            {
-                DDLogError(@"%@", error);
-                completion(error,nil);
-            }
-            else
-            {
-                DDLogVerbose(@"total tags: %lu", (unsigned long)tags.count);
-                _tags = [NSArray arrayWithArray:tags];
-                completion(error, _tags);
-            }
-        }];
-    }
-    else
-    {
-        [handler requestCategoriesWithCompletion:^(NSError *error, NSArray<Category *> *categories) {
-            if (error)
-            {
-                DDLogError(@"%@", error);
-                completion(error,nil);
-            }
-            else
-            {
-                DDLogVerbose(@"total categories: %lu", (unsigned long)categories.count);
-                _tags = [NSArray arrayWithArray:categories];
-                completion(error, _tags);
-            }
-        }];
-    }
+    [handler autocompleteFor:word orFetchTags:YES withCompletion:^(NSError *error, NSArray<NSString *> *tags) {
+        if (error)
+        {
+            DDLogError(@"%@", error);
+            completion(error,nil);
+        }
+        else
+        {
+            DDLogVerbose(@"total tags: %lu", (unsigned long)tags.count);
+            _tags = [NSArray arrayWithArray:tags];
+            completion(error, _tags);
+        }
+    }];
     
 }
 
@@ -93,8 +74,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     TagsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"tagView" forIndexPath:indexPath];
-    Tag *tag = [_tags objectAtIndex:indexPath.row];
-    cell.tagNameLbl.text = tag.name;
+    NSString *tag = [_tags objectAtIndex:indexPath.row];
+    cell.tagNameLbl.text = tag;
 
     return cell;
 }

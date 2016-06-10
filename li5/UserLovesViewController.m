@@ -13,6 +13,7 @@
 @interface UserLovesViewController ()
 
 @property (nonatomic, strong) UserProductsCollectionViewDataSource *source;
+@property (weak, nonatomic) IBOutlet UILabel *noLovesView;
 
 @end
 
@@ -30,18 +31,40 @@
 
 - (void)viewDidLoad
 {
+    [_noLovesView setHidden:YES];
+    [_productsListView setHidden:NO];
+    
+    NSString *message = @"You haven't [heart] loved any products yet!";
+    NSString *redWords = @"loved";
+    NSString *heartImage = @"[heart]";
+    NSTextAttachment *loveImageAttachment = [NSTextAttachment new];
+    loveImageAttachment.image = [UIImage imageNamed:@"heart_red_border"];
+    NSAttributedString *imageAttr = [NSAttributedString attributedStringWithAttachment:loveImageAttachment];
+    
+    NSMutableAttributedString *attrMessage = [[NSMutableAttributedString alloc] initWithString:message
+                                                                      attributes:@{
+                                                                          NSFontAttributeName : [UIFont fontWithName:@"Rubik-Bold" size:32.0],
+                                                                          NSForegroundColorAttributeName : [UIColor li5_charcoalColor]
+                                                                      }];
+    [attrMessage addAttribute:NSForegroundColorAttributeName value:[UIColor li5_redColor] range:[message rangeOfString:redWords]];
+    
+    [attrMessage replaceCharactersInRange:[message rangeOfString:heartImage] withAttributedString:imageAttr];
+    
+    [_noLovesView setAttributedText:attrMessage];
+    
     [_productsListView setDelegate:self];
     [_productsListView.collectionView setDataSource:_source];
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        [_source getUserLovesWithCompletion:^(NSError *error) {
-            [_productsListView.collectionView reloadData];
-        }];
-    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden = NO;
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        [_source startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
+            [_noLovesView setHidden:([_source numberOfProducts] != 0)];
+            [_productsListView setHidden:([_source numberOfProducts] == 0)];
+            [_productsListView.collectionView reloadData];
+        }];
+    }];
 }
 
 #pragma mark - User Actions
@@ -56,7 +79,7 @@
 - (void)fetchMoreProductsWithCompletion:(void (^)(void))completion
 {
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        [_source fetchMoreUserLovesWithCompletion:^(NSError *error) {
+        [_source fetchMoreProductsWithCompletion:^(NSError *error) {
             if (error != nil)
             {
                 DDLogError(@"Error fetching more products: %@", error);

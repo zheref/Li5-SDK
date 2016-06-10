@@ -40,7 +40,6 @@
     _parentViewController = parentVC;
 
     _presentingViewController = [[UINavigationController alloc] initWithRootViewController:[[UserProfileViewController alloc] initWithPanTarget:self]];
-    _presentingViewController.navigationBarHidden = TRUE;
     _presentingViewController.modalPresentationStyle = UIModalPresentationCustom;
     _presentingViewController.transitioningDelegate = self;
     
@@ -76,15 +75,16 @@
             {
                 DDLogVerbose(@"beginning menu presentation");
                 self.presenting = YES;
-                [self.parentViewController presentViewController:_presentingViewController animated:YES completion:^{
+                [self.parentViewController presentViewController:_presentingViewController animated:NO completion:^{
                     self.presented = YES;
+                    self.presenting = NO;
                     [self.parentViewController viewDidDisappear:NO];
                 }];
             }
             else
             {
                 DDLogVerbose(@"dismissing menu presentation");
-                [self.parentViewController dismissViewControllerAnimated:YES completion:^{
+                [self.parentViewController dismissViewControllerAnimated:NO completion:^{
                     self.presented = NO;
                     [self.parentViewController viewDidAppear:NO];
                 }];
@@ -276,7 +276,7 @@
 
             [self.animator addBehavior:collisionBehaviour];
             [self.animator addBehavior:gravityBehaviour];
-            [self.animator addBehavior:itemBehaviour];
+            //[self.animator addBehavior:itemBehaviour];
         }
         else
         {
@@ -295,7 +295,7 @@
 
             [self.animator addBehavior:collisionBehaviour];
             [self.animator addBehavior:gravityBehaviour];
-            [self.animator addBehavior:itemBehaviour];
+            //[self.animator addBehavior:itemBehaviour];
         }
 
         [self ensureSimulationCompletesWithDesiredEndFrame:endFrame];
@@ -351,7 +351,7 @@
     itemBehaviour.elasticity = 0.5f;
 
     [self.animator addBehavior:collisionBehaviour];
-    [self.animator addBehavior:itemBehaviour];
+    //[self.animator addBehavior:itemBehaviour];
     [self.animator addBehavior:self.attachmentBehaviour];
 }
 

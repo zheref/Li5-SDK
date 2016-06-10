@@ -12,10 +12,8 @@
 #import "ShapesHelper.h"
 #import "IndexedViewController.h"
 
-@interface DetailsViewController : UIViewController<LinkedViewControllerProtocol, DisplayableProtocol, UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+@interface DetailsViewController : UIViewController<LinkedViewControllerProtocol, DisplayableProtocol, UICollectionViewDataSource>
 
-@property (nonatomic, strong) UIPageViewController *imagesViewController;
-@property (nonatomic, strong) UIPageControl *imagePageControl;
-@property (nonatomic, strong) NSMutableArray<IndexedViewController*> *images;
+- (id)initWithOrder:(Order *)thisOrder andContext:(ProductContext) ctx;
 
 @end

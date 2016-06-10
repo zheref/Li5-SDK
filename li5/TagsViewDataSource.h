@@ -10,8 +10,8 @@
 
 @interface TagsViewDataSource : NSObject<UICollectionViewDataSource>
 
-- (Tag*)getTag:(NSInteger)pos;
+- (NSString*)getTag:(NSInteger)pos;
 
-- (void)getTags:(NSString*)word withCompletion:(void (^)(NSError *error,NSArray<JSONModel*>* tags))completion;
+- (void)getTags:(NSString*)word withCompletion:(void (^)(NSError *error,NSArray<NSString*>* tags))completion;
 
 @end

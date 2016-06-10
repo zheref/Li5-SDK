@@ -17,6 +17,9 @@
 @import Foundation;
 
 #import "Logger.h"
+#import "UIColor+Li5UIColor.h"
+#import "NSObject+Li5.h"
+#import "UIImage+Li5.h"
 
 #define MAS_SHORTHAND
 #import "Masonry.h"

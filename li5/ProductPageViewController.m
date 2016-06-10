@@ -6,6 +6,7 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
+#import "Li5Constants.h"
 #import "ProductPageViewController.h"
 #import "VideoViewController.h"
 
@@ -36,6 +37,22 @@
         fullySwitchedPage = 0;
         currentPage = 0;
         viewControllers = @[ [[VideoViewController alloc] initWithProduct:self.product andContext:context], [[DetailsViewController alloc] initWithProduct:self.product andContext:context] ];
+    }
+    return self;
+}
+
+- (id)initWithOrder:(Order *)order andIndex:(NSInteger)idx forContext:(ProductContext)context
+{
+    DDLogVerbose(@"Initializing ProductPageViewController for: %@", order.product.title);
+    self = [super init];
+    if (self)
+    {
+        self.product = order.product;
+        self.index = idx;
+        pageHeight = 1.0;
+        fullySwitchedPage = 0;
+        currentPage = 0;
+        viewControllers = @[ [[VideoViewController alloc] initWithProduct:self.product andContext:context], [[DetailsViewController alloc] initWithOrder:order andContext:context] ];
     }
     return self;
 }
@@ -103,6 +120,24 @@
     [self.view addSubview:containerScrollView];
 
     [self layoutPages];
+    
+    [self presentExplainerViewsIfNeeded];
+}
+
+- (void)presentExplainerViewsIfNeeded
+{
+    DDLogVerbose(@"");
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (![userDefaults boolForKey:kLi5SwipeLeftExplainerViewPresented])
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+        UIViewController *explainerView = [storyboard instantiateViewControllerWithIdentifier:@"SwipeLeftExplainerView"];
+        explainerView.modalPresentationStyle = UIModalPresentationCurrentContext;
+        
+        [viewControllers[0] presentViewController:explainerView animated:NO completion:^{
+            
+        }];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -172,7 +207,10 @@
 
 - (void)hideAndMoveToViewController:(UIViewController *)viewController
 {
-    [viewControllers[currentPage] hideAndMoveToViewController:viewController];
+    for (UIViewController<DisplayableProtocol> *controller in viewControllers)
+    {
+        [controller hideAndMoveToViewController:viewController];
+    }
 }
 
 - (void)dealloc

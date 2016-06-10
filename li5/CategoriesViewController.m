@@ -6,6 +6,7 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
+@import AVFoundation;
 @import Li5Api;
 
 #import "CategoriesViewController.h"
@@ -22,16 +23,35 @@
 
 @implementation CategoriesViewController
 
+#pragma mark - Init
+
+- (instancetype)init
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
+    self = [storyboard instantiateViewControllerWithIdentifier:@"OnboardingCategoriesView"];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void)initialize
+{
+    _allCategories = [NSArray array];
+    _selectedCategoriesIDs = [NSMutableArray array];
+}
+
+#pragma mark - UI Setup
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _allCategories = [NSArray array];
-    _selectedCategoriesIDs = [NSMutableArray array];
+    [_collectionView setAllowsMultipleSelection:YES];
     
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    [_collectionView setCollectionViewLayout:layout animated:true completion:nil];
-    [_collectionView registerNib:[UINib nibWithNibName:@"CategoriesCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"cellIdentifier"];
-    [_collectionView setAllowsMultipleSelection:true];
+    [_continueBtn setBackgroundImage:[UIImage imageWithColor:[UIColor lightGrayColor] andRect:_continueBtn.bounds] forState:UIControlStateDisabled];
+    [_continueBtn setBackgroundImage:[UIImage imageWithColor:[UIColor li5_redColor] andRect:_continueBtn.bounds] forState:UIControlStateNormal];
+    [_continueBtn setHidden:TRUE];
     
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     __weak typeof(self) welf = self;
@@ -47,14 +67,10 @@
                     }
                 }
                 [welf.collectionView reloadData];
+                [welf checkSelectedCategories];
             }];
         }
     }];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -64,35 +80,44 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CategoriesCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
-    cell.titleLbl.text = [[_allCategories objectAtIndex:indexPath.row] name];
+    CategoriesCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"categoryView" forIndexPath:indexPath];
+    cell.layer.cornerRadius = MIN(cell.frame.size.height,cell.frame.size.width) / 2;
+    
+    [cell setCategory:[_allCategories objectAtIndex:indexPath.row]];
+    
     if ([_selectedCategoriesIDs containsObject:[[_allCategories objectAtIndex:indexPath.row] id]]) {
-        [collectionView selectItemAtIndexPath:indexPath animated:true scrollPosition:UICollectionViewScrollPositionNone];
-        [cell setBackgroundColor:[UIColor blueColor]];
+        [self.collectionView selectItemAtIndexPath:indexPath animated:true scrollPosition:UICollectionViewScrollPositionNone];
+        cell.selected = TRUE;
     } else {
-        [collectionView deselectItemAtIndexPath:indexPath animated:true];
-        [cell setBackgroundColor:[UIColor blackColor]];
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:true];
+        cell.selected = FALSE;
     }
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat side = collectionView.frame.size.width / 3 - collectionView.layoutMargins.left;
-    return CGSizeMake(side, side);
-}
-
 #pragma mark - UICollectionViewDelegate
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)collectionViewLayout;
+    UIEdgeInsets insets = layout.sectionInset;
+    
+    CGFloat width = (collectionView.frame.size.width -  insets.left - insets.right - 2*layout.minimumLineSpacing) / 3;
+    CGFloat height = (collectionView.frame.size.height - insets.top - insets.bottom - 2*layout.minimumInteritemSpacing ) / 3;
+    CGFloat minValue = MIN(width,height);
+    return CGSizeMake(minValue, minValue);
+}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     CategoriesCollectionViewCell *cell = (CategoriesCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    [cell setBackgroundColor:[UIColor blueColor]];
+    [cell setSelected:TRUE];
     [_selectedCategoriesIDs addObject:[[_allCategories objectAtIndex:indexPath.row] id]];
     [self checkSelectedCategories];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     CategoriesCollectionViewCell *cell = (CategoriesCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    [cell setBackgroundColor:[UIColor blackColor]];
+    [cell setSelected:FALSE];
     [_selectedCategoriesIDs removeObject:[[_allCategories objectAtIndex:indexPath.row] id]];
     [self checkSelectedCategories];
 }
@@ -123,11 +148,16 @@
 #pragma mark - Helpers
 
 - (void)checkSelectedCategories {
-    if ([_selectedCategoriesIDs count] >= 2) {
-        [self.continueBtn setEnabled:true];
-    } else {
-        [self.continueBtn setEnabled:false];
-    }
+    [self.continueBtn setHidden:([_selectedCategoriesIDs count] == 0)];
+    [self.continueBtn setEnabled:([_selectedCategoriesIDs count] >= 2)];
 }
+
+#pragma mark - OS Actions
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 
 @end

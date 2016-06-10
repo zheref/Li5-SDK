@@ -2,19 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Rubik-Regular.ttf</string>
-		<string>Rubik-MediumItalic.ttf</string>
-		<string>Rubik-Medium.ttf</string>
-		<string>Rubik-LightItalic.ttf</string>
-		<string>Rubik-Light.ttf</string>
-		<string>Rubik-Italic.ttf</string>
-		<string>Rubik-BoldItalic.ttf</string>
-		<string>Rubik-Bold.ttf</string>
-		<string>Rubik-BlackItalic.ttf</string>
-		<string>Rubik-Black.ttf</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -41,7 +28,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>18</string>
+	<string>20</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -100,6 +87,19 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Rubik-Regular.ttf</string>
+		<string>Rubik-MediumItalic.ttf</string>
+		<string>Rubik-Medium.ttf</string>
+		<string>Rubik-LightItalic.ttf</string>
+		<string>Rubik-Light.ttf</string>
+		<string>Rubik-Italic.ttf</string>
+		<string>Rubik-BoldItalic.ttf</string>
+		<string>Rubik-Bold.ttf</string>
+		<string>Rubik-BlackItalic.ttf</string>
+		<string>Rubik-Black.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen_Dev</string>
 	<key>UIMainStoryboardFile</key>
@@ -116,7 +116,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 </dict>
 </plist>

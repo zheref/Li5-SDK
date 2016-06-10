@@ -9,6 +9,8 @@ abstract_target 'Li5Base' do
   pod 'BCVideoPlayer', :path => '../BCPlayerView'
   pod 'SDWebImage', '~>3.7'
   pod 'Masonry'
+  pod 'SMPageControl'
+  pod 'TSMessages', :git => 'git@github.com:KrauseFx/TSMessages.git'
   
   target 'li5' do
     pod 'Fabric'

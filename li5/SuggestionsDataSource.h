@@ -8,8 +8,8 @@
 
 @interface SuggestionsDataSource : NSObject<UICollectionViewDataSource>
 
-- (Tag*)getSuggestion:(NSInteger)pos;
+- (NSString*)getSuggestion:(NSInteger)pos;
 
-- (void)getSuggestions:(NSString*)word withCompletion:(void (^)(NSError *error,NSArray<JSONModel*>* tags))completion;
+- (void)getSuggestions:(NSString*)word withCompletion:(void (^)(NSError *error,NSArray<NSString*>* tags))completion;
 
 @end

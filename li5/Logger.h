@@ -9,7 +9,16 @@
 #ifndef Logger_h
 #define Logger_h
 
+#undef LOG_LEVEL_DEF
 #define LOG_LEVEL_DEF ddLogLevel
+
+#define GWS_LOG_DEBUG(...) DDLogDebug(__VA_ARGS__)
+#define GWS_LOG_VERBOSE(...) DDLogVerbose(__VA_ARGS__)
+#define GWS_LOG_INFO(...) DDLogInfo(__VA_ARGS__)
+#define GWS_LOG_WARNING(...) DDLogWarn(__VA_ARGS__)
+#define GWS_LOG_ERROR(...) DDLogError(__VA_ARGS__)
+#define GWS_LOG_EXCEPTION(__EXCEPTION__) DDLogError(@"%@", __EXCEPTION__)
+
 @import CocoaLumberjack;
 #import "CrashlyticsLogger.h"
 

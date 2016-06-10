@@ -15,8 +15,10 @@
 
 + (UIColor*)li5_redColor;
 
++ (UIColor *)li5_whiteColor;
+
 //Secondary Colors
-+ (UIColor*)li5_lightBlueColor;
++ (UIColor*)li5_cyanColor;
 
 + (UIColor*)li5_violetColor;
 

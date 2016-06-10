@@ -86,18 +86,24 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/BCVideoPlayer/BCVideoPlayer.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/HexColors/HexColors.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONModel/JSONModel.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Li5Api/Li5Api.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Masonry/Masonry.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SMPageControl/SMPageControl.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SSKeychain/SSKeychain.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/TSMessages/TSMessages.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/BCVideoPlayer/BCVideoPlayer.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/HexColors/HexColors.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONModel/JSONModel.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Li5Api/Li5Api.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Masonry/Masonry.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SMPageControl/SMPageControl.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SSKeychain/SSKeychain.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/TSMessages/TSMessages.framework"
 fi

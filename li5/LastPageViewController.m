@@ -9,6 +9,8 @@
 #import "LastPageViewController.h"
 #import "ProductsListDynamicInteractor.h"
 #import "UserProfileDynamicInteractor.h"
+#import "Li5Constants.h"
+#import "SwipeDownToExploreViewController.h"
 
 @interface LastPageViewController ()
 {
@@ -16,6 +18,8 @@
     UIPanGestureRecognizer *searchPanGestureRecognizer;
     id<UserProfileViewControllerPanTargetDelegate> profileInteractor;
     id<ExploreViewControllerPanTargetDelegate> searchInteractor;
+    
+    id __swipeDownTimer;
 }
 
 @end
@@ -24,12 +28,76 @@
 
 @synthesize product;
 
+#pragma mark - Init
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void)initialize
+{
+    
+}
+
+#pragma mark - UI Setup
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
+    
+    [self setupObservers];
+    
     [self setupGestureRecognizers];
+    
+}
+
+- (void)presentSwipeDownViewIfNeeded
+{
+    [self removeObservers];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (TRUE || ![userDefaults boolForKey:kLi5SwipeDownExplainerViewPresented])
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"DiscoverViews" bundle:[NSBundle mainBundle]];
+        SwipeDownToExploreViewController *explainer= [storyboard instantiateViewControllerWithIdentifier:@"SwipeDownExplainerView"];
+        explainer.modalPresentationStyle = UIModalPresentationCurrentContext;
+        [explainer setSearchInteractor:searchInteractor];
+        [self presentViewController:explainer animated:NO completion:^{
+            
+        }];
+    }
+}
+
+#pragma mark - Observers
+
+- (void)setupObservers
+{
+    __swipeDownTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(presentSwipeDownViewIfNeeded) userInfo:nil repeats:NO];
+}
+
+- (void)removeObservers
+{
+    if( __swipeDownTimer)
+    {
+        [__swipeDownTimer invalidate];
+        __swipeDownTimer = nil;
+    }
 }
 
 #pragma mark - Gesture Recognizers
@@ -90,10 +158,15 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 
 - (void)hideAndMoveToViewController:(UIViewController *)viewController
 {
-    //Do nothing, last item in prime time
+    [self removeObservers];
 }
 
 #pragma mark - OS Actions
+
+- (void)dealloc
+{
+    [self removeObservers];
+}
 
 - (void)didReceiveMemoryWarning
 {

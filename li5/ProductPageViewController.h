@@ -16,6 +16,7 @@
 @property NSUInteger index;
 
 - (id)initWithProduct:(Product *)thisProduct andIndex:(NSInteger)idx forContext:(ProductContext)context;
+- (id)initWithOrder:(Order *)thisProduct andIndex:(NSInteger)idx forContext:(ProductContext)context;
 
 - (UIViewController<DisplayableProtocol>*) currentViewController;
 

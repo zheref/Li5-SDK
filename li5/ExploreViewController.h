@@ -6,7 +6,7 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "Li5SearchBarUIView.h"
 
 @protocol ExploreViewControllerPanTargetDelegate <NSObject>
 
@@ -23,13 +23,7 @@
 
 @end
 
-@interface ExploreViewController : UIViewController <UISearchBarDelegate, UIGestureRecognizerDelegate, ExploreViewControllerDelegate>
-
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-
-@property (weak, nonatomic) IBOutlet UIView *suggestionsView;
-
-@property (weak, nonatomic) IBOutlet UIView *exploreView;
+@interface ExploreViewController : UIViewController <Li5SearchBarUIViewDelegate, UIGestureRecognizerDelegate, ExploreViewControllerDelegate>
 
 @property (weak, nonatomic) id<ExploreViewControllerPanTargetDelegate> panTarget;
 

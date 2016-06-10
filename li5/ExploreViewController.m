@@ -9,8 +9,13 @@
 #import "TagsViewController.h"
 #import "ProductsViewController.h"
 #import "SuggestionsViewController.h"
+#import "Li5SearchBarUIView.h"
 
 @interface ExploreViewController ()
+
+@property (weak, nonatomic) IBOutlet Li5SearchBarUIView *searchBar;
+@property (weak, nonatomic) IBOutlet UIView *suggestionsView;
+@property (weak, nonatomic) IBOutlet UIView *exploreView;
 
 @property (nonatomic, weak) ProductsViewController *productsViewController;
 @property (nonatomic, weak) TagsViewController *tagsViewController;
@@ -35,11 +40,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [_searchBar setShowsCancelButton:NO];
+    [self.searchBar setDelegate:self];
     
     [self.view bringSubviewToFront:_exploreView];
-    
-    [self setupGestureRecognizers];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -61,11 +64,16 @@
     }
 }
 
+- (IBAction)goBack:(UIButton *)sender
+{
+    [_panTarget dismissViewWithCompletion:nil];
+}
+
 #pragma mark - Search Bar Delegate
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBar:(Li5SearchBarUIView *)searchBar textDidChange:(NSString *)searchText
 {
-    for (UIViewController<UISearchBarDelegate> *controller in @[_productsViewController, _tagsViewController, _suggestionsViewController]) {
+    for (UIViewController<Li5SearchBarUIViewDelegate> *controller in @[_productsViewController, _tagsViewController, _suggestionsViewController]) {
         if ([controller respondsToSelector:@selector(searchBar:textDidChange:)])
         {
             [controller searchBar:searchBar textDidChange:searchText];
@@ -73,46 +81,42 @@
     }
 }
 
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+- (BOOL)shouldBeginEditing:(Li5SearchBarUIView *)searchBar
 {
-    [_searchBar setShowsCancelButton:YES animated:TRUE];
     [self.view bringSubviewToFront:_suggestionsView];
     
-    for (UIViewController<UISearchBarDelegate> *controller in @[_productsViewController, _tagsViewController, _suggestionsViewController]) {
-        if ([controller respondsToSelector:@selector(searchBarShouldBeginEditing:)])
+    for (UIViewController<Li5SearchBarUIViewDelegate> *controller in @[_productsViewController, _tagsViewController, _suggestionsViewController]) {
+        if ([controller respondsToSelector:@selector(shouldBeginEditing:)])
         {
-            return [controller searchBarShouldBeginEditing:searchBar];
+            return [controller shouldBeginEditing:searchBar];
         }
     }
     
     return TRUE;
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+- (void)searchButtonClicked:(Li5SearchBarUIView *)searchBar
 {
     [self.view endEditing:YES];
-    [_searchBar setShowsCancelButton:NO animated:TRUE];
     [self.view bringSubviewToFront:_exploreView];
     
-    for (UIViewController<UISearchBarDelegate> *controller in @[_productsViewController, _tagsViewController, _suggestionsViewController]) {
-        if ([controller respondsToSelector:@selector(searchBarSearchButtonClicked:)])
+    for (UIViewController<Li5SearchBarUIViewDelegate> *controller in @[_productsViewController, _tagsViewController, _suggestionsViewController]) {
+        if ([controller respondsToSelector:@selector(searchButtonClicked:)])
         {
-            return [controller searchBarSearchButtonClicked:searchBar];
+            return [controller searchButtonClicked:searchBar];
         }
     }
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+- (void)cancelButtonClicked:(Li5SearchBarUIView *)searchBar
 {
-    [_searchBar setShowsCancelButton:NO animated:TRUE];
     [self.view endEditing:true];
     [self.view bringSubviewToFront:_exploreView];
-    [_searchBar setText:@""];
     
-    for (UIViewController<UISearchBarDelegate> *controller in @[_productsViewController, _tagsViewController,_suggestionsViewController]) {
-        if ([controller respondsToSelector:@selector(searchBarCancelButtonClicked:)])
+    for (UIViewController<Li5SearchBarUIViewDelegate> *controller in @[_productsViewController, _tagsViewController,_suggestionsViewController]) {
+        if ([controller respondsToSelector:@selector(cancelButtonClicked:)])
         {
-            return [controller searchBarCancelButtonClicked:searchBar];
+            return [controller cancelButtonClicked:searchBar];
         }
     }
 }
@@ -120,57 +124,13 @@
 - (void)updateSearchBardWith:(NSString *)text
 {
     [_searchBar setText:text];
-    [self searchBarSearchButtonClicked: _searchBar];
+    [self searchButtonClicked: _searchBar];
 }
 
 - (void)appendSearchBardWith:(NSString *)text
 {
     [_searchBar setText:[_searchBar.text stringByAppendingFormat:@" %@",text]];
-    [self searchBarSearchButtonClicked: _searchBar];
-}
-
-#pragma mark - Gesture Recognizers
-
-- (void)setupGestureRecognizers
-{
-    _goBackPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userDidPan:)];
-    _goBackPanGestureRecognizer.delegate = self;
-    [self.view addGestureRecognizer:_goBackPanGestureRecognizer];
-    
-}
-
-- (void)userDidPan:(UIPanGestureRecognizer *)recognizer
-{
-    [_panTarget userDidPan:recognizer];
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    return NO;
-}
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
-{
-    CGPoint touch = [gestureRecognizer locationInView:gestureRecognizer.view];
-    if (gestureRecognizer == self.goBackPanGestureRecognizer)
-    {
-        CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
-        double degree = atan(velocity.y/velocity.x) * 180 / M_PI;
-        return (touch.y >= 50) && (fabs(degree) > 20.0);
-    }
-    return false;
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    if ([[gestureRecognizer view] isKindOfClass:[UIScrollView class]])
-    {
-        if (otherGestureRecognizer == self.goBackPanGestureRecognizer)
-        {
-            return YES;
-        }
-    }
-    return NO;
+    [self searchButtonClicked: _searchBar];
 }
 
 #pragma mark - OS Actions

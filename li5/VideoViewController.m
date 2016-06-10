@@ -87,6 +87,11 @@
     currentViewController = vc;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 #pragma mark - User Actions
 
 - (void)handleLongTap:(UITapGestureRecognizer *)sender

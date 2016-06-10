@@ -26,7 +26,7 @@
         return nil;
     
     _parentViewController = viewController;
-    UIStoryboard *searchStoryboard = [UIStoryboard storyboardWithName:@"SearchProductsViews" bundle:[NSBundle mainBundle]];
+    UIStoryboard *searchStoryboard = [UIStoryboard storyboardWithName:@"ExploreViews" bundle:[NSBundle mainBundle]];
     productsVC = [searchStoryboard instantiateInitialViewController];
     [productsVC setPanTarget:self];
     

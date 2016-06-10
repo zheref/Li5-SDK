@@ -8,7 +8,7 @@
 
 #import "ExploreViewController.h"
 
-@interface SuggestionsViewController : UIViewController <UISearchBarDelegate>
+@interface SuggestionsViewController : UIViewController <Li5SearchBarUIViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *suggestionsCollectionView;
 

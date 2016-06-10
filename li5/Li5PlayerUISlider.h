@@ -8,6 +8,7 @@
 
 @import AVFoundation;
 
+IB_DESIGNABLE
 @interface Li5PlayerUISlider : UIView
 
 @property (nonatomic, weak) AVPlayer *player;

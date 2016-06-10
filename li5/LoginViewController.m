@@ -13,68 +13,44 @@
 
 @interface LoginViewController ()
 
+@property (weak, nonatomic) IBOutlet UIView *overlayView;
+@property (weak, nonatomic) IBOutlet UIButton *loginFacebookButton;
+
 @end
 
 @implementation LoginViewController
+
+@dynamic pageIndex;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //DDLogVerbose(@"Finished loading InitialViewController");
 
-    //Add background image
-    UIImage *backgroundImage = [UIImage imageNamed:@"girl.jpg"];
-    CALayer *aLayer = [CALayer layer];
-    CGRect startFrame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height);
-    aLayer.contents = (id)backgroundImage.CGImage;
-    aLayer.frame = startFrame;
+    _overlayView.backgroundColor = [[UIColor li5_redColor] colorWithAlphaComponent:0.80];
 
-    [self.view.layer addSublayer:aLayer];
-
-    //only apply the blur if the user hasn't disabled transparency effects
-    if (!UIAccessibilityIsReduceTransparencyEnabled())
-    {
-        self.view.backgroundColor = [UIColor clearColor];
-
-        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-        UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-        blurEffectView.frame = self.view.bounds;
-        blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
-        [self.view addSubview:blurEffectView];
-    }
-
-    UILabel *appName = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, self.view.frame.size.width, 200)];
-    [appName setTextColor:[UIColor whiteColor]];
-    [appName setNumberOfLines:0];
-    [appName setFont:[UIFont fontWithName:@"Avenir-Black" size:28]];
-    [appName setTextAlignment:NSTextAlignmentCenter];
-    appName.text = @"Li5";
-
-    [self.view addSubview:appName];
-
-    UILabel *appTagline = [[UILabel alloc] initWithFrame:CGRectMake(50, 150, self.view.frame.size.width - 100, 200)];
-    [appTagline setTextColor:[UIColor whiteColor]];
-    [appTagline setNumberOfLines:0];
-    [appTagline setFont:[UIFont fontWithName:@"Avenir" size:22]];
-    [appTagline setTextAlignment:NSTextAlignmentCenter];
-    appTagline.text = @"Discover Original Products introduced by People like you everyday.";
-
-    [self.view addSubview:appTagline];
-
-    FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
-    loginButton.loginBehavior = FBSDKLoginBehaviorSystemAccount;
-    loginButton.center = CGPointMake(self.view.center.x, self.view.frame.size.height - 100);
-    loginButton.readPermissions = @[ @"public_profile", @"email" ];
-    loginButton.delegate = self;
-    [self.view addSubview:loginButton];
+    // Handle clicks on the button
+    [_loginFacebookButton addTarget:self action:@selector(loginButtonClicked) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - FBSDKLoginButtonDelegate
 
-- (void)loginButton:(FBSDKLoginButton *)loginButton didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error
+// Once the button is clicked, show the login dialog
+- (void)loginButtonClicked
 {
+    self.view.userInteractionEnabled = NO;
+    FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+    login.loginBehavior = FBSDKLoginBehaviorSystemAccount;
+    [login logInWithReadPermissions:@[ @"public_profile", @"email" ]
+                 fromViewController:self
+                            handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+                              [self didCompleteWithResult:result error:error];
+                            }];
+}
+
+- (void)didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error
+{
+    __weak typeof(self) welf = self;
     if (error == nil)
     {
         DDLogInfo(@"Successfully logged in with Facebook");
@@ -96,28 +72,35 @@
                 else
                 {
                     DDLogVerbose(@"Couldn't login into Li5 with Facebook: %@", error.localizedDescription);
+                    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                    [notificationCenter postNotificationName:@"LoginUnsuccessful" object:nil];
                 }
+                welf.view.userInteractionEnabled = YES;
               }];
           }
           else
           {
               DDLogVerbose(@"Error when fetching email: %@", error);
+              NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+              [notificationCenter postNotificationName:@"LoginUnsuccessful" object:nil];
           }
+          welf.view.userInteractionEnabled = YES;
         }];
     }
     else
     {
         DDLogVerbose(@"Couldn't login: %@", error);
+        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        [notificationCenter postNotificationName:@"LoginUnsuccessful" object:nil];
     }
+    self.view.userInteractionEnabled = YES;
 }
 
 - (void)loginButtonDidLogOut:(FBSDKLoginButton *)loginButton
 {
+    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+    [li5 clearAccessToken];
 }
-
-//- (BOOL)loginButtonWillLogin:(FBSDKLoginButton *)loginButton {
-//
-//}
 
 #pragma mark - OS Actions
 

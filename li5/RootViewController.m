@@ -15,6 +15,9 @@
 #import "LoginViewController.h"
 #import "PrimeTimeViewController.h"
 #import "RootViewController.h"
+#import "OnboardingViewController.h"
+
+#import "UserProductsCollectionViewDataSource.h"
 
 @interface RootViewController ()
 {
@@ -50,6 +53,10 @@
 
 #pragma mark - UI Setup
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -61,14 +68,6 @@
     loadingLayer.frame = self.view.bounds;
     loadingLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
-    if (!playEndObserver)
-    {
-        __weak typeof(id) welf = self;
-        playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:loadingLayer.player.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
-            [welf replayMovie:note];
-        }];
-    }
-    
     [self.view.layer addSublayer:loadingLayer];
     
     [self flow];
@@ -78,12 +77,16 @@
 {
     DDLogVerbose(@"");
     [loadingLayer.player play];
+    
+    [self setupVideoEndObservers];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     DDLogVerbose(@"");
     [loadingLayer.player pause];
+    
+    [self removeVideoEndObservers];
 }
 
 - (void)replayMovie:(NSNotification *)notification
@@ -93,53 +96,79 @@
     [loadingLayer.player play];
 }
 
+- (void)setupVideoEndObservers
+{
+    if (!playEndObserver)
+    {
+        __weak typeof(id) welf = self;
+        playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:loadingLayer.player.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
+            [welf replayMovie:note];
+        }];
+    }
+}
+
+- (void)removeVideoEndObservers
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:loadingLayer.player.currentItem];
+    playEndObserver = nil;
+}
+
 #pragma mark - App Actions
 
 - (void)flow
 {
     // Do any additional setup after loading the view.
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-    [li5 requestProfile:^(NSError *profileError, Profile *profile) {
-        //If anything, take the user back to login as default
-        UIViewController *nextViewController = [[LoginViewController alloc] init];
-        if (profileError != nil)
-        {
-            DDLogError(@"Error while requesting Profile %@", profileError.description);
-            //Logging out user - force them to log in again
-            [FBSDKAccessToken setCurrentAccessToken:nil];
-            [self.navigationController pushViewController:nextViewController animated:NO];
-        }
-        else
-        {
-            DDLogInfo(@"Profile requested successfully");
-            BOOL showCategoriesSelection = [profile.preferences.data count] < 2;
-            
-            if (showCategoriesSelection)
+    if (!FBSDKAccessToken.currentAccessToken)
+    {
+        [self.navigationController pushViewController:[[OnboardingViewController alloc] init] animated:NO];
+    }
+    else
+    {
+        [li5 requestProfile:^(NSError *profileError, Profile *profile) {
+            //If anything, take the user back to login as default
+            UIViewController *nextViewController = [[OnboardingViewController alloc] init];
+            if (profileError != nil)
             {
-                nextViewController = [[CategoriesViewController alloc] initWithNibName:@"CategoriesViewController" bundle:[NSBundle mainBundle]];
+                DDLogError(@"Error while requesting Profile %@", profileError.description);
+                //Logging out user - force them to log in again
+                [FBSDKAccessToken setCurrentAccessToken:nil];
                 [self.navigationController pushViewController:nextViewController animated:NO];
             }
             else
             {
-                PrimeTimeViewControllerDataSource *primeTimeSource = [PrimeTimeViewControllerDataSource new];
-                PrimeTimeViewController *primeTimeVC = [[PrimeTimeViewController alloc] initWithDataSource:primeTimeSource];
-                [primeTimeSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
-                    if (error != nil)
-                    {
-                        DDLogVerbose(@"ERROR %@", error.description);
-                    }
-                    dispatch_async(dispatch_get_main_queue(), ^(void) {
-                        [loadingLayer.player pause];
-                        [loadingLayer.player replaceCurrentItemWithPlayerItem:nil];
-                        [loadingLayer removeFromSuperlayer];
-                        loadingLayer = nil;
-                        
-                        [self.navigationController pushViewController:primeTimeVC animated:NO];
-                    });
-                }];
+                DDLogInfo(@"Profile requested successfully");
+                BOOL showCategoriesSelection = [profile.preferences.data count] < 2;
+                
+                if (showCategoriesSelection)
+                {
+                    nextViewController = [[CategoriesViewController alloc] init];
+                    [self.navigationController pushViewController:nextViewController animated:NO];
+                }
+                else
+                {
+//                    PrimeTimeViewControllerDataSource *primeTimeSource = [UserProductsCollectionViewDataSource new];
+                    PrimeTimeViewControllerDataSource *primeTimeSource = [PrimeTimeViewControllerDataSource new];
+                    PrimeTimeViewController *primeTimeVC = [[PrimeTimeViewController alloc] initWithDataSource:primeTimeSource];
+                    [primeTimeSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
+                        if (error != nil)
+                        {
+                            DDLogVerbose(@"ERROR %@", error.description);
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^(void) {
+                            [loadingLayer.player pause];
+                            [loadingLayer.player replaceCurrentItemWithPlayerItem:nil];
+                            [loadingLayer removeFromSuperlayer];
+                            loadingLayer = nil;
+                            
+                            [self.navigationController pushViewController:primeTimeVC animated:NO];
+                        });
+                    }];
+                }
             }
-        }
-    }];
+        }];
+    }
 }
 
 #pragma mark - OS Actions
@@ -148,6 +177,7 @@
 {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter removeObserver:self];
+    playEndObserver = nil;
 }
 
 - (void)didReceiveMemoryWarning

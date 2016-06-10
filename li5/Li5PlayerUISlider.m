@@ -7,13 +7,13 @@
 //
 
 #import "Li5PlayerUISlider.h"
-#import "UIColor+Li5UIColor.h"
 
 @interface Li5PlayerUISlider ()
 {
     float __mRestoreAfterScrubbingRate;
     id __mTimeObserver;
     id __mTimeRemainingObserver;
+    CGFloat __timeInterval;
 }
 
 //Slider Variables
@@ -80,6 +80,7 @@
     [self addSubview:_timeLabel];
 
     _currentProgress = 0.0;
+    __timeInterval = .5f;
 
     [self setupGestureRecognizers];
 }
@@ -109,6 +110,12 @@
       make.centerY.equalTo(self);
       make.trailing.equalTo(self).with.offset(-20);
     }];
+}
+
+- (void)prepareForInterfaceBuilder
+{
+    [self setProgress:0.5f animated:NO];
+    self.timeLabel.text = @"15";
 }
 
 #pragma mark - Gesture Recognizers
@@ -180,26 +187,30 @@
 
 - (CGFloat)setProgress:(CGFloat)percentage animated:(BOOL)animated
 {
+    if (percentage <0) percentage = 0;
+    if (percentage > 1) percentage = 1;
+    
     CGRect currentProgressRect = self.progressView.frame;
     CGRect endProgressRect = self.frame;
     endProgressRect.size.width = percentage * endProgressRect.size.width;
 
+    self.progressView.bounds = endProgressRect;
+    _currentProgress = percentage;
+    
     if (animated)
     {
         CABasicAnimation *extendToRight = [CABasicAnimation animationWithKeyPath:@"bounds"];
         extendToRight.fromValue = [NSValue valueWithCGRect:currentProgressRect];
-        extendToRight.toValue = [NSValue valueWithCGRect:endProgressRect];
         extendToRight.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-        extendToRight.duration = [self getTimerInterval];
+        extendToRight.duration = __timeInterval;
         extendToRight.delegate = self;
+        extendToRight.removedOnCompletion = NO;
+        extendToRight.fillMode = kCAFillModeForwards;
+        extendToRight.autoreverses = NO;
 
         [self.progressView removeAllAnimations];
         [self.progressView addAnimation:extendToRight forKey:@"scroll"];
     }
-
-    self.progressView.bounds = endProgressRect;
-
-    _currentProgress = percentage;
 
     return _currentProgress;
 }
@@ -215,15 +226,25 @@
     {
         _player = aPlayer;
 
+        CMTime playerDuration = [self playerItemDuration];
+        if (!CMTIME_IS_INVALID(playerDuration))
+        {
+            double duration = CMTimeGetSeconds(playerDuration);
+            if (isfinite(duration))
+            {
+                CGFloat width = CGRectGetWidth([self bounds]);
+                __timeInterval = 0.5f * duration / width;
+            }
+        }
+        
         [self setupObservers];
-        [self syncScrubber];
     }
 }
 
 #pragma mark - Scrubbing
 
 /* Set the scrubber based on the player current time. */
-- (void)syncScrubber
+- (void)syncScrubberWithTime:(CMTime)timePlayed
 {
     CMTime playerDuration = [self playerItemDuration];
     if (CMTIME_IS_INVALID(playerDuration))
@@ -234,8 +255,8 @@
     double duration = CMTimeGetSeconds(playerDuration);
     if (isfinite(duration))
     {
-        double time = CMTimeGetSeconds([self.player currentTime]);
-
+        double time = CMTimeGetSeconds(timePlayed);
+        
         [self setProgress:(time / duration) animated:YES];
     }
 }
@@ -262,10 +283,10 @@
     double duration = CMTimeGetSeconds(playerDuration);
     if (isfinite(duration))
     {
-        __block double time = duration * _currentProgress;
-
+        double time = duration * _currentProgress;
+        
         [self.player seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) completionHandler:^(BOOL finished){
-            [self updatedTimerWithSecondsRemaining:time];
+            if (finished) [self updatedTimerWithSecondsRemaining:time];
         }];
     }
 }
@@ -298,24 +319,6 @@
     return (kCMTimeInvalid);
 }
 
-- (double)getTimerInterval
-{
-    double interval = .5f;
-
-    CMTime playerDuration = [self playerItemDuration];
-    if (!CMTIME_IS_INVALID(playerDuration))
-    {
-        double duration = CMTimeGetSeconds(playerDuration);
-        if (isfinite(duration))
-        {
-            CGFloat width = CGRectGetWidth([self bounds]);
-            interval = 0.5f * duration / width;
-        }
-    }
-
-    return interval;
-}
-
 #pragma mark - Observers
 
 - (void)setupObservers
@@ -324,7 +327,7 @@
     {
         __weak typeof(self) weakSelf = self;
         __mTimeRemainingObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, NSEC_PER_SEC)
-                                                                             queue:NULL /* If you pass NULL, the main queue is used. */
+                                                                             queue:NULL
                                                                         usingBlock:^(CMTime time) {
                                                                           [weakSelf updatedTimerWithSecondsRemaining:CMTimeGetSeconds(time)];
                                                                         }];
@@ -332,13 +335,13 @@
 
     if (!__mTimeObserver)
     {
-        double interval = [self getTimerInterval];
-
+        double interval = __timeInterval;
+        
         __weak typeof(id) weakSelf = self;
-        __mTimeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(interval, NSEC_PER_SEC) queue:NULL usingBlock:
-                                                                                                                                       ^(CMTime time) {
-                                                                                                                                         [weakSelf syncScrubber];
-                                                                                                                                       }];
+        __mTimeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(interval, NSEC_PER_SEC)
+                                                                    queue:NULL usingBlock:^(CMTime time) {
+                                                                        [weakSelf syncScrubberWithTime:time];
+                                                                    }];
     }
 }
 

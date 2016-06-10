@@ -35,7 +35,8 @@
 
 #pragma mark - Public Methods
 
-- (void)getUserLovesWithCompletion:(void (^)(NSError *error))completion {
+- (void)startFetchingProductsInBackgroundWithCompletion:(void (^)(NSError *))completion
+{
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     __weak typeof(self) welf = self;
     [li5 requestUserLovesWithCompletion:^(NSError *error, NSArray<Product *> *products) {
@@ -50,7 +51,7 @@
     } andCursor:nil];
 }
 
-- (void)fetchMoreUserLovesWithCompletion:(void (^)(NSError *error))completion
+- (void)fetchMoreProductsWithCompletion:(void (^)(NSError *error))completion
 {
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     __weak typeof(self) welf = self;
@@ -78,13 +79,7 @@
     ProductsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"productListCell" forIndexPath:indexPath];
     Product *product = [_loves objectAtIndex:indexPath.row];
     
-    // Here we use the new provided sd_setImageWithURL: method to load the web image
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:product.videoPreview]
-                      placeholderImage:nil
-                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                 //DDLogVerbose(@"completed");
-                             }];
-    
+    [cell setProduct:product];
     return cell;
 }
 

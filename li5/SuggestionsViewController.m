@@ -43,7 +43,7 @@
 
 #pragma mark - User Actions
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBar:(Li5SearchBarUIView *)searchBar textDidChange:(NSString *)searchText
 {
     [self fetchTagsFor:searchText];
 }
@@ -52,7 +52,7 @@
 
 - (void)fetchTagsFor:(NSString*)word
 {
-    [_dataSource getSuggestions:word withCompletion:^(NSError *error, NSArray<Tag *> *tags) {
+    [_dataSource getSuggestions:word withCompletion:^(NSError *error, NSArray<NSString *> *tags) {
         if (!error)
         {
             [_suggestionsCollectionView reloadData];
@@ -64,10 +64,10 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Tag *tag = [_dataSource getSuggestion:indexPath.row];
+    NSString *tag = [_dataSource getSuggestion:indexPath.row];
     if (self.delegate)
     {
-        [self.delegate updateSearchBardWith:tag.name];
+        [self.delegate updateSearchBardWith:tag];
     }
 }
 

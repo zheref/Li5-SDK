@@ -9,6 +9,8 @@
 @import FBSDKCoreKit;
 @import FBSDKLoginKit;
 
-@interface LoginViewController : UIViewController <FBSDKLoginButtonDelegate>
+@interface LoginViewController : UIViewController
+
+@property (nonatomic, strong) id pageIndex;
 
 @end

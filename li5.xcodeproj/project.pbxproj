@@ -8,8 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		1D75DAC533E9D5562F9BC8B8 /* Pods_Li5Base_li5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25AEB04CB1408A7E79A6B736 /* Pods_Li5Base_li5.framework */; };
+		5B0689C31D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0689C21D0777DD0063F104 /* TapAndHoldToUnlockViewController.m */; };
+		5B0689C41D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0689C21D0777DD0063F104 /* TapAndHoldToUnlockViewController.m */; };
+		5B0689C51D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0689C21D0777DD0063F104 /* TapAndHoldToUnlockViewController.m */; };
+		5B0689C61D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0689C21D0777DD0063F104 /* TapAndHoldToUnlockViewController.m */; };
+		5B0689C71D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0689C21D0777DD0063F104 /* TapAndHoldToUnlockViewController.m */; };
+		5B06F3C41CFA410A007FA3AB /* NSObject+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */; };
+		5B06F3C51CFA410A007FA3AB /* NSObject+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */; };
+		5B06F3C61CFA410A007FA3AB /* NSObject+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */; };
+		5B06F3C71CFA410A007FA3AB /* NSObject+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */; };
+		5B06F3C81CFA410A007FA3AB /* NSObject+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */; };
+		5B06F3CB1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3CA1CFA44AA007FA3AB /* UIImage+Li5.m */; };
+		5B06F3CC1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3CA1CFA44AA007FA3AB /* UIImage+Li5.m */; };
+		5B06F3CD1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3CA1CFA44AA007FA3AB /* UIImage+Li5.m */; };
+		5B06F3CE1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3CA1CFA44AA007FA3AB /* UIImage+Li5.m */; };
+		5B06F3CF1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3CA1CFA44AA007FA3AB /* UIImage+Li5.m */; };
 		5B13D30D1CDEA0070015ECFC /* li5Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B13D30C1CDEA0070015ECFC /* li5Tests.m */; };
 		5B13D31B1CDEA0400015ECFC /* li5UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B13D31A1CDEA0400015ECFC /* li5UITests.m */; };
+		5B224B1D1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B224B1B1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m */; };
+		5B224B1E1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B224B1B1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m */; };
+		5B224B1F1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B224B1B1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m */; };
+		5B224B201D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B224B1C1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib */; };
+		5B224B211D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B224B1C1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib */; };
+		5B224B221D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B224B1C1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib */; };
 		5B2617531CEA12B200B51593 /* CrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */; };
 		5B2617541CEA12B200B51593 /* CrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */; };
 		5B2617551CEA12B200B51593 /* CrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */; };
@@ -22,6 +43,27 @@
 		5B2617731CEA72A900B51593 /* TagsViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617701CEA72A900B51593 /* TagsViewDataSource.m */; };
 		5B2617741CEA72A900B51593 /* TagsViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617701CEA72A900B51593 /* TagsViewDataSource.m */; };
 		5B2617751CEA72A900B51593 /* TagsViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617701CEA72A900B51593 /* TagsViewDataSource.m */; };
+		5B360E9B1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */; };
+		5B360E9C1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */; };
+		5B360E9D1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */; };
+		5B360E9E1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */; };
+		5B360E9F1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */; };
+		5B360EA21D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */; };
+		5B360EA31D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */; };
+		5B360EA41D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */; };
+		5B360EA51D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */; };
+		5B360EA61D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */; };
+		5B360EA91D087524004B3691 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
+		5B360EAA1D087524004B3691 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
+		5B360EAB1D087524004B3691 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
+		5B360EAC1D087524004B3691 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
+		5B360EAD1D087524004B3691 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
+		5B360EB01D09BBD5004B3691 /* Li5SearchBarUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EAF1D09BBD5004B3691 /* Li5SearchBarUIView.m */; };
+		5B360EB11D09BBD5004B3691 /* Li5SearchBarUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EAF1D09BBD5004B3691 /* Li5SearchBarUIView.m */; };
+		5B360EB21D09BBD5004B3691 /* Li5SearchBarUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EAF1D09BBD5004B3691 /* Li5SearchBarUIView.m */; };
+		5B360EB41D09BBEB004B3691 /* Li5SearchBarUIView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B360EB31D09BBEB004B3691 /* Li5SearchBarUIView.xib */; };
+		5B360EB51D09BBEB004B3691 /* Li5SearchBarUIView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B360EB31D09BBEB004B3691 /* Li5SearchBarUIView.xib */; };
+		5B360EB61D09BBEB004B3691 /* Li5SearchBarUIView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B360EB31D09BBEB004B3691 /* Li5SearchBarUIView.xib */; };
 		5B427E121CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
 		5B427E131CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
 		5B427E141CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
@@ -62,9 +104,7 @@
 		5B62045B1CCA7116003C9390 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8625D01C764C33006869DE /* FBSDKCoreKit.framework */; };
 		5B62045C1CCA7116003C9390 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8625D11C764C33006869DE /* FBSDKLoginKit.framework */; };
 		5B62045F1CCA7116003C9390 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B9DFAB01CC6C40B00436D0A /* Launch Screen.storyboard */; };
-		5B6204611CCA7116003C9390 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */; };
 		5B6204621CCA7116003C9390 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AACC1C4D60B9002C22C8 /* Assets.xcassets */; };
-		5B6204631CCA7116003C9390 /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */; };
 		5B6204641CCA7116003C9390 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC91C4D60B9002C22C8 /* Main.storyboard */; };
 		5B62046D1CCA7177003C9390 /* Launch Screen_Dev.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B62046C1CCA7177003C9390 /* Launch Screen_Dev.storyboard */; };
 		5B6204711CCA7625003C9390 /* TeaserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */; };
@@ -83,12 +123,42 @@
 		5B6204821CCA7625003C9390 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8625D01C764C33006869DE /* FBSDKCoreKit.framework */; };
 		5B6204831CCA7625003C9390 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8625D11C764C33006869DE /* FBSDKLoginKit.framework */; };
 		5B6204861CCA7625003C9390 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B9DFAB01CC6C40B00436D0A /* Launch Screen.storyboard */; };
-		5B6204881CCA7625003C9390 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */; };
 		5B6204891CCA7625003C9390 /* Launch Screen_Dev.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B62046C1CCA7177003C9390 /* Launch Screen_Dev.storyboard */; };
 		5B62048A1CCA7625003C9390 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AACC1C4D60B9002C22C8 /* Assets.xcassets */; };
-		5B62048B1CCA7625003C9390 /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */; };
 		5B62048C1CCA7625003C9390 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC91C4D60B9002C22C8 /* Main.storyboard */; };
 		5B6204951CCA7667003C9390 /* Launch Screen_Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B6204941CCA7667003C9390 /* Launch Screen_Test.storyboard */; };
+		5B625C6B1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C6A1D05D602001CA076 /* ImageUICollectionViewCell.m */; };
+		5B625C6C1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C6A1D05D602001CA076 /* ImageUICollectionViewCell.m */; };
+		5B625C6D1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C6A1D05D602001CA076 /* ImageUICollectionViewCell.m */; };
+		5B625C6E1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C6A1D05D602001CA076 /* ImageUICollectionViewCell.m */; };
+		5B625C6F1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C6A1D05D602001CA076 /* ImageUICollectionViewCell.m */; };
+		5B625C721D05F26D001CA076 /* UILabel+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C711D05F26D001CA076 /* UILabel+Li5.m */; };
+		5B625C731D05F26D001CA076 /* UILabel+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C711D05F26D001CA076 /* UILabel+Li5.m */; };
+		5B625C741D05F26D001CA076 /* UILabel+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C711D05F26D001CA076 /* UILabel+Li5.m */; };
+		5B625C751D05F26D001CA076 /* UILabel+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C711D05F26D001CA076 /* UILabel+Li5.m */; };
+		5B625C761D05F26D001CA076 /* UILabel+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C711D05F26D001CA076 /* UILabel+Li5.m */; };
+		5B625C821D061AF1001CA076 /* UserOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C811D061AF1001CA076 /* UserOrdersViewController.m */; };
+		5B625C831D061AF1001CA076 /* UserOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C811D061AF1001CA076 /* UserOrdersViewController.m */; };
+		5B625C841D061AF1001CA076 /* UserOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C811D061AF1001CA076 /* UserOrdersViewController.m */; };
+		5B625C851D061AF1001CA076 /* UserOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C811D061AF1001CA076 /* UserOrdersViewController.m */; };
+		5B625C861D061AF1001CA076 /* UserOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C811D061AF1001CA076 /* UserOrdersViewController.m */; };
+		5B625C891D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C881D061B93001CA076 /* UserOrdersCollectionViewDataSource.m */; };
+		5B625C8A1D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C881D061B93001CA076 /* UserOrdersCollectionViewDataSource.m */; };
+		5B625C8B1D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C881D061B93001CA076 /* UserOrdersCollectionViewDataSource.m */; };
+		5B625C8C1D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C881D061B93001CA076 /* UserOrdersCollectionViewDataSource.m */; };
+		5B625C8D1D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C881D061B93001CA076 /* UserOrdersCollectionViewDataSource.m */; };
+		5B73B61E1CFC864900B00FA0 /* OnboardingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B73B61D1CFC864900B00FA0 /* OnboardingViews.storyboard */; };
+		5B73B61F1CFC864900B00FA0 /* OnboardingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B73B61D1CFC864900B00FA0 /* OnboardingViews.storyboard */; };
+		5B73B6201CFC864900B00FA0 /* OnboardingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B73B61D1CFC864900B00FA0 /* OnboardingViews.storyboard */; };
+		5B73B6211CFC864900B00FA0 /* OnboardingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B73B61D1CFC864900B00FA0 /* OnboardingViews.storyboard */; };
+		5B73B6251CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73B6241CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m */; };
+		5B73B6261CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73B6241CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m */; };
+		5B73B6271CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73B6241CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m */; };
+		5B73B6281CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73B6241CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m */; };
+		5B73B62C1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73B62B1CFC8E5A00B00FA0 /* OnboardingViewController.m */; };
+		5B73B62D1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73B62B1CFC8E5A00B00FA0 /* OnboardingViewController.m */; };
+		5B73B62E1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73B62B1CFC8E5A00B00FA0 /* OnboardingViewController.m */; };
+		5B73B62F1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73B62B1CFC8E5A00B00FA0 /* OnboardingViewController.m */; };
 		5B7551951CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */; };
 		5B7551961CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */; };
 		5B7551971CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */; };
@@ -136,6 +206,32 @@
 		5BB4AACD1C4D60B9002C22C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AACC1C4D60B9002C22C8 /* Assets.xcassets */; };
 		5BB4AB121C4ED3DC002C22C8 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB111C4ED3DC002C22C8 /* RootViewController.m */; };
 		5BB4AB171C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
+		5BBC61DC1D047292006B4C68 /* ProductPageActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC61DB1D047292006B4C68 /* ProductPageActionsView.xib */; };
+		5BBC61DD1D047292006B4C68 /* ProductPageActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC61DB1D047292006B4C68 /* ProductPageActionsView.xib */; };
+		5BBC61DE1D047292006B4C68 /* ProductPageActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC61DB1D047292006B4C68 /* ProductPageActionsView.xib */; };
+		5BBC61DF1D047292006B4C68 /* ProductPageActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC61DB1D047292006B4C68 /* ProductPageActionsView.xib */; };
+		5BBC61E21D047508006B4C68 /* ProductPageActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC61E11D047508006B4C68 /* ProductPageActionsView.m */; };
+		5BBC61E31D047508006B4C68 /* ProductPageActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC61E11D047508006B4C68 /* ProductPageActionsView.m */; };
+		5BBC61E41D047508006B4C68 /* ProductPageActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC61E11D047508006B4C68 /* ProductPageActionsView.m */; };
+		5BBC61E71D048BFB006B4C68 /* CategoryDecorationsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC61E61D048BFB006B4C68 /* CategoryDecorationsView.m */; };
+		5BBC61E81D048BFB006B4C68 /* CategoryDecorationsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC61E61D048BFB006B4C68 /* CategoryDecorationsView.m */; };
+		5BBC61E91D048BFB006B4C68 /* CategoryDecorationsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC61E61D048BFB006B4C68 /* CategoryDecorationsView.m */; };
+		5BBC66D31CFE3D4F001BE4BB /* ProductPageViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC66D21CFE3D4F001BE4BB /* ProductPageViews.storyboard */; };
+		5BBC66D41CFE3D4F001BE4BB /* ProductPageViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC66D21CFE3D4F001BE4BB /* ProductPageViews.storyboard */; };
+		5BBC66D51CFE3D4F001BE4BB /* ProductPageViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC66D21CFE3D4F001BE4BB /* ProductPageViews.storyboard */; };
+		5BBC66D61CFE3D4F001BE4BB /* ProductPageViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC66D21CFE3D4F001BE4BB /* ProductPageViews.storyboard */; };
+		5BBC66D91CFF2D39001BE4BB /* Li5GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66D81CFF2D39001BE4BB /* Li5GradientView.m */; };
+		5BBC66DA1CFF2D39001BE4BB /* Li5GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66D81CFF2D39001BE4BB /* Li5GradientView.m */; };
+		5BBC66DB1CFF2D39001BE4BB /* Li5GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66D81CFF2D39001BE4BB /* Li5GradientView.m */; };
+		5BBC66DF1CFF62F1001BE4BB /* DiscoverViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC66DE1CFF62F1001BE4BB /* DiscoverViews.storyboard */; };
+		5BBC66E01CFF62F1001BE4BB /* DiscoverViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC66DE1CFF62F1001BE4BB /* DiscoverViews.storyboard */; };
+		5BBC66E11CFF62F1001BE4BB /* DiscoverViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC66DE1CFF62F1001BE4BB /* DiscoverViews.storyboard */; };
+		5BBC66E41CFF64F6001BE4BB /* Li5BlurredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E31CFF64F6001BE4BB /* Li5BlurredView.m */; };
+		5BBC66E51CFF64F6001BE4BB /* Li5BlurredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E31CFF64F6001BE4BB /* Li5BlurredView.m */; };
+		5BBC66E61CFF64F6001BE4BB /* Li5BlurredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E31CFF64F6001BE4BB /* Li5BlurredView.m */; };
+		5BBC66E91D00A777001BE4BB /* Li5PlayerTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E81D00A777001BE4BB /* Li5PlayerTimer.m */; };
+		5BBC66EA1D00A777001BE4BB /* Li5PlayerTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E81D00A777001BE4BB /* Li5PlayerTimer.m */; };
+		5BBC66EB1D00A777001BE4BB /* Li5PlayerTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E81D00A777001BE4BB /* Li5PlayerTimer.m */; };
 		5BC1F2FC1CF37DFC0095AB47 /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BC1F2FB1CF37DFC0095AB47 /* ExploreViewController.m */; };
 		5BC1F2FD1CF37DFC0095AB47 /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BC1F2FB1CF37DFC0095AB47 /* ExploreViewController.m */; };
 		5BC1F2FE1CF37DFC0095AB47 /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BC1F2FB1CF37DFC0095AB47 /* ExploreViewController.m */; };
@@ -144,10 +240,10 @@
 		5BE6935B1CF3959500445439 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693591CF3959500445439 /* TagsViewController.m */; };
 		5BE6935C1CF3959500445439 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693591CF3959500445439 /* TagsViewController.m */; };
 		5BE6935D1CF3959500445439 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693591CF3959500445439 /* TagsViewController.m */; };
-		5BE693671CF3A4CC00445439 /* SearchProductsViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693661CF3A4CC00445439 /* SearchProductsViews.storyboard */; };
-		5BE693681CF3A4CC00445439 /* SearchProductsViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693661CF3A4CC00445439 /* SearchProductsViews.storyboard */; };
-		5BE693691CF3A4CC00445439 /* SearchProductsViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693661CF3A4CC00445439 /* SearchProductsViews.storyboard */; };
-		5BE6936A1CF3A4CC00445439 /* SearchProductsViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693661CF3A4CC00445439 /* SearchProductsViews.storyboard */; };
+		5BE693671CF3A4CC00445439 /* ExploreViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693661CF3A4CC00445439 /* ExploreViews.storyboard */; };
+		5BE693681CF3A4CC00445439 /* ExploreViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693661CF3A4CC00445439 /* ExploreViews.storyboard */; };
+		5BE693691CF3A4CC00445439 /* ExploreViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693661CF3A4CC00445439 /* ExploreViews.storyboard */; };
+		5BE6936A1CF3A4CC00445439 /* ExploreViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693661CF3A4CC00445439 /* ExploreViews.storyboard */; };
 		5BE6936E1CF4C15B00445439 /* SuggestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6936D1CF4C15B00445439 /* SuggestionsViewController.m */; };
 		5BE6936F1CF4C15B00445439 /* SuggestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6936D1CF4C15B00445439 /* SuggestionsViewController.m */; };
 		5BE693701CF4C15B00445439 /* SuggestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6936D1CF4C15B00445439 /* SuggestionsViewController.m */; };
@@ -217,7 +313,6 @@
 		5BE693C71CF4F04D00445439 /* SuggestionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693C31CF4F04D00445439 /* SuggestionsDataSource.m */; };
 		5BE693C81CF4F04D00445439 /* SuggestionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693C31CF4F04D00445439 /* SuggestionsDataSource.m */; };
 		62B44E7FAEF24761F18E1678 /* Pods_Li5Base_li5UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789BEB03CD104253482F7BC8 /* Pods_Li5Base_li5UITests.framework */; };
-		7305D7E10A234B8CFE20B880 /* Pods_li5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD912AE1DF34BE9827AC3D93 /* Pods_li5.framework */; };
 		76DA3CC04A15DD66E02061C4 /* Pods_Li5Base_li5_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A8BA852AC632BC4ACA29793 /* Pods_Li5Base_li5_Test.framework */; };
 		7C518D81242A3AAB368FEDC9 /* Pods_li5Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FD24AF91637F9C30C2557B /* Pods_li5Tests.framework */; };
 		7E6A4C911D982F4A2A5EF941 /* Pods_Li5Base_li5Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1F9D873859205EE805C805 /* Pods_Li5Base_li5Tests.framework */; };
@@ -233,16 +328,11 @@
 		9C5AA8251CD10F9400F3DE08 /* LastPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8231CD10F9400F3DE08 /* LastPageViewController.m */; };
 		9C5AA8261CD10F9400F3DE08 /* LastPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8231CD10F9400F3DE08 /* LastPageViewController.m */; };
 		9C5AA8271CD10F9500F3DE08 /* LastPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8231CD10F9400F3DE08 /* LastPageViewController.m */; };
-		9C5AA8281CD10F9500F3DE08 /* LastPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C5AA8241CD10F9400F3DE08 /* LastPageViewController.xib */; };
-		9C5AA8291CD10F9500F3DE08 /* LastPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C5AA8241CD10F9400F3DE08 /* LastPageViewController.xib */; };
-		9C5AA82A1CD10F9500F3DE08 /* LastPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C5AA8241CD10F9400F3DE08 /* LastPageViewController.xib */; };
 		9CBB88341CD38CD300F8DF57 /* ProductsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB88331CD38CD300F8DF57 /* ProductsCollectionViewDataSource.m */; };
 		9CBB88351CD3952A00F8DF57 /* ProductsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB88331CD38CD300F8DF57 /* ProductsCollectionViewDataSource.m */; };
 		9CBB88361CD3952B00F8DF57 /* ProductsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB88331CD38CD300F8DF57 /* ProductsCollectionViewDataSource.m */; };
 		9CFFC24E1CC16057005AC8DC /* CategoriesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC24C1CC16057005AC8DC /* CategoriesCollectionViewCell.m */; };
-		9CFFC24F1CC16057005AC8DC /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */; };
 		9CFFC2531CC17EC5005AC8DC /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2511CC17EC5005AC8DC /* CategoriesViewController.m */; };
-		9CFFC2541CC17EC5005AC8DC /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */; };
 		9CFFC25A1CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2591CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m */; };
 		E1D86692A5119647D4D72FAA /* Pods_li5UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E7F2C766859D2A4A118126 /* Pods_li5UITests.framework */; };
 		E25B479BD31812F05F1B2CEC /* Pods_Li5Base_li5_Dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 854894742D36860DE5438637 /* Pods_Li5Base_li5_Dev.framework */; };
@@ -291,18 +381,36 @@
 		28B890D8A27B6B6CE83C198F /* Pods-Li5Base-li5.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Li5Base-li5.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Li5Base-li5/Pods-Li5Base-li5.debug.xcconfig"; sourceTree = "<group>"; };
 		2C9D7FC5193BD48E46425245 /* Pods-Li5Base-li5UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Li5Base-li5UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Li5Base-li5UITests/Pods-Li5Base-li5UITests.release.xcconfig"; sourceTree = "<group>"; };
 		2D1F9D873859205EE805C805 /* Pods_Li5Base_li5Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Li5Base_li5Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B0689C11D0777DD0063F104 /* TapAndHoldToUnlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapAndHoldToUnlockViewController.h; sourceTree = "<group>"; };
+		5B0689C21D0777DD0063F104 /* TapAndHoldToUnlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapAndHoldToUnlockViewController.m; sourceTree = "<group>"; };
+		5B06F3C21CFA410A007FA3AB /* NSObject+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Li5.h"; sourceTree = "<group>"; };
+		5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Li5.m"; sourceTree = "<group>"; };
+		5B06F3C91CFA44AA007FA3AB /* UIImage+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Li5.h"; sourceTree = "<group>"; };
+		5B06F3CA1CFA44AA007FA3AB /* UIImage+Li5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Li5.m"; sourceTree = "<group>"; };
 		5B13D30A1CDEA0070015ECFC /* li5Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = li5Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B13D30C1CDEA0070015ECFC /* li5Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = li5Tests.m; sourceTree = "<group>"; };
 		5B13D30E1CDEA0070015ECFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B13D3181CDEA0400015ECFC /* li5UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = li5UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B13D31A1CDEA0400015ECFC /* li5UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = li5UITests.m; sourceTree = "<group>"; };
 		5B13D31C1CDEA0400015ECFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B224B1A1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5SearchBarUICollectionViewCell.h; sourceTree = "<group>"; };
+		5B224B1B1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5SearchBarUICollectionViewCell.m; sourceTree = "<group>"; };
+		5B224B1C1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Li5SearchBarUICollectionViewCell.xib; sourceTree = "<group>"; };
 		5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashlyticsLogger.m; sourceTree = "<group>"; };
 		5B2617561CEA12C500B51593 /* CrashlyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsLogger.h; sourceTree = "<group>"; };
 		5B2617641CEA5E1800B51593 /* TagsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsCollectionViewCell.h; sourceTree = "<group>"; };
 		5B2617651CEA5E1800B51593 /* TagsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsCollectionViewCell.m; sourceTree = "<group>"; };
 		5B26176F1CEA72A900B51593 /* TagsViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsViewDataSource.h; sourceTree = "<group>"; };
 		5B2617701CEA72A900B51593 /* TagsViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsViewDataSource.m; sourceTree = "<group>"; };
+		5B360E991D086389004B3691 /* SwipeLeftToBeginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeLeftToBeginViewController.h; sourceTree = "<group>"; };
+		5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeLeftToBeginViewController.m; sourceTree = "<group>"; };
+		5B360EA01D087279004B3691 /* SwipeDownToExploreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeDownToExploreViewController.h; sourceTree = "<group>"; };
+		5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeDownToExploreViewController.m; sourceTree = "<group>"; };
+		5B360EA71D087524004B3691 /* Li5Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5Constants.h; sourceTree = "<group>"; };
+		5B360EA81D087524004B3691 /* Li5Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5Constants.m; sourceTree = "<group>"; };
+		5B360EAE1D09BBD5004B3691 /* Li5SearchBarUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5SearchBarUIView.h; sourceTree = "<group>"; };
+		5B360EAF1D09BBD5004B3691 /* Li5SearchBarUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5SearchBarUIView.m; sourceTree = "<group>"; };
+		5B360EB31D09BBEB004B3691 /* Li5SearchBarUIView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Li5SearchBarUIView.xib; sourceTree = "<group>"; };
 		5B427E101CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalUICollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalUICollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		5B48F2841CE0E21F00EBE566 /* ProductsListDynamicInteractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsListDynamicInteractor.h; sourceTree = "<group>"; };
@@ -323,6 +431,19 @@
 		5B6204921CCA7625003C9390 /* li5-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "li5-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B6204931CCA7625003C9390 /* li5-Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "li5-Test-Info.plist"; path = "li5/li5-Test-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5B6204941CCA7667003C9390 /* Launch Screen_Test.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen_Test.storyboard"; sourceTree = "<group>"; };
+		5B625C691D05D602001CA076 /* ImageUICollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUICollectionViewCell.h; sourceTree = "<group>"; };
+		5B625C6A1D05D602001CA076 /* ImageUICollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUICollectionViewCell.m; sourceTree = "<group>"; };
+		5B625C701D05F26D001CA076 /* UILabel+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Li5.h"; sourceTree = "<group>"; };
+		5B625C711D05F26D001CA076 /* UILabel+Li5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Li5.m"; sourceTree = "<group>"; };
+		5B625C801D061AF1001CA076 /* UserOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserOrdersViewController.h; sourceTree = "<group>"; };
+		5B625C811D061AF1001CA076 /* UserOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserOrdersViewController.m; sourceTree = "<group>"; };
+		5B625C871D061B93001CA076 /* UserOrdersCollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserOrdersCollectionViewDataSource.h; sourceTree = "<group>"; };
+		5B625C881D061B93001CA076 /* UserOrdersCollectionViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserOrdersCollectionViewDataSource.m; sourceTree = "<group>"; };
+		5B73B61D1CFC864900B00FA0 /* OnboardingViews.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OnboardingViews.storyboard; sourceTree = "<group>"; };
+		5B73B6231CFC8DCE00B00FA0 /* OnboardingPageContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingPageContentViewController.h; sourceTree = "<group>"; };
+		5B73B6241CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardingPageContentViewController.m; sourceTree = "<group>"; };
+		5B73B62A1CFC8E5A00B00FA0 /* OnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingViewController.h; sourceTree = "<group>"; };
+		5B73B62B1CFC8E5A00B00FA0 /* OnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardingViewController.m; sourceTree = "<group>"; };
 		5B7551931CCE7433007FAF67 /* Li5PlayerUISlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5PlayerUISlider.h; sourceTree = "<group>"; };
 		5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5PlayerUISlider.m; sourceTree = "<group>"; };
 		5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlockedViewController.h; sourceTree = "<group>"; };
@@ -368,11 +489,24 @@
 		5BB4AB111C4ED3DC002C22C8 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		5BB4AB151C4FC631002C22C8 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		5BBC61DB1D047292006B4C68 /* ProductPageActionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductPageActionsView.xib; sourceTree = "<group>"; };
+		5BBC61E01D047508006B4C68 /* ProductPageActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPageActionsView.h; sourceTree = "<group>"; };
+		5BBC61E11D047508006B4C68 /* ProductPageActionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPageActionsView.m; sourceTree = "<group>"; };
+		5BBC61E51D048BFB006B4C68 /* CategoryDecorationsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryDecorationsView.h; sourceTree = "<group>"; };
+		5BBC61E61D048BFB006B4C68 /* CategoryDecorationsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryDecorationsView.m; sourceTree = "<group>"; };
+		5BBC66D21CFE3D4F001BE4BB /* ProductPageViews.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProductPageViews.storyboard; sourceTree = "<group>"; };
+		5BBC66D71CFF2D39001BE4BB /* Li5GradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5GradientView.h; sourceTree = "<group>"; };
+		5BBC66D81CFF2D39001BE4BB /* Li5GradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5GradientView.m; sourceTree = "<group>"; };
+		5BBC66DE1CFF62F1001BE4BB /* DiscoverViews.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DiscoverViews.storyboard; sourceTree = "<group>"; };
+		5BBC66E21CFF64F6001BE4BB /* Li5BlurredView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5BlurredView.h; sourceTree = "<group>"; };
+		5BBC66E31CFF64F6001BE4BB /* Li5BlurredView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5BlurredView.m; sourceTree = "<group>"; };
+		5BBC66E71D00A777001BE4BB /* Li5PlayerTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5PlayerTimer.h; sourceTree = "<group>"; };
+		5BBC66E81D00A777001BE4BB /* Li5PlayerTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5PlayerTimer.m; sourceTree = "<group>"; };
 		5BC1F2FA1CF37DFC0095AB47 /* ExploreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreViewController.h; sourceTree = "<group>"; };
 		5BC1F2FB1CF37DFC0095AB47 /* ExploreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreViewController.m; sourceTree = "<group>"; };
 		5BE693581CF3959500445439 /* TagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsViewController.h; sourceTree = "<group>"; };
 		5BE693591CF3959500445439 /* TagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsViewController.m; sourceTree = "<group>"; };
-		5BE693661CF3A4CC00445439 /* SearchProductsViews.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SearchProductsViews.storyboard; sourceTree = "<group>"; };
+		5BE693661CF3A4CC00445439 /* ExploreViews.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExploreViews.storyboard; sourceTree = "<group>"; };
 		5BE6936C1CF4C15B00445439 /* SuggestionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionsViewController.h; sourceTree = "<group>"; };
 		5BE6936D1CF4C15B00445439 /* SuggestionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionsViewController.m; sourceTree = "<group>"; };
 		5BE693721CF4C39800445439 /* UIColor+Li5UIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Li5UIColor.h"; sourceTree = "<group>"; };
@@ -405,15 +539,12 @@
 		9C5AA8141CD02E7100F3DE08 /* ProductsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsViewController.m; sourceTree = "<group>"; };
 		9C5AA8221CD10F9400F3DE08 /* LastPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastPageViewController.h; sourceTree = "<group>"; };
 		9C5AA8231CD10F9400F3DE08 /* LastPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastPageViewController.m; sourceTree = "<group>"; };
-		9C5AA8241CD10F9400F3DE08 /* LastPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LastPageViewController.xib; sourceTree = "<group>"; };
 		9CBB88321CD38CD200F8DF57 /* ProductsCollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsCollectionViewDataSource.h; sourceTree = "<group>"; };
 		9CBB88331CD38CD300F8DF57 /* ProductsCollectionViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsCollectionViewDataSource.m; sourceTree = "<group>"; };
 		9CFFC24B1CC16057005AC8DC /* CategoriesCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesCollectionViewCell.h; sourceTree = "<group>"; };
 		9CFFC24C1CC16057005AC8DC /* CategoriesCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesCollectionViewCell.m; sourceTree = "<group>"; };
-		9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesCollectionViewCell.xib; sourceTree = "<group>"; };
 		9CFFC2501CC17EC5005AC8DC /* CategoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesViewController.h; sourceTree = "<group>"; };
 		9CFFC2511CC17EC5005AC8DC /* CategoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
-		9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesViewController.xib; sourceTree = "<group>"; };
 		9CFFC2581CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimeTimeViewControllerDataSource.h; sourceTree = "<group>"; };
 		9CFFC2591CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrimeTimeViewControllerDataSource.m; sourceTree = "<group>"; };
 		A0CF58D147BBB9A27D561F50 /* Pods-Li5Base-li5UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Li5Base-li5UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Li5Base-li5UITests/Pods-Li5Base-li5UITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -473,7 +604,6 @@
 				5B8625D51C764C33006869DE /* FBSDKShareKit.framework in Frameworks */,
 				5B8625D31C764C33006869DE /* FBSDKCoreKit.framework in Frameworks */,
 				5B8625D41C764C33006869DE /* FBSDKLoginKit.framework in Frameworks */,
-				7305D7E10A234B8CFE20B880 /* Pods_li5.framework in Frameworks */,
 				1D75DAC533E9D5562F9BC8B8 /* Pods_Li5Base_li5.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -547,6 +677,10 @@
 		5B06F3BA1CF8C237007FA3AB /* Orders */ = {
 			isa = PBXGroup;
 			children = (
+				5B625C801D061AF1001CA076 /* UserOrdersViewController.h */,
+				5B625C811D061AF1001CA076 /* UserOrdersViewController.m */,
+				5B625C871D061B93001CA076 /* UserOrdersCollectionViewDataSource.h */,
+				5B625C881D061B93001CA076 /* UserOrdersCollectionViewDataSource.m */,
 			);
 			name = Orders;
 			sourceTree = "<group>";
@@ -567,6 +701,30 @@
 				5B13D31C1CDEA0400015ECFC /* Info.plist */,
 			);
 			path = li5UITests;
+			sourceTree = "<group>";
+		};
+		5B224B231D09D49C00F7FC86 /* Search Bar */ = {
+			isa = PBXGroup;
+			children = (
+				5B360EAE1D09BBD5004B3691 /* Li5SearchBarUIView.h */,
+				5B360EAF1D09BBD5004B3691 /* Li5SearchBarUIView.m */,
+				5B360EB31D09BBEB004B3691 /* Li5SearchBarUIView.xib */,
+				5B224B1A1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.h */,
+				5B224B1B1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m */,
+				5B224B1C1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib */,
+			);
+			name = "Search Bar";
+			sourceTree = "<group>";
+		};
+		5B360E981D08620C004B3691 /* Explainers */ = {
+			isa = PBXGroup;
+			children = (
+				5B0689C11D0777DD0063F104 /* TapAndHoldToUnlockViewController.h */,
+				5B0689C21D0777DD0063F104 /* TapAndHoldToUnlockViewController.m */,
+				5B360E991D086389004B3691 /* SwipeLeftToBeginViewController.h */,
+				5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */,
+			);
+			name = Explainers;
 			sourceTree = "<group>";
 		};
 		5B427E0E1CEBA768000EF9E5 /* Interactors */ = {
@@ -608,25 +766,31 @@
 				5B7975591C6D03A800F78C9F /* ProductPageViewController.h */,
 				5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */,
 				5B9584DE1C6D23FB00026BB2 /* ProductPageProtocol.h */,
+				5BBC66D21CFE3D4F001BE4BB /* ProductPageViews.storyboard */,
 				5B7551A31CCFBE9F007FAF67 /* Video */,
 				5B6204441CCA5DCF003C9390 /* Details */,
+				5B360E981D08620C004B3691 /* Explainers */,
 			);
 			name = Page;
 			sourceTree = "<group>";
 		};
-		5B6204411CCA5D94003C9390 /* Login */ = {
+		5B6204411CCA5D94003C9390 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				5B602C5A1C565D4A00F0D362 /* LoginViewController.h */,
-				5B602C5B1C565D4A00F0D362 /* LoginViewController.m */,
+				5B73B62A1CFC8E5A00B00FA0 /* OnboardingViewController.h */,
+				5B73B62B1CFC8E5A00B00FA0 /* OnboardingViewController.m */,
+				5B73B61D1CFC864900B00FA0 /* OnboardingViews.storyboard */,
+				5B73B6221CFC8DA800B00FA0 /* Onboarding */,
+				5B73B6291CFC8E3600B00FA0 /* Login */,
 				9CF7DC121CC9127900F7CAF7 /* Categories */,
 			);
-			name = Login;
+			name = Onboarding;
 			sourceTree = "<group>";
 		};
 		5B6204421CCA5DBB003C9390 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
+				5BBC66DE1CFF62F1001BE4BB /* DiscoverViews.storyboard */,
 				5BB1F9FC1CCC233100FA03F6 /* PrimeTimeViewController.h */,
 				5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */,
 				9CFFC2581CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.h */,
@@ -635,7 +799,8 @@
 				5B8625CE1C763CE4006869DE /* IndexedViewController.m */,
 				9C5AA8221CD10F9400F3DE08 /* LastPageViewController.h */,
 				9C5AA8231CD10F9400F3DE08 /* LastPageViewController.m */,
-				9C5AA8241CD10F9400F3DE08 /* LastPageViewController.xib */,
+				5B360EA01D087279004B3691 /* SwipeDownToExploreViewController.h */,
+				5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */,
 			);
 			name = Discover;
 			sourceTree = "<group>";
@@ -652,6 +817,8 @@
 		5B6204441CCA5DCF003C9390 /* Details */ = {
 			isa = PBXGroup;
 			children = (
+				5B625C691D05D602001CA076 /* ImageUICollectionViewCell.h */,
+				5B625C6A1D05D602001CA076 /* ImageUICollectionViewCell.m */,
 				5BB4AB151C4FC631002C22C8 /* DetailsViewController.h */,
 				5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */,
 			);
@@ -663,6 +830,8 @@
 			children = (
 				5B7551931CCE7433007FAF67 /* Li5PlayerUISlider.h */,
 				5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */,
+				5BBC66E71D00A777001BE4BB /* Li5PlayerTimer.h */,
+				5BBC66E81D00A777001BE4BB /* Li5PlayerTimer.m */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -672,17 +841,39 @@
 			children = (
 				5BAB34EB1CF1011900AE74DC /* Views */,
 				5BAB34EA1CF1010700AE74DC /* Logs */,
+				5B06F3C21CFA410A007FA3AB /* NSObject+Li5.h */,
+				5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */,
+				5B360EA71D087524004B3691 /* Li5Constants.h */,
+				5B360EA81D087524004B3691 /* Li5Constants.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
 		};
-		5B75519A1CCFAE88007FAF67 /* Unlocked */ = {
+		5B73B6221CFC8DA800B00FA0 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				5B73B6231CFC8DCE00B00FA0 /* OnboardingPageContentViewController.h */,
+				5B73B6241CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m */,
+			);
+			name = Onboarding;
+			sourceTree = "<group>";
+		};
+		5B73B6291CFC8E3600B00FA0 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				5B602C5A1C565D4A00F0D362 /* LoginViewController.h */,
+				5B602C5B1C565D4A00F0D362 /* LoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		5B75519A1CCFAE88007FAF67 /* Unlock */ = {
 			isa = PBXGroup;
 			children = (
 				5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */,
 				5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */,
 			);
-			name = Unlocked;
+			name = Unlock;
 			sourceTree = "<group>";
 		};
 		5B7551A21CCFBE4E007FAF67 /* Product */ = {
@@ -699,8 +890,11 @@
 			children = (
 				5B7551A41CCFBEBC007FAF67 /* VideoViewController.h */,
 				5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */,
+				5BBC61E01D047508006B4C68 /* ProductPageActionsView.h */,
+				5BBC61E11D047508006B4C68 /* ProductPageActionsView.m */,
+				5BBC61DB1D047292006B4C68 /* ProductPageActionsView.xib */,
 				5B6204431CCA5DC5003C9390 /* Teaser */,
-				5B75519A1CCFAE88007FAF67 /* Unlocked */,
+				5B75519A1CCFAE88007FAF67 /* Unlock */,
 				5B6204451CCA5DE1003C9390 /* Player */,
 			);
 			name = Video;
@@ -741,6 +935,14 @@
 				5BAB34ED1CF1015C00AE74DC /* Li5View.m */,
 				5BE693721CF4C39800445439 /* UIColor+Li5UIColor.h */,
 				5BE693731CF4C39800445439 /* UIColor+Li5UIColor.m */,
+				5B06F3C91CFA44AA007FA3AB /* UIImage+Li5.h */,
+				5B06F3CA1CFA44AA007FA3AB /* UIImage+Li5.m */,
+				5BBC66D71CFF2D39001BE4BB /* Li5GradientView.h */,
+				5BBC66D81CFF2D39001BE4BB /* Li5GradientView.m */,
+				5BBC66E21CFF64F6001BE4BB /* Li5BlurredView.h */,
+				5BBC66E31CFF64F6001BE4BB /* Li5BlurredView.m */,
+				5B625C701D05F26D001CA076 /* UILabel+Li5.h */,
+				5B625C711D05F26D001CA076 /* UILabel+Li5.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -784,7 +986,7 @@
 				5BB4AAC31C4D60B9002C22C8 /* AppDelegate.h */,
 				5BB4AAC41C4D60B9002C22C8 /* AppDelegate.m */,
 				5BB1F9FB1CCC190400FA03F6 /* App Flow */,
-				5B6204411CCA5D94003C9390 /* Login */,
+				5B6204411CCA5D94003C9390 /* Onboarding */,
 				5B6204421CCA5DBB003C9390 /* Discover */,
 				9C5AA80F1CD02E4900F3DE08 /* Explore */,
 				5B7551A21CCFBE4E007FAF67 /* Product */,
@@ -872,7 +1074,8 @@
 			children = (
 				5BC1F2FA1CF37DFC0095AB47 /* ExploreViewController.h */,
 				5BC1F2FB1CF37DFC0095AB47 /* ExploreViewController.m */,
-				5BE693661CF3A4CC00445439 /* SearchProductsViews.storyboard */,
+				5BE693661CF3A4CC00445439 /* ExploreViews.storyboard */,
+				5B224B231D09D49C00F7FC86 /* Search Bar */,
 				5BE6935F1CF395C700445439 /* Tags */,
 				5BE6935E1CF395B900445439 /* Products */,
 				5BE6936B1CF4C14100445439 /* Suggestions */,
@@ -886,10 +1089,10 @@
 			children = (
 				9CFFC2501CC17EC5005AC8DC /* CategoriesViewController.h */,
 				9CFFC2511CC17EC5005AC8DC /* CategoriesViewController.m */,
-				9CFFC2521CC17EC5005AC8DC /* CategoriesViewController.xib */,
 				9CFFC24B1CC16057005AC8DC /* CategoriesCollectionViewCell.h */,
 				9CFFC24C1CC16057005AC8DC /* CategoriesCollectionViewCell.m */,
-				9CFFC24D1CC16057005AC8DC /* CategoriesCollectionViewCell.xib */,
+				5BBC61E51D048BFB006B4C68 /* CategoryDecorationsView.h */,
+				5BBC61E61D048BFB006B4C68 /* CategoryDecorationsView.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1069,6 +1272,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BBC61DF1D047292006B4C68 /* ProductPageActionsView.xib in Resources */,
+				5BBC66D61CFE3D4F001BE4BB /* ProductPageViews.storyboard in Resources */,
+				5B73B6211CFC864900B00FA0 /* OnboardingViews.storyboard in Resources */,
 				5BE693881CF4C63C00445439 /* Rubik-Black.ttf in Resources */,
 				5BE693B51CF4C63C00445439 /* Rubik-Regular.ttf in Resources */,
 				5BE693971CF4C63C00445439 /* Rubik-BoldItalic.ttf in Resources */,
@@ -1077,7 +1283,7 @@
 				5BE6938D1CF4C63C00445439 /* Rubik-BlackItalic.ttf in Resources */,
 				5BE6939C1CF4C63C00445439 /* Rubik-Italic.ttf in Resources */,
 				5BE693A11CF4C63C00445439 /* Rubik-Light.ttf in Resources */,
-				5BE6936A1CF3A4CC00445439 /* SearchProductsViews.storyboard in Resources */,
+				5BE6936A1CF3A4CC00445439 /* ExploreViews.storyboard in Resources */,
 				5BE693921CF4C63C00445439 /* Rubik-Bold.ttf in Resources */,
 				5BE693B01CF4C63C00445439 /* Rubik-MediumItalic.ttf in Resources */,
 				5BE693AB1CF4C63C00445439 /* Rubik-Medium.ttf in Resources */,
@@ -1091,23 +1297,26 @@
 				5B62045F1CCA7116003C9390 /* Launch Screen.storyboard in Resources */,
 				5BE693B21CF4C63C00445439 /* Rubik-Regular.ttf in Resources */,
 				9C5AA81E1CD0341600F3DE08 /* ProductsCollectionViewCell.xib in Resources */,
-				5B6204611CCA7116003C9390 /* CategoriesViewController.xib in Resources */,
 				5BE693A31CF4C63C00445439 /* Rubik-LightItalic.ttf in Resources */,
+				5BBC66E01CFF62F1001BE4BB /* DiscoverViews.storyboard in Resources */,
 				5BE6939E1CF4C63C00445439 /* Rubik-Light.ttf in Resources */,
 				5BAB34F51CF105CD00AE74DC /* ProductsListView.xib in Resources */,
+				5B224B211D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib in Resources */,
 				5B62046D1CCA7177003C9390 /* Launch Screen_Dev.storyboard in Resources */,
+				5BBC61DD1D047292006B4C68 /* ProductPageActionsView.xib in Resources */,
+				5BBC66D41CFE3D4F001BE4BB /* ProductPageViews.storyboard in Resources */,
 				5BE693AD1CF4C63C00445439 /* Rubik-MediumItalic.ttf in Resources */,
-				5BE693681CF3A4CC00445439 /* SearchProductsViews.storyboard in Resources */,
+				5BE693681CF3A4CC00445439 /* ExploreViews.storyboard in Resources */,
 				5BE693851CF4C63C00445439 /* Rubik-Black.ttf in Resources */,
+				5B73B61F1CFC864900B00FA0 /* OnboardingViews.storyboard in Resources */,
 				5B6204621CCA7116003C9390 /* Assets.xcassets in Resources */,
-				9C5AA8291CD10F9500F3DE08 /* LastPageViewController.xib in Resources */,
+				5B360EB51D09BBEB004B3691 /* Li5SearchBarUIView.xib in Resources */,
 				5BE6938A1CF4C63C00445439 /* Rubik-BlackItalic.ttf in Resources */,
 				5BE693941CF4C63C00445439 /* Rubik-BoldItalic.ttf in Resources */,
 				5B7551D81CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
 				5BE693991CF4C63C00445439 /* Rubik-Italic.ttf in Resources */,
 				5BE6938F1CF4C63C00445439 /* Rubik-Bold.ttf in Resources */,
 				5BE693A81CF4C63C00445439 /* Rubik-Medium.ttf in Resources */,
-				5B6204631CCA7116003C9390 /* CategoriesCollectionViewCell.xib in Resources */,
 				5B6204641CCA7116003C9390 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1118,25 +1327,28 @@
 			files = (
 				5B6204861CCA7625003C9390 /* Launch Screen.storyboard in Resources */,
 				5BE693951CF4C63C00445439 /* Rubik-BoldItalic.ttf in Resources */,
+				5B73B6201CFC864900B00FA0 /* OnboardingViews.storyboard in Resources */,
 				5BE693861CF4C63C00445439 /* Rubik-Black.ttf in Resources */,
 				5B7551D91CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
+				5B360EB61D09BBEB004B3691 /* Li5SearchBarUIView.xib in Resources */,
 				5BE693AE1CF4C63C00445439 /* Rubik-MediumItalic.ttf in Resources */,
-				5B6204881CCA7625003C9390 /* CategoriesViewController.xib in Resources */,
 				5BE693901CF4C63C00445439 /* Rubik-Bold.ttf in Resources */,
 				5BE6938B1CF4C63C00445439 /* Rubik-BlackItalic.ttf in Resources */,
-				9C5AA82A1CD10F9500F3DE08 /* LastPageViewController.xib in Resources */,
 				5B6204891CCA7625003C9390 /* Launch Screen_Dev.storyboard in Resources */,
+				5BBC66D51CFE3D4F001BE4BB /* ProductPageViews.storyboard in Resources */,
 				5B62048A1CCA7625003C9390 /* Assets.xcassets in Resources */,
 				5BAB34F61CF105CD00AE74DC /* ProductsListView.xib in Resources */,
-				5BE693691CF3A4CC00445439 /* SearchProductsViews.storyboard in Resources */,
-				5B62048B1CCA7625003C9390 /* CategoriesCollectionViewCell.xib in Resources */,
+				5BE693691CF3A4CC00445439 /* ExploreViews.storyboard in Resources */,
 				5BE6939F1CF4C63C00445439 /* Rubik-Light.ttf in Resources */,
 				9C5AA81F1CD0341700F3DE08 /* ProductsCollectionViewCell.xib in Resources */,
 				5BE693A41CF4C63C00445439 /* Rubik-LightItalic.ttf in Resources */,
 				5BE693B31CF4C63C00445439 /* Rubik-Regular.ttf in Resources */,
 				5B6204951CCA7667003C9390 /* Launch Screen_Test.storyboard in Resources */,
 				5B62048C1CCA7625003C9390 /* Main.storyboard in Resources */,
+				5BBC61DE1D047292006B4C68 /* ProductPageActionsView.xib in Resources */,
+				5BBC66E11CFF62F1001BE4BB /* DiscoverViews.storyboard in Resources */,
 				5BE6939A1CF4C63C00445439 /* Rubik-Italic.ttf in Resources */,
+				5B224B221D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib in Resources */,
 				5BE693A91CF4C63C00445439 /* Rubik-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1146,23 +1358,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BE6938E1CF4C63C00445439 /* Rubik-Bold.ttf in Resources */,
-				9C5AA8281CD10F9500F3DE08 /* LastPageViewController.xib in Resources */,
 				5B9DFAB11CC6C40B00436D0A /* Launch Screen.storyboard in Resources */,
 				5BE693891CF4C63C00445439 /* Rubik-BlackItalic.ttf in Resources */,
-				5BE693671CF3A4CC00445439 /* SearchProductsViews.storyboard in Resources */,
+				5BE693671CF3A4CC00445439 /* ExploreViews.storyboard in Resources */,
 				5BE693931CF4C63C00445439 /* Rubik-BoldItalic.ttf in Resources */,
 				5BE693841CF4C63C00445439 /* Rubik-Black.ttf in Resources */,
 				5B7551D71CD26A69007FAF67 /* UserProfile.Storyboard in Resources */,
 				5BAB34F41CF105CD00AE74DC /* ProductsListView.xib in Resources */,
-				9CFFC2541CC17EC5005AC8DC /* CategoriesViewController.xib in Resources */,
 				5BB4AACD1C4D60B9002C22C8 /* Assets.xcassets in Resources */,
 				5BE693981CF4C63C00445439 /* Rubik-Italic.ttf in Resources */,
+				5B224B201D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib in Resources */,
+				5BBC66DF1CFF62F1001BE4BB /* DiscoverViews.storyboard in Resources */,
+				5B360EB41D09BBEB004B3691 /* Li5SearchBarUIView.xib in Resources */,
 				5BE693AC1CF4C63C00445439 /* Rubik-MediumItalic.ttf in Resources */,
 				5BE693B11CF4C63C00445439 /* Rubik-Regular.ttf in Resources */,
-				9CFFC24F1CC16057005AC8DC /* CategoriesCollectionViewCell.xib in Resources */,
 				5BE6939D1CF4C63C00445439 /* Rubik-Light.ttf in Resources */,
+				5BBC66D31CFE3D4F001BE4BB /* ProductPageViews.storyboard in Resources */,
 				9C5AA8171CD02E7100F3DE08 /* ProductsCollectionViewCell.xib in Resources */,
 				5BE693A71CF4C63C00445439 /* Rubik-Medium.ttf in Resources */,
+				5B73B61E1CFC864900B00FA0 /* OnboardingViews.storyboard in Resources */,
+				5BBC61DC1D047292006B4C68 /* ProductPageActionsView.xib in Resources */,
 				5BB4AACB1C4D60B9002C22C8 /* Main.storyboard in Resources */,
 				5BE693A21CF4C63C00445439 /* Rubik-LightItalic.ttf in Resources */,
 			);
@@ -1430,9 +1645,19 @@
 				5BE693771CF4C39800445439 /* UIColor+Li5UIColor.m in Sources */,
 				5B2617741CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
 				5B13D30D1CDEA0070015ECFC /* li5Tests.m in Sources */,
+				5B06F3CE1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */,
+				5B0689C61D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */,
 				5B5E4E1F1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
+				5B360EA51D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */,
 				5BE693C71CF4F04D00445439 /* SuggestionsDataSource.m in Sources */,
+				5B360E9E1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */,
+				5B625C751D05F26D001CA076 /* UILabel+Li5.m in Sources */,
 				5B4C78BC1CF12E2300770311 /* UserLovesViewController.m in Sources */,
+				5B360EAC1D087524004B3691 /* Li5Constants.m in Sources */,
+				5B06F3C71CFA410A007FA3AB /* NSObject+Li5.m in Sources */,
+				5B625C6E1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */,
+				5B625C851D061AF1001CA076 /* UserOrdersViewController.m in Sources */,
+				5B625C8C1D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */,
 				5B4C78C31CF2087A00770311 /* UserSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1441,18 +1666,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B360EAD1D087524004B3691 /* Li5Constants.m in Sources */,
 				5BE6935D1CF3959500445439 /* TagsViewController.m in Sources */,
 				5B2617751CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
+				5B625C861D061AF1001CA076 /* UserOrdersViewController.m in Sources */,
 				5BE693711CF4C15B00445439 /* SuggestionsViewController.m in Sources */,
+				5B625C8D1D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */,
 				5B13D31B1CDEA0400015ECFC /* li5UITests.m in Sources */,
+				5B0689C71D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */,
 				5B5E4E201CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
+				5B73B62F1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */,
 				5BE693781CF4C39800445439 /* UIColor+Li5UIColor.m in Sources */,
 				5B4C78C41CF2087A00770311 /* UserSettingsViewController.m in Sources */,
 				5B427E151CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				5BE693BB1CF4D66B00445439 /* SuggestionsCollectionViewCell.m in Sources */,
 				5B26176A1CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
+				5B73B6281CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m in Sources */,
+				5B625C761D05F26D001CA076 /* UILabel+Li5.m in Sources */,
 				5BC1F2FF1CF37DFC0095AB47 /* ExploreViewController.m in Sources */,
 				5B4C78BD1CF12E2300770311 /* UserLovesViewController.m in Sources */,
+				5B360E9F1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */,
+				5B625C6F1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */,
+				5B06F3CF1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */,
+				5B06F3C81CFA410A007FA3AB /* NSObject+Li5.m in Sources */,
+				5B360EA61D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */,
 				5BE693C81CF4F04D00445439 /* SuggestionsDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1461,43 +1698,62 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B360EAA1D087524004B3691 /* Li5Constants.m in Sources */,
+				5B360EA31D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */,
 				5B62044A1CCA7116003C9390 /* TeaserViewController.m in Sources */,
 				5B62044B1CCA7116003C9390 /* DetailsViewController.m in Sources */,
 				5B7551A71CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B62044D1CCA7116003C9390 /* ProductPageViewController.m in Sources */,
 				5BE693B91CF4D66B00445439 /* SuggestionsCollectionViewCell.m in Sources */,
 				5BE6936F1CF4C15B00445439 /* SuggestionsViewController.m in Sources */,
+				5BBC61E31D047508006B4C68 /* ProductPageActionsView.m in Sources */,
 				5B7551961CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
 				5B7551D21CD178A0007FAF67 /* UserProfileViewController.m in Sources */,
+				5BBC66E51CFF64F6001BE4BB /* Li5BlurredView.m in Sources */,
 				5B7551CB1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */,
 				5B62044F1CCA7116003C9390 /* IndexedViewController.m in Sources */,
 				9C5AA8261CD10F9400F3DE08 /* LastPageViewController.m in Sources */,
 				5BE693751CF4C39800445439 /* UIColor+Li5UIColor.m in Sources */,
+				5B625C8A1D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */,
 				5BE693C51CF4F04D00445439 /* SuggestionsDataSource.m in Sources */,
+				5B360E9C1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */,
 				9CBB88351CD3952A00F8DF57 /* ProductsCollectionViewDataSource.m in Sources */,
 				5BAB34EF1CF1015C00AE74DC /* Li5View.m in Sources */,
+				5B06F3CC1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */,
 				5B6204501CCA7116003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5B6204511CCA7116003C9390 /* AppDelegate.m in Sources */,
 				5B6204521CCA7116003C9390 /* CategoriesViewController.m in Sources */,
 				5B2617681CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
 				5B5E4E1D1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
 				5B7551BC1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
+				5B73B62D1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */,
 				5B6204531CCA7116003C9390 /* main.m in Sources */,
+				5B06F3C51CFA410A007FA3AB /* NSObject+Li5.m in Sources */,
 				9C5AA81C1CD0341100F3DE08 /* ProductsCollectionViewCell.m in Sources */,
 				5B6204541CCA7116003C9390 /* RootViewController.m in Sources */,
+				5B625C831D061AF1001CA076 /* UserOrdersViewController.m in Sources */,
 				5B75519E1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5B48F2871CE0E21F00EBE566 /* ProductsListDynamicInteractor.m in Sources */,
+				5B625C731D05F26D001CA076 /* UILabel+Li5.m in Sources */,
 				5BC1F2FD1CF37DFC0095AB47 /* ExploreViewController.m in Sources */,
 				5B6204561CCA7116003C9390 /* ShapesHelper.m in Sources */,
 				5B2617721CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
 				5BAB34FC1CF105F100AE74DC /* ProductsListView.m in Sources */,
 				5B427E131CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				5B6204571CCA7116003C9390 /* LoginViewController.m in Sources */,
+				5B73B6261CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m in Sources */,
+				5B625C6C1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */,
+				5BBC66EA1D00A777001BE4BB /* Li5PlayerTimer.m in Sources */,
+				5B360EB11D09BBD5004B3691 /* Li5SearchBarUIView.m in Sources */,
 				5B4C78BA1CF12E2300770311 /* UserLovesViewController.m in Sources */,
+				5BBC61E81D048BFB006B4C68 /* CategoryDecorationsView.m in Sources */,
 				5B6204581CCA7116003C9390 /* CategoriesCollectionViewCell.m in Sources */,
+				5B0689C41D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */,
 				9C5AA81A1CD0340C00F3DE08 /* ProductsViewController.m in Sources */,
+				5BBC66DA1CFF2D39001BE4BB /* Li5GradientView.m in Sources */,
 				5BE6935B1CF3959500445439 /* TagsViewController.m in Sources */,
 				5B2617541CEA12B200B51593 /* CrashlyticsLogger.m in Sources */,
+				5B224B1E1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m in Sources */,
 				5BB1F9FF1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 				5B4C78C11CF2087A00770311 /* UserSettingsViewController.m in Sources */,
 			);
@@ -1507,43 +1763,62 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B360EAB1D087524004B3691 /* Li5Constants.m in Sources */,
+				5B360EA41D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */,
 				5B6204711CCA7625003C9390 /* TeaserViewController.m in Sources */,
 				5B6204721CCA7625003C9390 /* DetailsViewController.m in Sources */,
 				5B7551A81CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B6204741CCA7625003C9390 /* ProductPageViewController.m in Sources */,
 				5BE693BA1CF4D66B00445439 /* SuggestionsCollectionViewCell.m in Sources */,
 				5BE693701CF4C15B00445439 /* SuggestionsViewController.m in Sources */,
+				5BBC61E41D047508006B4C68 /* ProductPageActionsView.m in Sources */,
 				5B7551971CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
 				5B7551D31CD178A0007FAF67 /* UserProfileViewController.m in Sources */,
+				5BBC66E61CFF64F6001BE4BB /* Li5BlurredView.m in Sources */,
 				5B7551CC1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */,
 				5B6204761CCA7625003C9390 /* IndexedViewController.m in Sources */,
 				9C5AA8271CD10F9500F3DE08 /* LastPageViewController.m in Sources */,
 				5BE693761CF4C39800445439 /* UIColor+Li5UIColor.m in Sources */,
+				5B625C8B1D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */,
 				5BE693C61CF4F04D00445439 /* SuggestionsDataSource.m in Sources */,
+				5B360E9D1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */,
 				9CBB88361CD3952B00F8DF57 /* ProductsCollectionViewDataSource.m in Sources */,
 				5BAB34F01CF1015C00AE74DC /* Li5View.m in Sources */,
+				5B06F3CD1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */,
 				5B6204771CCA7625003C9390 /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5B6204781CCA7625003C9390 /* AppDelegate.m in Sources */,
 				5B6204791CCA7625003C9390 /* CategoriesViewController.m in Sources */,
 				5B2617691CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
 				5B5E4E1E1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
 				5B7551BD1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
+				5B73B62E1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */,
 				5B62047A1CCA7625003C9390 /* main.m in Sources */,
+				5B06F3C61CFA410A007FA3AB /* NSObject+Li5.m in Sources */,
 				9C5AA81D1CD0341200F3DE08 /* ProductsCollectionViewCell.m in Sources */,
 				5B62047B1CCA7625003C9390 /* RootViewController.m in Sources */,
+				5B625C841D061AF1001CA076 /* UserOrdersViewController.m in Sources */,
 				5B75519F1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5B48F2881CE0E21F00EBE566 /* ProductsListDynamicInteractor.m in Sources */,
+				5B625C741D05F26D001CA076 /* UILabel+Li5.m in Sources */,
 				5BC1F2FE1CF37DFC0095AB47 /* ExploreViewController.m in Sources */,
 				5B62047D1CCA7625003C9390 /* ShapesHelper.m in Sources */,
 				5B2617731CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
 				5BAB34FD1CF105F100AE74DC /* ProductsListView.m in Sources */,
 				5B427E141CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				5B62047E1CCA7625003C9390 /* LoginViewController.m in Sources */,
+				5B73B6271CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m in Sources */,
+				5B625C6D1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */,
+				5BBC66EB1D00A777001BE4BB /* Li5PlayerTimer.m in Sources */,
+				5B360EB21D09BBD5004B3691 /* Li5SearchBarUIView.m in Sources */,
 				5B4C78BB1CF12E2300770311 /* UserLovesViewController.m in Sources */,
+				5BBC61E91D048BFB006B4C68 /* CategoryDecorationsView.m in Sources */,
 				5B62047F1CCA7625003C9390 /* CategoriesCollectionViewCell.m in Sources */,
+				5B0689C51D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */,
 				9C5AA81B1CD0340C00F3DE08 /* ProductsViewController.m in Sources */,
+				5BBC66DB1CFF2D39001BE4BB /* Li5GradientView.m in Sources */,
 				5BE6935C1CF3959500445439 /* TagsViewController.m in Sources */,
 				5B2617551CEA12B200B51593 /* CrashlyticsLogger.m in Sources */,
+				5B224B1F1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m in Sources */,
 				5BB1FA001CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 				5B4C78C21CF2087A00770311 /* UserSettingsViewController.m in Sources */,
 			);
@@ -1553,43 +1828,62 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B360EA91D087524004B3691 /* Li5Constants.m in Sources */,
+				5B360EA21D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */,
 				5BB4AAC81C4D60B9002C22C8 /* TeaserViewController.m in Sources */,
 				5BB4AB171C4FC631002C22C8 /* DetailsViewController.m in Sources */,
 				5B7551A61CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
 				5B79755B1C6D03A800F78C9F /* ProductPageViewController.m in Sources */,
 				5BE693B81CF4D66B00445439 /* SuggestionsCollectionViewCell.m in Sources */,
 				5BE6936E1CF4C15B00445439 /* SuggestionsViewController.m in Sources */,
+				5BBC61E21D047508006B4C68 /* ProductPageActionsView.m in Sources */,
 				5B7551951CCE7433007FAF67 /* Li5PlayerUISlider.m in Sources */,
 				5B7551D11CD178A0007FAF67 /* UserProfileViewController.m in Sources */,
+				5BBC66E41CFF64F6001BE4BB /* Li5BlurredView.m in Sources */,
 				5B7551CA1CD17725007FAF67 /* UserProfileDynamicInteractor.m in Sources */,
 				5B8625CF1C763CE4006869DE /* IndexedViewController.m in Sources */,
 				9C5AA8251CD10F9400F3DE08 /* LastPageViewController.m in Sources */,
 				5BE693741CF4C39800445439 /* UIColor+Li5UIColor.m in Sources */,
+				5B625C891D061B93001CA076 /* UserOrdersCollectionViewDataSource.m in Sources */,
 				5BE693C41CF4F04D00445439 /* SuggestionsDataSource.m in Sources */,
+				5B360E9B1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */,
 				9CBB88341CD38CD300F8DF57 /* ProductsCollectionViewDataSource.m in Sources */,
 				5BAB34EE1CF1015C00AE74DC /* Li5View.m in Sources */,
+				5B06F3CB1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */,
 				9C5AA8161CD02E7100F3DE08 /* ProductsCollectionViewCell.m in Sources */,
 				9CFFC25A1CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m in Sources */,
 				5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */,
 				5B2617671CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
 				5B5E4E1C1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
 				9CFFC2531CC17EC5005AC8DC /* CategoriesViewController.m in Sources */,
+				5B73B62C1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */,
 				5B7551BB1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
+				5B06F3C41CFA410A007FA3AB /* NSObject+Li5.m in Sources */,
 				5BB4AAC21C4D60B9002C22C8 /* main.m in Sources */,
 				5BB4AB121C4ED3DC002C22C8 /* RootViewController.m in Sources */,
+				5B625C821D061AF1001CA076 /* UserOrdersViewController.m in Sources */,
 				9C5AA8181CD02E7100F3DE08 /* ProductsViewController.m in Sources */,
 				5B48F2861CE0E21F00EBE566 /* ProductsListDynamicInteractor.m in Sources */,
+				5B625C721D05F26D001CA076 /* UILabel+Li5.m in Sources */,
 				5BC1F2FC1CF37DFC0095AB47 /* ExploreViewController.m in Sources */,
 				5B75519D1CCFAECE007FAF67 /* UnlockedViewController.m in Sources */,
 				5B2617711CEA72A900B51593 /* TagsViewDataSource.m in Sources */,
 				5BAB34FB1CF105F100AE74DC /* ProductsListView.m in Sources */,
 				5B427E121CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				5B602C861C5A6A9F00F0D362 /* ShapesHelper.m in Sources */,
+				5B73B6251CFC8DCE00B00FA0 /* OnboardingPageContentViewController.m in Sources */,
+				5B625C6B1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */,
+				5BBC66E91D00A777001BE4BB /* Li5PlayerTimer.m in Sources */,
+				5B360EB01D09BBD5004B3691 /* Li5SearchBarUIView.m in Sources */,
 				5B4C78B91CF12E2300770311 /* UserLovesViewController.m in Sources */,
+				5BBC61E71D048BFB006B4C68 /* CategoryDecorationsView.m in Sources */,
 				5B602C5C1C565D4A00F0D362 /* LoginViewController.m in Sources */,
+				5B0689C31D0777DD0063F104 /* TapAndHoldToUnlockViewController.m in Sources */,
 				9CFFC24E1CC16057005AC8DC /* CategoriesCollectionViewCell.m in Sources */,
+				5BBC66D91CFF2D39001BE4BB /* Li5GradientView.m in Sources */,
 				5BE6935A1CF3959500445439 /* TagsViewController.m in Sources */,
 				5B2617531CEA12B200B51593 /* CrashlyticsLogger.m in Sources */,
+				5B224B1D1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m in Sources */,
 				5BB1F9FE1CCC233100FA03F6 /* PrimeTimeViewController.m in Sources */,
 				5B4C78C01CF2087A00770311 /* UserSettingsViewController.m in Sources */,
 			);
@@ -1795,7 +2089,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 20;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1808,6 +2102,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"__GCDWEBSERVER_LOGGING_HEADER__=\\\"Logger.h\\\"",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1844,7 +2139,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 20;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;

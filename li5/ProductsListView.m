@@ -9,10 +9,15 @@
 #import "HorizontalUICollectionViewFlowLayout.h"
 #import "ProductsListView.h"
 #import "UserProductsCollectionViewDataSource.h"
+#import "ProductsCollectionViewCell.h"
 
-static const CGFloat lineSpacing = 4.0;
+static const CGFloat lineSpacing = 6.0;
+static const CGFloat interimItemSpacing = 5.0;
 
-static const CGFloat interimItemSpacing = 4.0;
+static const CGFloat topSectionInset = 5.0;
+static const CGFloat bottomSectionInset = 6.0;
+static const CGFloat leftSectionInset = 5.0;
+static const CGFloat rightSectionInset = 5.0;
 
 @interface ProductsListView ()
 
@@ -29,17 +34,29 @@ static const CGFloat interimItemSpacing = 4.0;
     [super initialize];
 
     _fetching = NO;
-    [_collectionView setCollectionViewLayout:[[HorizontalUICollectionViewFlowLayout alloc] initWithColumns:_columns andRows:_rows]];
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    [_collectionView setCollectionViewLayout:[[HorizontalUICollectionViewFlowLayout alloc] initWithColumns:self.columns andRows:self.rows]];
     [_collectionView registerNib:[UINib nibWithNibName:@"ProductsCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"productListCell"];
     [_collectionView setDelegate:self];
+}
+
+- (void)prepareForInterfaceBuilder
+{
+//    [_collectionView setDataSource:[ProductsListViewIBDataSource new]];
+//    [_collectionView reloadData];
 }
 
 #pragma mark - UICollectionViewDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat width = collectionView.frame.size.width / self.columns -interimItemSpacing;
-    CGFloat height = collectionView.frame.size.height / self.rows -lineSpacing;
+    CGFloat width = (collectionView.frame.size.width - leftSectionInset - rightSectionInset - (self.columns-1)*lineSpacing) / self.columns;
+    CGFloat height = (collectionView.frame.size.height - topSectionInset - bottomSectionInset - (self.rows-1)*interimItemSpacing ) / self.rows;
     CGSize size = CGSizeMake(width, height);
     return size;
 }
@@ -56,7 +73,7 @@ static const CGFloat interimItemSpacing = 4.0;
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 0, 0, 0);
+    return UIEdgeInsetsMake(topSectionInset, leftSectionInset, bottomSectionInset, rightSectionInset);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -65,6 +82,11 @@ static const CGFloat interimItemSpacing = 4.0;
     {
         [self.delegate didSelectItemAtIndexPath:indexPath];
     }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [((ProductsCollectionViewCell *)cell) didEndDisplayingCell];
 }
 
 #pragma mark - UIScrollViewDelegate

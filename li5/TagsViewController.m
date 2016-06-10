@@ -45,16 +45,16 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Tag *tag = [_tagsDataSource getTag:indexPath.row];
+    NSString *tag = [_tagsDataSource getTag:indexPath.row];
     if (self.delegate)
     {
-        [self.delegate appendSearchBardWith:tag.name];
+        [self.delegate appendSearchBardWith:tag];
     }
 }
 
 #pragma mark - User Actions
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBar:(Li5SearchBarUIView *)searchBar textDidChange:(NSString *)searchText
 {
     [self fetchTagsFor:searchText];
 }
@@ -63,7 +63,7 @@
 
 - (void)fetchTagsFor:(NSString*)word
 {
-    [_tagsDataSource getTags:word withCompletion:^(NSError *error, NSArray<Tag *> *tags) {
+    [_tagsDataSource getTags:word withCompletion:^(NSError *error, NSArray<NSString *> *tags) {
         if (!error)
         {
             [_tagsCollectionView reloadData];

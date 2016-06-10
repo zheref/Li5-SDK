@@ -12,25 +12,24 @@
 #import "PrimeTimeViewController.h"
 #import "UnlockedViewController.h"
 #import "ProductPageViewController.h"
+#import "ProductPageActionsView.h"
 
 static const CGFloat sliderHeight = 50.0;
 
 @interface UnlockedViewController ()
 {
+    id __playEndObserver;
     NSTimer *hideControlsTimer;
 
     UIPanGestureRecognizer *_lockPanGestureRecognzier;
-    
-    Li5PlayerUISlider *seekSlider;
-    UIButton *loveBtn;
-    UIButton *shareBtn;
-    
-    BOOL controlsDisplayed;
+    UITapGestureRecognizer *_simpleTapGestureRecognizer;
 }
 
-@property (nonatomic, weak) AVPlayerLayer *extendedVideo;
-
-- (void)removeAnimations;
+@property (weak, nonatomic) IBOutlet UIView *playerView;
+@property (weak, nonatomic) IBOutlet UIView *topView;
+@property (strong, nonatomic) BCPlayer *extendedVideo;
+@property (weak, nonatomic) IBOutlet Li5PlayerUISlider *seekSlider;
+@property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
 
 @end
 
@@ -40,32 +39,40 @@ static const CGFloat sliderHeight = 50.0;
 
 - (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
-    self = [super init];
+    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+    self = [productPageStoryboard instantiateViewControllerWithIdentifier:@"UnlockedView"];
     if (self)
     {
         self.product = thisProduct;
-        [self extendedVideo];
-        
-        controlsDisplayed = NO;
+        NSURL *videoUrl = [NSURL URLWithString:self.product.videoURL];
+        DDLogVerbose(@"Creating Full Video Player Layer for: %@", [videoUrl lastPathComponent]);
+        _extendedVideo = [[BCPlayer alloc] initWithUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityNormal delegate:self];
     }
     return self;
 }
 
 #pragma mark - UI View
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor yellowColor];
+    BCPlayerLayer *playerLayer = [[BCPlayerLayer alloc] initWithPlayer:self.extendedVideo andFrame:self.view.bounds];
+    playerLayer.frame = self.view.bounds;
+    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
 
-    [self.view.layer addSublayer:self.extendedVideo];
+    [self.playerView.layer addSublayer:playerLayer];
 
+    [self.actionsView setProduct:self.product];
+    
     [self setupGestureRecognizers];
     
     [self renderAnimations];
-    
-    [self updateConstraints];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -73,7 +80,9 @@ static const CGFloat sliderHeight = 50.0;
     DDLogVerbose(@"");
     [super viewDidDisappear:animated];
     
-    [((BCPlayer*)self.extendedVideo.player) pause];
+    [self.extendedVideo pause];
+    
+    [self removeObservers];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -87,88 +96,51 @@ static const CGFloat sliderHeight = 50.0;
 - (void)renderAnimations
 {
     DDLogVerbose(@"rendering animations for unlocked video");
-    if (!seekSlider)
+    if ([self.seekSlider isHidden] || [self.actionsView isHidden])
     {
-        seekSlider = [[Li5PlayerUISlider alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,sliderHeight)];
-    }
-    
-    if (!loveBtn)
-    {
-        loveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [loveBtn setImage:[UIImage imageNamed:@"Love"] forState:UIControlStateNormal];
-        [loveBtn setImage:[UIImage imageNamed:@"LoveSelected"] forState:UIControlStateHighlighted];
-        [loveBtn setImage:[UIImage imageNamed:@"LoveSelected"] forState:UIControlStateSelected];
-        [loveBtn setFrame:CGRectMake(self.view.frame.size.width - 50, self.view.frame.size.height - 180, 30, 30)];
-        [loveBtn addTarget:self action:@selector(loveProduct:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    if (!shareBtn)
-    {
-        shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [shareBtn setImage:[UIImage imageNamed:@"Share"] forState:UIControlStateNormal];
-        [shareBtn setImage:[UIImage imageNamed:@"ShareSelected"] forState:UIControlStateHighlighted];
-        [shareBtn setFrame:CGRectMake(self.view.frame.size.width - 50, self.view.frame.size.height - 130, 30, 30)];
-        [shareBtn addTarget:self action:@selector(shareProduct:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    if (!controlsDisplayed)
-    {
-        [loveBtn setSelected:self.product.is_loved];
+        DDLogVerbose(@"seek slider center: %@",NSStringFromCGPoint(self.seekSlider.center));
+        self.seekSlider.hidden = NO;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,2*sliderHeight));
+        }];
         
-        [self.view addSubview:seekSlider];
-        [self.view addSubview:loveBtn];
-        [self.view addSubview:shareBtn];
-        
-        controlsDisplayed = YES;
+        DDLogVerbose(@"actions view center: %@",NSStringFromCGPoint(self.actionsView.center));
+        self.actionsView.hidden = NO;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(-100, 0));
+        }];
     }
 }
 
 - (void)removeAnimations
 {
     DDLogDebug(@"");
-    [seekSlider removeFromSuperview];
-    [loveBtn removeFromSuperview];
-    [shareBtn removeFromSuperview];
-    
-    [self.view setNeedsDisplay];
-    controlsDisplayed = NO;
-    
-    [self removeObservers];
-}
-
-- (void)updateConstraints
-{
-//    [seekSlider makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view);
-//        make.left.equalTo(self.view);
-//        make.right.equalTo(self.view);
-//        make.height.equalTo(@(sliderHeight));
-//    }];
+    if (![self.seekSlider isHidden] || ![self.actionsView isHidden])
+    {
+        DDLogVerbose(@"seek slider center: %@",NSStringFromCGPoint(self.seekSlider.center));
+        [UIView animateWithDuration:0.5 animations:^{
+            self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,-2*sliderHeight));
+        } completion:^(BOOL finished) {
+            self.seekSlider.hidden = finished;
+        }];
+        DDLogVerbose(@"actions view center: %@",NSStringFromCGPoint(self.actionsView.center));
+        [UIView animateWithDuration:0.5 animations:^{
+            self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(100, 0));
+        } completion:^(BOOL finished) {
+            self.actionsView.hidden = finished;
+        }];
+        
+        [self removeTimers];
+    }
 }
 
 #pragma mark - Player
-
-- (AVPlayerLayer *)extendedVideo
-{
-    if (_extendedVideo == nil)
-    {
-        NSURL *videoUrl = [NSURL URLWithString:self.product.videoURL];
-        DDLogVerbose(@"Creating Full Video Player Layer for: %@", [videoUrl lastPathComponent]);
-        BCPlayer *player = [[BCPlayer alloc] initWithPlayListUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityNormal delegate:self];
-
-        _extendedVideo = [AVPlayerLayer playerLayerWithPlayer:player];
-        _extendedVideo.frame = self.view.bounds;
-        _extendedVideo.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    }
-
-    return _extendedVideo;
-}
 
 - (void)readyToPlay
 {
     DDLogDebug(@"Ready to play extended for: %lu", (unsigned long)[((ProductPageViewController*)self.parentViewController.parentViewController) index]);
     
-    [self show];
+    //[self show];
 }
 
 - (void)failToLoadItem
@@ -181,67 +153,11 @@ static const CGFloat sliderHeight = 50.0;
     DDLogVerbose(@"");
 }
 
-#pragma mark - User Actions
-
-- (void)shareProduct:(UIButton *)button
-{
-    DDLogVerbose(@"Share Button Pressed");
-    NSString *textToShare = @"Look at this awesome product!";
-    NSURL *productURL = [NSURL URLWithString:[[[[Li5ApiHandler sharedInstance] baseURL] stringByAppendingPathComponent:@"p"] stringByAppendingPathComponent:self.product.id]];
-
-    NSArray *objectsToShare = @[ textToShare, productURL ];
-
-    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-
-    NSArray *excludeActivities = @[ UIActivityTypePostToWeibo,
-                                    UIActivityTypePrint,
-                                    UIActivityTypeAssignToContact,
-                                    UIActivityTypeSaveToCameraRoll,
-                                    UIActivityTypeAddToReadingList,
-                                    UIActivityTypePostToFlickr,
-                                    UIActivityTypePostToTencentWeibo,
-                                    UIActivityTypeAirDrop ];
-
-    activityVC.excludedActivityTypes = excludeActivities;
-
-    [self presentViewController:activityVC animated:YES completion:nil];
-}
-
-- (void)loveProduct:(UIButton *)button
-{
-    DDLogVerbose(@"Love Button Pressed");
-    __weak typeof(self) welf = self;
-    if (button.selected)
-    {
-        welf.product.is_loved = false;
-        [button setSelected:false];
-        [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
-            if (error != nil)
-            {
-                welf.product.is_loved = true;
-                [button setSelected:true];
-            }
-        }];
-    }
-    else
-    {
-        welf.product.is_loved = true;
-        [button setSelected:true];
-        [[Li5ApiHandler sharedInstance] postLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
-            if (error != nil)
-            {
-                welf.product.is_loved = false;
-                [button setSelected:false];
-            }
-        }];
-    }
-}
-
 #pragma mark - Displayable Protocol
 
 - (void)hideAndMoveToViewController:(UIViewController *)viewController
 {
-    float secondsWatched = CMTimeGetSeconds(self.extendedVideo.player.currentTime);
+    float secondsWatched = CMTimeGetSeconds(self.extendedVideo.currentTime);
     DDLogVerbose(@"User saw %@ during %f", self.product.id, secondsWatched);
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeFull during:[NSNumber numberWithFloat:secondsWatched] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
@@ -251,33 +167,57 @@ static const CGFloat sliderHeight = 50.0;
       }
     }];
 
-    [((BCPlayer*)self.extendedVideo.player) pauseAndDestroy];
-    
     [self removeObservers];
+    [self.extendedVideo pauseAndDestroy];
 }
 
 - (void)show
 {
-    if (self.extendedVideo.player.status == AVPlayerStatusReadyToPlay &&
+    if (self.extendedVideo.status == AVPlayerStatusReadyToPlay &&
         self.parentViewController.parentViewController != nil &&
         self.parentViewController.parentViewController == [((PrimeTimeViewController *)self.parentViewController.parentViewController.parentViewController).viewControllers firstObject])
     {
-        DDLogVerbose(@"Show %@.", [[(AVURLAsset *)self.extendedVideo.player.currentItem.asset URL] lastPathComponent]);
+        DDLogVerbose(@"Show %@.", [[(AVURLAsset *)self.extendedVideo.currentItem.asset URL] lastPathComponent]);
 
-        [seekSlider setPlayer:self.extendedVideo.player];
-        [self.extendedVideo.player play];
+        [self.extendedVideo play];
+        [self.seekSlider setPlayer:self.extendedVideo];
         
-        [self renderAnimations];
         [self setupObservers];
+        [self renderAnimations];
     }
 }
 
 - (void)setupObservers
 {
-    hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(removeAnimations) userInfo:nil repeats:NO];
+    if (!__playEndObserver)
+    {
+        __weak typeof(self) welf = self;
+        __playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.extendedVideo.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
+            [welf.extendedVideo seekToTime:kCMTimeZero];
+            [welf renderAnimations];
+        }];
+    }
+    
+    [self setupTimers];
 }
 
 - (void)removeObservers
+{
+    if (__playEndObserver)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:__playEndObserver];
+        __playEndObserver = nil;
+    }
+    
+    [self removeTimers];
+}
+
+- (void)setupTimers
+{
+    hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(removeAnimations) userInfo:nil repeats:NO];
+}
+
+- (void)removeTimers
 {
     if (hideControlsTimer)
     {
@@ -308,10 +248,9 @@ static const CGFloat sliderHeight = 50.0;
     DDLogVerbose(@"");
     if (sender.state == UIGestureRecognizerStateEnded)
     {
-        if (!controlsDisplayed)
+        if (self.actionsView.hidden)
         {
             [self renderAnimations];
-            [self setupObservers];
         }
         else
         {
@@ -322,8 +261,8 @@ static const CGFloat sliderHeight = 50.0;
 
 - (void)setupGestureRecognizers
 {
-    UITapGestureRecognizer *simpleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSimpleTap:)];
-    [self.view addGestureRecognizer:simpleTapGestureRecognizer];
+    _simpleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSimpleTap:)];
+    [self.view addGestureRecognizer:_simpleTapGestureRecognizer];
     
     _lockPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleLockTap:)];
     _lockPanGestureRecognzier.delegate = self;
@@ -365,19 +304,19 @@ static const CGFloat sliderHeight = 50.0;
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self removeObservers];
+    [self removeTimers];
     [super touchesBegan:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self setupObservers];
+    [self removeTimers];
     [super touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self setupObservers];
+    [self removeTimers];
     [super touchesCancelled:touches withEvent:event];
 }
 

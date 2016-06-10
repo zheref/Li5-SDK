@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSString *xibName;
 
 - (void)initialize;
+- (UIViewController *)parentViewController;
 
 @end

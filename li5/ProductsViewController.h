@@ -9,7 +9,7 @@
 #import "ProductsListView.h"
 #import "ExploreViewController.h"
 
-@interface ProductsViewController : UIViewController <ProductsListViewDelegate, UISearchBarDelegate>
+@interface ProductsViewController : UIViewController <ProductsListViewDelegate, Li5SearchBarUIViewDelegate>
 
 @property (weak, nonatomic) IBOutlet ProductsListView *productListView;
 

@@ -5,6 +5,7 @@
 //  Created by Leandro Fournier on 4/29/16.
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
+@import AVFoundation;
 
 #import "ProductsCollectionViewDataSource.h"
 #import "ProductsCollectionViewCell.h"
@@ -73,15 +74,7 @@
     ProductsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"productListCell" forIndexPath:indexPath];
     Product *product = [self.products objectAtIndex:indexPath.row];
     
-    cell.layer.shouldRasterize = YES;
-    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    
-    // Here we use the new provided sd_setImageWithURL: method to load the web image
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:product.videoPreview]
-                      placeholderImage:nil
-                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                 //DDLogVerbose(@"completed");
-                             }];
+    [cell setProduct:product];
     
     return cell;
 }

@@ -51,14 +51,21 @@
     });
 }
 
+- (void)fetchMoreProductsWithCompletion:(void (^)(NSError *))completion
+{
+    //DO nothing
+}
+
 - (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index
 {
     if ((index >= [self numberOfProducts]) || (index == NSNotFound))
     {
-        LastPageViewController *lastVC = [[LastPageViewController alloc] initWithNibName:@"LastPageViewController" bundle:[NSBundle mainBundle]];
+        UIStoryboard *discoverStoryboard = [UIStoryboard storyboardWithName:@"DiscoverViews" bundle:[NSBundle mainBundle]];
+        LastPageViewController *lastVC = [discoverStoryboard instantiateViewControllerWithIdentifier:@"LastPageView"];
         [lastVC setIndex:index];
         return lastVC;
     }
+    
     return [[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] andIndex:index forContext:kProductContextDiscover];
 }
 
