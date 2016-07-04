@@ -6,8 +6,8 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "Li5UIPageViewController.h"
 
-@interface OnboardingViewController : UIViewController <UIPageViewControllerDelegate,UIPageViewControllerDataSource>
+@interface OnboardingViewController : UIViewController <Li5UIPageViewControllerDelegate,Li5UIPageViewControllerDataSource>
 
 @end

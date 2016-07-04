@@ -39,7 +39,7 @@
     
     _parentViewController = parentVC;
 
-    _presentingViewController = [[UINavigationController alloc] initWithRootViewController:[[UserProfileViewController alloc] initWithPanTarget:self]];
+    _presentingViewController = [[UINavigationController alloc] initWithRootViewController:[UserProfileViewController initWithPanTarget:self]];
     _presentingViewController.modalPresentationStyle = UIModalPresentationCustom;
     _presentingViewController.transitioningDelegate = self;
     
@@ -73,21 +73,11 @@
             // The side of the screen we're panning from determines whether this is a presentation (left) or dismissal (right)
             if (location.y < CGRectGetMidY(recognizer.view.bounds) && !self.presenting && !self.presented)
             {
-                DDLogVerbose(@"beginning menu presentation");
-                self.presenting = YES;
-                [self.parentViewController presentViewController:_presentingViewController animated:NO completion:^{
-                    self.presented = YES;
-                    self.presenting = NO;
-                    [self.parentViewController viewDidDisappear:NO];
-                }];
+                [self presentViewWithCompletion:nil];
             }
-            else
+            else if (self.presented && !self.presenting)
             {
-                DDLogVerbose(@"dismissing menu presentation");
-                [self.parentViewController dismissViewControllerAnimated:NO completion:^{
-                    self.presented = NO;
-                    [self.parentViewController viewDidAppear:NO];
-                }];
+                [self dismissViewWithCompletion:nil];
             }
         }
     }
@@ -132,6 +122,29 @@
         }
     }
 }
+
+- (void)presentViewWithCompletion:(void (^)(void))completion
+{
+    DDLogVerbose(@"beginning menu presentation");
+    self.presenting = YES;
+    [self.parentViewController presentViewController:_presentingViewController animated:NO completion:^{
+        self.presented = YES;
+        self.presenting = NO;
+        [self.parentViewController viewDidDisappear:NO];
+        if (completion) completion();
+    }];
+}
+
+- (void)dismissViewWithCompletion:(void (^)(void))completion
+{
+    DDLogVerbose(@"dismissing menu presentation");
+    [self.parentViewController dismissViewControllerAnimated:NO completion:^{
+        self.presented = NO;
+        [self.parentViewController viewDidAppear:NO];
+        if (completion) completion();
+    }];
+}
+
 
 #pragma mark - Private Methods
 

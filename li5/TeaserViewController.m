@@ -12,15 +12,17 @@
 #import "ProductPageViewController.h"
 #import "ProductsViewController.h"
 #import "UserProfileDynamicInteractor.h"
-#import "ProductsListDynamicInteractor.h"
+#import "ExploreDynamicInteractor.h"
 #import "Li5PlayerTimer.h"
 #import "ProductPageActionsView.h"
+#import "Li5Constants.h"
+#import "Li5VolumeView.h"
+#import "Li5-Swift.h"
 
 #pragma mark - Class Definitions
 
 @interface TeaserViewController ()
 {
-    ProductContext pContext;
     id playEndObserver;
     
     UIPanGestureRecognizer *profilePanGestureRecognizer;
@@ -31,14 +33,20 @@
     id<ExploreViewControllerPanTargetDelegate> searchInteractor;
     
     BOOL __hasUnlockedVideo;
+    BOOL __hasAppeared;
 }
 
+@property (assign, nonatomic) ProductContext pContext;
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (nonatomic, strong) BCPlayer *teaserPlayer;
 @property (weak, nonatomic) IBOutlet Li5PlayerTimer *playerTimer;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *categoryImage;
 @property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
+@property (weak, nonatomic) IBOutlet UIImageView *logoView;
+@property (weak, nonatomic) IBOutlet UIImageView *arrow;
+
+@property (strong, nonatomic) Wave *waveView;
 
 @end
 
@@ -46,27 +54,30 @@
 
 @synthesize product, previousViewController, nextViewController;
 
-- (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
+#pragma mark - Init
+
++ (id)teaserWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
     UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
-    self = [productPageStoryboard instantiateViewControllerWithIdentifier:@"TeaserView"];
-    if (self)
+    TeaserViewController *newSelf = [productPageStoryboard instantiateViewControllerWithIdentifier:@"TeaserView"];
+    if (newSelf)
     {
-        DDLogVerbose(@"Initializing TeaserViewController for: %@", thisProduct.id);
-        self.product = thisProduct;
-        pContext = ctx;
+        DDLogVerbose(@"%@", thisProduct.id);
+        newSelf.product = thisProduct;
+        newSelf.pContext = ctx;
         
-        [self initialize];
+        [newSelf initialize];
     }
-    return self;
+    return newSelf;
 }
 
 - (void)initialize
 {
+    DDLogVerbose(@"");
     __hasUnlockedVideo = (self.product.videoURL != nil && ![self.product.videoURL isEqualToString:@""]);
     
     NSURL *playerUrl = [NSURL URLWithString:self.product.trailerURL];
-    _teaserPlayer = [[BCPlayer alloc] initWithUrl:playerUrl bufferInSeconds:20.0 priority:BCPriorityHigh delegate:self];
+    _teaserPlayer = [[BCPlayer alloc] initWithUrl:playerUrl bufferInSeconds:20.0 priority:BCPriorityNormal delegate:self];
     //AVPlayer *player = [[AVPlayer alloc] initWithURL:playerUrl];
 }
 
@@ -79,15 +90,9 @@
 
 - (void)viewDidLoad
 {
+    DDLogVerbose(@"%@", self.product.id);
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    DDLogVerbose(@"Loading TeaserViewController for: %@", self.product.id);
-
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = self.view.center;
-    spinner.tag = 19;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
     
     BCPlayerLayer *playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_teaserPlayer andFrame:self.view.bounds];
     playerLayer.frame = self.view.bounds;
@@ -98,7 +103,7 @@
     [self.playerTimer setHasUnlocked:__hasUnlockedVideo];
     [self.actionsView setProduct:self.product];
     
-    self.categoryLabel.text = self.product.categoryName;
+    self.categoryLabel.text = [self.product.categoryName uppercaseString];
     self.categoryImage.image = [UIImage imageNamed:[[self.product.categoryName stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString]];
     
     self.categoryImage.layer.shadowColor = [[UIColor blackColor] colorWithAlphaComponent:0.3].CGColor;
@@ -107,13 +112,23 @@
     self.categoryImage.layer.shadowRadius = 1.0;
     self.categoryImage.clipsToBounds = NO;
     
-    if (pContext != kProductContextDiscover)
+    self.logoView.transform = CGAffineTransformMakeScale(0.8, 0.8);
+    
+    if (self.pContext != kProductContextDiscover)
     {
         CALayer *contextLayer = [[CALayer alloc] init];
         contextLayer.backgroundColor = [UIColor li5_redColor].CGColor;
         contextLayer.frame = CGRectMake(0,0,self.view.frame.size.width,5);
         [self.view.layer addSublayer:contextLayer];
+        
+        self.logoView.hidden = TRUE;
     }
+    
+    _waveView = [[Wave alloc] initWithView:self.view];
+    [self.view addSubview:_waveView];
+    [_waveView startAnimating];
+    
+    [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
     
     [self setupGestureRecognizers];
 }
@@ -123,14 +138,20 @@
     DDLogDebug(@"");
     [super viewDidDisappear:animated];
     
+    __hasAppeared = NO;
+    
     [self.teaserPlayer pause];
     [self removeObservers];
+    
+    [self updateSecondsWatched];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     DDLogDebug(@"");
     [super viewDidAppear:animated];
+    
+    __hasAppeared = YES;
     
     [self show];
 }
@@ -139,23 +160,26 @@
 
 - (void)replayMovie:(NSNotification *)notification
 {
-    DDLogVerbose(@"replaying video");
+    DDLogVerbose(@"");
     [self redisplay];
 }
 
 - (void)readyToPlay
 {
-    DDLogDebug(@"Ready to play trailer for: %lu", (unsigned long)[((ProductPageViewController*)self.parentViewController.parentViewController) index]);
+    DDLogDebug(@"%lu", (unsigned long)self.parentViewController.parentViewController.scrollPageIndex);
     
-    //Stop spinner
-    [[self.view viewWithTag:19] stopAnimating];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter postNotificationName:kPrimeTimeLoaded object:nil];
     
     [self show];
 }
 
-- (void)failToLoadItem
+- (void)failToLoadItem:(NSError*)error
 {
-    DDLogVerbose(@"");
+    DDLogError(@"%@",error.description);
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
 }
 
 - (void)bufferEmpty
@@ -163,46 +187,41 @@
     DDLogVerbose(@"");
 }
 
-#pragma mark - Displayable Protocol
-
-- (void)hideAndMoveToViewController:(UIViewController *)viewController
+- (void)networkFail:(NSError *)error
 {
-    float secondsWatched = CMTimeGetSeconds(self.teaserPlayer.currentTime);
-    DDLogVerbose(@"User saw %@ during %f", self.product.id, secondsWatched);
-    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-    [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeTrailer during:[NSNumber numberWithFloat:secondsWatched] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
-      if (error)
-      {
-          DDLogError(@"%@", error.localizedDescription);
-      }
-    }];
-
-    [self removeObservers];
-    [self.teaserPlayer pauseAndDestroy];
+    DDLogError(@"");
 }
+
+#pragma mark - Displayable Protocol
 
 - (void)show
 {
-    if (
-        self.teaserPlayer.status == AVPlayerStatusReadyToPlay //Player is ready to Play
-        && self.parentViewController.parentViewController != nil //Teaser is contained within a ProductPageViewController
-        && self.parentViewController.parentViewController == [((UIPageViewController *)self.parentViewController.parentViewController.parentViewController).viewControllers firstObject] //ProductPageViewController is currently being viewed at PrimeTime
-        && self.parentViewController == [((ProductPageViewController *)self.parentViewController.parentViewController) currentViewController] //Video is being watched
-        )
+    if (self.teaserPlayer.status == AVPlayerStatusReadyToPlay)
     {
-        DDLogVerbose(@"Show %@.", [[(AVURLAsset *)self.teaserPlayer.currentItem.asset URL] lastPathComponent]);
+        [_waveView stopAnimating];
+        [_waveView removeFromSuperview];
         
         [self.playerTimer setPlayer:self.teaserPlayer];
         
-        [self.teaserPlayer play];
-        
-        [self renderAnimations];
-        [self setupObservers];
+        if(__hasAppeared)
+        {
+            DDLogVerbose(@"");
+            [self.teaserPlayer play];
+            
+            [self renderAnimations];
+            [self setupObservers];
+            
+        }
+    }
+    else
+    {
+        [self.teaserPlayer changePriority:BCPriorityHigh];
     }
 }
 
 - (void)redisplay
 {
+    DDLogVerbose(@"");
     [self.teaserPlayer seekToTime:kCMTimeZero];
     [self.teaserPlayer play];
 }
@@ -211,6 +230,7 @@
 {
     if (playEndObserver)
     {
+        DDLogVerbose(@"");
         [[NSNotificationCenter defaultCenter] removeObserver:playEndObserver];
         playEndObserver = nil;
     }
@@ -220,6 +240,7 @@
 {
     if (!playEndObserver)
     {
+        DDLogVerbose(@"");
         __weak typeof(id) welf = self;
         playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.teaserPlayer.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
             [welf replayMovie:note];
@@ -227,16 +248,29 @@
     }
 }
 
+- (void)updateSecondsWatched
+{
+    float secondsWatched = CMTimeGetSeconds(self.teaserPlayer.currentTime);
+    DDLogVerbose(@"%@:%f", self.product.id, secondsWatched);
+    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+    [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeTrailer during:[NSNumber numberWithFloat:secondsWatched] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
+        if (error)
+        {
+            DDLogError(@"%@", error.localizedDescription);
+        }
+    }];
+}
+
 #pragma mark - User Actions
 
 - (void)userDidPan:(UIPanGestureRecognizer*)gestureRecognizer
 {
-    [self.teaserPlayer pause];
     [searchInteractor userDidPan:gestureRecognizer];
 }
 
 - (IBAction)userDidTap:(UITapGestureRecognizer*)sender
 {
+    DDLogVerbose(@"");
     if (__hasUnlockedVideo)
     {
         UIViewController *modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
@@ -291,7 +325,11 @@
 {
     //TODO use Search interactor
     [self.navigationController popViewControllerAnimated:NO];
-    [self hideAndMoveToViewController:nil];
+}
+
+- (IBAction)showProfile:(UIButton*)sender
+{
+    [profileInteractor presentViewWithCompletion:nil];
 }
 
 #pragma mark - Gesture Recognizers
@@ -310,9 +348,9 @@
     
     //User Profile Gesture Recognizer - Swipe Down from 0-100px
     profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
-    searchInteractor = [[ProductsListDynamicInteractor alloc] initWithParentViewController:self];
+    searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
     
-    if (pContext == kProductContextDiscover)
+    if (self.pContext == kProductContextDiscover)
     {
         //Profile Gesture Recognizer - Swipe Down from 0-100px
         profilePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:profileInteractor action:@selector(userDidPan:)];
@@ -350,13 +388,13 @@
     {
         CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
         double degree = atan(velocity.y/velocity.x) * 180 / M_PI;
-        return (touch.y >= 150) && (fabs(degree) > 20.0) && (velocity.y > 0);
+        return (touch.y >= 150) && (fabs(degree) > 70.0) && (velocity.y > 0);
     }
     else if (gestureRecognizer == backToSearchPanGestureRecognzier)
     {
         CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
         double degree = atan(velocity.y/velocity.x) * 180 / M_PI;
-        return (fabs(degree) > 20.0) && (velocity.y > 0);
+        return (fabs(degree) > 70.0) && (velocity.y > 0);
     }
     return false;
 }
@@ -393,15 +431,32 @@
 
 - (void)renderAnimations
 {
+    DDLogVerbose(@"");
     [self removeAnimations];
-    DDLogVerbose(@"rendering animations");
     
-    [self renderCategory];
-
+    [self __renderCategory];
+    
+    [self __renderMore];
+    
 }
 
-- (void)renderCategory
+- (void)__renderCategory
 {
+}
+
+- (void)__renderMore
+{
+    CAKeyframeAnimation *trans = [CAKeyframeAnimation animationWithKeyPath:@"position.y"];
+    trans.values = @[@(0),@(5),@(-2.0),@(3),@(0)];
+    trans.keyTimes = @[@(0.0),@(0.35),@(0.70),@(0.90),@(1)];
+    trans.timingFunction = [CAMediaTimingFunction functionWithControlPoints:.5 :1.8 :1 :1];
+    trans.duration = 2.0;
+    trans.additive = YES;
+    trans.repeatCount = INFINITY;
+    trans.beginTime = CACurrentMediaTime() + 2.0;
+    trans.removedOnCompletion = NO;
+    trans.fillMode = kCAFillModeForwards;
+    [self.arrow.layer addAnimation:trans forKey:@"bouncing"];
 }
 
 #pragma mark - OS Actions
@@ -414,7 +469,7 @@
 
 - (void)dealloc
 {
-    DDLogDebug(@"");
+    DDLogDebug(@"%p",self);
     [self removeObservers];
     _teaserPlayer = nil;
 }

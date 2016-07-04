@@ -87,12 +87,12 @@
 }
 
 - (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index {
-    return [[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] andIndex:index forContext:kProductContextSearch];
+    return [[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] forContext:kProductContextSearch];
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+- (UIViewController *)viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    NSUInteger index = ((ProductPageViewController*) viewController).index;
+    NSUInteger index = viewController.scrollPageIndex;
     
     if ((index == 0) || (index == NSNotFound))
     {
@@ -102,10 +102,10 @@
     }
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerAfterViewController:(UIViewController *)viewController
+- (UIViewController *)viewControllerAfterViewController:(UIViewController *)viewController
 {
     if ([viewController isKindOfClass:[ProductPageViewController class]]) {
-        NSUInteger index = ((ProductPageViewController*) viewController).index;
+        NSUInteger index = viewController.scrollPageIndex;
         if ((index+1 == [self numberOfProducts]) || (index == NSNotFound))
         {
             return nil;

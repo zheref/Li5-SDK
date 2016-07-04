@@ -50,6 +50,9 @@
 
 - (void)initialize
 {
+    _topColor = [UIColor blackColor];
+    _bottomColor = [UIColor clearColor];
+    
     [self addSubviews];
 }
 
@@ -57,13 +60,10 @@
 
 - (void)addSubviews
 {
-    _topColor = [UIColor clearColor];
-    _bottomColor = [UIColor blackColor];
-    
     // Create the gradient
     _gradientLayer = [CAGradientLayer layer];
+    _gradientLayer.locations = @[@0.5, @1.0];
     _gradientLayer.colors = @[(id)_topColor.CGColor, (id)_bottomColor.CGColor];
-    _gradientLayer.frame = self.bounds;
     
     //Add gradient to view
     [self.layer insertSublayer:_gradientLayer atIndex:0];
@@ -73,7 +73,7 @@
 {
     [super layoutSubviews];
     
-    _gradientLayer.bounds = self.bounds;
+    _gradientLayer.frame = self.bounds;
 }
 
 - (void)prepareForInterfaceBuilder
@@ -88,12 +88,16 @@
 {
     _topColor = topColor;
     _gradientLayer.colors = @[(id)_topColor.CGColor, (id)_bottomColor.CGColor];
+    
+    [self layoutSubviews];
 }
 
 - (void)setBottomColor:(UIColor *)bottomColor
 {
     _bottomColor = bottomColor;
     _gradientLayer.colors = @[(id)_topColor.CGColor, (id)_bottomColor.CGColor];
+    
+    [self layoutSubviews];
 }
 
 @end

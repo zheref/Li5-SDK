@@ -31,6 +31,7 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     [_noLovesView setHidden:YES];
     [_productsListView setHidden:NO];
     
@@ -58,6 +59,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         [_source startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
             [_noLovesView setHidden:([_source numberOfProducts] != 0)];

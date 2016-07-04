@@ -11,16 +11,16 @@
 
 - (void)userDidPan:(UIPanGestureRecognizer *)gestureRecognizer;
 
+- (void)presentViewWithCompletion:(void (^)(void))completion;
+- (void)dismissViewWithCompletion:(void (^)(void))completion;
+
 @end
 
 @interface UserProfileViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIButton *settingsBtn;
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImg;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 
-@property (nonatomic, readonly) id<UserProfileViewControllerPanTargetDelegate> panTarget;
+@property (nonatomic, weak) id<UserProfileViewControllerPanTargetDelegate> panTarget;
 
-- (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget;
++ (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget;
 
 @end

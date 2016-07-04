@@ -107,6 +107,16 @@
     CGImageRef popcornImage = [UIImage imageNamed:@"popcorn"].CGImage;
     _unlockLayer.contents = (__bridge id _Nullable)(popcornImage);
     
+    CABasicAnimation *trans = [CABasicAnimation animationWithKeyPath:@"transform"];
+    trans.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.75, 0.75, 1.0)];
+    trans.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    trans.duration = 0.5;
+    trans.autoreverses = YES;
+    trans.repeatCount = INFINITY;
+    trans.removedOnCompletion = NO;
+    trans.fillMode = kCAFillModeForwards;
+    [_unlockLayer addAnimation:trans forKey:@"pumping"];
+    
     [self.layer addSublayer:_baseLayer];
     [self.layer addSublayer:_progressLayer];
     [self.layer addSublayer:_timeText];
@@ -144,7 +154,7 @@
         _timeText.frame = CGRectInset(self.layer.bounds, 0, timeFont.xHeight);
         if (self.player)
         {
-            double remainingTime = CMTimeGetSeconds(self.player.currentItem.asset.duration)*_percentage;
+            double remainingTime = CMTimeGetSeconds(self.player.currentItem.asset.duration)*(1-_percentage);
             _timeText.string = [NSString stringWithFormat:@"%li", (long)remainingTime];
         }
     }
@@ -152,7 +162,7 @@
     {
         [self.timeText removeFromSuperlayer];
         CGFloat inset = _radius - sqrtf(powf(_radius, 2)/2)/2 - 2*_lineWidth;
-        _unlockLayer.frame = CGRectOffset(CGRectInset(self.bounds,inset,inset), 2.0, 0);
+        _unlockLayer.frame = CGRectOffset(CGRectInset(self.layer.bounds,inset,inset), 2.0, 0);
     }
     
 }
@@ -269,6 +279,7 @@
 
 - (void)dealloc
 {
+    DDLogDebug(@"%p",self);
     [self removeObservers];
 }
 

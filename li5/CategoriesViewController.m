@@ -11,13 +11,17 @@
 
 #import "CategoriesViewController.h"
 #import "CategoriesCollectionViewCell.h"
-#import "PrimeTimeViewController.h"
-#import "PrimeTimeViewControllerDataSource.h"
+#import "Li5Constants.h"
 
 @interface CategoriesViewController ()
 
 @property (nonatomic, strong) NSArray<Category *> *allCategories;
 @property (nonatomic, strong) NSMutableArray *selectedCategoriesIDs;
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIButton *continueBtn;
+
+- (IBAction)continueBtnPressed:(id)sender;
 
 @end
 
@@ -27,8 +31,17 @@
 
 - (instancetype)init
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"OnboardingCategoriesView"];
+    self = [super init];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
     if (self)
     {
         [self initialize];
@@ -51,24 +64,19 @@
     
     [_continueBtn setBackgroundImage:[UIImage imageWithColor:[UIColor lightGrayColor] andRect:_continueBtn.bounds] forState:UIControlStateDisabled];
     [_continueBtn setBackgroundImage:[UIImage imageWithColor:[UIColor li5_redColor] andRect:_continueBtn.bounds] forState:UIControlStateNormal];
-    [_continueBtn setHidden:TRUE];
     
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     __weak typeof(self) welf = self;
     [li5 requestCategoriesWithCompletion:^(NSError *error, NSArray<Category *> *categories) {
         if (error == nil) {
             _allCategories = [NSArray arrayWithArray:categories];
-            [li5 requestProfile:^(NSError *error, Profile *profile) {
-                if (error == nil) {
-                    if ([profile.preferences.data count] > 0) {
-                        for (Category *category in profile.preferences.data) {
-                            [welf.selectedCategoriesIDs addObject:category.id];
-                        }
-                    }
+            if ([self.userProfile.preferences.data count] > 0) {
+                for (Category *category in self.userProfile.preferences.data) {
+                    [welf.selectedCategoriesIDs addObject:category.id];
                 }
-                [welf.collectionView reloadData];
-                [welf checkSelectedCategories];
-            }];
+            }
+            [welf.collectionView reloadData];
+            [welf checkSelectedCategories];
         }
     }];
 }
@@ -124,23 +132,22 @@
 
 #pragma mark - Actions
 
-- (IBAction)continueBtnPressed:(id)sender {
+- (IBAction)continueBtnPressed:(id)sender
+{
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     [li5 changeUserProfileWithCategoriesIDs:[NSArray arrayWithArray:_selectedCategoriesIDs] withCompletion:^(NSError *error) {
         if (error == nil) {
-            PrimeTimeViewControllerDataSource *primeTimeSource = [PrimeTimeViewControllerDataSource new];
-            PrimeTimeViewController *primeTimeVC = [[PrimeTimeViewController alloc] initWithDataSource:primeTimeSource];
-            [primeTimeSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
-                if (error != nil)
-                {
-                    DDLogVerbose(@"ERROR %@", error.description);
-                }
-                dispatch_async(dispatch_get_main_queue(), ^(void) {
-                    [self.navigationController pushViewController:primeTimeVC animated:NO];
-                });
-            }];
+            
+            BOOL showCategoriesSelection = [_selectedCategoriesIDs count] < 2;
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setBool:!showCategoriesSelection forKey:kLi5CategoriesSelectionViewPresented];
+            
+            NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+            [notificationCenter postNotificationName:kCategoriesUpdateSuccessful object:nil];
         } else {
-            DDLogVerbose(@"Couldn't commit selected categories.");
+            DDLogError(@"Couldn't commit selected categories: %@", error.description);
+            NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+            [notificationCenter postNotificationName:kCategoriesUpdateFailed object:nil];
         }
     }];
 }
@@ -148,7 +155,15 @@
 #pragma mark - Helpers
 
 - (void)checkSelectedCategories {
-    [self.continueBtn setHidden:([_selectedCategoriesIDs count] == 0)];
+    switch([_selectedCategoriesIDs count])
+    {
+        case 0:
+            [self.continueBtn setTitle:@"SELECT AT LEAST 2!" forState:UIControlStateDisabled];
+            break;
+        case 1:
+            [self.continueBtn setTitle:@"SELECT 1 MORE!" forState:UIControlStateDisabled];
+            break;
+    }
     [self.continueBtn setEnabled:([_selectedCategoriesIDs count] >= 2)];
 }
 

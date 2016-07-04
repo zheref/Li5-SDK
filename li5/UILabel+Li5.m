@@ -15,7 +15,6 @@
 {
     NSMutableArray *textChunks = [[NSMutableArray alloc] init];
     
-    NSString *chunk = [[NSString alloc] init];
     NSMutableAttributedString *attrString = [self.attributedText mutableCopy];
     CTFramesetterRef frameSetter;
     
@@ -26,7 +25,7 @@
         CTFramesetterSuggestFrameSizeWithConstraints(frameSetter, CFRangeMake(0,0), NULL, CGSizeMake(self.bounds.size.width, self.bounds.size.height), &fitRange);
         CFRelease(frameSetter);
         
-        chunk = [[attrString attributedSubstringFromRange:NSMakeRange(0, fitRange.length)] string];
+        NSString *chunk = [[attrString attributedSubstringFromRange:NSMakeRange(0, fitRange.length)] string];
         
         [textChunks addObject:chunk];
         

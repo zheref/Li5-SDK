@@ -20,6 +20,7 @@
 
 - (instancetype)initWithColumns:(NSInteger)col andRows:(NSInteger)rows
 {
+    DDLogVerbose(@"");
     self = [super init];
     if (self)
     {
@@ -32,11 +33,13 @@
 
 - (void)awakeFromNib
 {
+    DDLogVerbose(@"");
     [self initialize];
 }
 
 - (void)initialize
 {
+    DDLogVerbose(@"");
     __nbColumns = __nbColumns ?: 3;
     __nbLines = __nbLines ?: 3;
     
@@ -46,6 +49,7 @@
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    //DDLogVerbose(@"");
     NSInteger idxPage = (int)indexPath.row / (__nbColumns * __nbLines);
 
     NSInteger O = indexPath.row - (idxPage * __nbColumns * __nbLines);
@@ -64,6 +68,7 @@
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
+    //DDLogVerbose(@"");
     CGFloat newX = MIN(0, rect.origin.x - rect.size.width / 2);
     CGFloat newWidth = rect.size.width * 2 + (rect.origin.x - newX);
 
@@ -88,11 +93,13 @@
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
+    //DDLogVerbose(@"");
     return YES;
 }
 
 - (CGSize)collectionViewContentSize
 {
+    //DDLogVerbose(@"");
     CGSize size = [super collectionViewContentSize];
 
     CGFloat pageWidth = self.collectionView.frame.size.width;

@@ -14,17 +14,15 @@
 
 @implementation SwipeLeftToBeginViewController
 
-- (IBAction)swipeDetected:(UIPanGestureRecognizer*)sender
+- (BOOL)prefersStatusBarHidden
 {
-    DDLogVerbose(@"");
-    if (sender.state == UIGestureRecognizerStateEnded)
-    {
-        [self dismissViewControllerAnimated:NO completion:^{
-            
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setBool:TRUE forKey:kLi5SwipeLeftExplainerViewPresented];
-        }];
-    }
+    return YES;
+}
+
+- (void)cardDismissed
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:TRUE forKey:kLi5SwipeLeftExplainerViewPresented];
 }
 
 @end

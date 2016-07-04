@@ -28,8 +28,6 @@ typedef NS_ENUM(NSUInteger, ProductContext) {
 
 @property (nonatomic, strong) Product *product;
 
-- (void)hideAndMoveToViewController:(UIViewController *)viewController;
-
 @optional
 
 - (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext) ctx;

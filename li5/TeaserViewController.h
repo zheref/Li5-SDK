@@ -16,5 +16,7 @@
 @property (nonatomic, strong) UIViewController *previousViewController;
 @property (nonatomic, strong) UIViewController *nextViewController;
 
++ (id)teaserWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
+
 @end
 

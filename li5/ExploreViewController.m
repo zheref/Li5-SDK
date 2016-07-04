@@ -10,18 +10,26 @@
 #import "ProductsViewController.h"
 #import "SuggestionsViewController.h"
 #import "Li5SearchBarUIView.h"
+#import "Li5VolumeView.h"
 
 @interface ExploreViewController ()
 
 @property (weak, nonatomic) IBOutlet Li5SearchBarUIView *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *suggestionsView;
 @property (weak, nonatomic) IBOutlet UIView *exploreView;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *backButtonLeftConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarLeftConstraintC;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarLeftConstraintR;
+@property (strong, nonatomic) NSLayoutConstraint *searchBarLeftConstraint;
+
+@property (strong, nonatomic) MASConstraint *hiddenSearchBarConstraint;
+@property (strong, nonatomic) MASConstraint *hiddenBackButtonConstraint;
 
 @property (nonatomic, weak) ProductsViewController *productsViewController;
 @property (nonatomic, weak) TagsViewController *tagsViewController;
 @property (nonatomic, weak) SuggestionsViewController *suggestionsViewController;
-
-@property (nonatomic, strong) UIPanGestureRecognizer *goBackPanGestureRecognizer;
 
 @end
 
@@ -31,22 +39,42 @@
 
 - (void)awakeFromNib
 {
+    DDLogVerbose(@"");
     //Do nothing for now
 }
 
 #pragma mark - UI Setup
 
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
+    DDLogVerbose(@"");
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     [self.searchBar setDelegate:self];
     
     [self.view bringSubviewToFront:_exploreView];
+    
+    [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    DDLogVerbose(@"");
     NSString * segueName = segue.identifier;
     if ([segueName isEqualToString: @"showProductsEmbed"])
     {
@@ -66,6 +94,7 @@
 
 - (IBAction)goBack:(UIButton *)sender
 {
+    DDLogVerbose(@"");
     [_panTarget dismissViewWithCompletion:nil];
 }
 
@@ -73,6 +102,7 @@
 
 - (void)searchBar:(Li5SearchBarUIView *)searchBar textDidChange:(NSString *)searchText
 {
+    DDLogVerbose(@"");
     for (UIViewController<Li5SearchBarUIViewDelegate> *controller in @[_productsViewController, _tagsViewController, _suggestionsViewController]) {
         if ([controller respondsToSelector:@selector(searchBar:textDidChange:)])
         {
@@ -83,7 +113,22 @@
 
 - (BOOL)shouldBeginEditing:(Li5SearchBarUIView *)searchBar
 {
+    DDLogVerbose(@"");
     [self.view bringSubviewToFront:_suggestionsView];
+    
+    self.searchBarLeftConstraint = ([self.searchBarLeftConstraintC isActive] ? self.searchBarLeftConstraintC : self.searchBarLeftConstraintR );
+    
+    [NSLayoutConstraint deactivateConstraints:@[self.backButtonLeftConstraint, self.searchBarLeftConstraint]];
+    [self.backButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        self.hiddenBackButtonConstraint = make.leading.equalTo(self.backButton.superview.leading).offset(-self.backButton.bounds.size.width);
+    }];
+    [self.searchBar mas_remakeConstraints:^(MASConstraintMaker *make) {
+        self.hiddenSearchBarConstraint = make.leading.equalTo(self.searchBar.superview.leading).offset(5.0);
+    }];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [self.view layoutIfNeeded];
+    }];
     
     for (UIViewController<Li5SearchBarUIViewDelegate> *controller in @[_productsViewController, _tagsViewController, _suggestionsViewController]) {
         if ([controller respondsToSelector:@selector(shouldBeginEditing:)])
@@ -97,8 +142,20 @@
 
 - (void)searchButtonClicked:(Li5SearchBarUIView *)searchBar
 {
+    DDLogVerbose(@"");
     [self.view endEditing:YES];
     [self.view bringSubviewToFront:_exploreView];
+    
+    if (![self.backButtonLeftConstraint isActive])
+    {
+        [self.hiddenSearchBarConstraint uninstall];
+        [self.hiddenBackButtonConstraint uninstall];
+        [NSLayoutConstraint activateConstraints:@[self.backButtonLeftConstraint,self.searchBarLeftConstraint]];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
     
     for (UIViewController<Li5SearchBarUIViewDelegate> *controller in @[_productsViewController, _tagsViewController, _suggestionsViewController]) {
         if ([controller respondsToSelector:@selector(searchButtonClicked:)])
@@ -110,8 +167,20 @@
 
 - (void)cancelButtonClicked:(Li5SearchBarUIView *)searchBar
 {
+    DDLogVerbose(@"");
     [self.view endEditing:true];
     [self.view bringSubviewToFront:_exploreView];
+    
+    if (![self.backButtonLeftConstraint isActive])
+    {
+        [self.hiddenSearchBarConstraint uninstall];
+        [self.hiddenBackButtonConstraint uninstall];
+        [NSLayoutConstraint activateConstraints:@[self.backButtonLeftConstraint,self.searchBarLeftConstraint]];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
     
     for (UIViewController<Li5SearchBarUIViewDelegate> *controller in @[_productsViewController, _tagsViewController,_suggestionsViewController]) {
         if ([controller respondsToSelector:@selector(cancelButtonClicked:)])
@@ -123,19 +192,23 @@
 
 - (void)updateSearchBardWith:(NSString *)text
 {
+    DDLogVerbose(@"");
     [_searchBar setText:text];
     [self searchButtonClicked: _searchBar];
 }
 
 - (void)appendSearchBardWith:(NSString *)text
 {
-    [_searchBar setText:[_searchBar.text stringByAppendingFormat:@" %@",text]];
+    DDLogVerbose(@"");
+    NSString *textToAdd = ([_searchBar.text length] > 0 ? [_searchBar.text stringByAppendingFormat:@" %@", text] :  text);
+    [_searchBar setText:textToAdd];
     [self searchButtonClicked: _searchBar];
 }
 
 #pragma mark - OS Actions
 
 - (void)didReceiveMemoryWarning {
+    DDLogVerbose(@"");
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

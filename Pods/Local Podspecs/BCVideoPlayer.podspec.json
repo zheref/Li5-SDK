@@ -28,5 +28,10 @@
   "source_files": [
     "BCVideoPlayer",
     "BCVideoPlayer/**/*.{h,m,swift}"
-  ]
+  ],
+  "dependencies": {
+    "GCDWebServer": [
+
+    ]
+  }
 }

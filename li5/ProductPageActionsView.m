@@ -102,11 +102,14 @@
     {
         self.product.isLoved = false;
         [button setSelected:false];
+        self.loveCounter.text = [@([self.loveCounter.text integerValue] - 1) stringValue];
+        
         [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil)
             {
                 self.product.isLoved = true;
                 [button setSelected:true];
+                self.loveCounter.text = [@([self.loveCounter.text integerValue] + 1) stringValue];
             }
         }];
     }
@@ -114,6 +117,7 @@
     {
         self.product.isLoved = true;
         [button setSelected:true];
+        self.loveCounter.text = [@([self.loveCounter.text integerValue] + 1) stringValue];
         
         //Vibrate sound
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -123,6 +127,7 @@
             {
                 self.product.isLoved = false;
                 [button setSelected:false];
+                self.loveCounter.text = [@([self.loveCounter.text integerValue] - 1) stringValue];
             }
         }];
     }

@@ -11,6 +11,9 @@
 #import "DetailsViewController.h"
 #import "ImageUICollectionViewCell.h"
 #import "UILabel+Li5.h"
+#import "ImageCardViewController.h"
+#import "Li5VolumeView.h"
+#import "DetailsDescriptionViewController.h"
 
 @interface DetailsViewController ()
 
@@ -30,27 +33,27 @@
 
 #pragma mark - Init
 
-- (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
++ (id)detailsWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
     UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
-    self = [productPageStoryboard instantiateViewControllerWithIdentifier:@"DetailsView"];
-    if (self)
+    DetailsViewController *newSelf = [productPageStoryboard instantiateViewControllerWithIdentifier:@"DetailsView"];
+    if (newSelf)
     {
-        self.product = thisProduct;
+        newSelf.product = thisProduct;
     }
-    return self;
+    return newSelf;
 }
 
-- (id)initWithOrder:(Order*)thisOrder andContext:(ProductContext)ctx
++ (id)detailsWithOrder:(Order*)thisOrder andContext:(ProductContext)ctx
 {
     UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
-    self = [productPageStoryboard instantiateViewControllerWithIdentifier:@"DetailsView"];
-    if (self)
+    DetailsViewController *newSelf = [productPageStoryboard instantiateViewControllerWithIdentifier:@"DetailsView"];
+    if (newSelf)
     {
-        self.order = thisOrder;
-        self.product = thisOrder.product;
+        newSelf.order = thisOrder;
+        newSelf.product = thisOrder.product;
     }
-    return self;
+    return newSelf;
 }
 
 #pragma mark - UI Setup
@@ -60,7 +63,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     DDLogVerbose(@"%@", self.product.title);
-
+    
     self.productTitleLabel.text = self.product.title;
     self.productVendorLabel.text = [self.product.brand uppercaseString];
 
@@ -82,8 +85,7 @@
     [self.productDescriptionLabel setContentScaleFactor:[[UIScreen mainScreen] scale]];
 
     NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
-    NSString *buyNow = @"BUY NOW ";
-    NSString *buttonCTA = [NSString stringWithFormat:@"%@%@", buyNow, price];
+    NSString *buttonCTA = [NSString stringWithFormat:@"BUY NOW %@", price];
     if (self.order != nil)
     {
         buttonCTA = self.order.status;
@@ -93,17 +95,25 @@
     NSMutableAttributedString *buyNowText = [[NSMutableAttributedString alloc] initWithString:buttonCTA
                                                                                    attributes:@{
                                                                                        NSFontAttributeName : [UIFont fontWithName:@"Rubik-Bold" size:20.0],
-                                                                                       NSForegroundColorAttributeName : [UIColor lightGrayColor]
+                                                                                       NSForegroundColorAttributeName : [UIColor li5_whiteColor]
                                                                                    }];
 
-    [buyNowText addAttribute:NSForegroundColorAttributeName value:[UIColor li5_whiteColor] range:[buttonCTA rangeOfString:price]];
-
     [self.buyNowBtn setAttributedTitle:buyNowText forState:UIControlStateNormal];
+    
+    [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
 }
 
-- (void)hideAndMoveToViewController:(UIViewController *)viewController
+- (IBAction)myUnwindAction:(UIStoryboardSegue*)unwindSegue
 {
-    //Do nothing
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"presentDescription"])
+    {
+        DetailsDescriptionViewController *dvc = (DetailsDescriptionViewController *) [segue destinationViewController];
+        [dvc setProduct:self.product];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -134,16 +144,20 @@
     return imageCell;
 }
 
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    ImageCardViewController *cardsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ImageCardsView"];
+    [cardsVC setProduct:self.product];
+    [self presentViewController:cardsVC animated:NO completion:nil];
+}
+
 #pragma mark - User Actions
 
 - (IBAction)buyAction:(UITapGestureRecognizer *)gestureRecognizer
 {
     //DDLogVerbose(@"Buy Button tapped");
-}
-
-- (IBAction)seePictures:(UITapGestureRecognizer*)sender
-{
-    
 }
 
 #pragma mark - OS Actions

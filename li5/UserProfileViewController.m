@@ -7,16 +7,22 @@
 //
 @import Li5Api;
 @import SDWebImage;
+@import AVFoundation;
 
 #import "UserProfileViewController.h"
+#import "Li5RootFlowController.h"
+#import "AppDelegate.h"
+#import "Li5VolumeView.h"
 
 @interface UserProfileViewController ()
+
+@property (weak, nonatomic) IBOutlet UIButton *settingsBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImg;
+@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
 @property (weak, nonatomic) IBOutlet UIButton *lovesButton;
 @property (weak, nonatomic) IBOutlet UIButton *ordersButton;
-
-@property (nonatomic, strong) Profile *userProfile;
 
 @property (weak, nonatomic) IBOutlet UIView *productsBgView;
 @property (weak, nonatomic) IBOutlet UIView *userLovesView;
@@ -26,15 +32,15 @@
 
 @implementation UserProfileViewController
 
-- (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget
++ (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"UserProfile" bundle:[NSBundle mainBundle]];
-    self = [storyboard instantiateInitialViewController];
-    if (self)
+    UserProfileViewController *newSelf = [storyboard instantiateInitialViewController];
+    if (newSelf)
     {
-        _panTarget = panTarget;
+        newSelf.panTarget = panTarget;
     }
-    return self;
+    return newSelf;
 }
 
 - (void)awakeFromNib
@@ -61,27 +67,27 @@
     self.ordersButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.lovesButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
+    [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
+    
     [self userDidTapLovesButton:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    [self refreshProfile];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)refreshProfile
 {
-    __weak typeof(self) welf = self;
-    Li5ApiHandler *handler = [Li5ApiHandler sharedInstance];
-    [handler requestProfile:^(NSError *error, Profile *profile) {
-        __strong typeof(welf) sself = welf;
-        if (!error)
-        {
-            sself.userProfile = profile;
-            [sself.userNameLabel setText:[NSString stringWithFormat:@"%@ %@",sself.userProfile.first_name,sself.userProfile.last_name]];
-            [sself.userImage sd_setImageWithURL:[NSURL URLWithString:sself.userProfile.picture]];
-        }
-    }];
+    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
+    Profile *userProfile = [flowController userProfile];
+    if (userProfile)
+    {
+        [self.userNameLabel setText:[NSString stringWithFormat:@"%@ %@",userProfile.first_name,userProfile.last_name]];
+        [self.userImage sd_setImageWithURL:[NSURL URLWithString:userProfile.picture]];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -106,6 +112,11 @@
 - (BOOL)prefersStatusBarHidden
 {
     return NO;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
 }
 
 #pragma mark - Gesture Recognizers
@@ -138,7 +149,7 @@
 {
     CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
     double degree = atan(velocity.y/velocity.x) * 180 / M_PI;
-    if(fabs(degree) > 20.0)
+    if(fabs(degree) > 70.0)
     {
         [self.panTarget userDidPan:gestureRecognizer];
     }

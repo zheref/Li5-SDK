@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ProductsListDynamicInteractor.h"
+#import "ExploreDynamicInteractor.h"
 
 @interface SwipeDownToExploreViewController : UIViewController
 

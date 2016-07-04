@@ -74,8 +74,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wZD-SX-JoU">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUj-mQ-HJy">
-                                        <rect key="frame" x="14" y="29" width="23" height="19"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUj-mQ-HJy">
+                                        <rect key="frame" x="14" y="0.0" width="23" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="23" id="Kpl-B1-9Qb"/>
                                             <constraint firstAttribute="width" constant="23" id="g0I-D6-KmY"/>
@@ -92,7 +92,7 @@
                                             <action selector="goBack:" destination="Jps-og-Is5" eventType="touchUpInside" id="83r-MB-lSf"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PPb-mf-q6A" customClass="Li5SearchBarUIView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PPb-mf-q6A" customClass="Li5SearchBarUIView">
                                         <rect key="frame" x="52" y="21" width="318" height="35"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
@@ -104,6 +104,7 @@
                                     <constraint firstAttribute="trailing" secondItem="PPb-mf-q6A" secondAttribute="trailing" constant="5" id="ABS-Yu-eVd"/>
                                     <constraint firstItem="PPb-mf-q6A" firstAttribute="leading" secondItem="OUj-mQ-HJy" secondAttribute="trailing" constant="15" id="DMj-Pw-Hwh"/>
                                     <constraint firstAttribute="bottom" secondItem="PPb-mf-q6A" secondAttribute="bottom" constant="5" id="GSI-GL-lFm"/>
+                                    <constraint firstItem="OUj-mQ-HJy" firstAttribute="top" secondItem="wZD-SX-JoU" secondAttribute="top" id="LfC-Os-Ws4"/>
                                     <constraint firstAttribute="bottom" secondItem="OUj-mQ-HJy" secondAttribute="bottom" constant="13" id="TXR-zQ-Jo9"/>
                                     <constraint firstItem="OUj-mQ-HJy" firstAttribute="leading" secondItem="wZD-SX-JoU" secondAttribute="leading" constant="14" id="Tic-XK-cb6"/>
                                     <constraint firstAttribute="bottom" secondItem="PPb-mf-q6A" secondAttribute="bottom" constant="5" id="WUp-Wh-36G"/>
@@ -112,17 +113,16 @@
                                     <constraint firstItem="PPb-mf-q6A" firstAttribute="top" secondItem="wZD-SX-JoU" secondAttribute="top" constant="21" id="fIH-ic-dJW"/>
                                     <constraint firstItem="PPb-mf-q6A" firstAttribute="leading" secondItem="OUj-mQ-HJy" secondAttribute="trailing" constant="5" id="hBV-e7-4np"/>
                                     <constraint firstAttribute="trailing" secondItem="PPb-mf-q6A" secondAttribute="trailing" constant="5" id="jH5-Of-OS9"/>
-                                    <constraint firstItem="PPb-mf-q6A" firstAttribute="leading" secondItem="OUj-mQ-HJy" secondAttribute="trailing" constant="5" id="kg3-Rt-4FH"/>
                                     <constraint firstAttribute="height" constant="61" id="wwc-lP-tdN"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="Xkj-oD-FOs"/>
+                                        <exclude reference="Yh9-W7-Ivq"/>
                                         <exclude reference="8SB-6w-qlL"/>
                                         <exclude reference="ABS-Yu-eVd"/>
                                         <exclude reference="GSI-GL-lFm"/>
                                         <exclude reference="hBV-e7-4np"/>
-                                        <exclude reference="kg3-Rt-4FH"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -144,8 +144,12 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="backButton" destination="OUj-mQ-HJy" id="V6R-cd-q2R"/>
+                        <outlet property="backButtonLeftConstraint" destination="Tic-XK-cb6" id="eaz-GL-W8p"/>
                         <outlet property="exploreView" destination="YzA-34-M08" id="82K-xy-idQ"/>
                         <outlet property="searchBar" destination="PPb-mf-q6A" id="o0F-ah-xhX"/>
+                        <outlet property="searchBarLeftConstraintC" destination="hBV-e7-4np" id="U00-Q4-LcF"/>
+                        <outlet property="searchBarLeftConstraintR" destination="DMj-Pw-Hwh" id="pmN-sk-xE8"/>
                         <outlet property="suggestionsView" destination="7Bh-nR-aMK" id="9Nl-vg-HCj"/>
                     </connections>
                 </viewController>
@@ -223,7 +227,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="91" height="38"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="tag name" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U7w-L6-MD2">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tag name" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U7w-L6-MD2">
                                                     <rect key="frame" x="11" y="10" width="69" height="18"/>
                                                     <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="15"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>

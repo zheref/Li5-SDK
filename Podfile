@@ -11,6 +11,9 @@ abstract_target 'Li5Base' do
   pod 'Masonry'
   pod 'SMPageControl'
   pod 'TSMessages', :git => 'git@github.com:KrauseFx/TSMessages.git'
+  pod "MMMaterialDesignSpinner"
+  pod 'FXBlurView'
+  pod 'Heap'
   
   target 'li5' do
     pod 'Fabric'

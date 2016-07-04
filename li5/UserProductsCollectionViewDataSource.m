@@ -37,18 +37,21 @@
 
 - (void)startFetchingProductsInBackgroundWithCompletion:(void (^)(NSError *))completion
 {
-    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-    __weak typeof(self) welf = self;
-    [li5 requestUserLovesWithCompletion:^(NSError *error, NSArray<Product *> *products) {
-        DDLogVerbose(@"total loves: %lu", (unsigned long)products.count);
-        welf.loves = [NSMutableArray arrayWithArray:products];
-        //TODO loves with cursor data
-        welf.cursor = nil;
-        if (completion)
-        {
-            completion (error);
-        }
-    } andCursor:nil];
+    if ([self numberOfProducts] <= 0)
+    {
+        Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+        __weak typeof(self) welf = self;
+        [li5 requestUserLovesWithCompletion:^(NSError *error, NSArray<Product *> *products) {
+            DDLogVerbose(@"total loves: %lu", (unsigned long)products.count);
+            welf.loves = [NSMutableArray arrayWithArray:products];
+            //TODO loves with cursor data
+            welf.cursor = nil;
+            if (completion)
+            {
+                completion (error);
+            }
+        } andCursor:nil];
+    }
 }
 
 - (void)fetchMoreProductsWithCompletion:(void (^)(NSError *error))completion
@@ -91,17 +94,17 @@
         return nil;
     }
     
-    return [[ProductPageViewController alloc] initWithProduct:[_loves objectAtIndex:index] andIndex:index forContext:kProductContextSearch];
+    return [[ProductPageViewController alloc] initWithProduct:[_loves objectAtIndex:index] forContext:kProductContextSearch];
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+- (UIViewController *)viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    return [super pageViewController:thisPageViewController viewControllerBeforeViewController:viewController];
+    return [super viewControllerBeforeViewController:viewController];
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerAfterViewController:(UIViewController *)viewController
+- (UIViewController *)viewControllerAfterViewController:(UIViewController *)viewController
 {
-    return [super pageViewController:thisPageViewController viewControllerAfterViewController:viewController];
+    return [super viewControllerAfterViewController:viewController];
 }
 
 - (NSUInteger)numberOfProducts {

@@ -10,14 +10,11 @@
 
 #import "DetailsViewController.h"
 #import "VideoViewController.h"
+#import "Li5UIPageViewController.h"
 
-@interface ProductPageViewController : UIViewController <UIScrollViewDelegate, DisplayableProtocol>
+@interface ProductPageViewController : Li5UIPageViewController <DisplayableProtocol>
 
-@property NSUInteger index;
-
-- (id)initWithProduct:(Product *)thisProduct andIndex:(NSInteger)idx forContext:(ProductContext)context;
-- (id)initWithOrder:(Order *)thisProduct andIndex:(NSInteger)idx forContext:(ProductContext)context;
-
-- (UIViewController<DisplayableProtocol>*) currentViewController;
+- (id)initWithProduct:(Product *)thisProduct forContext:(ProductContext)context;
+- (id)initWithOrder:(Order *)thisProduct forContext:(ProductContext)context;
 
 @end

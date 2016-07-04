@@ -76,6 +76,7 @@
 
 - (void)readyToPlay
 {
+    DDLogVerbose(@"");
     if (super.selected)
     {
         [self setupObservers];
@@ -83,14 +84,19 @@
     }
 }
 
-- (void)failToLoadItem
+- (void)failToLoadItem:(NSError*)error
 {
-    
+    DDLogError(@"failed to load item %@",error.description);
 }
 
 - (void)bufferEmpty
 {
-    
+    DDLogVerbose(@"");
+}
+
+- (void)networkFail:(NSError *)error
+{
+    DDLogError(@"");
 }
 
 #pragma mark - Observers
@@ -120,6 +126,7 @@
 
 - (void)dealloc
 {
+    DDLogDebug(@"%p",self);
     [self removeObservers];
 }
 

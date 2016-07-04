@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIView *videoView;
 
 @property (strong, nonatomic) BCPlayer *previewVideoPlayer;
+@property (strong, nonatomic) AVPlayerLayer *previewVideoLayer;
 
 @end
 
@@ -39,28 +40,36 @@
 {
     DDLogVerbose(@"");
     [super prepareForReuse];
+    [[_videoView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self removeObservers];
     _previewVideoPlayer = nil;
+    _previewVideoLayer = nil;
 }
 
 - (void)updateViews
 {
-    DDLogVerbose(@"");
+    DDLogVerbose(@"Thumb: %@ - Preview: %@",self.product.trailerThumbnail,self.product.videoPreview);
     self.orderDetails.hidden = (self.order == nil);
     
     self.orderStatus.text = self.order.status;
     
-    DDLogVerbose(@"%@",self.product.videoPreview);
-    
-    NSURL *videoPreviewURL = [NSURL URLWithString:self.product.videoPreview];
-    _previewVideoPlayer = [[BCPlayer alloc] initWithUrl:videoPreviewURL bufferInSeconds:10.0 priority:BCPriorityHigh delegate:self];
-    _previewVideoPlayer.muted = YES;
-    _previewVideoPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
-    AVPlayerLayer *previewVideoLayer = [AVPlayerLayer playerLayerWithPlayer:_previewVideoPlayer];
-    previewVideoLayer.frame = self.bounds;
-    previewVideoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    [self.videoView.layer addSublayer:previewVideoLayer];
+//    if (!_previewVideoPlayer)
+//    {
+//        NSURL *videoPreviewURL = [NSURL URLWithString:self.product.videoPreview];
+//        _previewVideoPlayer = [[BCPlayer alloc] initWithUrl:videoPreviewURL bufferInSeconds:10.0 priority:BCPriorityHigh delegate:self];
+//        _previewVideoPlayer.muted = YES;
+//        _previewVideoPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+//        _previewVideoLayer = [AVPlayerLayer playerLayerWithPlayer:_previewVideoPlayer];
+//        _previewVideoLayer.frame = self.bounds;
+//        _previewVideoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+//        [self.videoView.layer addSublayer:_previewVideoLayer];
+//    }
 
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.videoView.bounds];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:self.product.trailerThumbnail]];
+    [self.videoView addSubview:imageView];
+    
     NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
     
     self.productTitle.text = self.product.title;
@@ -82,14 +91,19 @@
     [self.previewVideoPlayer play];
 }
 
-- (void)failToLoadItem
+- (void)failToLoadItem:(NSError*)error
 {
-    DDLogVerbose(@"");
+    DDLogError(@"failed to load item %@",error.description);
 }
 
 - (void)bufferEmpty
 {
     DDLogVerbose(@"");
+}
+
+- (void)networkFail:(NSError *)error
+{
+    DDLogError(@"");
 }
 
 #pragma mark - Observers
@@ -141,7 +155,7 @@
 
 - (void)dealloc
 {
-    DDLogDebug(@"");
+    DDLogDebug(@"%p",self);
     [self removeObservers];
 }
 

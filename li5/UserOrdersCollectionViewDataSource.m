@@ -91,17 +91,17 @@
         return nil;
     }
     
-    return [[ProductPageViewController alloc] initWithOrder:[self.orders objectAtIndex:index] andIndex:index forContext:kProductContextSearch];
+    return [[ProductPageViewController alloc] initWithOrder:[self.orders objectAtIndex:index] forContext:kProductContextSearch];
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+- (UIViewController *)viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    return [super pageViewController:thisPageViewController viewControllerBeforeViewController:viewController];
+    return [super viewControllerBeforeViewController:viewController];
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerAfterViewController:(UIViewController *)viewController
+- (UIViewController *)viewControllerAfterViewController:(UIViewController *)viewController
 {
-    return [super pageViewController:thisPageViewController viewControllerAfterViewController:viewController];
+    return [super viewControllerAfterViewController:viewController];
 }
 
 - (NSUInteger)numberOfProducts {

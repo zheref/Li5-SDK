@@ -296,11 +296,12 @@
 {
     [self setupObservers];
 
-    if (__mRestoreAfterScrubbingRate)
-    {
-        [self.player setRate:__mRestoreAfterScrubbingRate];
-        __mRestoreAfterScrubbingRate = 0.f;
-    }
+//    if (__mRestoreAfterScrubbingRate)
+//    {
+//        [self.player setRate:__mRestoreAfterScrubbingRate];
+//        __mRestoreAfterScrubbingRate = 0.f;
+//    }
+    [self.player setRate:1.0];
 }
 
 - (BOOL)isScrubbing
@@ -391,7 +392,7 @@
 
 - (void)dealloc
 {
-    DDLogDebug(@"no longer needed");
+    DDLogDebug(@"%p",self);
     [self removeObservers];
 }
 

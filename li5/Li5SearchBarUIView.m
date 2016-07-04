@@ -101,9 +101,14 @@
     {
         [self.terms removeAllObjects];
         [self.searchTermsCollectionView reloadData];
+        
+        if (self.delegate)
+        {
+            [self.delegate searchBar:self textDidChange:self.text];
+        }
+        
+        [self setNeedsLayout];
     }
-    
-    [self setNeedsLayout];
 }
 
 #pragma mark - Public Methods
@@ -115,6 +120,11 @@
     [self.searchTermsCollectionView reloadData];
     
     self.isTyping = FALSE;
+    
+    if (self.delegate)
+    {
+        [self.delegate searchBar:self textDidChange:self.text];
+    }
     
     [self setNeedsLayout];
 }

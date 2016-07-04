@@ -63,6 +63,7 @@
 
 - (void)fetchTagsFor:(NSString*)word
 {
+    DDLogVerbose(@"%@",word);
     [_tagsDataSource getTags:word withCompletion:^(NSError *error, NSArray<NSString *> *tags) {
         if (!error)
         {

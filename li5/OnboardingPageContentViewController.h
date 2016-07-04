@@ -5,14 +5,12 @@
 //  Created by Martin Cocaro on 5/30/16.
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
+@import BCVideoPlayer;
 
-#import <UIKit/UIKit.h>
-
-@interface OnboardingPageContentViewController : UIViewController
-
-@property (nonatomic, strong) id pageIndex;
+@interface OnboardingPageContentViewController : UIViewController <BCPlayerDelegate>
 
 @property (nonatomic, strong) NSString *titleText;
 @property (nonatomic, strong) NSString *subtitleText;
+@property (nonatomic, strong) NSURL *videoUrl;
 
 @end

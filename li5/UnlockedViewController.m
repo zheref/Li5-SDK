@@ -9,12 +9,13 @@
 @import Li5Api;
 
 #import "Li5PlayerUISlider.h"
-#import "PrimeTimeViewController.h"
 #import "UnlockedViewController.h"
 #import "ProductPageViewController.h"
 #import "ProductPageActionsView.h"
+#import "Li5VolumeView.h"
 
 static const CGFloat sliderHeight = 50.0;
+static const CGFloat kCAHideControls = 4.0;
 
 @interface UnlockedViewController ()
 {
@@ -23,6 +24,9 @@ static const CGFloat sliderHeight = 50.0;
 
     UIPanGestureRecognizer *_lockPanGestureRecognzier;
     UITapGestureRecognizer *_simpleTapGestureRecognizer;
+    
+    BOOL __hasAppeared;
+    BOOL __renderingAnimations;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *playerView;
@@ -30,6 +34,8 @@ static const CGFloat sliderHeight = 50.0;
 @property (strong, nonatomic) BCPlayer *extendedVideo;
 @property (weak, nonatomic) IBOutlet Li5PlayerUISlider *seekSlider;
 @property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
+@property (weak, nonatomic) IBOutlet UIButton *muteButton;
+@property (weak, nonatomic) IBOutlet UIImageView *arrow;
 
 @end
 
@@ -37,18 +43,18 @@ static const CGFloat sliderHeight = 50.0;
 
 @synthesize product;
 
-- (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
++ (id)unlockedWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
 {
     UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
-    self = [productPageStoryboard instantiateViewControllerWithIdentifier:@"UnlockedView"];
-    if (self)
+    UnlockedViewController *newSelf = [productPageStoryboard instantiateViewControllerWithIdentifier:@"UnlockedView"];
+    if (newSelf)
     {
-        self.product = thisProduct;
-        NSURL *videoUrl = [NSURL URLWithString:self.product.videoURL];
-        DDLogVerbose(@"Creating Full Video Player Layer for: %@", [videoUrl lastPathComponent]);
-        _extendedVideo = [[BCPlayer alloc] initWithUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityNormal delegate:self];
+        DDLogVerbose(@"%@", thisProduct.id);
+        newSelf.product = thisProduct;
+        NSURL *videoUrl = [NSURL URLWithString:newSelf.product.videoURL];
+        newSelf.extendedVideo = [[BCPlayer alloc] initWithUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityNormal delegate:newSelf];
     }
-    return self;
+    return newSelf;
 }
 
 #pragma mark - UI View
@@ -60,6 +66,7 @@ static const CGFloat sliderHeight = 50.0;
 
 - (void)viewDidLoad
 {
+    DDLogVerbose(@"");
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     BCPlayerLayer *playerLayer = [[BCPlayerLayer alloc] initWithPlayer:self.extendedVideo andFrame:self.view.bounds];
@@ -73,6 +80,10 @@ static const CGFloat sliderHeight = 50.0;
     [self setupGestureRecognizers];
     
     [self renderAnimations];
+    
+    [self __renderMore];
+    
+    [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -80,9 +91,13 @@ static const CGFloat sliderHeight = 50.0;
     DDLogVerbose(@"");
     [super viewDidDisappear:animated];
     
+    __hasAppeared = NO;
+    
     [self.extendedVideo pause];
     
     [self removeObservers];
+    
+    [self updateSecondsWatched];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -90,62 +105,93 @@ static const CGFloat sliderHeight = 50.0;
     DDLogVerbose(@"");
     [super viewDidAppear:animated];
     
+    __hasAppeared = YES;
+    
     [self show];
 }
 
 - (void)renderAnimations
 {
-    DDLogVerbose(@"rendering animations for unlocked video");
-    if ([self.seekSlider isHidden] || [self.actionsView isHidden])
+    DDLogVerbose(@"");
+    if (!__renderingAnimations)
     {
-        DDLogVerbose(@"seek slider center: %@",NSStringFromCGPoint(self.seekSlider.center));
-        self.seekSlider.hidden = NO;
-        [UIView animateWithDuration:0.5 animations:^{
-            self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,2*sliderHeight));
-        }];
-        
-        DDLogVerbose(@"actions view center: %@",NSStringFromCGPoint(self.actionsView.center));
-        self.actionsView.hidden = NO;
-        [UIView animateWithDuration:0.5 animations:^{
-            self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(-100, 0));
-        }];
+        if ([self.seekSlider isHidden] || [self.actionsView isHidden])
+        {
+            self.seekSlider.hidden = NO;
+            self.actionsView.hidden = NO;
+            self.muteButton.hidden = NO;
+            __renderingAnimations = YES;
+            [UIView animateWithDuration:0.5 animations:^{
+                self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,2*sliderHeight));
+                self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(-100, 0));
+                self.muteButton.center = CGPointApplyAffineTransform(self.muteButton.center, CGAffineTransformMakeTranslation(100, 0));
+            } completion:^(BOOL finished) {
+                __renderingAnimations = NO;
+            }];
+        }
     }
 }
 
 - (void)removeAnimations
 {
     DDLogDebug(@"");
-    if (![self.seekSlider isHidden] || ![self.actionsView isHidden])
+    if (!__renderingAnimations)
     {
-        DDLogVerbose(@"seek slider center: %@",NSStringFromCGPoint(self.seekSlider.center));
-        [UIView animateWithDuration:0.5 animations:^{
-            self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,-2*sliderHeight));
-        } completion:^(BOOL finished) {
-            self.seekSlider.hidden = finished;
-        }];
-        DDLogVerbose(@"actions view center: %@",NSStringFromCGPoint(self.actionsView.center));
-        [UIView animateWithDuration:0.5 animations:^{
-            self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(100, 0));
-        } completion:^(BOOL finished) {
-            self.actionsView.hidden = finished;
-        }];
-        
-        [self removeTimers];
+        if (![self.seekSlider isHidden] || ![self.actionsView isHidden])
+        {
+            __renderingAnimations = YES;
+            [UIView animateWithDuration:0.5 animations:^{
+                self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,-2*sliderHeight));
+                self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(100, 0));
+                self.muteButton.center = CGPointApplyAffineTransform(self.muteButton.center, CGAffineTransformMakeTranslation(-100, 0));
+            } completion:^(BOOL finished) {
+                self.seekSlider.hidden = finished;
+                self.actionsView.hidden = finished;
+                self.muteButton.hidden = finished;
+                __renderingAnimations = NO;
+            }];
+            
+            [self removeTimers];
+        }
     }
 }
 
+- (void)__renderMore
+{
+    CAKeyframeAnimation *trans = [CAKeyframeAnimation animationWithKeyPath:@"position.y"];
+    trans.values = @[@(0),@(5),@(-2.0),@(3),@(0)];
+    trans.keyTimes = @[@(0.0),@(0.35),@(0.70),@(0.90),@(1)];
+    trans.timingFunction = [CAMediaTimingFunction functionWithControlPoints:.5 :1.8 :1 :1];
+    trans.duration = 2.0;
+    trans.additive = YES;
+    trans.repeatCount = INFINITY;
+    trans.beginTime = CACurrentMediaTime() + 2.0;
+    trans.removedOnCompletion = NO;
+    trans.fillMode = kCAFillModeForwards;
+    [self.arrow.layer addAnimation:trans forKey:@"bouncing"];
+}
+
+
+- (IBAction)handleSoundAction:(id)sender
+{
+    BOOL currentState = self.muteButton.isSelected;
+    
+    self.extendedVideo.muted = !currentState;
+    
+    [self.muteButton setSelected:!currentState];
+}
 #pragma mark - Player
 
 - (void)readyToPlay
 {
-    DDLogDebug(@"Ready to play extended for: %lu", (unsigned long)[((ProductPageViewController*)self.parentViewController.parentViewController) index]);
+    DDLogDebug(@"%lu", (unsigned long)self.parentViewController.parentViewController.scrollPageIndex);
     
-    //[self show];
+    [self show];
 }
 
-- (void)failToLoadItem
+- (void)failToLoadItem:(NSError*)error
 {
-    DDLogVerbose(@"");
+    DDLogError(@"%@",error.description);
 }
 
 - (void)bufferEmpty
@@ -153,31 +199,18 @@ static const CGFloat sliderHeight = 50.0;
     DDLogVerbose(@"");
 }
 
-#pragma mark - Displayable Protocol
-
-- (void)hideAndMoveToViewController:(UIViewController *)viewController
+- (void)networkFail:(NSError *)error
 {
-    float secondsWatched = CMTimeGetSeconds(self.extendedVideo.currentTime);
-    DDLogVerbose(@"User saw %@ during %f", self.product.id, secondsWatched);
-    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-    [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeFull during:[NSNumber numberWithFloat:secondsWatched] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
-      if (error)
-      {
-          DDLogError(@"%@", error.localizedDescription);
-      }
-    }];
-
-    [self removeObservers];
-    [self.extendedVideo pauseAndDestroy];
+    DDLogError(@"");
 }
+
+#pragma mark - Displayable Protocol
 
 - (void)show
 {
-    if (self.extendedVideo.status == AVPlayerStatusReadyToPlay &&
-        self.parentViewController.parentViewController != nil &&
-        self.parentViewController.parentViewController == [((PrimeTimeViewController *)self.parentViewController.parentViewController.parentViewController).viewControllers firstObject])
+    if (self.extendedVideo.status == AVPlayerStatusReadyToPlay && __hasAppeared)
     {
-        DDLogVerbose(@"Show %@.", [[(AVURLAsset *)self.extendedVideo.currentItem.asset URL] lastPathComponent]);
+        DDLogVerbose(@"%@.", [[(AVURLAsset *)self.extendedVideo.currentItem.asset URL] lastPathComponent]);
 
         [self.extendedVideo play];
         [self.seekSlider setPlayer:self.extendedVideo];
@@ -189,11 +222,16 @@ static const CGFloat sliderHeight = 50.0;
 
 - (void)setupObservers
 {
+    DDLogVerbose(@"");
     if (!__playEndObserver)
     {
         __weak typeof(self) welf = self;
         __playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.extendedVideo.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
             [welf.extendedVideo seekToTime:kCMTimeZero];
+            welf.extendedVideo.muted = YES;
+            [welf.muteButton setSelected:YES];
+            [welf.extendedVideo play];
+            
             [welf renderAnimations];
         }];
     }
@@ -203,6 +241,7 @@ static const CGFloat sliderHeight = 50.0;
 
 - (void)removeObservers
 {
+    DDLogVerbose(@"");
     if (__playEndObserver)
     {
         [[NSNotificationCenter defaultCenter] removeObserver:__playEndObserver];
@@ -214,11 +253,13 @@ static const CGFloat sliderHeight = 50.0;
 
 - (void)setupTimers
 {
-    hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(removeAnimations) userInfo:nil repeats:NO];
+    DDLogVerbose(@"");
+    hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:kCAHideControls target:self selector:@selector(removeAnimations) userInfo:nil repeats:NO];
 }
 
 - (void)removeTimers
 {
+    DDLogVerbose(@"");
     if (hideControlsTimer)
     {
         if ([hideControlsTimer isValid])
@@ -227,6 +268,19 @@ static const CGFloat sliderHeight = 50.0;
         }
         hideControlsTimer = nil;
     }
+}
+
+- (void)updateSecondsWatched
+{
+    float secondsWatched = CMTimeGetSeconds(self.extendedVideo.currentTime);
+    DDLogVerbose(@"User saw %@ during %f", self.product.id, secondsWatched);
+    Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+    [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeFull during:[NSNumber numberWithFloat:secondsWatched] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
+        if (error)
+        {
+            DDLogError(@"%@", error.localizedDescription);
+        }
+    }];
 }
 
 #pragma mark - Gesture Recognizers
@@ -239,6 +293,9 @@ static const CGFloat sliderHeight = 50.0;
         if (distance.y > 15)
         {
             [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:recognizer waitUntilDone:NO];
+            [self.extendedVideo seekToTime:kCMTimeZero];
+            [self.muteButton setSelected:NO];
+            self.extendedVideo.muted = NO;
         }
     }
 }
@@ -284,7 +341,7 @@ static const CGFloat sliderHeight = 50.0;
     {
         CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
         double degree = atan(velocity.y/velocity.x) * 180 / M_PI;
-        return (touch.y >= sliderHeight) && (fabs(degree) > 20.0) && (velocity.y > 0);
+        return (touch.y >= sliderHeight) && (fabs(degree) > 70.0) && (velocity.y > 0);
     }
     return NO;
 }
@@ -330,7 +387,7 @@ static const CGFloat sliderHeight = 50.0;
 
 - (void)dealloc
 {
-    DDLogDebug(@"");
+    DDLogDebug(@"%p",self);
     [self removeObservers];
     _extendedVideo = nil;
 }

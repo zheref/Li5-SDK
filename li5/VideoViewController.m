@@ -32,10 +32,10 @@
     {
         DDLogVerbose(@"");
         self.product = thisProduct;
-        teaserViewController = [[TeaserViewController alloc] initWithProduct:self.product andContext:ctx];
+        teaserViewController = [TeaserViewController teaserWithProduct:self.product andContext:ctx];
         if (self.product.videoURL != nil && self.product.videoURL.length > 0)
         {
-            unlockedViewController = [[UnlockedViewController alloc] initWithProduct:self.product andContext:ctx];
+            unlockedViewController = [UnlockedViewController unlockedWithProduct:self.product andContext:ctx];
         }
         currentViewController = nil;
     }
@@ -44,45 +44,73 @@
 
 - (void)viewDidLoad
 {
+    DDLogVerbose(@"");
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [self showViewController:teaserViewController withAppearanceTransition:NO];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     DDLogVerbose(@"");
-    [self showViewController:teaserViewController];
+    [super viewWillAppear:animated];
+    
+    [currentViewController beginAppearanceTransition:YES animated:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
     DDLogVerbose(@"");
+    [super viewDidAppear:animated];
     
-    [currentViewController viewDidAppear:animated];
+    [currentViewController endAppearanceTransition];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewWillDisappear:animated];
+    
+    [currentViewController beginAppearanceTransition:NO animated:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     DDLogVerbose(@"");
-    [currentViewController viewDidDisappear:animated];
+    
+    [currentViewController endAppearanceTransition];
 }
 
-- (void)hideViewController:(UIViewController<DisplayableProtocol> *)vc
+// From the container view controller
+- (BOOL) shouldAutomaticallyForwardAppearanceMethods
 {
+    return NO;
+}
+
+- (void)hideViewController:(UIViewController<DisplayableProtocol> *)vc withAppearanceTransition:(BOOL)appear
+{
+    DDLogVerbose(@"");
     [vc willMoveToParentViewController:nil];
-    //[vc viewWillDisappear:false];
+    if (appear) [vc beginAppearanceTransition:NO animated:NO];
     [vc.view removeFromSuperview];
-    //[vc viewDidDisappear:false];
+    if (appear) [vc endAppearanceTransition];
     [vc removeFromParentViewController];
     [vc didMoveToParentViewController:nil];
 }
 
-- (void)showViewController:(UIViewController<DisplayableProtocol> *)vc
+- (void)showViewController:(UIViewController<DisplayableProtocol> *)vc withAppearanceTransition:(BOOL)appear
 {
+    DDLogVerbose(@"");
     [vc willMoveToParentViewController:self];
     [self addChildViewController:vc];
     vc.view.frame = self.view.bounds;
-    //[vc viewWillAppear:false];
+    if (appear) [vc beginAppearanceTransition:YES animated:NO];
     [self.view addSubview:vc.view];
-    //[vc viewDidAppear:false];
+    if (appear) [vc endAppearanceTransition];
     [vc didMoveToParentViewController:self];
     currentViewController = vc;
 }
@@ -96,7 +124,7 @@
 
 - (void)handleLongTap:(UITapGestureRecognizer *)sender
 {
-    DDLogDebug(@"Handling Long Tap");
+    DDLogVerbose(@"");
 
     //    [oldVC willMoveToParentViewController:nil];
     //    [self addChildViewController:newVC];
@@ -123,34 +151,23 @@
     //                                [newVC didMoveToParentViewController:self];
     //                            }];
 
-    [self hideViewController:teaserViewController];
-    [self showViewController:unlockedViewController];
+    [self hideViewController:teaserViewController withAppearanceTransition:YES];
+    [self showViewController:unlockedViewController withAppearanceTransition:YES];
 }
 
 - (void)handleLockTap:(UIGestureRecognizer *)recognizer
 {
-    DDLogDebug(@"Handling Lock Tap");
+    DDLogVerbose(@"Handling Lock Tap");
 
-    [self hideViewController:unlockedViewController];
-    [self showViewController:teaserViewController];
-}
-
-#pragma mark - Displayable Protocol
-
-- (void)hideAndMoveToViewController:(UIViewController *)viewController
-{
-    [teaserViewController hideAndMoveToViewController:viewController];
-    if (unlockedViewController)
-    {
-        [unlockedViewController hideAndMoveToViewController:viewController];
-    }
+    [self hideViewController:unlockedViewController withAppearanceTransition:YES];
+    [self showViewController:teaserViewController withAppearanceTransition:YES];
 }
 
 #pragma mark - iOS Actions
 
 -(void)dealloc
 {
-    DDLogDebug(@"no longer needed");
+    DDLogDebug(@"%p",self);
     teaserViewController = nil;
     unlockedViewController = nil;
     currentViewController = nil;
@@ -158,6 +175,7 @@
 
 - (void)didReceiveMemoryWarning
 {
+    DDLogDebug(@"");
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

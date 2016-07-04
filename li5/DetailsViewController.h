@@ -12,8 +12,9 @@
 #import "ShapesHelper.h"
 #import "IndexedViewController.h"
 
-@interface DetailsViewController : UIViewController<LinkedViewControllerProtocol, DisplayableProtocol, UICollectionViewDataSource>
+@interface DetailsViewController : UIViewController<LinkedViewControllerProtocol, DisplayableProtocol, UICollectionViewDataSource, UICollectionViewDelegate>
 
-- (id)initWithOrder:(Order *)thisOrder andContext:(ProductContext) ctx;
++ (id)detailsWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
++ (id)detailsWithOrder:(Order *)thisOrder andContext:(ProductContext) ctx;
 
 @end

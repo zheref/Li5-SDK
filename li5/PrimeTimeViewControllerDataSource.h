@@ -7,12 +7,15 @@
 //
 
 #import "ProductPageViewController.h"
+#import "Li5UIPageViewController.h"
 
-@interface PrimeTimeViewControllerDataSource : NSObject <UIPageViewControllerDataSource>
+@interface PrimeTimeViewControllerDataSource : NSObject <Li5UIPageViewControllerDataSource>
 
 - (void)startFetchingProductsInBackgroundWithCompletion:(void (^)(NSError *error))completion;
 - (void)fetchMoreProductsWithCompletion:(void (^)(NSError *error))completion;
 - (NSUInteger)numberOfProducts;
 - (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index;
+
+- (BOOL)isExpired;
 
 @end

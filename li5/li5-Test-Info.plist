@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>HeapAppId</key>
+	<string>447934008</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Regular.ttf</string>
@@ -41,7 +43,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20</string>
+	<string>38</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -70,7 +72,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>Li5ApiEndpoint</key>
-	<string>https://t.li5.tv</string>
+	<string>https://t.li5.tv/v1</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

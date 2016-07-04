@@ -62,7 +62,7 @@ platform :ios do
     gym(
       scheme: "li5-Test",
       use_legacy_build_api: true,
-      configuration: "debug"
+      configuration: "Debug"
     ) # Build your app - more options available
 
     #produce(
@@ -92,7 +92,16 @@ platform :ios do
       bump_type: 'patch'
     )
 
-    gym(scheme: "li5") # Build your app - more options available
+    match(
+      app_identifier: "com.thrivecom.li5.buy", 
+      type:"appstore"
+    )
+
+    gym(
+      scheme: "li5",
+      use_legacy_build_api: true,
+      configuration: "Release"
+    ) # Build your app - more options available
 
     produce(
       app_version: '0.1'

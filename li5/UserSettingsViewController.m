@@ -11,8 +11,9 @@
 
 #import "AppDelegate.h"
 #import "UserSettingsViewController.h"
-#import "RootViewController.h"
+#import "Li5RootFlowController.h"
 #import "Li5Constants.h"
+#import "Li5VolumeView.h"
 
 @interface UserSettingsViewController ()
 
@@ -81,6 +82,11 @@
         ,
         @"Development" : @[
             @{
+                @"Name" : @"Discover Mode Custom",
+                @"Action" : @"nop",
+                @"Toggle" : @"Li5DiscoverModeCustom"
+            },
+            @{
               @"Name" : @"Reset User Defaults",
               @"Action" : @"clearUserDefaults"
               },
@@ -99,17 +105,30 @@
 
 #pragma mark - UI Setup
 
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"Settings";
+    self.title = [@"Settings" uppercaseString];
     self.navigationController.navigationBar.topItem.title = @"";
+    
+    [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor li5_redColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -137,7 +156,19 @@
 {
     SettingViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingCellView"];
 
-    cell.title.text = [[_settings valueForKey:_settings.allKeys[indexPath.section]][indexPath.row] valueForKey:@"Name"];
+    cell.title.text = [[[_settings valueForKey:_settings.allKeys[indexPath.section]][indexPath.row] valueForKey:@"Name"] uppercaseString];
+    
+    NSString *toggleString = [[_settings valueForKey:_settings.allKeys[indexPath.section]][indexPath.row] valueForKey:@"Toggle"];
+    
+    if (toggleString)
+    {
+        UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [switchview setAccessibilityLabel:toggleString];
+        [switchview addTarget:self action:@selector(toggleString:) forControlEvents:UIControlEventTouchUpInside];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [switchview setOn:[userDefaults boolForKey:toggleString]];
+        cell.accessoryView = switchview;
+    }
 
     return cell;
 }
@@ -176,7 +207,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([cell.textLabel.text isEqualToString:@"Logout"])
+    if ([cell.textLabel.text compare:@"Logout" options:NSCaseInsensitiveSearch] == NSOrderedSame)
     {
         [cell.textLabel setFont:[UIFont fontWithName:@"Rubik-Medium" size:18.0]];
         [cell.textLabel setTextColor:[UIColor li5_redColor]];
@@ -208,7 +239,7 @@
                 DDLogDebug(@"viewControllers: %@",navVC.viewControllers);
                 [navVC popToRootViewControllerAnimated:NO];
                 NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                [notificationCenter postNotificationName:@"LogoutSuccessful" object:nil];
+                [notificationCenter postNotificationName:kLogoutSuccessful object:nil];
             }];
         });
     }
@@ -254,6 +285,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:kLi5SwipeLeftExplainerViewPresented];
     [defaults removeObjectForKey:kLi5SwipeDownExplainerViewPresented];
+    [defaults removeObjectForKey:kLi5CategoriesSelectionViewPresented];
     
     [TSMessage setDefaultViewController:self];
     [TSMessage showNotificationWithTitle:@"Success"
@@ -272,6 +304,13 @@
     [TSMessage showNotificationWithTitle:@"Success"
                                 subtitle:@"Cache cleared ok."
                                     type:TSMessageNotificationTypeSuccess];
+}
+
+- (void)toggleString:(UISwitch *)aSwitch
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:[aSwitch isOn] forKey:aSwitch.accessibilityLabel];
+    [self userLogOut];
 }
 
 #pragma mark - OS Actions

@@ -11,6 +11,6 @@
 
 @interface LoginViewController : UIViewController
 
-@property (nonatomic, strong) id pageIndex;
+- (CGPoint)logoPosition;
 
 @end

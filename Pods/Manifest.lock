@@ -1,5 +1,6 @@
 PODS:
-  - BCVideoPlayer (0.1.0)
+  - BCVideoPlayer (0.1.0):
+    - GCDWebServer
   - CocoaLumberjack (2.3.0):
     - CocoaLumberjack/Default (= 2.3.0)
     - CocoaLumberjack/Extensions (= 2.3.0)
@@ -11,12 +12,18 @@ PODS:
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
+  - FXBlurView (1.6.4)
+  - GCDWebServer (3.3.2):
+    - GCDWebServer/Core (= 3.3.2)
+  - GCDWebServer/Core (3.3.2)
+  - Heap (3.0.0)
   - HexColors (2.3.0)
   - JSONModel (1.2.0)
   - Li5Api (0.0.1):
     - JSONModel
     - SSKeychain
   - Masonry (1.0.0)
+  - MMMaterialDesignSpinner (0.2.3)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
@@ -30,8 +37,11 @@ DEPENDENCIES:
   - CocoaLumberjack
   - Crashlytics
   - Fabric
+  - FXBlurView
+  - Heap
   - Li5Api (from `../li5-api-ios`)
   - Masonry
+  - MMMaterialDesignSpinner
   - SDWebImage (~> 3.7)
   - SMPageControl
   - TSMessages (from `git@github.com:KrauseFx/TSMessages.git`)
@@ -50,19 +60,23 @@ CHECKOUT OPTIONS:
     :git: git@github.com:KrauseFx/TSMessages.git
 
 SPEC CHECKSUMS:
-  BCVideoPlayer: 6d401388bf1e0ad58e6aa8ebb76e1930e0863372
+  BCVideoPlayer: e7576942f5d2486af00ffe229d528b3489b5535a
   CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
+  GCDWebServer: 2a375ec42839a41d7187d04e5b688d32fa5c4cd5
+  Heap: b95bc7a21f47ddd470e8ebccefa59c91f4fe1d68
   HexColors: 6ad3947c3447a055a3aa8efa859def096351fe5f
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
   Li5Api: 3f125e1964ff1227e35beba90f52594e6e0176af
   Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
+  MMMaterialDesignSpinner: 55c80b454f7928d0ed789cc3c456fa06bd6a2f16
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SMPageControl: 922892813001cfaf059e86e6801f46a967e9ee29
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   TSMessages: 6e403b790139636c15ab4f51946537095e03e79c
 
-PODFILE CHECKSUM: 6d26641401c4a928f24627e8eefaa3ae79d14dec
+PODFILE CHECKSUM: ddb73516f9b055fd7ca225f15f8a222aec0b1586
 
 COCOAPODS: 1.0.0

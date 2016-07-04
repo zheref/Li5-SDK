@@ -13,5 +13,6 @@
 
 @interface UnlockedViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate>
 
++ (id)unlockedWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
 
 @end

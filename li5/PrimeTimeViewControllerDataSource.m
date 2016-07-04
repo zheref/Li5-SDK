@@ -62,11 +62,11 @@
     {
         UIStoryboard *discoverStoryboard = [UIStoryboard storyboardWithName:@"DiscoverViews" bundle:[NSBundle mainBundle]];
         LastPageViewController *lastVC = [discoverStoryboard instantiateViewControllerWithIdentifier:@"LastPageView"];
-        [lastVC setIndex:index];
+        [lastVC setScrollPageIndex:index];
         return lastVC;
     }
     
-    return [[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] andIndex:index forContext:kProductContextDiscover];
+    return [[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] forContext:kProductContextDiscover];
 }
 
 - (NSUInteger)numberOfProducts
@@ -74,11 +74,17 @@
     return [self.products count];
 }
 
+- (BOOL)isExpired
+{
+    //TODO implement expiration policy
+    return YES;
+}
+
 #pragma mark - UIPageViewControllerDataSource
 
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+- (UIViewController *)viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    NSUInteger index = ((ProductPageViewController *)viewController).index;
+    NSUInteger index = viewController.scrollPageIndex;
 
     if ((index == 0) || (index == NSNotFound))
     {
@@ -90,11 +96,11 @@
     }
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)thisPageViewController viewControllerAfterViewController:(UIViewController *)viewController
+- (UIViewController *)viewControllerAfterViewController:(UIViewController *)viewController
 {
     if ([viewController isKindOfClass:[ProductPageViewController class]])
     {
-        NSUInteger index = ((ProductPageViewController *)viewController).index;
+        NSUInteger index = viewController.scrollPageIndex;
         if ((index >= [self numberOfProducts]) || (index == NSNotFound))
         {
             return nil;

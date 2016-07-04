@@ -29,7 +29,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-Zs-D1V">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-Zs-D1V">
                                 <rect key="frame" x="554" y="39" width="26" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="26" id="L1o-6c-erG"/>
@@ -49,7 +49,7 @@
                                     <segue destination="AYl-hu-63c" kind="show" identifier="showSettings" id="Zce-Af-yLg"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="CaO-KW-zDU">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Launch" translatesAutoresizingMaskIntoConstraints="NO" id="CaO-KW-zDU">
                                 <rect key="frame" x="236" y="50" width="128" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -72,8 +72,8 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jennifer Doe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="my7-U8-C6p">
-                                <rect key="frame" x="225" y="193" width="150" height="29"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fetching data..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="my7-U8-C6p">
+                                <rect key="frame" x="210" y="193" width="181" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="CpG-Yd-6bh"/>
                                 </constraints>
@@ -466,7 +466,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="avatar" width="256" height="256"/>
+        <image name="Launch" width="750" height="1334"/>
         <image name="decorations" width="101" height="87"/>
         <image name="heart_black" width="23" height="19"/>
         <image name="heart_white" width="23" height="19"/>
