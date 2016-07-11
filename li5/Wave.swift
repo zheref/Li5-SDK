@@ -94,14 +94,14 @@ public class Wave : UIView {
         
         if (self.shouldAnimate)
         {
-            UIView.animateWithDuration(2, animations: {
+            UIView.animateWithDuration(1, delay: 0, options: .AllowUserInteraction, animations: {
                 self.blurEffectView?.alpha = 0
                 self.alpha = 0
-            }) { (t) in
+                }, completion: { (t) in
                 self.shouldAnimate = false;
                 self.blurEffectView?.removeFromSuperview()
                 self.blurEffectView = nil;
-            }
+            })
         }
     }
     
@@ -126,7 +126,7 @@ public class Wave : UIView {
         let colorLineWidth = self.frame.width / 28;
         let emptyLineWidth = colorLineWidth * 0.8;
         var start = -(3 * self.frame.width);
-        let color = UIColor(red:0.85, green:0.05, blue:0.14, alpha:0.7)
+        let color = UIColor(red:0.34, green:0.34, blue:0.34, alpha:0.1)
         
         var i = 0;
         var delta : CGFloat = 0.00;
@@ -176,14 +176,12 @@ public class Wave : UIView {
             }
         }
         
-        UIView.animateWithDuration(1, animations: {
-            self.blurEffectView!.alpha = 0.75
+        UIView.animateWithDuration(1, delay: 0, options: .AllowUserInteraction, animations: {
+            self.blurEffectView!.alpha = 0.70
             self.alpha = 1;
             
-        }) { (t) in
-            
-        }
-        
+            }, completion: { (t) in      
+        })
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let x = self.frame.origin.x;

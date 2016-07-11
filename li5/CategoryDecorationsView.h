@@ -8,7 +8,7 @@
 
 #import "Li5View.h"
 
-IB_DESIGNABLE
+//IB_DESIGNABLE
 @interface CategoryDecorationsView : Li5View
 
 @end

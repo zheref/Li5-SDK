@@ -389,7 +389,7 @@ static const CGFloat kCAHideControls = 4.0;
 {
     DDLogDebug(@"%p",self);
     [self removeObservers];
-    _extendedVideo = nil;
+    [_extendedVideo pauseAndDestroy];
 }
 
 @end

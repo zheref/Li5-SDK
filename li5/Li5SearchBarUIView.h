@@ -10,7 +10,7 @@
 
 @protocol Li5SearchBarUIViewDelegate;
 
-IB_DESIGNABLE
+//IB_DESIGNABLE
 @interface Li5SearchBarUIView : Li5View <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, weak) UIViewController<Li5SearchBarUIViewDelegate> *delegate;

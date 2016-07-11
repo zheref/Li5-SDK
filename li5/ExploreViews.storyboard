@@ -98,7 +98,7 @@
                                         <gestureRecognizers/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.81960785388946533" green="0.18823529779911041" blue="0.22745098173618317" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="PPb-mf-q6A" firstAttribute="top" secondItem="wZD-SX-JoU" secondAttribute="top" constant="5" id="8SB-6w-qlL"/>
                                     <constraint firstAttribute="trailing" secondItem="PPb-mf-q6A" secondAttribute="trailing" constant="5" id="ABS-Yu-eVd"/>

@@ -29,6 +29,10 @@
     ],
     "JSONModel": [
 
+    ],
+    "AFNetworking": [
+
     ]
-  }
+  },
+  "resources": "Api/li5.cer"
 }

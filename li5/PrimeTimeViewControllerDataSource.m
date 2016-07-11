@@ -13,6 +13,8 @@
 
 @interface PrimeTimeViewControllerDataSource ()
 
+@property (nonatomic, strong) NSDate *expiresAt;
+@property (nonatomic, strong) NSString *endOfPrimeTime;
 @property (nonatomic, strong) NSMutableArray<Product *> *products;
 
 @end
@@ -32,13 +34,15 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
       //Background Thread
       Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-      [li5 requestDiscoverProductsWithCompletion:^(NSError *error, NSArray<Product *> *products) {
-        DDLogVerbose(@"Total products: %lu", (unsigned long)products.count);
+      [li5 requestDiscoverProductsWithCompletion:^(NSError *error, Products *products) {
+        DDLogVerbose(@"Total products: %lu", (unsigned long)products.data.count);
         if (error == nil)
         {
-            if (products.count > 0)
+            if (products.data.count > 0)
             {
-                self.products = [NSMutableArray arrayWithArray:products];
+                self.products = [NSMutableArray arrayWithArray:products.data];
+                self.expiresAt = products.expiresAt;
+                self.endOfPrimeTime = products.endOfPrimeTime;
             }
         }
         else
@@ -63,6 +67,7 @@
         UIStoryboard *discoverStoryboard = [UIStoryboard storyboardWithName:@"DiscoverViews" bundle:[NSBundle mainBundle]];
         LastPageViewController *lastVC = [discoverStoryboard instantiateViewControllerWithIdentifier:@"LastPageView"];
         [lastVC setScrollPageIndex:index];
+        [lastVC setLastVideoURL:self.endOfPrimeTime];
         return lastVC;
     }
     
@@ -76,8 +81,7 @@
 
 - (BOOL)isExpired
 {
-    //TODO implement expiration policy
-    return YES;
+    return [[NSDate date] compare:self.expiresAt] == NSOrderedDescending;
 }
 
 #pragma mark - UIPageViewControllerDataSource

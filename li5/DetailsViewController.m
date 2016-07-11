@@ -67,8 +67,13 @@
     self.productTitleLabel.text = self.product.title;
     self.productVendorLabel.text = [self.product.brand uppercaseString];
 
+    NSString *cleanBody = [self.product.body stringByReplacingOccurrencesOfString:@"[\\t\\n]+"
+                                                        withString:@" "
+                                                           options:NSRegularExpressionSearch
+                                                             range:NSMakeRange(0, self.product.body.length)];
+
     NSString *readMoreText = @" READ MORE";
-    NSString *productDescription = [self.product.body stringByAppendingString:readMoreText];
+    NSString *productDescription = [cleanBody stringByAppendingString:readMoreText];
 
     NSMutableAttributedString *bodyText = [[NSMutableAttributedString alloc] initWithString:productDescription
                                                                                  attributes:@{

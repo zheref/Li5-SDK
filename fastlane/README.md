@@ -16,6 +16,16 @@ Installs XCode plugin to disable fix it!
 fastlane ios match
 ```
 Installs all required provisionin profiles and certificates
+### ios add_device
+```
+fastlane ios add_device
+```
+
+### ios refresh_profiles
+```
+fastlane ios refresh_profiles
+```
+
 ### ios test
 ```
 fastlane ios test
@@ -24,6 +34,20 @@ Runs all the tests
 ### ios beta
 ```
 fastlane ios beta
+```
+Submit a new Beta Build to Apple TestFlight
+
+This will also make sure the profile is up to date
+### ios build
+```
+fastlane ios build
+```
+Submit a new Beta Build to Apple TestFlight
+
+This will also make sure the profile is up to date
+### ios crashlytics
+```
+fastlane ios crashlytics
 ```
 Submit a new Beta Build to Apple TestFlight
 

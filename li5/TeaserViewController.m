@@ -6,6 +6,7 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 @import BCVideoPlayer;
+@import pop;
 
 #import "ShapesHelper.h"
 #import "TeaserViewController.h"
@@ -34,6 +35,10 @@
     
     BOOL __hasUnlockedVideo;
     BOOL __hasAppeared;
+    
+    double __startPositionX;
+    double __endPositionX;
+    double __space;
 }
 
 @property (assign, nonatomic) ProductContext pContext;
@@ -45,6 +50,9 @@
 @property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrow;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelLeadingConstraint;
 
 @property (strong, nonatomic) Wave *waveView;
 
@@ -124,9 +132,16 @@
         self.logoView.hidden = TRUE;
     }
     
+    //Category Animations presets
+    __startPositionX = (self.view.bounds.size.width / 2.0) - (self.categoryLabel.bounds.size.width / 2.0);
+    __endPositionX = self.categoryImage.layer.position.x; //endPositionX
+    __space = (__endPositionX - __startPositionX);
+    
     _waveView = [[Wave alloc] initWithView:self.view];
-    [self.view addSubview:_waveView];
     [_waveView startAnimating];
+    
+    self.categoryLabel.alpha = 0.0;
+    self.categoryImage.alpha = 0.0;
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
     
@@ -199,7 +214,6 @@
     if (self.teaserPlayer.status == AVPlayerStatusReadyToPlay)
     {
         [_waveView stopAnimating];
-        [_waveView removeFromSuperview];
         
         [self.playerTimer setPlayer:self.teaserPlayer];
         
@@ -417,16 +431,8 @@
 
 - (void)removeAnimations
 {
-//    if ([removableItems count] > 0)
-//    {
-//        DDLogVerbose(@"removing animations");
-//        [removableItems makeObjectsPerformSelector:@selector(removeAllAnimations)];
-//        [removableItems makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-//        [removableItems removeAllObjects];
-//        progressLayer = nil;
-//        timeText = nil;
-//        [self.view setNeedsDisplay];
-//    }
+    self.categoryImage.alpha = 0.0;
+    self.categoryLabel.alpha = 0.0;
 }
 
 - (void)renderAnimations
@@ -442,6 +448,127 @@
 
 - (void)__renderCategory
 {
+    double totalDuration = 1.2;
+    double relativeDuration = 0.1 / totalDuration;
+    
+    CGPoint currentPosition = self.categoryImage.layer.position;
+    currentPosition.x = __startPositionX;
+    self.categoryImage.layer.position = currentPosition;
+    
+    //Category Image animation
+    [UIView animateKeyframesWithDuration:totalDuration delay:0.0 options:UIViewKeyframeAnimationOptionCalculationModeCubicPaced animations:^{
+        
+        //0-0.1
+        [UIView addKeyframeWithRelativeStartTime:0*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            self.categoryImage.alpha = 1.0;
+            
+            self.categoryImage.transform = CGAffineTransformScale(CGAffineTransformMakeRotation(M_PI*.185), 0.2, 0.2);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:1*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            self.categoryImage.transform = CGAffineTransformScale(CGAffineTransformMakeRotation(M_PI*.125), 0.2, 0.2);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:2*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 1.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+
+            self.categoryImage.transform = CGAffineTransformScale(CGAffineTransformMakeRotation(M_PI*.125), 0.4, 0.4);
+            
+        }];
+        [UIView addKeyframeWithRelativeStartTime:3*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 2.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+            
+            self.categoryImage.transform = CGAffineTransformScale(CGAffineTransformMakeRotation(M_PI*.125), 0.6, 0.6);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:4*relativeDuration relativeDuration:relativeDuration animations:^{
+
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 3.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+
+            self.categoryImage.transform = CGAffineTransformScale(CGAffineTransformMakeRotation(M_PI*.125), 0.8, 0.8);
+            
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:5*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 4.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+            
+            self.categoryImage.transform = CGAffineTransformScale(CGAffineTransformMakeRotation(M_PI*.125), 1.0, 1.0);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:6*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 5.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+            
+            self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*0.0);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:7*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 6.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+
+            self.categoryImage.transform = CGAffineTransformMakeRotation(-M_PI*.185);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:8*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 7.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+
+            self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.0);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:9*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 8.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+
+            self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.075);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:10*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 9.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+
+            self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.185);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:11*relativeDuration relativeDuration:relativeDuration animations:^{
+            
+            CGPoint currentPosition = self.categoryImage.layer.position;
+            currentPosition.x = __startPositionX+(__space * 10.0 / 10.0);
+            self.categoryImage.layer.position = currentPosition;
+
+            self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.105);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:12*relativeDuration relativeDuration:2*relativeDuration animations:^{
+            //Category Label animation
+            self.categoryLabel.alpha = 1.0;
+        }];
+        
+    }completion:^(BOOL finished) {
+    }];
 }
 
 - (void)__renderMore
@@ -471,7 +598,7 @@
 {
     DDLogDebug(@"%p",self);
     [self removeObservers];
-    _teaserPlayer = nil;
+    [_teaserPlayer pauseAndDestroy];
 }
 
 @end

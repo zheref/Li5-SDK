@@ -12,7 +12,8 @@
 
 + (UIColor *)li5_redColor
 {
-    return [UIColor colorWithRed:236.0f / 255.0f green:26.0f / 255.0f blue:61.0f / 255.0f alpha:1.0f];
+//    return [UIColor colorWithRed:236.0f / 255.0f green:26.0f / 255.0f blue:61.0f / 255.0f alpha:1.0f];
+    return [UIColor colorWithRed:255.0f / 255.0f green:0.0f / 255.0f blue:38.0f / 255.0f alpha:1.0f];
 }
 
 + (UIColor *)li5_yellowColor

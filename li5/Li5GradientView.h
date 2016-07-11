@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-IB_DESIGNABLE
+//IB_DESIGNABLE
 @interface Li5GradientView : UIView
 
 @property (nonatomic, strong) IBInspectable UIColor *topColor;

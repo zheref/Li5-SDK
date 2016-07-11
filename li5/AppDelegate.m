@@ -103,8 +103,11 @@
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self.window.rootViewController beginAppearanceTransition:NO animated:NO];
-    [self.window.rootViewController endAppearanceTransition];
+    if ([self.navController.topViewController isViewLoaded])
+    {
+        [self.window.rootViewController beginAppearanceTransition:NO animated:NO];
+        [self.window.rootViewController endAppearanceTransition];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -128,6 +131,9 @@
     DDLogDebug(@"");
     
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self.window.rootViewController beginAppearanceTransition:NO animated:NO];
+    [self.window.rootViewController endAppearanceTransition];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -135,6 +141,9 @@
     DDLogDebug(@"");
     
     [_flowController showInitialScreen];
+    
+    [self.window.rootViewController beginAppearanceTransition:YES animated:NO];
+    [self.window.rootViewController endAppearanceTransition];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

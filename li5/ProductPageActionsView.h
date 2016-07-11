@@ -9,7 +9,7 @@
 
 #import "Li5View.h"
 
-IB_DESIGNABLE
+//IB_DESIGNABLE
 @interface ProductPageActionsView : Li5View
 
 @property (nonatomic,weak) Product *product;

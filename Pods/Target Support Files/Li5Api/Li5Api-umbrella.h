@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 
+#import "Api.h"
 #import "Li5ApiHandler.h"
 #import "Categories.h"
 #import "Category.h"

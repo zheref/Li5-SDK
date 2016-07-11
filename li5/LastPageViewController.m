@@ -25,8 +25,8 @@
 
 @property (weak, nonatomic) IBOutlet UIView *staticView;
 
-@property (nonatomic, strong) AVPlayer *player;
-@property (nonatomic, strong) AVPlayerLayer *playerLayer;
+@property (nonatomic, strong) BCPlayer *player;
+@property (nonatomic, strong) BCPlayerLayer *playerLayer;
 @property (nonatomic, strong) AVAudioPlayer* audioPlayer;
 
 @end
@@ -70,11 +70,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    NSString *lastVideoURL = [[NSBundle mainBundle] pathForResource:@"end_of_prime_time" ofType:@"mp4"];
-//    _player = [[BCPlayer alloc] initWithUrl:[NSURL fileURLWithPath:lastVideoURL] bufferInSeconds:50.0 priority:BCPriorityHigh delegate:self];
-//    _playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_player andFrame:self.view.bounds];
-    _player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:lastVideoURL]];
-    _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+    _player = [[BCPlayer alloc] initWithUrl:[NSURL URLWithString:self.lastVideoURL] bufferInSeconds:50.0 priority:BCPriorityHigh delegate:self];
+    _playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_player andFrame:self.view.bounds];
+    //NSString *lastVideoURL = [[NSBundle mainBundle] pathForResource:@"end_of_prime_time" ofType:@"mp4"];
+//    _player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:self.lastVideoURL]];
+//    _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     _playerLayer.frame = self.view.bounds;
     _playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     

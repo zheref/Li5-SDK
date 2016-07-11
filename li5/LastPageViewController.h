@@ -13,4 +13,6 @@
 
 @interface LastPageViewController : ProductPageViewController <UIGestureRecognizerDelegate,DisplayableProtocol, BCPlayerDelegate>
 
+@property (nonatomic, strong) NSString *lastVideoURL;
+
 @end

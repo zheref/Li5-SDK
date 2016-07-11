@@ -10,7 +10,7 @@
 
 @protocol ProductsListViewDelegate;
 
-IB_DESIGNABLE
+//IB_DESIGNABLE
 @interface ProductsListView : Li5View <UICollectionViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, assign) IBInspectable NSInteger columns;

@@ -14,6 +14,7 @@ abstract_target 'Li5Base' do
   pod "MMMaterialDesignSpinner"
   pod 'FXBlurView'
   pod 'Heap'
+  pod 'pop', '~> 1.0'
   
   target 'li5' do
     pod 'Fabric'

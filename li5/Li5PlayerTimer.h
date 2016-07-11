@@ -8,7 +8,7 @@
 
 @import AVFoundation;
 
-IB_DESIGNABLE
+//IB_DESIGNABLE
 @interface Li5PlayerTimer : UIView
 
 @property (nonatomic, weak) AVPlayer *player;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-IB_DESIGNABLE
+//IB_DESIGNABLE
 @interface Li5BlurredView : UIView
 
 @property (nonatomic, assign) IBInspectable CGFloat blurSize;

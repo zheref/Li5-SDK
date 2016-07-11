@@ -14,7 +14,7 @@
 
 @end
 
-IB_DESIGNABLE
+//IB_DESIGNABLE
 @interface CardUIView : Li5View
 
 @property (nonatomic, weak) IBOutlet id<CardUIViewDelegate> delegate;
