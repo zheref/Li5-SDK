@@ -7,6 +7,7 @@
 //
 
 @import AVFoundation;
+@import BCVideoPlayer;
 
 #import "PrimeTimeViewController.h"
 #import "PrimeTimeViewControllerDataSource.h"
@@ -162,7 +163,7 @@
 - (void)__startPrimeTime
 {
     // Create page view controller
-    UIViewController *viewController = [(PrimeTimeViewControllerDataSource *)self.dataSource productPageViewControllerAtIndex:startIndex];
+    UIViewController *viewController = [(PrimeTimeViewControllerDataSource *)self.dataSource productPageViewControllerAtIndex:startIndex withPriority:BCPriorityHigh];
     [viewController setScrollPageIndex:startIndex];
     [self setViewControllers:@[viewController]];
 }

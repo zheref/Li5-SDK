@@ -74,6 +74,13 @@
     return [[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] forContext:kProductContextDiscover];
 }
 
+- (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index withPriority:(BCPriority)priority
+{
+    ProductPageViewController *controller = [self productPageViewControllerAtIndex:index];
+    [controller setPriority:priority];
+    return controller;
+}
+
 - (NSUInteger)numberOfProducts
 {
     return [self.products count];

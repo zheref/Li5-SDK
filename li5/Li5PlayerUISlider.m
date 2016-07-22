@@ -7,6 +7,7 @@
 //
 
 #import "Li5PlayerUISlider.h"
+#import "SliderFluidView.h"
 
 @interface Li5PlayerUISlider ()
 {
@@ -17,7 +18,8 @@
 }
 
 //Slider Variables
-@property (nonatomic, strong) CALayer *progressView;
+//@property (nonatomic, strong) CALayer *progressView;
+@property (nonatomic, strong) SliderFluidView *progressView;
 @property (nonatomic, assign) CGFloat currentProgress;
 @property (nonatomic, strong) UILabel *timeLabel;
 
@@ -64,13 +66,27 @@
 - (void)initialize
 {
     self.backgroundColor = [[UIColor li5_charcoalColor] colorWithAlphaComponent:0.25];
-
+    self.clipsToBounds = YES;
+    
     //Progress View
-    _progressView = [CALayer layer];
-    _progressView.backgroundColor = [UIColor li5_yellowColor].CGColor;
-    _progressView.anchorPoint = CGPointZero;
-    _progressView.position = CGPointZero;
-    [self.layer addSublayer:self.progressView];
+//    _progressView = [CALayer layer];
+//    _progressView.backgroundColor = [UIColor li5_yellowColor].CGColor;
+//    _progressView.anchorPoint = CGPointZero;
+//    _progressView.position = CGPointZero;
+//    [self.layer addSublayer:self.progressView];
+    _progressView = [[SliderFluidView alloc] initWithFrame:self.bounds];
+    [self addSubview:_progressView];
+//    _progressView = [[BAFluidView alloc] initWithFrame:self.bounds];
+//    _progressView.fillAutoReverse = NO;
+//    _progressView.fillRepeatCount = 1;
+//    _progressView.maxAmplitude = 50;
+//    _progressView.minAmplitude = 20;
+//    _progressView.strokeColor = [UIColor li5_yellowColor];
+//    _progressView.fillColor = [UIColor li5_yellowColor];
+//    // We rotate the frame to make the animation horizontally
+//    _progressView.transform = CGAffineTransformMakeRotation(M_PI_2);
+//    _progressView.frame = self.bounds;
+//    [self addSubview:_progressView];
 
     _timeLabel = [UILabel new];
     [_timeLabel setTextColor:[UIColor whiteColor]];
@@ -190,27 +206,28 @@
     if (percentage <0) percentage = 0;
     if (percentage > 1) percentage = 1;
     
-    CGRect currentProgressRect = self.progressView.frame;
-    CGRect endProgressRect = self.frame;
-    endProgressRect.size.width = percentage * endProgressRect.size.width;
-
-    self.progressView.bounds = endProgressRect;
+//    CGRect currentProgressRect = self.progressView.frame;
+//    CGRect endProgressRect = self.frame;
+//    endProgressRect.size.width = percentage * endProgressRect.size.width;
+//
+//    self.progressView.bounds = endProgressRect;
+    [self.progressView.fluidView fillTo:@(percentage)];
     _currentProgress = percentage;
     
-    if (animated)
-    {
-        CABasicAnimation *extendToRight = [CABasicAnimation animationWithKeyPath:@"bounds"];
-        extendToRight.fromValue = [NSValue valueWithCGRect:currentProgressRect];
-        extendToRight.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-        extendToRight.duration = __timeInterval;
-        extendToRight.delegate = self;
-        extendToRight.removedOnCompletion = NO;
-        extendToRight.fillMode = kCAFillModeForwards;
-        extendToRight.autoreverses = NO;
-
-        [self.progressView removeAllAnimations];
-        [self.progressView addAnimation:extendToRight forKey:@"scroll"];
-    }
+//    if (animated)
+//    {
+//        CABasicAnimation *extendToRight = [CABasicAnimation animationWithKeyPath:@"bounds"];
+//        extendToRight.fromValue = [NSValue valueWithCGRect:currentProgressRect];
+//        extendToRight.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+//        extendToRight.duration = __timeInterval;
+//        extendToRight.delegate = self;
+//        extendToRight.removedOnCompletion = NO;
+//        extendToRight.fillMode = kCAFillModeForwards;
+//        extendToRight.autoreverses = NO;
+//
+//        [self.progressView removeAllAnimations];
+//        [self.progressView addAnimation:extendToRight forKey:@"scroll"];
+//    }
 
     return _currentProgress;
 }

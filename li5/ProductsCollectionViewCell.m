@@ -7,6 +7,7 @@
 //
 
 #import "ProductsCollectionViewCell.h"
+#import "ImageHelper.h"
 
 @interface ProductsCollectionViewCell ()
 {
@@ -42,6 +43,7 @@
     [super prepareForReuse];
     [[_videoView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self removeObservers];
+    [_previewVideoPlayer pauseAndDestroy];
     _previewVideoPlayer = nil;
     _previewVideoLayer = nil;
 }
@@ -53,22 +55,14 @@
     
     self.orderStatus.text = self.order.status;
     
-//    if (!_previewVideoPlayer)
-//    {
-//        NSURL *videoPreviewURL = [NSURL URLWithString:self.product.videoPreview];
-//        _previewVideoPlayer = [[BCPlayer alloc] initWithUrl:videoPreviewURL bufferInSeconds:10.0 priority:BCPriorityHigh delegate:self];
-//        _previewVideoPlayer.muted = YES;
-//        _previewVideoPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
-//        _previewVideoLayer = [AVPlayerLayer playerLayerWithPlayer:_previewVideoPlayer];
-//        _previewVideoLayer.frame = self.bounds;
-//        _previewVideoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-//        [self.videoView.layer addSublayer:_previewVideoLayer];
-//    }
-
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.videoView.bounds];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [imageView sd_setImageWithURL:[NSURL URLWithString:self.product.trailerThumbnail]];
-    [self.videoView addSubview:imageView];
+    NSURL *url = [NSURL URLWithString:self.product.videoPreview];
+    __weak ProductsCollectionViewCell *welf = self;
+    [[[ImageHelper alloc] init] getImage:url completationHandler:^(NSData * _Nullable data) {
+        
+        YYImage *image = [YYImage imageWithData:data];
+        YYAnimatedImageView *imageView = [[YYAnimatedImageView alloc] initWithImage:image];
+        [welf.videoView addSubview:imageView];
+    }];
     
     NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
     

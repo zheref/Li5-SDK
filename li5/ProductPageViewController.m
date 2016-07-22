@@ -49,6 +49,13 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)setPriority:(BCPriority)priority
+{
+    [((VideoViewController*)self.viewControllers.firstObject) setPriority:priority];
+}
+
+#pragma mark - OS Actions
+
 - (void)dealloc
 {
     DDLogDebug(@"%p",self);

@@ -15,6 +15,8 @@ abstract_target 'Li5Base' do
   pod 'FXBlurView'
   pod 'Heap'
   pod 'pop', '~> 1.0'
+  pod 'YYImage'
+  pod 'YYImage/WebP'
   
   target 'li5' do
     pod 'Fabric'

@@ -8,9 +8,10 @@
 @import Li5Api;
 
 #import "Li5View.h"
+#import "Li5-Swift.h"
 
 //IB_DESIGNABLE
-@interface ProductPageActionsView : Li5View
+@interface ProductPageActionsView : Li5View<HeartAnimationViewDelegate>
 
 @property (nonatomic,weak) Product *product;
 

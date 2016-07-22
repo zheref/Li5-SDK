@@ -122,6 +122,11 @@
 
 #pragma mark - User Actions
 
+- (void)setPriority:(BCPriority)priority
+{
+    [teaserViewController setPriority:priority];
+}
+
 - (void)handleLongTap:(UITapGestureRecognizer *)sender
 {
     DDLogVerbose(@"");

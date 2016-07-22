@@ -97,6 +97,13 @@
     return [[ProductPageViewController alloc] initWithProduct:[_loves objectAtIndex:index] forContext:kProductContextSearch];
 }
 
+- (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index withPriority:(BCPriority)priority
+{
+    ProductPageViewController *controller = [self productPageViewControllerAtIndex:index];
+    [controller setPriority:priority];
+    return controller;
+}
+
 - (UIViewController *)viewControllerBeforeViewController:(UIViewController *)viewController
 {
     return [super viewControllerBeforeViewController:viewController];

@@ -9,10 +9,11 @@
 @import AudioToolbox;
 
 #import "ProductPageActionsView.h"
+#import "Li5-Swift.h"
 
 @interface ProductPageActionsView ()
 
-@property (weak, nonatomic) IBOutlet UIButton *loveButton;
+@property (weak, nonatomic) IBOutlet HeartAnimationView *loveButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentsButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 
@@ -58,6 +59,8 @@
 - (void)initialize
 {
     [super initialize];
+    
+    [self.loveButton setDelegate:self];
 }
 
 #pragma mark - Public Methods
@@ -95,20 +98,20 @@
     [[self parentViewController] presentViewController:activityVC animated:YES completion:nil];
 }
 
-- (IBAction)loveProduct:(UIButton *)button
+- (void)didTapButton
 {
     DDLogVerbose(@"Love Button Pressed");
-    if (button.selected)
+    if (self.loveButton.selected)
     {
         self.product.isLoved = false;
-        [button setSelected:false];
+        [self.loveButton setSelected:false];
         self.loveCounter.text = [@([self.loveCounter.text integerValue] - 1) stringValue];
         
         [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil)
             {
                 self.product.isLoved = true;
-                [button setSelected:true];
+                [self.loveButton setSelected:true];
                 self.loveCounter.text = [@([self.loveCounter.text integerValue] + 1) stringValue];
             }
         }];
@@ -116,7 +119,7 @@
     else
     {
         self.product.isLoved = true;
-        [button setSelected:true];
+        [self.loveButton setSelected:true];
         self.loveCounter.text = [@([self.loveCounter.text integerValue] + 1) stringValue];
         
         //Vibrate sound
@@ -126,7 +129,7 @@
             if (error != nil)
             {
                 self.product.isLoved = false;
-                [button setSelected:false];
+                [self.loveButton setSelected:false];
                 self.loveCounter.text = [@([self.loveCounter.text integerValue] - 1) stringValue];
             }
         }];

@@ -15,6 +15,7 @@
 - (void)fetchMoreProductsWithCompletion:(void (^)(NSError *error))completion;
 - (NSUInteger)numberOfProducts;
 - (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index;
+- (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index withPriority:(BCPriority)priority;
 
 - (BOOL)isExpired;
 

@@ -18,7 +18,6 @@
 #import "ProductPageActionsView.h"
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
-#import "Li5-Swift.h"
 
 #pragma mark - Class Definitions
 
@@ -161,6 +160,14 @@
     [self updateSecondsWatched];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewWillDisappear:animated];
+    
+    __hasAppeared = NO;
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     DDLogDebug(@"");
@@ -208,6 +215,11 @@
 }
 
 #pragma mark - Displayable Protocol
+
+- (void)setPriority:(BCPriority)priority
+{
+    [self.teaserPlayer changePriority:priority];
+}
 
 - (void)show
 {
@@ -287,8 +299,9 @@
     DDLogVerbose(@"");
     if (__hasUnlockedVideo)
     {
-        UIViewController *modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
+        TapAndHoldViewController *modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
         modalView.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        modalView.gestureDelegate = self;
         
         [self presentViewController:modalView animated:NO completion:^{
             //Nothing for now
@@ -300,6 +313,12 @@
 {
     if (sender.state == UIGestureRecognizerStateBegan)
     {
+        //if a VC is presented, dismiss it
+        if (self.presentedViewController != nil)
+        {
+            [self dismissViewControllerAnimated:NO completion:nil];
+        }
+        
         //Long Tap transparent Background Rectangle
         CGFloat animationDuration = 0.5f;
         CGFloat fromRadius = 50.0f;
@@ -455,6 +474,10 @@
     currentPosition.x = __startPositionX;
     self.categoryImage.layer.position = currentPosition;
     
+    NSString *catName = self.categoryLabel.text;
+    [self.categoryLabel setText:@""];
+    self.categoryLabel.alpha = 1.0;
+    
     //Category Image animation
     [UIView animateKeyframesWithDuration:totalDuration delay:0.0 options:UIViewKeyframeAnimationOptionCalculationModeCubicPaced animations:^{
         
@@ -562,12 +585,22 @@
             self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.105);
         }];
         
-        [UIView addKeyframeWithRelativeStartTime:12*relativeDuration relativeDuration:2*relativeDuration animations:^{
-            //Category Label animation
-            self.categoryLabel.alpha = 1.0;
-        }];
-        
     }completion:^(BOOL finished) {
+        
+        //Category Label animation
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
+                       ^{
+                           for (int i = 0; i < catName.length; i++)
+                           {
+                               dispatch_async(dispatch_get_main_queue(),
+                                              ^{
+                                                  [self.categoryLabel setText:[NSString stringWithFormat:@"%@%C", self.categoryLabel.text, [catName characterAtIndex:i]]];
+                                              });
+                               
+                               [NSThread sleepForTimeInterval:0.02];
+                           }
+                       });
+        
     }];
 }
 

@@ -116,7 +116,6 @@
 - (void)presentSwipeDownViewIfNeeded
 {
     DDLogVerbose(@"");
-    [_audioPlayer play];
     [self removeObservers];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:kLi5SwipeDownExplainerViewPresented])
@@ -125,6 +124,7 @@
         SwipeDownToExploreViewController *explainer= [storyboard instantiateViewControllerWithIdentifier:@"SwipeDownExplainerView"];
         explainer.modalPresentationStyle = UIModalPresentationCurrentContext;
         [explainer setSearchInteractor:searchInteractor];
+        [_audioPlayer play];
         __weak typeof(self) welf = self;
         [self presentViewController:explainer animated:NO completion:^{
             __strong typeof(welf) swelf = welf;
@@ -133,6 +133,7 @@
     }
     else
     {
+        [_audioPlayer play];
         [self hideVideo];
     }
 }
@@ -185,7 +186,7 @@
         }
         else
         {
-            [self presentSwipeDownViewIfNeeded];
+//            [self presentSwipeDownViewIfNeeded];
         }
 //    }
 }

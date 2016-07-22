@@ -9,7 +9,7 @@
 @import Li5Api;
 @import BCVideoPlayer;
 @import AVFoundation;
-
+@import YYImage;
 #import "Li5GradientView.h"
 
 //IB_DESIGNABLE

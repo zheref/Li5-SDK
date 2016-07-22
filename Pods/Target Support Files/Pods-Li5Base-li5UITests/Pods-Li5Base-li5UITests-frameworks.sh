@@ -98,6 +98,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SMPageControl/SMPageControl.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SSKeychain/SSKeychain.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TSMessages/TSMessages.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/YYImage/YYImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/pop/pop.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -115,5 +116,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SMPageControl/SMPageControl.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SSKeychain/SSKeychain.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TSMessages/TSMessages.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/YYImage/YYImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/pop/pop.framework"
 fi

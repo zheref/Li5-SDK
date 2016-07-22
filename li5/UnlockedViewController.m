@@ -13,6 +13,7 @@
 #import "ProductPageViewController.h"
 #import "ProductPageActionsView.h"
 #import "Li5VolumeView.h"
+#import "Li5-Swift.h"
 
 static const CGFloat sliderHeight = 50.0;
 static const CGFloat kCAHideControls = 4.0;
@@ -36,6 +37,8 @@ static const CGFloat kCAHideControls = 4.0;
 @property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
 @property (weak, nonatomic) IBOutlet UIButton *muteButton;
 @property (weak, nonatomic) IBOutlet UIImageView *arrow;
+
+@property (strong, nonatomic) Wave *waveView;
 
 @end
 
@@ -83,6 +86,9 @@ static const CGFloat kCAHideControls = 4.0;
     
     [self __renderMore];
     
+    _waveView = [[Wave alloc] initWithView:self.view];
+    [_waveView startAnimating];
+    
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
 }
 
@@ -128,6 +134,8 @@ static const CGFloat kCAHideControls = 4.0;
             } completion:^(BOOL finished) {
                 __renderingAnimations = NO;
             }];
+            
+            [self setupTimers];
         }
     }
 }
@@ -208,15 +216,24 @@ static const CGFloat kCAHideControls = 4.0;
 
 - (void)show
 {
-    if (self.extendedVideo.status == AVPlayerStatusReadyToPlay && __hasAppeared)
+    if (self.extendedVideo.status == AVPlayerStatusReadyToPlay)
     {
-        DDLogVerbose(@"%@.", [[(AVURLAsset *)self.extendedVideo.currentItem.asset URL] lastPathComponent]);
-
-        [self.extendedVideo play];
+        DDLogVerbose(@"");
+        [_waveView stopAnimating];
+        
         [self.seekSlider setPlayer:self.extendedVideo];
         
-        [self setupObservers];
-        [self renderAnimations];
+        if (__hasAppeared)
+        {
+            [self.extendedVideo play];
+            
+            [self setupObservers];
+            [self renderAnimations];
+        }
+    }
+    else
+    {
+        [self.extendedVideo changePriority:BCPriorityHigh];
     }
 }
 
@@ -293,6 +310,7 @@ static const CGFloat kCAHideControls = 4.0;
         if (distance.y > 15)
         {
             [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:recognizer waitUntilDone:NO];
+            [self.extendedVideo changePriority:BCPriorityNormal];
             [self.extendedVideo seekToTime:kCMTimeZero];
             [self.muteButton setSelected:NO];
             self.extendedVideo.muted = NO;
@@ -369,12 +387,14 @@ static const CGFloat kCAHideControls = 4.0;
 {
     [self removeTimers];
     [super touchesEnded:touches withEvent:event];
+    [self setupTimers];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self removeTimers];
     [super touchesCancelled:touches withEvent:event];
+    [self setupTimers];
 }
 
 #pragma mark - Device Actions

@@ -68,6 +68,7 @@
 
 - (void)showInitialScreen
 {
+    DDLogVerbose(@"");
     // Do any additional setup after loading the view.
     if (!FBSDKAccessToken.currentAccessToken)
     {
@@ -91,6 +92,7 @@
 
 - (void)updateUserProfile
 {
+    DDLogVerbose(@"");
     //Update User Profile
     __weak typeof (self) welf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -125,6 +127,7 @@
 
 - (void)showOnboardingScreen
 {
+    DDLogVerbose(@"");
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
     OnboardingViewController *onboardingScreen = [storyboard instantiateInitialViewController];
     [self __dismissPresentedViewController:NO];
@@ -133,6 +136,7 @@
 
 - (void)showCategoriesSelectionScreen
 {
+    DDLogVerbose(@"");
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
     CategoriesViewController *categoriesSelectionScreen = [storyboard instantiateViewControllerWithIdentifier:@"OnboardingCategoriesView"];
     [categoriesSelectionScreen setUserProfile:self.userProfile];
@@ -141,14 +145,15 @@
 
 - (void)showPrimeTimeScreen
 {
+    DDLogVerbose(@"");
     if (!_primeTimeDataSource || [_primeTimeDataSource isExpired])
     {
         _primeTimeDataSource = [PrimeTimeViewControllerDataSource new];
-        PrimeTimeViewController *primeTimeVC = [[PrimeTimeViewController alloc] initWithDataSource:_primeTimeDataSource];
-        
-        [self __dismissPresentedViewController:NO];
-        [self.navigationController setViewControllers:@[primeTimeVC]];
     }
+    PrimeTimeViewController *primeTimeVC = [[PrimeTimeViewController alloc] initWithDataSource:_primeTimeDataSource];
+    
+    [self __dismissPresentedViewController:NO];
+    [self.navigationController setViewControllers:@[primeTimeVC]];
 }
 
 - (void)showExploreScreen

@@ -10,13 +10,16 @@
 @import BCVideoPlayer;
 
 #import "ProductPageProtocol.h"
+#import "Li5-Swift.h"
 
-@interface TeaserViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate>
+@interface TeaserViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate, TapAndHoldViewControllerDelegate>
 
 @property (nonatomic, strong) UIViewController *previousViewController;
 @property (nonatomic, strong) UIViewController *nextViewController;
 
 + (id)teaserWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
+
+- (void)setPriority:(BCPriority)priority;
 
 @end
 

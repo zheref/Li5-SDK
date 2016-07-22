@@ -7,6 +7,7 @@
 //
 
 @import Li5Api;
+@import BCVideoPlayer;
 
 #import "DetailsViewController.h"
 #import "VideoViewController.h"
@@ -16,5 +17,7 @@
 
 - (id)initWithProduct:(Product *)thisProduct forContext:(ProductContext)context;
 - (id)initWithOrder:(Order *)thisProduct forContext:(ProductContext)context;
+
+- (void)setPriority:(BCPriority)priority;
 
 @end

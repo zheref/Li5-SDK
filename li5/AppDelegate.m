@@ -123,6 +123,8 @@
         [self.window.rootViewController beginAppearanceTransition:YES animated:NO];
         [self.window.rootViewController endAppearanceTransition];
     }
+    
+    [[[BCFileHelper alloc] init] removeCacheFromDays:1];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -134,6 +136,8 @@
     
     [self.window.rootViewController beginAppearanceTransition:NO animated:NO];
     [self.window.rootViewController endAppearanceTransition];
+    
+    [[[BCFileHelper alloc] init] removeCacheFromDays:1];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
