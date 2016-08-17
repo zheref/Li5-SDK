@@ -60,6 +60,11 @@
                                selector:@selector(showPrimeTimeScreen)
                                    name:kCategoriesUpdateSuccessful
                                  object:nil];
+        
+        [notificationCenter addObserver:self
+                               selector:@selector(logoutAndShowOnboardingScreen)
+                                   name:kLoggedOutFromServer
+                                 object:nil];
     }
     return self;
 }
@@ -102,18 +107,35 @@
             if (profileError != nil)
             {
                 DDLogError(@"Error while requesting Profile %@", profileError.description);
-                //Logging out user - force them to log in again
-                [FBSDKAccessToken setCurrentAccessToken:nil];
-                
-                [swelf showOnboardingScreen];
+                [swelf logoutAndShowOnboardingScreen];
             }
             else
             {
                 DDLogInfo(@"Profile requested successfully");
                 swelf.userProfile = profile;
+                
+                NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                [notificationCenter postNotificationName:kProfileUpdated object:nil];
+                
+                if(!profile.preferences || profile.preferences.count < 3)
+                {
+                    [swelf showCategoriesSelectionScreen];
+                }
             }
         }];
     });
+}
+
+- (void)logoutAndShowOnboardingScreen
+{
+    DDLogVerbose(@"");
+    if ([FBSDKAccessToken currentAccessToken] != nil)
+    {
+        //Logging out user - force them to log in again
+        [FBSDKAccessToken setCurrentAccessToken:nil];
+        
+        [self showOnboardingScreen];
+    }
 }
 
 - (void)__dismissPresentedViewController:(BOOL)animated
@@ -140,7 +162,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
     CategoriesViewController *categoriesSelectionScreen = [storyboard instantiateViewControllerWithIdentifier:@"OnboardingCategoriesView"];
     [categoriesSelectionScreen setUserProfile:self.userProfile];
-    [self.navigationController pushViewController:categoriesSelectionScreen animated:NO];
+    [self.navigationController setViewControllers:@[categoriesSelectionScreen]];
 }
 
 - (void)showPrimeTimeScreen

@@ -16,8 +16,8 @@ import UIKit
 class HeartAnimationView : UIView {
     @IBOutlet var delegate : HeartAnimationViewDelegate?
     
-    var speed : Double = 0.2
-    private let button = UIButton(type: .Custom)
+    var speed : Double = 0.1
+    private let button = FwdButton(type: .Custom)
 
     private var emptyHeart : CALayer = {
         let heart = EmptyHeart()
@@ -336,8 +336,30 @@ class HeartAnimationView : UIView {
     func selected() -> Bool {
         return self.button.selected
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event)
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event)
+    }
+    
 }
 
+class FwdButton : UIButton {
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event)
+        self.nextResponder()!.touchesBegan(touches, withEvent: event)
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event)
+        self.nextResponder()!.touchesEnded(touches, withEvent: event)
+    }
+    
+}
 
 class ATAnimationSequence : CAAnimationGroup {
     

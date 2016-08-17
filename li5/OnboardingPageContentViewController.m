@@ -149,6 +149,7 @@
 
 - (void)readyToPlay
 {
+    DDLogVerbose(@"");
     if (/*self.player.status == AVPlayerStatusReadyToPlay &&*/ self.viewAppeared)
     {
         [self.player play];
@@ -158,12 +159,17 @@
 
 - (void)failToLoadItem:(NSError *)error
 {
-    
+    DDLogVerbose(@"");
 }
 
 - (void)bufferEmpty
 {
-    
+    DDLogVerbose(@"");
+}
+
+- (void)bufferReady
+{
+    DDLogVerbose(@"");
 }
 
 - (void)networkFail:(NSError *)error

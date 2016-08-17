@@ -13,6 +13,7 @@
 @import Crashlytics;
 @import BCVideoPlayer;
 @import AVFoundation;
+@import Stripe;
 
 #import "AppDelegate.h"
 #import "CategoriesViewController.h"
@@ -32,6 +33,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     DDLogDebug(@"");
+    NSDictionary<NSString *, id> *infoDictionary = [NSBundle mainBundle].infoDictionary;
+    
     [Fabric with:@[[Crashlytics class]]];
 
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
@@ -60,7 +63,8 @@
     //Facebook SDK
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
-    NSDictionary<NSString *, id> *infoDictionary = [NSBundle mainBundle].infoDictionary;
+    //Stripe SDK
+    [STPPaymentConfiguration sharedConfiguration].publishableKey = [infoDictionary objectForKey:@"Li5StripePublicKey"];
     
     //Heap Analytics
     [Heap setAppId:[infoDictionary objectForKey:@"HeapAppId"]];

@@ -55,8 +55,8 @@
 
 - (void)initialize
 {
-    _pageTitles = @[@"Discover New",@"Explore Products"];
-    _pageSubtitles = @[@"Presented in short videos",@"This is the second description"];
+    _pageTitles = @[@"Discover",@"Explore"];
+    _pageSubtitles = @[@"What's New On Prime Time",@"Unique Products You'll Love"];
     _pageVideos = @[
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_1" ofType:@"mp4"]],
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_2" ofType:@"mp4"]]
@@ -226,7 +226,7 @@
         {
             CGFloat newScale = 3.0;
             _lastLogoPosition = ((LoginViewController*)self.pageViewController.currentViewController).logoPosition;
-            [UIView animateWithDuration:1.0 animations:^{
+            [UIView animateWithDuration:0.5 animations:^{
                 self.logoView.layer.position = CGPointMake(_lastLogoPosition.x,
                                                            _lastLogoPosition.y);
                 self.logoView.transform = CGAffineTransformMakeScale(newScale, newScale);
@@ -235,7 +235,7 @@
         else
         {
             CGFloat newScale = 1.0;
-            [UIView animateWithDuration:1.0 animations:^{
+            [UIView animateWithDuration:0.5 animations:^{
                 self.logoView.layer.position = CGPointMake(_originalLogoPosition.x,
                                                            _originalLogoPosition.y);
                 self.logoView.transform = CGAffineTransformMakeScale(newScale, newScale);

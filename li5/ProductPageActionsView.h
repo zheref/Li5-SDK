@@ -15,4 +15,16 @@
 
 @property (nonatomic,weak) Product *product;
 
+- (void)refreshStatus;
+
+@end
+
+@interface UIActivityViewController (Private)
+
+- (BOOL)_shouldExcludeActivityType:(UIActivity*)activity;
+
+@end
+
+@interface ActivityViewController : UIActivityViewController
+
 @end

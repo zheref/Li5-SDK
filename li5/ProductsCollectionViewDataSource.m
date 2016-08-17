@@ -33,6 +33,12 @@
 - (void)getProductsWithQuery:(NSString *)query withCompletion:(void (^)(NSError *error))completion {
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     __weak typeof(self) welf = self;
+    _products = [NSMutableArray array];
+    _lastSearch = nil;
+    _cursor = nil;
+    if (query.length > 0 && query.length < 3) {
+        return;
+    }
     [li5 requestProductsWithQuery:query andCursor:nil withCompletion:^(NSError *error, NSArray<Product *> *products, Cursor *cursor) {
         if (error != nil) {
             DDLogError(@"%@",error.description);

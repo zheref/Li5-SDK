@@ -18,10 +18,14 @@ NSString * const kCategoriesUpdateSuccessful = @"kCategoriesUpdateSuccessful";
 NSString * const kCategoriesUpdateFailed = @"kCategoriesUpdateFailed";
 NSString * const kPrimeTimeLoaded = @"kPrimeTimeLoaded";
 NSString * const kPrimeTimeFailedToLoad = @"kPrimeTimeFailedToLoad";
+NSString * const kPrimeTimeReadyToStart = @"kPrimeTimeReadyToStart";
+NSString * const kProfileUpdated = @"kProfileUpdated";
+NSString * const kLoggedOutFromServer = @"kLoggedOutFromServer";
 
 NSString * const kLi5UserID = @"Li5UserId";
 NSString * const kLi5CategoriesSelectionViewPresented = @"Li5CategoriesSelectionViewPresented";
 NSString * const kLi5SwipeLeftExplainerViewPresented = @"Li5SwipeLeftExplainerViewPresented";
 NSString * const kLi5SwipeDownExplainerViewPresented = @"Li5SwipeDownExplainerViewPresented";
+NSString * const kLi5SwipeUpExplainerViewPresented = @"Li5SwipeUpExplainerViewPresented";
 
 @end

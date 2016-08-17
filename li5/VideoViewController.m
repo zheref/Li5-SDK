@@ -91,14 +91,14 @@
     return NO;
 }
 
-- (void)hideViewController:(UIViewController<DisplayableProtocol> *)vc withAppearanceTransition:(BOOL)appear
+- (void)hideViewController:(UIViewController<DisplayableProtocol> *)vc withAppearanceTransition:(BOOL)appear force:(BOOL)force
 {
     DDLogVerbose(@"");
     [vc willMoveToParentViewController:nil];
     if (appear) [vc beginAppearanceTransition:NO animated:NO];
-    [vc.view removeFromSuperview];
+    if (force) [vc.view removeFromSuperview]; else [vc.view setAlpha:0.5];
     if (appear) [vc endAppearanceTransition];
-    [vc removeFromParentViewController];
+    if (force) [vc removeFromParentViewController];
     [vc didMoveToParentViewController:nil];
 }
 
@@ -108,6 +108,7 @@
     [vc willMoveToParentViewController:self];
     [self addChildViewController:vc];
     vc.view.frame = self.view.bounds;
+    [vc.view setAlpha:1.0];
     if (appear) [vc beginAppearanceTransition:YES animated:NO];
     [self.view addSubview:vc.view];
     if (appear) [vc endAppearanceTransition];
@@ -130,41 +131,21 @@
 - (void)handleLongTap:(UITapGestureRecognizer *)sender
 {
     DDLogVerbose(@"");
-
-    //    [oldVC willMoveToParentViewController:nil];
-    //    [self addChildViewController:newVC];
-    //
-    //    // Get the start frame of the new view controller and the end frame
-    //    // for the old view controller. Both rectangles are offscreen.
-    //    newVC.view.frame = [self newViewStartFrame];
-    //    CGRect endFrame = [self oldViewEndFrame];
-    //
-    //    UIViewControllerAnimatedTransitioning
-    //
-    //    // Queue up the transition animation.
-    //    [self transitionFromViewController: oldVC toViewController: newVC
-    //                              duration: 0.25 options:0
-    //                            animations:^{
-    //                                // Animate the views to their final positions.
-    //                                newVC.view.frame = oldVC.view.frame;
-    //                                oldVC.view.frame = endFrame;
-    //                            }
-    //                            completion:^(BOOL finished) {
-    //                                // Remove the old view controller and send the final
-    //                                // notification to the new view controller.
-    //                                [oldVC removeFromParentViewController];
-    //                                [newVC didMoveToParentViewController:self];
-    //                            }];
-
-    [self hideViewController:teaserViewController withAppearanceTransition:YES];
+    unlockedViewController.initialPoint = [sender locationInView:teaserViewController.view];
+    
+    unlockedViewController.providesPresentationContextTransitionStyle = true;
+    unlockedViewController.definesPresentationContext = true;
+    unlockedViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    
     [self showViewController:unlockedViewController withAppearanceTransition:YES];
+    [self hideViewController:teaserViewController withAppearanceTransition:YES force:NO];
 }
 
 - (void)handleLockTap:(UIGestureRecognizer *)recognizer
 {
     DDLogVerbose(@"Handling Lock Tap");
-
-    [self hideViewController:unlockedViewController withAppearanceTransition:YES];
+    
+    [self hideViewController:unlockedViewController withAppearanceTransition:YES force:YES];
     [self showViewController:teaserViewController withAppearanceTransition:YES];
 }
 

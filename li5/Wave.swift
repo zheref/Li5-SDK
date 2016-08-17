@@ -13,6 +13,7 @@ public class Wave : UIView {
     let heightProportion : CGFloat = 0.2
     let numberOfLines = 28;
     weak var parenView : UIView?
+    var shapeLayer = CAShapeLayer();
     
     public init(withView view: UIView) {
         
@@ -88,19 +89,24 @@ public class Wave : UIView {
         path.addCurveToPoint(endPoint, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
     }
     
-    var shouldAnimate = false;
+    var isAnimating = false;
     
     public func stopAnimating() {
         
-        if (self.shouldAnimate)
+        if (self.isAnimating)
         {
             UIView.animateWithDuration(1, delay: 0, options: .AllowUserInteraction, animations: {
                 self.blurEffectView?.alpha = 0
                 self.alpha = 0
                 }, completion: { (t) in
-                self.shouldAnimate = false;
-                self.blurEffectView?.removeFromSuperview()
-                self.blurEffectView = nil;
+                    self.isAnimating = false;
+//                self.layer.sublayers?.removeAll()
+                    self.alpha = 0
+                     self.blurEffectView?.alpha = 0
+                    self.shapeLayer.removeFromSuperlayer();
+                    self.blurEffectView?.removeFromSuperview();
+                    self.blurEffectView = nil;
+                    self.layer.sublayers?.removeAll()
             })
         }
     }
@@ -109,7 +115,12 @@ public class Wave : UIView {
     
     public func startAnimating() {
         
-        self.shouldAnimate = true;
+        if(self.isAnimating) {
+        
+            return;
+        }
+        
+        self.isAnimating = true;
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light);
         
         blurEffectView = UIVisualEffectView(effect: blurEffect);
@@ -133,7 +144,7 @@ public class Wave : UIView {
         
         while(start < self.frame.width) {
             
-            let shapeLayer = CAShapeLayer()
+            shapeLayer = CAShapeLayer()
             
             shapeLayer.strokeColor = i % 2 == 0 ?  color.CGColor : UIColor.clearColor().CGColor
             
@@ -187,15 +198,19 @@ public class Wave : UIView {
             let x = self.frame.origin.x;
             let max = (self.frame.width * CGFloat(2)) - CGFloat(2);
             
-            while(self.shouldAnimate){
-                dispatch_sync(dispatch_get_main_queue()) {
+            while(self.isAnimating){
+               
+                //dispatch_after(delayTime, dispatch_get_main_queue()) {
+                    dispatch_sync(dispatch_get_main_queue()) {
+
                     if(self.frame.origin.x <= max) {
                         self.frame.origin.x += 1.5;
                     }
                     else{
                         self.frame.origin.x = x;
-                    }
-                }
+                        }
+                    };
+               // }
             }
         }
     }

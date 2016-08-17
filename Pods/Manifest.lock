@@ -16,6 +16,7 @@ PODS:
     - AFNetworking/NSURLSession
   - BCVideoPlayer (0.1.0):
     - GCDWebServer
+  - CardIO (5.3.2)
   - CocoaLumberjack (2.3.0):
     - CocoaLumberjack/Default (= 2.3.0)
     - CocoaLumberjack/Extensions (= 2.3.0)
@@ -28,9 +29,9 @@ PODS:
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
   - FXBlurView (1.6.4)
-  - GCDWebServer (3.3.2):
-    - GCDWebServer/Core (= 3.3.2)
-  - GCDWebServer/Core (3.3.2)
+  - GCDWebServer (3.3.4):
+    - GCDWebServer/Core (= 3.3.4)
+  - GCDWebServer/Core (3.3.4)
   - Heap (3.0.0)
   - HexColors (2.3.0)
   - JSONModel (1.2.0)
@@ -39,6 +40,7 @@ PODS:
     - JSONModel
     - SSKeychain
   - Masonry (1.0.0)
+  - MBProgressHUD (1.0.0)
   - MMMaterialDesignSpinner (0.2.3)
   - pop (1.0.9)
   - SDWebImage (3.7.6):
@@ -46,8 +48,10 @@ PODS:
   - SDWebImage/Core (3.7.6)
   - SMPageControl (1.2)
   - SSKeychain (1.4.0)
+  - Stripe (8.0.2)
   - TSMessages (0.9.13):
     - HexColors (~> 2.3.0)
+  - VMaskTextField (1.0.8)
   - YYImage (1.0.1):
     - YYImage/Core (= 1.0.1)
   - YYImage/Core (1.0.1)
@@ -56,30 +60,41 @@ PODS:
 
 DEPENDENCIES:
   - BCVideoPlayer (from `../BCPlayerView`)
+  - CardIO
   - CocoaLumberjack
   - Crashlytics
   - Fabric
   - FXBlurView
+  - GCDWebServer (from `git@github.com:thrivecom/GCDWebServer.git`, branch `custom-dev`)
   - Heap
   - Li5Api (from `../li5-api-ios`)
   - Masonry
+  - MBProgressHUD
   - MMMaterialDesignSpinner
   - pop (~> 1.0)
   - SDWebImage (~> 3.7)
   - SMPageControl
+  - Stripe
   - TSMessages (from `git@github.com:KrauseFx/TSMessages.git`)
+  - VMaskTextField
   - YYImage
   - YYImage/WebP
 
 EXTERNAL SOURCES:
   BCVideoPlayer:
     :path: ../BCPlayerView
+  GCDWebServer:
+    :branch: custom-dev
+    :git: git@github.com:thrivecom/GCDWebServer.git
   Li5Api:
     :path: ../li5-api-ios
   TSMessages:
     :git: git@github.com:KrauseFx/TSMessages.git
 
 CHECKOUT OPTIONS:
+  GCDWebServer:
+    :commit: 26270616ea1811ae6bc9e2c6b628ab4d15b8a37a
+    :git: git@github.com:thrivecom/GCDWebServer.git
   TSMessages:
     :commit: e63f23304f781dcadbac31e6d338f3105fb3cd78
     :git: git@github.com:KrauseFx/TSMessages.git
@@ -87,24 +102,28 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   BCVideoPlayer: e7576942f5d2486af00ffe229d528b3489b5535a
+  CardIO: 92c45caef0d986c4a303a7afba0c9b76ff2b1f6e
   CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
   Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  GCDWebServer: 2a375ec42839a41d7187d04e5b688d32fa5c4cd5
+  GCDWebServer: 0bd712acb4f246ce04d2ac321d33278fb1f72e63
   Heap: b95bc7a21f47ddd470e8ebccefa59c91f4fe1d68
   HexColors: 6ad3947c3447a055a3aa8efa859def096351fe5f
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
   Li5Api: 0b2a50f7209cc17ae9f3e90bdcd78b772255a704
   Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MMMaterialDesignSpinner: 55c80b454f7928d0ed789cc3c456fa06bd6a2f16
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SMPageControl: 922892813001cfaf059e86e6801f46a967e9ee29
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
+  Stripe: 3dfcde17037996e00db0a2f6dbfdedb7ad2ae55b
   TSMessages: 6e403b790139636c15ab4f51946537095e03e79c
+  VMaskTextField: e77fe33633f999c5c38e70bed0afece0625624a4
   YYImage: b41b45bc5f32bfcdf67bdfb9c09da9e9832357c0
 
-PODFILE CHECKSUM: b35fd9c275f93587793b69de600e78bb12b7ac67
+PODFILE CHECKSUM: 78aed4f841dcfb43b23b092e8178c2a0f5d75ed9
 
 COCOAPODS: 1.0.0

@@ -14,4 +14,6 @@
 
 - (UIImage*)roundedImage;
 
+- (UIImage *)blackAndWhiteImage;
+
 @end

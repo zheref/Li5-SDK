@@ -8,6 +8,7 @@
 @import AVFoundation;
 
 #import "SpinnerViewController.h"
+#import "Li5Constants.h"
 
 @interface SpinnerViewController ()
 {
@@ -15,13 +16,48 @@
     id playEndObserver;
 }
 
+@property (weak, nonatomic) IBOutlet UIView *spinnerView;
+
 @end
 
 @implementation SpinnerViewController
 
+#pragma mark - Init
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void)initialize
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    
+            [notificationCenter addObserver:self
+                                   selector:@selector(hideMovie)
+                                       name:kPrimeTimeFailedToLoad
+                                     object:nil];
+}
+
 #pragma mark - UI Setup
 
-- (BOOL)prefersStatusBarHidden {
+- (BOOL)prefersStatusBarHidden
+{
     return YES;
 }
 
@@ -35,7 +71,7 @@
     loadingLayer.frame = self.view.bounds;
     loadingLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
-    [self.view.layer addSublayer:loadingLayer];
+    [self.spinnerView.layer addSublayer:loadingLayer];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -51,9 +87,8 @@
 {
     DDLogVerbose(@"");
     [super viewDidDisappear:animated];
-    [loadingLayer.player pause];
     
-    [self removeVideoEndObservers];
+    [self hideMovie];
 }
 
 - (void)replayMovie:(NSNotification *)notification
@@ -61,6 +96,16 @@
     DDLogVerbose(@"replaying animation");
     [loadingLayer.player seekToTime:kCMTimeZero];
     [loadingLayer.player play];
+}
+
+- (void)hideMovie
+{
+    DDLogVerbose(@"");
+    [loadingLayer.player pause];
+    
+    [self removeVideoEndObservers];
+    
+    _spinnerView.hidden = TRUE;
 }
 
 #pragma mark - Observers

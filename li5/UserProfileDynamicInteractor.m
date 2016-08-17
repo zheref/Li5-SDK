@@ -127,6 +127,14 @@
 {
     DDLogVerbose(@"beginning menu presentation");
     self.presenting = YES;
+    
+//    CATransition *transition = [CATransition animation];
+//    transition.duration = 0.3;
+//    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+//    transition.type = kCATransitionPush;
+//    transition.subtype = kCATransitionFromBottom;
+//    [self.parentViewController.view.layer addAnimation:transition forKey:kCATransition];
+    
     [self.parentViewController presentViewController:_presentingViewController animated:NO completion:^{
         self.presented = YES;
         self.presenting = NO;
@@ -138,6 +146,13 @@
 - (void)dismissViewWithCompletion:(void (^)(void))completion
 {
     DDLogVerbose(@"dismissing menu presentation");
+//    CATransition *transition = [CATransition animation];
+//    transition.duration = 0.3;
+//    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+//    transition.type = kCATransitionPush;
+//    transition.subtype = kCATransitionFromTop;
+//    [_presentingViewController.view.layer addAnimation:transition forKey:kCATransition];
+    
     [self.parentViewController dismissViewControllerAnimated:NO completion:^{
         self.presented = NO;
         [self.parentViewController viewDidAppear:NO];

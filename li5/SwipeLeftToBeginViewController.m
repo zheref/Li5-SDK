@@ -14,6 +14,12 @@
 
 @implementation SwipeLeftToBeginViewController
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewDidAppear:animated];
+}
+
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
@@ -23,6 +29,9 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:TRUE forKey:kLi5SwipeLeftExplainerViewPresented];
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter postNotificationName:kPrimeTimeReadyToStart object:nil];
 }
 
 @end

@@ -82,9 +82,8 @@
         ,
         @"Development" : @[
             @{
-                @"Name" : @"Discover Mode Custom",
-                @"Action" : @"nop",
-                @"Toggle" : @"Li5DiscoverModeCustom"
+                @"Name" : @"Reset to Demo",
+                @"Action" : @"enterDemoMode"
             },
             @{
               @"Name" : @"Reset User Defaults",
@@ -280,17 +279,28 @@
     [self presentViewController:activityVC animated:YES completion:nil];
 }
 
+- (void)enterDemoMode
+{
+    [self clearUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:YES forKey:@"Li5DiscoverModeCustom"];
+    [self userLogOut];
+}
+
 - (void)clearUserDefaults
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:kLi5SwipeLeftExplainerViewPresented];
     [defaults removeObjectForKey:kLi5SwipeDownExplainerViewPresented];
+    [defaults removeObjectForKey:kLi5SwipeUpExplainerViewPresented];
     [defaults removeObjectForKey:kLi5CategoriesSelectionViewPresented];
+    [defaults removeObjectForKey:@"Li5DiscoverModeCustom"];
     
-    [TSMessage setDefaultViewController:self];
     [TSMessage showNotificationWithTitle:@"Success"
                                 subtitle:@"Standard Defaults cleared."
                                     type:TSMessageNotificationTypeSuccess];
+    
+    [self userLogOut];
 }
 
 - (void)clearCache
@@ -300,10 +310,8 @@
     [imageCache clearMemory];
     [imageCache clearDisk];
     
-    [TSMessage setDefaultViewController:self];
-    [TSMessage showNotificationWithTitle:@"Success"
-                                subtitle:@"Cache cleared ok."
-                                    type:TSMessageNotificationTypeSuccess];
+    [TSMessage showNotificationInViewController:self
+                                          title:@"Success" subtitle:@"Cache cleared ok." type:TSMessageNotificationTypeSuccess duration:1.0];
 }
 
 - (void)toggleString:(UISwitch *)aSwitch

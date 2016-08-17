@@ -6,13 +6,12 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
+@import MMMaterialDesignSpinner;
+
 #import "ProductsCollectionViewCell.h"
 #import "ImageHelper.h"
 
 @interface ProductsCollectionViewCell ()
-{
-    id __playerEndObserver;
-}
 
 @property (weak, nonatomic) IBOutlet Li5GradientView *orderDetails;
 @property (weak, nonatomic) IBOutlet UILabel *productTitle;
@@ -20,8 +19,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderStatus;
 @property (weak, nonatomic) IBOutlet UIView *videoView;
 
-@property (strong, nonatomic) BCPlayer *previewVideoPlayer;
-@property (strong, nonatomic) AVPlayerLayer *previewVideoLayer;
+@property (strong, nonatomic) YYAnimatedImageView *imageView;
+@property (strong, nonatomic) ImageHelper *imageHelper;
+
+@property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;
 
 @end
 
@@ -41,27 +42,45 @@
 {
     DDLogVerbose(@"");
     [super prepareForReuse];
+    [self.imageHelper cancel];
+    
     [[_videoView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self removeObservers];
-    [_previewVideoPlayer pauseAndDestroy];
-    _previewVideoPlayer = nil;
-    _previewVideoLayer = nil;
+
+    [self.imageView stopAnimating];
+    self.imageView = nil;
 }
 
 - (void)updateViews
 {
     DDLogVerbose(@"Thumb: %@ - Preview: %@",self.product.trailerThumbnail,self.product.videoPreview);
-    self.orderDetails.hidden = (self.order == nil);
+    // Initialize the progress view
     
+    self.spinnerView = [[MMMaterialDesignSpinner alloc] initWithFrame:CGRectMake(self.frame.size.width/2,self.frame.size.height/2,15.0,15.0)];
+    self.spinnerView.lineWidth = 1.5f;
+    self.spinnerView.tintColor = [UIColor lightGrayColor];
+    self.spinnerView.hidesWhenStopped = YES;
+    [self.videoView addSubview:self.spinnerView];
+    
+    [self.spinnerView startAnimating];
+    
+    self.orderDetails.hidden = (self.order == nil);
     self.orderStatus.text = self.order.status;
     
     NSURL *url = [NSURL URLWithString:self.product.videoPreview];
+    
     __weak ProductsCollectionViewCell *welf = self;
-    [[[ImageHelper alloc] init] getImage:url completationHandler:^(NSData * _Nullable data) {
-        
-        YYImage *image = [YYImage imageWithData:data];
-        YYAnimatedImageView *imageView = [[YYAnimatedImageView alloc] initWithImage:image];
-        [welf.videoView addSubview:imageView];
+    
+    self.imageHelper = [[ImageHelper alloc] init];
+    
+    [self.imageHelper getImage:url completationHandler:^(NSData * _Nullable data) {
+        if(data != nil) {
+            
+            YYImage *image = [YYImage imageWithData:data];
+            welf.imageView = [[YYAnimatedImageView alloc] initWithImage:image];
+            welf.imageView.layer.cornerRadius = 6;
+            [welf.videoView addSubview:welf.imageView];
+        }
+        [self.spinnerView stopAnimating];
     }];
     
     NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
@@ -73,56 +92,7 @@
 - (void)didEndDisplayingCell
 {
     DDLogVerbose(@"");
-//    [self.previewVideoPlayer play];
-}
-
-#pragma mark - BCPlayerDelegate
-
-- (void)readyToPlay
-{
-    DDLogVerbose(@"");
-    [self setupObservers];
-    [self.previewVideoPlayer play];
-}
-
-- (void)failToLoadItem:(NSError*)error
-{
-    DDLogError(@"failed to load item %@",error.description);
-}
-
-- (void)bufferEmpty
-{
-    DDLogVerbose(@"");
-}
-
-- (void)networkFail:(NSError *)error
-{
-    DDLogError(@"");
-}
-
-#pragma mark - Observers
-
-- (void)setupObservers
-{
-    DDLogVerbose(@"");
-    if (!__playerEndObserver)
-    {
-        __weak typeof(self) welf = self;
-        __playerEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.previewVideoPlayer.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
-            [welf.previewVideoPlayer seekToTime:kCMTimeZero];
-            [welf.previewVideoPlayer play];
-        }];
-    }
-}
-
-- (void)removeObservers
-{
-    DDLogVerbose(@"");
-    if (__playerEndObserver)
-    {
-        [[NSNotificationCenter defaultCenter] removeObserver:__playerEndObserver];
-        __playerEndObserver = nil;
-    }
+    //    [self.previewVideoPlayer play];
 }
 
 #pragma mark - Public Methods
@@ -150,7 +120,9 @@
 - (void)dealloc
 {
     DDLogDebug(@"%p",self);
-    [self removeObservers];
+    self.imageView = nil;
+    self.imageHelper = nil;
+    self.spinnerView = nil;
 }
 
 @end

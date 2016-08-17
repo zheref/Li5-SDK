@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -47,7 +47,7 @@
                                 <constraint firstAttribute="width" constant="178" id="xdb-Sd-sqk"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vlv-Pn-Y3c">
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vlv-Pn-Y3c">
                             <rect key="frame" x="0.0" y="77" width="73" height="79"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="352" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yrk-Ta-Vuh">
@@ -76,9 +76,9 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7yk-r3-QaY">
-                            <rect key="frame" x="11" y="176" width="52" height="52"/>
+                            <rect key="frame" x="11" y="77" width="52" height="52"/>
                             <subviews>
-                                <button contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CO2-p8-JqH">
+                                <button contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CO2-p8-JqH" customClass="FwdButton" customModule="Li5" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                     <inset key="imageEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     <state key="normal" image="share" backgroundImage="bGbutton"/>
@@ -112,7 +112,9 @@
                         <constraint firstAttribute="bottom" secondItem="Vlv-Pn-Y3c" secondAttribute="bottom" id="9bR-aC-xh2"/>
                         <constraint firstItem="PI6-Pm-WFy" firstAttribute="top" secondItem="Yi8-1L-Aq1" secondAttribute="top" constant="-73" id="FKa-3c-KLW"/>
                         <constraint firstItem="Vlv-Pn-Y3c" firstAttribute="width" secondItem="Yi8-1L-Aq1" secondAttribute="width" priority="2" id="GZ5-eO-t0Q"/>
+                        <constraint firstItem="7yk-r3-QaY" firstAttribute="top" secondItem="PI6-Pm-WFy" secondAttribute="bottom" constant="-20" id="Ivw-5X-n93"/>
                         <constraint firstAttribute="bottom" secondItem="7yk-r3-QaY" secondAttribute="bottom" id="JYB-jO-pSq"/>
+                        <constraint firstItem="7yk-r3-QaY" firstAttribute="top" secondItem="Yi8-1L-Aq1" secondAttribute="top" constant="-20" id="QDU-Kw-37M"/>
                         <constraint firstItem="7yk-r3-QaY" firstAttribute="width" relation="lessThanOrEqual" secondItem="Yi8-1L-Aq1" secondAttribute="width" id="aZO-oF-MbI"/>
                         <constraint firstItem="Vlv-Pn-Y3c" firstAttribute="top" secondItem="PI6-Pm-WFy" secondAttribute="bottom" constant="-20" id="bAm-wq-2AW"/>
                         <constraint firstItem="7yk-r3-QaY" firstAttribute="width" secondItem="Yi8-1L-Aq1" secondAttribute="width" priority="1" id="i2h-WD-V8l"/>
@@ -124,8 +126,10 @@
                         <mask key="constraints">
                             <exclude reference="9bR-aC-xh2"/>
                             <exclude reference="JYB-jO-pSq"/>
+                            <exclude reference="QDU-Kw-37M"/>
                             <exclude reference="aZO-oF-MbI"/>
                             <exclude reference="i2h-WD-V8l"/>
+                            <exclude reference="zD3-Ux-YBf"/>
                         </mask>
                     </variation>
                 </view>

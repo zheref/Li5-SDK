@@ -13,6 +13,8 @@
 
 @interface UnlockedViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate>
 
+@property(nonatomic, assign) CGPoint initialPoint;
+
 + (id)unlockedWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
 
 @end

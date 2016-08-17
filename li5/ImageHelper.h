@@ -13,4 +13,6 @@
 - (void)getImage:(NSURL * _Nonnull)url
 completationHandler:(void (^ _Nonnull)(NSData * _Nullable))completationHandler;
 
+-(void)cancel;
+
 @end

@@ -243,7 +243,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_medium" translatesAutoresizingMaskIntoConstraints="NO" id="YjZ-SY-ppn">
-                                        <rect key="frame" x="147" y="100" width="81" height="104"/>
+                                        <rect key="frame" x="147" y="91" width="81" height="104"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="YjZ-SY-ppn" secondAttribute="height" multiplier="81:104" id="Mik-bs-rnF"/>
                                             <constraint firstAttribute="height" constant="104" id="THz-I0-FPf"/>
@@ -258,7 +258,7 @@
                                         </variation>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZzV-XZ-IGw">
-                                        <rect key="frame" x="44" y="367" width="287" height="36"/>
+                                        <rect key="frame" x="44" y="381" width="287" height="36"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfF-1n-pwK">
                                                 <rect key="frame" x="0.0" y="0.0" width="35" height="36"/>
@@ -321,7 +321,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="p3I-mL-ecj">
-                                        <rect key="frame" x="20" y="426" width="335" height="72"/>
+                                        <rect key="frame" x="20" y="440" width="335" height="72"/>
                                         <color key="backgroundColor" red="0.1803921568627451" green="0.28627450980392155" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="72" id="mhT-Zq-KyQ"/>
@@ -339,13 +339,29 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms &amp; Privacy Policy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hr2-WH-UfA">
-                                        <rect key="frame" x="100" y="579" width="175" height="19"/>
+                                        <rect key="frame" x="100" y="585" width="175" height="19"/>
                                         <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="16"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Live your products" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-qd-m6v">
-                                        <rect key="frame" x="20" y="230" width="335" height="32"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ygo-SA-pyg" userLabel="Spacer View">
+                                        <rect key="frame" x="0.0" y="604" width="375" height="63"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uua-8a-T5C" userLabel="Spacer View">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="91"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gym-e4-UCu" userLabel="Spacer View">
+                                        <rect key="frame" x="0.0" y="285" width="375" height="96"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="amP-Ep-XN3" userLabel="Spacer View">
+                                        <rect key="frame" x="0.0" y="512" width="375" height="73"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's celebrate you are here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-qd-m6v">
+                                        <rect key="frame" x="20" y="221" width="335" height="64"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="375" id="Jzh-DD-zOY"/>
                                         </constraints>
@@ -358,22 +374,6 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ygo-SA-pyg" userLabel="Spacer View">
-                                        <rect key="frame" x="0.0" y="598" width="375" height="69"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uua-8a-T5C" userLabel="Spacer View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gym-e4-UCu" userLabel="Spacer View">
-                                        <rect key="frame" x="0.0" y="262" width="375" height="105"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="amP-Ep-XN3" userLabel="Spacer View">
-                                        <rect key="frame" x="0.0" y="498" width="375" height="81"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.14901960784313725" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>

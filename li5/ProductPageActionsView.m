@@ -69,6 +69,11 @@
 {
     _product = product;
     
+    [self refreshStatus];
+}
+
+- (void)refreshStatus
+{
     [self.loveButton setSelected:_product.isLoved];
     self.loveCounter.text = [_product.loves stringValue];
 }
@@ -82,7 +87,7 @@
     
     NSArray *objectsToShare = @[ self.product.title, productURL ];
     
-    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+    ActivityViewController *activityVC = [[ActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
     
     NSArray *excludeActivities = @[ UIActivityTypePostToWeibo,
                                     UIActivityTypePrint,
@@ -91,7 +96,9 @@
                                     UIActivityTypeAddToReadingList,
                                     UIActivityTypePostToFlickr,
                                     UIActivityTypePostToTencentWeibo,
-                                    UIActivityTypeAirDrop ];
+                                    UIActivityTypeAirDrop,
+                                    UIActivityTypeOpenInIBooks
+                                  ];
     
     activityVC.excludedActivityTypes = excludeActivities;
     
@@ -105,14 +112,16 @@
     {
         self.product.isLoved = false;
         [self.loveButton setSelected:false];
-        self.loveCounter.text = [@([self.loveCounter.text integerValue] - 1) stringValue];
+        self.product.loves = @([self.product.loves integerValue] - 1);
+        self.loveCounter.text = [self.product.loves stringValue];
         
         [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil)
             {
                 self.product.isLoved = true;
                 [self.loveButton setSelected:true];
-                self.loveCounter.text = [@([self.loveCounter.text integerValue] + 1) stringValue];
+                self.product.loves = @([self.product.loves integerValue] + 1);
+                self.loveCounter.text = [self.product.loves stringValue];
             }
         }];
     }
@@ -120,7 +129,8 @@
     {
         self.product.isLoved = true;
         [self.loveButton setSelected:true];
-        self.loveCounter.text = [@([self.loveCounter.text integerValue] + 1) stringValue];
+        self.product.loves = @([self.product.loves integerValue] + 1);
+        self.loveCounter.text = [self.product.loves stringValue];
         
         //Vibrate sound
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -130,10 +140,34 @@
             {
                 self.product.isLoved = false;
                 [self.loveButton setSelected:false];
-                self.loveCounter.text = [@([self.loveCounter.text integerValue] - 1) stringValue];
+                self.product.loves = @([self.product.loves integerValue] - 1);
+                self.loveCounter.text = [self.product.loves stringValue];
             }
         }];
     }
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [super touchesBegan:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+}
+
+@end
+
+@implementation ActivityViewController
+
+- (BOOL)_shouldExcludeActivityType:(UIActivity *)activity
+{
+    if ([[activity activityType] isEqualToString:@"com.apple.reminders.RemindersEditorExtension"] ||
+        [[activity activityType] isEqualToString:@"com.apple.mobilenotes.SharingExtension"]) {
+        return YES;
+    }
+    return [super _shouldExcludeActivityType:activity];
 }
 
 @end

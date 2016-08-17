@@ -6,10 +6,11 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import MMMaterialDesignSpinner;
 
 @interface ImageUICollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;
 
 @end

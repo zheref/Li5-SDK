@@ -16,7 +16,9 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
     ScrollDirectionDown = 1 << 3
 };
 
-@interface Li5UIPageViewController ()
+@interface Li5UIPageViewController () {
+    NSOperationQueue *__queue;
+}
 
 @property (nonatomic, strong) UIScrollView *containerScrollView;
 
@@ -40,15 +42,42 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
     self = [super init];
     if (self)
     {
-        _fullySwitchedPage = 0;
-        _currentPage = 0;
-        _viewControllers = [NSArray array];
-        _dataSource = nil;
-        _totalPages = 0;
-        _bounces = YES;
         _direction = direction;
+        [self initialize];
     }
     return self;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void)initialize
+{
+    _fullySwitchedPage = 0;
+    _currentPage = 0;
+    _viewControllers = [NSArray array];
+    _dataSource = nil;
+    _totalPages = 0;
+    _bounces = YES;
+    __queue = [[NSOperationQueue alloc] init];
+    [__queue setName:@"Page View Queue"];
 }
 
 - (void)viewDidLoad
@@ -166,40 +195,49 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
             [_currentViewController viewDidAppear:false];
             [_currentViewController didMoveToParentViewController:self];
             
+            
             if (self.dataSource != nil)
             {
                 if (previousPage < page)
                 {
                     if (page + 1 > self.viewControllers.lastObject.scrollPageIndex)
                     {
-                        UIViewController *nextViewController = [self.dataSource viewControllerAfterViewController:_currentViewController];
-                        if (nextViewController != nil)
-                        {
-                            [nextViewController setScrollPageIndex:page+1];
-                            if (page + 1 >= self.totalPages)
+                        [__queue addOperationWithBlock:^{
+                            UIViewController *nextViewController = [self.dataSource viewControllerAfterViewController:_currentViewController];
+                            if (nextViewController != nil)
                             {
-                                self.totalPages++;
+                                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                    [nextViewController setScrollPageIndex:page+1];
+                                    if (page + 1 >= self.totalPages)
+                                    {
+                                        self.totalPages++;
+                                    }
+                                    [self __presentViewController:nextViewController];
+                                    //if array exceeds cache size, clean old pages
+                                    _viewControllers = @[_previousViewController,_currentViewController, nextViewController];
+                                    [self __cleanViewControllers];
+                                }];
                             }
-                            [self __presentViewController:nextViewController];
-                            //if array exceeds cache size, clean old pages
-                            _viewControllers = @[_previousViewController,_currentViewController, nextViewController];
-                            [self __cleanViewControllers];
-                        }
+                        }];
                     }
                 }
                 else
                 {
                     if (page > 0 && page - 1 < self.viewControllers.firstObject.scrollPageIndex )
                     {
-                        UIViewController *nextViewController = [self.dataSource viewControllerBeforeViewController:_currentViewController];
-                        if (nextViewController)
-                        {
-                            [nextViewController setScrollPageIndex:page-1];
-                            [self __presentViewController:nextViewController];
-                            //if array exceeds cache size, clean old pages
-                            _viewControllers = @[nextViewController, _currentViewController, _previousViewController];
-                            [self __cleanViewControllers];
-                        }
+                        [__queue addOperationWithBlock:^{
+                            UIViewController *nextViewController = [self.dataSource viewControllerBeforeViewController:_currentViewController];
+                            if (nextViewController)
+                            {
+                                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                    [nextViewController setScrollPageIndex:page-1];
+                                    [self __presentViewController:nextViewController];
+                                    //if array exceeds cache size, clean old pages
+                                    _viewControllers = @[nextViewController, _currentViewController, _previousViewController];
+                                    [self __cleanViewControllers];
+                                }];
+                            }
+                        }];
                     }
                 }
             }

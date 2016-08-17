@@ -62,6 +62,16 @@
     
 }
 
+#pragma mark - Public Methods
+
+- (void)setLastVideoURL:(NSString *)lastVideoURL
+{
+    _lastVideoURL = lastVideoURL;
+    
+    _player = [[BCPlayer alloc] initWithUrl:[NSURL URLWithString:self.lastVideoURL] bufferInSeconds:50.0 priority:BCPriorityPlay delegate:self];
+    _playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_player andFrame:[UIScreen mainScreen].bounds];
+}
+
 #pragma mark - UI Setup
 
 - (void)viewDidLoad
@@ -70,11 +80,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    _player = [[BCPlayer alloc] initWithUrl:[NSURL URLWithString:self.lastVideoURL] bufferInSeconds:50.0 priority:BCPriorityHigh delegate:self];
-    _playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_player andFrame:self.view.bounds];
-    //NSString *lastVideoURL = [[NSBundle mainBundle] pathForResource:@"end_of_prime_time" ofType:@"mp4"];
-//    _player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:self.lastVideoURL]];
-//    _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+    self.staticView.hidden = YES;
+    
     _playerLayer.frame = self.view.bounds;
     _playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
@@ -111,6 +118,8 @@
     
     [self.player pause];
     [self removeObservers];
+    
+    self.staticView.hidden = (self.player!=nil);
 }
 
 - (void)presentSwipeDownViewIfNeeded
@@ -186,12 +195,18 @@
         }
         else
         {
+            self.staticView.hidden = NO;
 //            [self presentSwipeDownViewIfNeeded];
         }
 //    }
 }
 
 - (void)bufferEmpty
+{
+    DDLogVerbose(@"");
+}
+
+- (void)bufferReady
 {
     DDLogVerbose(@"");
 }

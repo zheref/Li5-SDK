@@ -8,16 +8,21 @@
 
 #import "ImageHelper.h"
 
+@interface ImageHelper()
+
+@property (strong, nonatomic) NSURLSessionTask *task;
+
+@end
+
 @implementation ImageHelper
 
 - (void)getImage:(NSURL * _Nonnull)url
 completationHandler:(void (^ _Nonnull)(NSData * _Nullable))completationHandler {
-
+    
     NSString *basePath = [[NSString alloc] initWithFormat:@"%@/cache",
                           NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0]];
     
     NSString *filePath = [[NSString alloc] initWithFormat:@"%@/%@", basePath, url.lastPathComponent];
-    
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         
@@ -29,8 +34,8 @@ completationHandler:(void (^ _Nonnull)(NSData * _Nullable))completationHandler {
     }
     else {
         
-        [[[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-           
+        self.task = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            
             if(data != nil){
                 [data writeToFile:filePath atomically:true];
                 
@@ -38,8 +43,28 @@ completationHandler:(void (^ _Nonnull)(NSData * _Nullable))completationHandler {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completationHandler(data);
             });
-        }] resume];
+        }];
+        
+        [self.task resume];
     }
+}
+
+-(void)cancel {
+    
+    if(self.task != nil) {
+        if(self.task.state == NSURLSessionTaskStateRunning){
+            [self.task cancel];
+        }
+    }
+}
+
+- (void)dealloc
+{
+    DDLogDebug(@"%p",self);
+    
+    [self cancel];
+    
+    self.task = nil;
 }
 
 @end

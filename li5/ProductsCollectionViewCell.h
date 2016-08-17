@@ -13,7 +13,7 @@
 #import "Li5GradientView.h"
 
 //IB_DESIGNABLE
-@interface ProductsCollectionViewCell : UICollectionViewCell <BCPlayerDelegate>
+@interface ProductsCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) Product *product;
 @property (weak, nonatomic) Order *order;

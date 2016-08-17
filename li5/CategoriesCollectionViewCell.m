@@ -42,7 +42,7 @@
 
     self.titleLbl.text = [[_category name] uppercaseString];
 
-    _previewVideo = [[BCPlayer alloc] initWithUrl:[NSURL URLWithString:[category image]] bufferInSeconds:10.0 priority:BCPriorityHigh delegate:self];
+    _previewVideo = [[BCPlayer alloc] initWithUrl:[NSURL URLWithString:[category image]] bufferInSeconds:10.0 priority:BCPriorityPlay delegate:self];
     _previewVideo.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     _previewVideo.muted = TRUE;
 
@@ -61,7 +61,10 @@
     {
         [self.titleLbl setBackgroundColor:[UIColor clearColor]];
         [self setupObservers];
-        [self.previewVideo play];
+        
+        if(self.previewVideo.status == AVPlayerItemStatusReadyToPlay) {
+            [self.previewVideo play];
+        }
     }
     else
     {
@@ -90,6 +93,11 @@
 }
 
 - (void)bufferEmpty
+{
+    DDLogVerbose(@"");
+}
+
+- (void)bufferReady
 {
     DDLogVerbose(@"");
 }

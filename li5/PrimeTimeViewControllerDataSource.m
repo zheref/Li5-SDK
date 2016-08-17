@@ -10,6 +10,7 @@
 
 #import "LastPageViewController.h"
 #import "PrimeTimeViewControllerDataSource.h"
+#import "Li5Constants.h"
 
 @interface PrimeTimeViewControllerDataSource ()
 
@@ -35,7 +36,9 @@
       //Background Thread
       Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
       [li5 requestDiscoverProductsWithCompletion:^(NSError *error, Products *products) {
-        DDLogVerbose(@"Total products: %lu", (unsigned long)products.data.count);
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+          dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
+        DDLogVerbose(@"Total products: %lu expiring:%@", (unsigned long)products.data.count, [dateFormatter stringFromDate:products.expiresAt]);
         if (error == nil)
         {
             if (products.data.count > 0)
@@ -47,7 +50,14 @@
         }
         else
         {
-            DDLogVerbose(@"Error retrieving products: %@ %@", error, [error userInfo]);
+            DDLogError(@"Error retrieving products: %@ %@", error, [error userInfo]);
+            //TODO: Only log out user if error 4**
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)error.userInfo[@"com.alamofire.serialization.response.error.response"];
+            if (httpResponse.statusCode > 400 && httpResponse.statusCode < 500)
+            {
+                NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                [notificationCenter postNotificationName:kLoggedOutFromServer object:nil];
+            }
         }
 
         completion(error);

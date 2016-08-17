@@ -12,8 +12,11 @@
 #import "CategoriesViewController.h"
 #import "CategoriesCollectionViewCell.h"
 #import "Li5Constants.h"
+#import "AppDelegate.h"
 
-@interface CategoriesViewController ()
+@interface CategoriesViewController () {
+    NSOperationQueue *__queue;
+}
 
 @property (nonatomic, strong) NSArray<Category *> *allCategories;
 @property (nonatomic, strong) NSMutableArray *selectedCategoriesIDs;
@@ -51,8 +54,16 @@
 
 - (void)initialize
 {
+    __queue = [[NSOperationQueue alloc] init];
+    [__queue setName:@"Categories Queue"];
     _allCategories = [NSArray array];
     _selectedCategoriesIDs = [NSMutableArray array];
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateUserProfile)
+                               name:kProfileUpdated
+                             object:nil];
 }
 
 #pragma mark - UI Setup
@@ -67,18 +78,37 @@
     
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     __weak typeof(self) welf = self;
-    [li5 requestCategoriesWithCompletion:^(NSError *error, NSArray<Category *> *categories) {
-        if (error == nil) {
-            _allCategories = [NSArray arrayWithArray:categories];
-            if ([self.userProfile.preferences.data count] > 0) {
-                for (Category *category in self.userProfile.preferences.data) {
-                    [welf.selectedCategoriesIDs addObject:category.id];
-                }
+    [__queue addOperationWithBlock:^{
+        [li5 requestCategoriesWithCompletion:^(NSError *error, NSArray<Category *> *categories) {
+            if (error == nil) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    _allCategories = [NSArray arrayWithArray:categories];
+                    [welf populateSavedUserCategories];
+                    [welf.collectionView reloadData];
+                    [self checkSelectedCategories];
+                }];
             }
-            [welf.collectionView reloadData];
-            [welf checkSelectedCategories];
-        }
+        }];
     }];
+}
+
+- (void)updateUserProfile
+{
+    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
+    self.userProfile = flowController.userProfile;
+    [self populateSavedUserCategories];
+}
+
+- (void)populateSavedUserCategories
+{
+    [self.selectedCategoriesIDs removeAllObjects];
+    if ([self.userProfile.preferences count] > 0) {
+        for (Category *category in self.userProfile.preferences) {
+            [self.selectedCategoriesIDs addObject:category.id];
+        }
+    }
+    [self.collectionView reloadData];
+    [self checkSelectedCategories];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -172,6 +202,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Li5StripePublicKey</key>
+	<string>pk_test_RwxpEAjuWtwZdcUhT6vFRNpa</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>If you accept, we will populate your address based on your location</string>
 	<key>HeapAppId</key>
 	<string>412007199</string>
 	<key>UIAppFonts</key>
@@ -43,7 +47,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>49</string>
+	<string>66</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

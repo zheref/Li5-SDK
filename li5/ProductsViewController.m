@@ -12,7 +12,9 @@
 #import "ProductsCollectionViewDataSource.h"
 #import "ProductsViewController.h"
 
-@interface ProductsViewController () <UISearchBarDelegate>
+@interface ProductsViewController () <UISearchBarDelegate> {
+    NSOperationQueue *__queue;
+}
 
 @property (nonatomic, strong) ProductsCollectionViewDataSource *source;
 
@@ -21,6 +23,34 @@
 @implementation ProductsViewController
 
 #pragma mark - UI Setup
+
+#pragma mark - Init
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void)initialize
+{
+    __queue = [[NSOperationQueue alloc] init];
+    [__queue setName:@"Explore Queue"];
+}
 
 - (void)viewDidLoad
 {
@@ -34,7 +64,13 @@
     [self exploreProducts:nil];
 }
 
-
+- (void)viewDidAppear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewDidAppear:animated];
+    
+    [self exploreProducts:nil];
+}
 
 #pragma mark - User Actions
 
@@ -52,14 +88,19 @@
 
 - (void)exploreProducts:(NSString*)searchText
 {
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+    [__queue addOperationWithBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [_productListView.collectionView reloadData];
+        }];
         [_source getProductsWithQuery:(searchText.length > 0 ? searchText: nil) withCompletion:^(NSError *error) {
             if (error != nil)
             {
                 DDLogError(@"Error searching products: %@", error);
             }
             
-            [_productListView.collectionView reloadData];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [_productListView.collectionView reloadData];
+            }];
         }];
     }];
 }
@@ -75,14 +116,16 @@
 
 - (void)fetchMoreProductsWithCompletion:(void (^)(void))completion
 {
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+    [__queue addOperationWithBlock:^{
         [_source fetchMoreProductsWithCompletion:^(NSError *error) {
             if (error != nil)
             {
                 DDLogError(@"Error fetching more products: %@", error);
             }
             
-            [_productListView.collectionView reloadData];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [_productListView.collectionView reloadData];
+            }];
             completion();
         }];
     }];

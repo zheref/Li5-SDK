@@ -35,4 +35,16 @@
     return UIGraphicsGetImageFromCurrentImageContext();
 }
 
+- (UIImage *)blackAndWhiteImage
+{
+    CIImage *ciImage = self.CIImage?:[[CIImage alloc] initWithImage:self];
+    CIImage *grayscale = [ciImage imageByApplyingFilter:@"CIColorControls"
+                                    withInputParameters: @{kCIInputSaturationKey : @0.0}];
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef grayImageRef = [context createCGImage:grayscale fromRect:grayscale.extent];
+    UIImage *newImage = [UIImage imageWithCGImage:grayImageRef scale:self.scale orientation:self.imageOrientation];
+    CGImageRelease(grayImageRef);
+    return newImage;
+}
+
 @end

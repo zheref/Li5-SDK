@@ -62,6 +62,14 @@
     [self __refreshView];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewDidAppear:animated];
+    
+    [self.textView flashScrollIndicators];
+}
+
 - (void)__refreshView
 {
     DDLogVerbose(@"");

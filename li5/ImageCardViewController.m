@@ -63,7 +63,7 @@
 
 - (BOOL)prefersStatusBarHidden
 {
-    return NO;
+    return YES;
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle

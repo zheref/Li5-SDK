@@ -154,7 +154,7 @@
         _timeText.frame = CGRectInset(self.layer.bounds, 0, timeFont.xHeight);
         if (self.player)
         {
-            double remainingTime = CMTimeGetSeconds(self.player.currentItem.asset.duration)*(1-_percentage);
+            double remainingTime = MAX(0,CMTimeGetSeconds(self.player.currentItem.asset.duration)*(1-_percentage));
             _timeText.string = [NSString stringWithFormat:@"%li", (long)remainingTime];
         }
     }

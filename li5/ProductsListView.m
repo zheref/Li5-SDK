@@ -11,13 +11,13 @@
 #import "UserProductsCollectionViewDataSource.h"
 #import "ProductsCollectionViewCell.h"
 
-static const CGFloat lineSpacing = 6.0;
+static const CGFloat lineSpacing = 0.0;
 static const CGFloat interimItemSpacing = 5.0;
 
 static const CGFloat topSectionInset = 5.0;
 static const CGFloat bottomSectionInset = 6.0;
-static const CGFloat leftSectionInset = 5.0;
-static const CGFloat rightSectionInset = 5.0;
+static const CGFloat leftSectionInset = 0.0;
+static const CGFloat rightSectionInset = 0.0;
 
 @interface ProductsListView ()
 
@@ -41,8 +41,9 @@ static const CGFloat rightSectionInset = 5.0;
 {
     DDLogVerbose(@"");
     [super awakeFromNib];
-    
+
     [_collectionView setCollectionViewLayout:[[HorizontalUICollectionViewFlowLayout alloc] initWithColumns:self.columns andRows:self.rows]];
+    
     [_collectionView registerNib:[UINib nibWithNibName:@"ProductsCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"productListCell"];
     [_collectionView setDelegate:self];
 }
@@ -59,7 +60,9 @@ static const CGFloat rightSectionInset = 5.0;
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     DDLogVerbose(@"");
-    CGFloat width = (collectionView.frame.size.width - leftSectionInset - rightSectionInset - (self.columns-1)*lineSpacing) / self.columns;
+    
+    CGFloat width = (collectionView.frame.size.width - leftSectionInset - rightSectionInset -
+                     (self.columns-1)*lineSpacing) / self.columns;
     CGFloat height = (collectionView.frame.size.height - topSectionInset - bottomSectionInset - (self.rows-1)*interimItemSpacing ) / self.rows;
     CGSize size = CGSizeMake(width, height);
     return size;

@@ -6,6 +6,7 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
+@import TSMessages;
 @import AVFoundation;
 @import BCVideoPlayer;
 
@@ -22,6 +23,8 @@
     
     BOOL __primeTimeLoaded;
     BOOL __spinnerOn;
+    
+    NSOperationQueue *__queue;
 }
 
 @property (nonatomic, strong) PrimeTimeViewControllerDataSource *primeTimeSource;
@@ -44,16 +47,13 @@
         startIndex = 0;
         __primeTimeLoaded = NO;
         __spinnerOn = NO;
+        __queue = [[NSOperationQueue alloc] init];
+        [__queue setName:@"Prime Time Queue"];
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         
         [notificationCenter addObserver:self
                                selector:@selector(__popSpinnerScreen)
                                    name:kPrimeTimeLoaded
-                                 object:nil];
-        
-        [notificationCenter addObserver:self
-                               selector:@selector(__popSpinnerScreen)
-                                   name:kPrimeTimeFailedToLoad
                                  object:nil];
     }
     return self;
@@ -144,26 +144,39 @@
     __weak typeof(self) welf = self;
     if (!__primeTimeLoaded)
     {
-        [self.primeTimeSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
-            __strong typeof(self) swelf = welf;
-            if (error != nil)
-            {
-                DDLogVerbose(@"ERROR while Fetching Prime Time %@", error.description);
-            }
-            
-            [swelf __startPrimeTime];
+        [__queue addOperationWithBlock:^{
+            [welf.primeTimeSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
+                __strong typeof(self) swelf = welf;
+                if (error != nil)
+                {
+                    DDLogError(@"ERROR while Fetching Prime Time %@", error.localizedDescription);
+                    
+                    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                    [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
+
+                    [TSMessage showNotificationWithTitle:@"Something went wrong"
+                                                subtitle:error.localizedDescription
+                                                    type:TSMessageNotificationTypeError];
+                }
+                else
+                {
+                    [swelf __startPrimeTime];
+                }
+            }];
         }];
     }
     else
     {
-        [self __startPrimeTime];
+//        [__queue addOperationWithBlock:^{
+            [welf __startPrimeTime];
+//        }];
     }
 }
 
 - (void)__startPrimeTime
 {
     // Create page view controller
-    UIViewController *viewController = [(PrimeTimeViewControllerDataSource *)self.dataSource productPageViewControllerAtIndex:startIndex withPriority:BCPriorityHigh];
+    UIViewController *viewController = [(PrimeTimeViewControllerDataSource *)self.dataSource productPageViewControllerAtIndex:startIndex withPriority:BCPriorityBuffer];
     [viewController setScrollPageIndex:startIndex];
     [self setViewControllers:@[viewController]];
 }

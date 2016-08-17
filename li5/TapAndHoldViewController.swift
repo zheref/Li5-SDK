@@ -44,6 +44,7 @@ class TapAndHoldViewController: UIViewController {
     @IBOutlet weak var dynamicContainer : UIView!
     private var longTapGestureRecognizer : UILongPressGestureRecognizer!
     weak var gestureDelegate : TapAndHoldViewControllerDelegate?
+    private var timer: NSTimer?
     
     var kernels = [UIView]()
     
@@ -75,11 +76,27 @@ class TapAndHoldViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.removeTimers()
         self.startAnimationSequence()
+        self.setupTimers()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.removeTimers()
     }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    func setupTimers() {
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: #selector(dismissView), userInfo: nil, repeats: false)
+    }
+    
+    func removeTimers() {
+        self.timer?.invalidate()
+        self.timer = nil
     }
     
     @objc private func startAnimationSequence() {
@@ -166,18 +183,23 @@ class TapAndHoldViewController: UIViewController {
     }
     
     @IBAction func userDidTap(sender: AnyObject) {
+        self.removeTimers()
+        self.dismissView()
+    }
+    
+    func dismissView() {
         let bounds = UIScreen.mainScreen().bounds
         
         self.titleLabel.layer.addAnimation(CABasicAnimation(keyPath: "opacity", toValue: 0.0, duration:self.scale(1)), forKey: nil)
         self.subtitleLabel.layer.addAnimation(CABasicAnimation(keyPath: "opacity", toValue: 0.0, duration:self.scale(1)), forKey: nil)
-
+        
         var newColorsCenter = self.colorsImageView.layer.presentationLayer()!.position
         newColorsCenter.y = bounds.height + 100
         self.colorsImageView.layer.addAnimation(CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: newColorsCenter), duration: self.scale(1)), forKey: nil)
         var newBucketCenter = self.bucketImageView.layer.presentationLayer()!.position
         newBucketCenter.y = bounds.height + 100
         self.bucketImageView.layer.addAnimation(CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: newBucketCenter), duration: self.scale(1)), forKey: nil)
-
+        
         delay(self.scale(2)) {
             self.dismissViewControllerAnimated(false, completion: nil)
         }
@@ -185,6 +207,10 @@ class TapAndHoldViewController: UIViewController {
     
     private func scale(value: CFTimeInterval) -> CFTimeInterval {
         return value * 0.2
+    }
+    
+    deinit {
+        self.removeTimers()
     }
     
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Rubik-Bold.ttf">
+            <string>Rubik-Bold</string>
             <string>Rubik-Bold</string>
             <string>Rubik-Bold</string>
             <string>Rubik-Bold</string>
@@ -27,7 +28,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O3G-Aw-DXx">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O3G-Aw-DXx">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="productGrid" translatesAutoresizingMaskIntoConstraints="NO" id="9Dv-E3-wXG">
@@ -51,9 +52,9 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SWIPE DOWN TO EXPLORE MORE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4TK-kT-1Ez">
                                                         <rect key="frame" x="0.0" y="122" width="236" height="64"/>
                                                         <fontDescription key="fontDescription" name="Rubik-Bold" family="Rubik" pointSize="26"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
-                                                        <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <size key="shadowOffset" width="1" height="2"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="THAT'S IT FOR TODAY" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ktA-eT-elj">
@@ -129,7 +130,7 @@
                                                 </variation>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.53309755067567566" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="0.67512141047297303" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="j5m-3j-SoC" secondAttribute="trailing" id="4Vy-ng-M89"/>
                                             <constraint firstAttribute="bottom" secondItem="j5m-3j-SoC" secondAttribute="bottom" id="GC0-er-isk"/>
@@ -140,7 +141,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.074509806931018829" green="0.074509806931018829" blue="0.074509806931018829" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Npk-uh-e4I" firstAttribute="top" secondItem="O3G-Aw-DXx" secondAttribute="top" id="0Vx-Cs-0xG"/>
                                     <constraint firstAttribute="bottom" secondItem="Npk-uh-e4I" secondAttribute="bottom" id="1g3-Hv-KFc"/>
@@ -197,8 +198,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="video" translatesAutoresizingMaskIntoConstraints="NO" id="CG9-97-nJC">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="productGrid" translatesAutoresizingMaskIntoConstraints="NO" id="CG9-97-nJC">
+                                <rect key="frame" x="13" y="86" width="349" height="496"/>
                             </imageView>
                             <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XGh-2h-CMW" customClass="FXBlurView">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
@@ -221,12 +222,6 @@
                                                 <color key="textColor" red="1" green="0.0" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO EXPLORE MORE PRODUCTS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDW-PY-Ayo">
-                                                <rect key="frame" x="36" y="245" width="303" height="24"/>
-                                                <fontDescription key="fontDescription" name="Rubik-Bold" family="Rubik" pointSize="20"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipeDownIcon" translatesAutoresizingMaskIntoConstraints="NO" id="SPr-hq-SaI">
                                                 <rect key="frame" x="136" y="20" width="102" height="146"/>
                                                 <constraints>
@@ -240,6 +235,15 @@
                                                     </mask>
                                                 </variation>
                                             </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FROM THE CENTER TO EXPLORE MORE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDW-PY-Ayo">
+                                                <rect key="frame" x="54" y="245" width="267" height="48"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="267" id="MIh-5N-LTL"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Rubik-Bold" family="Rubik" pointSize="20"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -274,8 +278,10 @@
                             <constraint firstItem="yVP-KF-Vua" firstAttribute="top" secondItem="XGh-2h-CMW" secondAttribute="bottom" id="3ok-LV-0K6"/>
                             <constraint firstItem="yVP-KF-Vua" firstAttribute="top" secondItem="CG9-97-nJC" secondAttribute="bottom" id="Lb7-Gl-QEZ"/>
                             <constraint firstAttribute="trailing" secondItem="CG9-97-nJC" secondAttribute="trailing" id="OWP-bq-vzb"/>
+                            <constraint firstItem="CG9-97-nJC" firstAttribute="centerX" secondItem="cY4-rt-55o" secondAttribute="centerX" id="Rsx-Tf-UQg"/>
                             <constraint firstAttribute="trailing" secondItem="Bmz-sG-vLS" secondAttribute="trailing" id="Slf-Db-bOd"/>
                             <constraint firstItem="yVP-KF-Vua" firstAttribute="top" secondItem="Bmz-sG-vLS" secondAttribute="bottom" id="W16-y4-0ok"/>
+                            <constraint firstItem="CG9-97-nJC" firstAttribute="centerY" secondItem="cY4-rt-55o" secondAttribute="centerY" id="X4f-WO-Gav"/>
                             <constraint firstAttribute="trailing" secondItem="XGh-2h-CMW" secondAttribute="trailing" id="YX2-Pd-fYb"/>
                             <constraint firstItem="CG9-97-nJC" firstAttribute="top" secondItem="FcF-5t-ViQ" secondAttribute="bottom" id="czY-vf-eTf"/>
                             <constraint firstItem="Bmz-sG-vLS" firstAttribute="top" secondItem="cY4-rt-55o" secondAttribute="top" id="gHN-lp-PaV"/>
@@ -289,7 +295,11 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="iya-Y8-Sbu"/>
+                                <exclude reference="OWP-bq-vzb"/>
                                 <exclude reference="czY-vf-eTf"/>
+                                <exclude reference="lLT-th-UIj"/>
+                                <exclude reference="vfr-Kp-xrl"/>
+                                <exclude reference="Lb7-Gl-QEZ"/>
                             </mask>
                         </variation>
                         <connections>
@@ -323,16 +333,35 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.92549019610000005" green="0.1019607843" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lYW-6W-Dn2">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="GETTING YOUR ENTERTAINMENT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7a-wO-rZq">
+                                <rect key="frame" x="78" y="395" width="220" height="17"/>
+                                <fontDescription key="fontDescription" name="Rubik-Bold" family="Rubik" pointSize="14"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.81960785388946533" green="0.18823529779911041" blue="0.22745098173618317" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="8jc-FO-Tea" secondAttribute="trailing" id="A6r-LW-QKt"/>
                             <constraint firstItem="8jc-FO-Tea" firstAttribute="leading" secondItem="046-At-Xpa" secondAttribute="leading" id="E2V-9K-KZR"/>
                             <constraint firstItem="E6L-wI-VdQ" firstAttribute="top" secondItem="8jc-FO-Tea" secondAttribute="bottom" id="YwH-wF-8MV"/>
+                            <constraint firstItem="lYW-6W-Dn2" firstAttribute="top" secondItem="046-At-Xpa" secondAttribute="top" id="akb-Lv-VYP"/>
                             <constraint firstItem="8jc-FO-Tea" firstAttribute="top" secondItem="046-At-Xpa" secondAttribute="top" id="iTq-j5-Qa3"/>
+                            <constraint firstItem="E6L-wI-VdQ" firstAttribute="top" secondItem="lYW-6W-Dn2" secondAttribute="bottom" id="khL-8P-WHN"/>
+                            <constraint firstItem="a7a-wO-rZq" firstAttribute="centerX" secondItem="046-At-Xpa" secondAttribute="centerX" id="m4t-5q-0oG"/>
+                            <constraint firstItem="a7a-wO-rZq" firstAttribute="centerY" secondItem="046-At-Xpa" secondAttribute="centerY" constant="70" id="omo-MJ-HWk"/>
+                            <constraint firstAttribute="trailing" secondItem="lYW-6W-Dn2" secondAttribute="trailing" id="rXD-FH-FNT"/>
+                            <constraint firstItem="lYW-6W-Dn2" firstAttribute="leading" secondItem="046-At-Xpa" secondAttribute="leading" id="w6x-Lw-9bk"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="spinnerView" destination="lYW-6W-Dn2" id="jbe-Sa-fQR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VHg-ln-dAZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -427,7 +456,7 @@
                                 </connections>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.70032728040540537" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cEf-Wt-2bo" firstAttribute="leading" secondItem="1If-hW-yfc" secondAttribute="leading" id="3c3-Qx-JGG"/>
                             <constraint firstItem="0ws-H5-iOb" firstAttribute="leading" secondItem="1If-hW-yfc" secondAttribute="leading" id="6a8-x2-a0Y"/>
@@ -447,7 +476,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Launch" width="750" height="1334"/>
+        <image name="Launch" width="375" height="667"/>
         <image name="bucket_left" width="114" height="92"/>
         <image name="floor" width="375" height="52"/>
         <image name="popcorn_lastpage" width="36" height="34"/>
@@ -457,6 +486,5 @@
         <image name="productGrid" width="349" height="496"/>
         <image name="swipeDownIcon" width="102" height="146"/>
         <image name="swipeLeftIcon" width="80" height="123"/>
-        <image name="video" width="375" height="667"/>
     </resources>
 </document>

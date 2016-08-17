@@ -7,6 +7,7 @@
 //
 @import BCVideoPlayer;
 @import pop;
+@import TSMessages;
 
 #import "ShapesHelper.h"
 #import "TeaserViewController.h"
@@ -43,6 +44,7 @@
 @property (assign, nonatomic) ProductContext pContext;
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (nonatomic, strong) BCPlayer *teaserPlayer;
+@property (nonatomic, strong) BCPlayerLayer *playerLayer;
 @property (weak, nonatomic) IBOutlet Li5PlayerTimer *playerTimer;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *categoryImage;
@@ -53,6 +55,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageLeadingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelLeadingConstraint;
 
+@property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (strong, nonatomic) Wave *waveView;
 
 @end
@@ -84,8 +87,15 @@
     __hasUnlockedVideo = (self.product.videoURL != nil && ![self.product.videoURL isEqualToString:@""]);
     
     NSURL *playerUrl = [NSURL URLWithString:self.product.trailerURL];
-    _teaserPlayer = [[BCPlayer alloc] initWithUrl:playerUrl bufferInSeconds:20.0 priority:BCPriorityNormal delegate:self];
+    _teaserPlayer = [[BCPlayer alloc] initWithUrl:playerUrl bufferInSeconds:10.0 priority:BCPriorityBuffer delegate:self];
     //AVPlayer *player = [[AVPlayer alloc] initWithURL:playerUrl];
+
+    
+    self.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_teaserPlayer andFrame:[UIScreen mainScreen].bounds];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(show)
+                                                 name:kPrimeTimeReadyToStart
+                                               object:nil];
 }
 
 #pragma mark - UI View
@@ -101,11 +111,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    BCPlayerLayer *playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_teaserPlayer andFrame:self.view.bounds];
-    playerLayer.frame = self.view.bounds;
-    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+//    NSData *posterData = [[NSData alloc] initWithBase64EncodedString:self.product.poster64 options:0];
+//    UIImage *posterImage = [UIImage imageWithData:posterData];
+//    UIImageView *posterImageView = [[UIImageView alloc] initWithImage:posterImage];
+//    posterImageView.frame = self.view.bounds;
+//    [self.playerView addSubview:posterImageView];
     
-    [self.playerView.layer addSublayer:playerLayer];
+    self.playerLayer.frame = self.view.bounds;
+    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    
+    [self.playerView.layer addSublayer:self.playerLayer];
     
     [self.playerTimer setHasUnlocked:__hasUnlockedVideo];
     [self.actionsView setProduct:self.product];
@@ -168,6 +183,14 @@
     __hasAppeared = NO;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewWillAppear:animated];
+    
+    [self.actionsView refreshStatus];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     DDLogDebug(@"");
@@ -202,16 +225,38 @@
     
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
+    
+    [TSMessage showNotificationWithTitle:@"Error"
+                                subtitle:@"Failed to load item, please try again later."
+                                    type:TSMessageNotificationTypeError];
+
+}
+
+- (void)bufferReady
+{
+    DDLogVerbose(@"");
+    [_waveView stopAnimating];
 }
 
 - (void)bufferEmpty
 {
     DDLogVerbose(@"");
+    [_waveView startAnimating];
+    
+    [TSMessage showNotificationWithTitle:@"Network slow"
+                                subtitle:@"Buffer is empty, waiting for resources to finish downloading"
+                                    type:TSMessageNotificationTypeWarning];
+
 }
 
 - (void)networkFail:(NSError *)error
 {
     DDLogError(@"");
+    
+    [TSMessage showNotificationWithTitle:@"Error"
+                                subtitle:@"Network failed, please try again later."
+                                    type:TSMessageNotificationTypeError];
+
 }
 
 #pragma mark - Displayable Protocol
@@ -223,25 +268,24 @@
 
 - (void)show
 {
+    if(__hasAppeared) {
+        [self.teaserPlayer changePriority:BCPriorityPlay];
+    }
     if (self.teaserPlayer.status == AVPlayerStatusReadyToPlay)
     {
         [_waveView stopAnimating];
         
         [self.playerTimer setPlayer:self.teaserPlayer];
         
-        if(__hasAppeared)
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        if(__hasAppeared && [userDefaults boolForKey:kLi5SwipeLeftExplainerViewPresented])
         {
             DDLogVerbose(@"");
             [self.teaserPlayer play];
             
             [self renderAnimations];
             [self setupObservers];
-            
         }
-    }
-    else
-    {
-        [self.teaserPlayer changePriority:BCPriorityHigh];
     }
 }
 
@@ -319,37 +363,6 @@
             [self dismissViewControllerAnimated:NO completion:nil];
         }
         
-        //Long Tap transparent Background Rectangle
-        CGFloat animationDuration = 0.5f;
-        CGFloat fromRadius = 50.0f;
-        CGFloat toRadius = 800.0f;
-
-        CGPoint touchPosition = [sender locationInView:self.view];
-
-        UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(touchPosition.x, touchPosition.y, 100, 100)];
-        circleView.alpha = 0.2;
-        circleView.center = touchPosition;
-        circleView.layer.cornerRadius = fromRadius;
-        circleView.backgroundColor = [UIColor blackColor];
-
-        [self.view addSubview:circleView];
-
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"cornerRadius"];
-        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        animation.fromValue = [NSNumber numberWithFloat:fromRadius];
-        animation.toValue = [NSNumber numberWithFloat:toRadius];
-        animation.duration = animationDuration;
-        animation.fillMode = kCAFillModeBoth;
-        circleView.layer.cornerRadius = toRadius;
-        [circleView.layer addAnimation:animation forKey:@"cornerRadius"];
-
-        [UIView animateWithDuration:animationDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-          circleView.frame = CGRectMake(-800, -500, 2 * toRadius, 2 * toRadius);
-        }
-            completion:^(BOOL finished) {
-              [circleView removeFromSuperview];
-            }];
-
         [self.parentViewController performSelectorOnMainThread:@selector(handleLongTap:) withObject:sender waitUntilDone:NO];
     }
 }
@@ -474,12 +487,13 @@
     currentPosition.x = __startPositionX;
     self.categoryImage.layer.position = currentPosition;
     
-    NSString *catName = self.categoryLabel.text;
-    [self.categoryLabel setText:@""];
-    self.categoryLabel.alpha = 1.0;
+    CGRect startFrame = self.categoryLabel.frame;
+    CGRect endFrame = startFrame;
+    startFrame.size.width = 0;
+    self.categoryLabel.frame = startFrame;
     
     //Category Image animation
-    [UIView animateKeyframesWithDuration:totalDuration delay:0.0 options:UIViewKeyframeAnimationOptionCalculationModeCubicPaced animations:^{
+    [UIView animateKeyframesWithDuration:totalDuration delay:0.0 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
         
         //0-0.1
         [UIView addKeyframeWithRelativeStartTime:0*relativeDuration relativeDuration:relativeDuration animations:^{
@@ -585,21 +599,12 @@
             self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.105);
         }];
         
-    }completion:^(BOOL finished) {
+        [UIView addKeyframeWithRelativeStartTime:0.7 relativeDuration:0.3 animations:^{
+            self.categoryLabel.alpha = 1.0;
+            self.categoryLabel.frame = endFrame;
+        }];
         
-        //Category Label animation
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
-                       ^{
-                           for (int i = 0; i < catName.length; i++)
-                           {
-                               dispatch_async(dispatch_get_main_queue(),
-                                              ^{
-                                                  [self.categoryLabel setText:[NSString stringWithFormat:@"%@%C", self.categoryLabel.text, [catName characterAtIndex:i]]];
-                                              });
-                               
-                               [NSThread sleepForTimeInterval:0.02];
-                           }
-                       });
+    }completion:^(BOOL finished) {
         
     }];
 }
@@ -630,6 +635,7 @@
 - (void)dealloc
 {
     DDLogDebug(@"%p",self);
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self removeObservers];
     [_teaserPlayer pauseAndDestroy];
 }

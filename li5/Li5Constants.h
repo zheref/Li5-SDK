@@ -19,11 +19,15 @@ extern NSString * const kCategoriesUpdateSuccessful;
 extern NSString * const kCategoriesUpdateFailed;
 extern NSString * const kPrimeTimeLoaded;
 extern NSString * const kPrimeTimeFailedToLoad;
+extern NSString * const kPrimeTimeReadyToStart;
+extern NSString * const kProfileUpdated;
+extern NSString * const kLoggedOutFromServer;
 
 //User Defaults Keys
 extern NSString * const kLi5UserID;
 extern NSString * const kLi5CategoriesSelectionViewPresented;
 extern NSString * const kLi5SwipeLeftExplainerViewPresented;
 extern NSString * const kLi5SwipeDownExplainerViewPresented;
+extern NSString * const kLi5SwipeUpExplainerViewPresented;
 
 @end

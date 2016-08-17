@@ -16,7 +16,7 @@
 #import "Li5-Swift.h"
 
 static const CGFloat sliderHeight = 50.0;
-static const CGFloat kCAHideControls = 4.0;
+static const CGFloat kCAHideControls = 3.5;
 
 @interface UnlockedViewController ()
 {
@@ -28,11 +28,14 @@ static const CGFloat kCAHideControls = 4.0;
     
     BOOL __hasAppeared;
     BOOL __renderingAnimations;
+    BOOL __locked;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (strong, nonatomic) BCPlayer *extendedVideo;
+@property (strong, nonatomic) BCPlayerLayer *playerLayer;
+
 @property (weak, nonatomic) IBOutlet Li5PlayerUISlider *seekSlider;
 @property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
 @property (weak, nonatomic) IBOutlet UIButton *muteButton;
@@ -40,11 +43,57 @@ static const CGFloat kCAHideControls = 4.0;
 
 @property (strong, nonatomic) Wave *waveView;
 
+//Appearance Animation
+@property (nonatomic, strong) CAShapeLayer *dot;
+@property (nonatomic, strong) UIColor *dotColor;
+@property (nonatomic, assign) double dismissThreshold;
+@property (nonatomic, assign) double presentAnimationDuration;
+
 @end
 
 @implementation UnlockedViewController
 
 @synthesize product;
+
+#pragma mark - Init
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void)initialize
+{
+    _dotColor = [UIColor li5_redColor];
+    _dismissThreshold = 0.05; // 0.0 < dismissThreashold <= 1.1
+    _presentAnimationDuration = 0.35;
+    __locked = YES;
+}
 
 + (id)unlockedWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
 {
@@ -55,7 +104,8 @@ static const CGFloat kCAHideControls = 4.0;
         DDLogVerbose(@"%@", thisProduct.id);
         newSelf.product = thisProduct;
         NSURL *videoUrl = [NSURL URLWithString:newSelf.product.videoURL];
-        newSelf.extendedVideo = [[BCPlayer alloc] initWithUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityNormal delegate:newSelf];
+        newSelf.extendedVideo = [[BCPlayer alloc] initWithUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityUnLock delegate:newSelf];
+        newSelf.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:newSelf.extendedVideo andFrame:[UIScreen mainScreen].bounds];
     }
     return newSelf;
 }
@@ -71,14 +121,37 @@ static const CGFloat kCAHideControls = 4.0;
 {
     DDLogVerbose(@"");
     [super viewDidLoad];
+    
+//    NSData *posterData = [[NSData alloc] initWithBase64EncodedString:self.product.poster64 options:0];
+//    UIImage *posterImage = [UIImage imageWithData:posterData];
+//    UIImageView *posterImageView = [[UIImageView alloc] initWithImage:posterImage];
+//    posterImageView.frame = self.view.bounds;
+//    [self.playerView addSubview:posterImageView];
+    
     // Do any additional setup after loading the view.
-    BCPlayerLayer *playerLayer = [[BCPlayerLayer alloc] initWithPlayer:self.extendedVideo andFrame:self.view.bounds];
-    playerLayer.frame = self.view.bounds;
-    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-
-    [self.playerView.layer addSublayer:playerLayer];
-
+    self.playerLayer.frame = self.view.bounds;
+    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    
+    [self.playerView.layer addSublayer:self.playerLayer];
+    
     [self.actionsView setProduct:self.product];
+    
+    CGRect rect = CGRectMake(self.initialPoint.x, self.initialPoint.y, 1, 1);
+    
+    _dot = [CAShapeLayer layer];
+    _dot.anchorPoint = CGPointZero;
+    _dot.contentsScale = [UIScreen mainScreen].scale;
+    _dot.shouldRasterize = YES;
+    _dot.backgroundColor = [UIColor clearColor].CGColor;
+    _dot.path = [self mainPathForRect:rect].CGPath;
+    _dot.shadowRadius = 5;
+    _dot.shadowColor = self.view.backgroundColor.CGColor;
+    _dot.shadowOpacity = 1;
+    _dot.shadowOffset = CGSizeZero;
+    _dot.shadowPath = [self shadowPathForRect:rect].CGPath;
+    _dot.opacity = 0.9;
+    
+    self.view.layer.mask = self.dot;
     
     [self setupGestureRecognizers];
     
@@ -113,7 +186,36 @@ static const CGFloat kCAHideControls = 4.0;
     
     __hasAppeared = YES;
     
-    [self show];
+    if (self.dot && __locked)
+    {
+        __locked = NO;
+        self.view.userInteractionEnabled = false;
+        
+        CGRect rect = CGRectMake(self.initialPoint.x, self.initialPoint.y, 1, 1);
+        UIBezierPath *fromPath = [self mainPathForRect:rect];
+        UIBezierPath *fromShadowPath = [self shadowPathForRect:rect];
+        
+        UIBezierPath *newPath = [self mainPathForRect:[self fullRect]];
+        UIBezierPath *shadowPath = [self shadowPathForRect:[self fullRect]];
+        
+        CABasicAnimation *opacity = [self basicAnimationWithKeyPath:@"opacity" toValue:@(1.0) duration:self.presentAnimationDuration];
+        
+        CABasicAnimation *pathAnimation = [self basicAnimationWithKeyPath:@"path" toValue:(__bridge id _Nullable)(newPath.CGPath) duration:self.presentAnimationDuration];
+        pathAnimation.fromValue = (__bridge id _Nullable)(fromPath.CGPath);
+        
+        CABasicAnimation *shadowPathAnimation = [self basicAnimationWithKeyPath:@"shadowPath" toValue:(__bridge id _Nullable)(shadowPath.CGPath) duration:self.presentAnimationDuration];
+        shadowPathAnimation.fromValue = (__bridge id _Nullable)(fromShadowPath.CGPath);
+        
+        CAAnimationGroup *animation = [self animationGroup:@[opacity, pathAnimation, shadowPathAnimation]];
+        animation.removedOnCompletion = YES;
+        
+        animation.delegate = self;
+        
+        [self.dot addAnimation:animation forKey:@"initial"];
+        
+    } else {
+        [self show];
+    }
 }
 
 - (void)renderAnimations
@@ -179,15 +281,37 @@ static const CGFloat kCAHideControls = 4.0;
     [self.arrow.layer addAnimation:trans forKey:@"bouncing"];
 }
 
-
 - (IBAction)handleSoundAction:(id)sender
 {
+    [self removeTimers];
     BOOL currentState = self.muteButton.isSelected;
     
     self.extendedVideo.muted = !currentState;
     
     [self.muteButton setSelected:!currentState];
+    [self setupTimers];
 }
+
+#pragma mark - Animation Delegate
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (self.dot)
+    {
+        UIBezierPath *newPath = [self mainPathForRect:[self fullRect]];
+        UIBezierPath *shadowPath = [self shadowPathForRect:[self fullRect]];
+        
+        self.dot.opacity = 1.0;
+        self.dot.path = newPath.CGPath;
+        self.dot.shadowPath = shadowPath.CGPath;
+        
+        [self.dot removeAnimationForKey:@"initial"];
+        self.view.userInteractionEnabled = true;
+        
+        [self show];
+    }
+}
+
 #pragma mark - Player
 
 - (void)readyToPlay
@@ -200,16 +324,25 @@ static const CGFloat kCAHideControls = 4.0;
 - (void)failToLoadItem:(NSError*)error
 {
     DDLogError(@"%@",error.description);
+    [_waveView stopAnimating];
 }
 
 - (void)bufferEmpty
 {
     DDLogVerbose(@"");
+    [_waveView startAnimating];
+}
+
+- (void)bufferReady
+{
+    DDLogVerbose(@"");
+    [_waveView stopAnimating];
 }
 
 - (void)networkFail:(NSError *)error
 {
     DDLogError(@"");
+    [_waveView stopAnimating];
 }
 
 #pragma mark - Displayable Protocol
@@ -233,7 +366,7 @@ static const CGFloat kCAHideControls = 4.0;
     }
     else
     {
-        [self.extendedVideo changePriority:BCPriorityHigh];
+        [self.extendedVideo changePriority:BCPriorityPlay];
     }
 }
 
@@ -302,18 +435,68 @@ static const CGFloat kCAHideControls = 4.0;
 
 #pragma mark - Gesture Recognizers
 
-- (void)handleLockTap:(UIGestureRecognizer *)recognizer
+- (void)handleLockTap:(UIPanGestureRecognizer *)gr
 {
-    if (recognizer.state == UIGestureRecognizerStateEnded)
+    if (self.dot)
     {
-        CGPoint distance = [(UIPanGestureRecognizer*)recognizer translationInView:recognizer.view];
-        if (distance.y > 15)
-        {
-            [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:recognizer waitUntilDone:NO];
-            [self.extendedVideo changePriority:BCPriorityNormal];
-            [self.extendedVideo seekToTime:kCMTimeZero];
-            [self.muteButton setSelected:NO];
-            self.extendedVideo.muted = NO;
+        switch (gr.state) {
+            case UIGestureRecognizerStateChanged:
+            {
+                CGPoint current = [gr translationInView:self.view];
+                double h = MAX(([self diameter]) - current.y * 3, 10);
+                CGSize size = CGSizeMake(h, h);
+                
+                CGRect newRect = [self center:CGRectMake(0, 0,size.width, size.height) in:self.view.bounds];
+                self.dot.path = [self mainPathForRect:newRect].CGPath;
+                self.dot.shadowPath = [self shadowPathForRect:newRect].CGPath;
+                
+                break;
+            }
+            case UIGestureRecognizerStateEnded:
+            {
+                CGPoint current = [gr translationInView:self.view];
+                
+                if (current.y > [self threshold])
+                {
+                    [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:gr waitUntilDone:NO];
+                    [self.extendedVideo changePriority:BCPriorityUnLock];
+                    [self.extendedVideo seekToTime:kCMTimeZero];
+                    [self.muteButton setSelected:NO];
+                    self.extendedVideo.muted = NO;
+                    __locked = YES;
+                }
+                else
+                {
+                    UIBezierPath *newPath = [self mainPathForRect:[self fullRect]];
+                    UIBezierPath *shadowPath = [self shadowPathForRect:[self fullRect]];
+                    
+                    CABasicAnimation *opacity = [self basicAnimationWithKeyPath:@"opacity" toValue:@(1.0) duration:0.1];
+                    
+                    CABasicAnimation *pathAnimation = [self basicAnimationWithKeyPath:@"path" toValue:(__bridge id _Nullable)(newPath.CGPath) duration:0.1];
+                    
+                    CABasicAnimation *shadowPathAnimation = [self basicAnimationWithKeyPath:@"shadowPath" toValue:(__bridge id _Nullable)(shadowPath.CGPath) duration:0.1];
+                    
+                    CAAnimationGroup *animation = [self animationGroup:@[opacity, pathAnimation, shadowPathAnimation]];
+                    animation.removedOnCompletion = YES;
+                    
+                    [self.dot addAnimation:animation forKey:nil];
+                    
+                    self.dot.path = newPath.CGPath;
+                    self.dot.shadowPath = shadowPath.CGPath;
+                    self.dot.opacity = 1.0;
+                }
+                
+                break;
+            }
+            case UIGestureRecognizerStateCancelled:
+            {
+                self.dot.path = [self mainPathForRect:self.fullRect].CGPath;
+                self.dot.shadowPath = [self shadowPathForRect:self.fullRect].CGPath;
+                self.dot.opacity = 1.0;
+                break;
+            }
+            default:
+                break;
         }
     }
 }
@@ -342,6 +525,8 @@ static const CGFloat kCAHideControls = 4.0;
     _lockPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleLockTap:)];
     _lockPanGestureRecognzier.delegate = self;
     _lockPanGestureRecognzier.cancelsTouchesInView = NO;
+    _lockPanGestureRecognzier.maximumNumberOfTouches = 1;
+    _lockPanGestureRecognzier.minimumNumberOfTouches = 1;
     
     [self.view addGestureRecognizer:_lockPanGestureRecognzier];
 }
@@ -395,6 +580,65 @@ static const CGFloat kCAHideControls = 4.0;
     [self removeTimers];
     [super touchesCancelled:touches withEvent:event];
     [self setupTimers];
+}
+
+#pragma mark - Private Methods
+
+- (CGRect)center:(CGRect)rect in:(CGRect)container
+{
+    CGPoint containerCenter = CGPointMake(container.origin.x + container.size.width / 2, container.origin.y + container.size.height / 2);
+    
+    rect.origin = CGPointMake( containerCenter.x - rect.size.width / 2, containerCenter.y - rect.size.height / 2);
+    return rect;
+}
+
+- (CGFloat)threshold
+{
+    return [UIScreen mainScreen].bounds.size.height * self.dismissThreshold;
+}
+
+- (CGFloat)diameter
+{
+    CGSize bounds = self.view.bounds.size;
+    return sqrt(bounds.width * bounds.width + bounds.height * bounds.height);
+}
+
+- (CGRect)fullRect
+{
+    CGFloat h = [self diameter];
+    CGSize size = CGSizeMake(h,h);
+    return [self center:CGRectMake(0, 0,size.width, size.height) in:self.view.bounds];
+}
+
+- (UIBezierPath*)mainPathForRect:(CGRect)rect
+{
+    return [[UIBezierPath bezierPathWithOvalInRect:rect] bezierPathByReversingPath];
+}
+
+- (UIBezierPath*)shadowPathForRect:(CGRect)rect
+{
+    return [[UIBezierPath bezierPathWithOvalInRect:CGRectInset(rect, -10, -10)] bezierPathByReversingPath];
+}
+
+- (CAAnimationGroup*)animationGroup:(NSArray<CAAnimation*>*)animations
+{
+    CAAnimationGroup *animation = [CAAnimationGroup animation];
+    animation.animations = animations;
+    animation.duration = [[animations valueForKeyPath:@"@max.duration"] doubleValue];
+    animation.fillMode = kCAFillModeForwards;
+    animation.removedOnCompletion = NO;
+    return animation;
+}
+
+- (CABasicAnimation*)basicAnimationWithKeyPath:(NSString*)keyPath toValue:(id)value duration:(CFTimeInterval)duration
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
+    animation.toValue = value;
+    animation.duration = duration;
+    animation.fillMode = kCAFillModeForwards;
+    animation.removedOnCompletion = NO;
+    
+    return animation;
 }
 
 #pragma mark - Device Actions
