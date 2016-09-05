@@ -15,7 +15,8 @@
     id __playerEndObserver;
 }
 
-@property (strong, nonatomic) BCPlayer *previewVideo;
+@property (strong, nonatomic) AVPlayer *previewVideo;
+@property (strong, nonatomic) AVPlayerLayer *previewVideoLayer;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 @property (weak, nonatomic) IBOutlet UIView *categoryVideoView;
@@ -34,6 +35,15 @@
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    
+    [self removeObservers];
+    self.previewVideo = nil;
+    [self.previewVideoLayer removeFromSuperlayer];
+}
+
 #pragma mark - Public Methods
 
 - (void)setCategory:(Category *)category
@@ -42,15 +52,19 @@
 
     self.titleLbl.text = [[_category name] uppercaseString];
 
-    _previewVideo = [[BCPlayer alloc] initWithUrl:[NSURL URLWithString:[category image]] bufferInSeconds:10.0 priority:BCPriorityPlay delegate:self];
+    NSURL *categoryURL = [NSURL URLWithString:[category image]];
+    categoryURL = [[NSBundle mainBundle] URLForResource:[[categoryURL lastPathComponent] stringByDeletingPathExtension] withExtension:[categoryURL pathExtension]];
+    _previewVideo = [[BCPlayer alloc] initWithFileUrl:categoryURL delegate:self];
+//    _previewVideo = [[BCPlayer alloc] initWithUrl:categoryURL bufferInSeconds:10.0 priority:BCPriorityPlay delegate:self];
+
     _previewVideo.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     _previewVideo.muted = TRUE;
 
-    AVPlayerLayer *previewVideoLayer = [AVPlayerLayer playerLayerWithPlayer:_previewVideo];
-    previewVideoLayer.frame = self.bounds;
-    previewVideoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    _previewVideoLayer = [AVPlayerLayer playerLayerWithPlayer:_previewVideo];
+    _previewVideoLayer.frame = self.bounds;
+    _previewVideoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
 
-    [self.categoryVideoView.layer addSublayer:previewVideoLayer];
+    [self.categoryVideoView.layer addSublayer:_previewVideoLayer];
 }
 
 - (void)setSelected:(BOOL)selected

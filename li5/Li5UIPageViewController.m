@@ -18,6 +18,9 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 
 @interface Li5UIPageViewController () {
     NSOperationQueue *__queue;
+    
+    ScrollDirection __scrollDirection;
+    BOOL __preloading;
 }
 
 @property (nonatomic, strong) UIScrollView *containerScrollView;
@@ -85,9 +88,9 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
     DDLogVerbose(@"");
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
-
+    
     self.containerScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.containerScrollView.pagingEnabled = true;
     self.containerScrollView.alwaysBounceVertical = false;
@@ -111,7 +114,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 {
     DDLogVerbose(@"");
     [super viewDidAppear:animated];
-
+    
     [self.currentViewController endAppearanceTransition];
 }
 
@@ -119,7 +122,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 {
     DDLogVerbose(@"");
     [super viewWillDisappear:animated];
-
+    
     [self.currentViewController beginAppearanceTransition:NO animated:animated];
 }
 
@@ -127,7 +130,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 {
     DDLogVerbose(@"");
     [super viewDidDisappear:animated];
-
+    
     [self.currentViewController endAppearanceTransition];
 }
 
@@ -145,7 +148,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
     {
         _currentPage = self.totalPages - 1;
     }
-
+    
     [self __updateScrollViewContents];
     // Set the fully switched page in order to notify the delegates about it if needed.
     _fullySwitchedPage = _currentPage;
@@ -178,6 +181,16 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
             
             _previousViewController = [self __getViewControllerWithPage:previousPage];
             _currentViewController = [self __getViewControllerWithPage:page];
+            //
+            
+            if(_currentViewController.parentViewController == nil) {
+                [self __presentViewController:_currentViewController];
+            }
+//
+            if(_previousViewController.parentViewController == nil) {
+                [self __presentViewController:_previousViewController];
+            }
+            //
             
             // Perform the "disappear" sequence of methods manually when the view of
             // the controller is not visible at all.
@@ -194,66 +207,107 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
             [_currentViewController viewWillAppear:false];
             [_currentViewController viewDidAppear:false];
             [_currentViewController didMoveToParentViewController:self];
-            
-            
-            if (self.dataSource != nil)
-            {
-                if (previousPage < page)
-                {
-                    if (page + 1 > self.viewControllers.lastObject.scrollPageIndex)
-                    {
-                        [__queue addOperationWithBlock:^{
-                            UIViewController *nextViewController = [self.dataSource viewControllerAfterViewController:_currentViewController];
-                            if (nextViewController != nil)
-                            {
-                                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                    [nextViewController setScrollPageIndex:page+1];
-                                    if (page + 1 >= self.totalPages)
-                                    {
-                                        self.totalPages++;
-                                    }
-                                    [self __presentViewController:nextViewController];
-                                    //if array exceeds cache size, clean old pages
-                                    _viewControllers = @[_previousViewController,_currentViewController, nextViewController];
-                                    [self __cleanViewControllers];
-                                }];
-                            }
-                        }];
-                    }
-                }
-                else
-                {
-                    if (page > 0 && page - 1 < self.viewControllers.firstObject.scrollPageIndex )
-                    {
-                        [__queue addOperationWithBlock:^{
-                            UIViewController *nextViewController = [self.dataSource viewControllerBeforeViewController:_currentViewController];
-                            if (nextViewController)
-                            {
-                                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                    [nextViewController setScrollPageIndex:page-1];
-                                    [self __presentViewController:nextViewController];
-                                    //if array exceeds cache size, clean old pages
-                                    _viewControllers = @[nextViewController, _currentViewController, _previousViewController];
-                                    [self __cleanViewControllers];
-                                }];
-                            }
-                        }];
-                    }
-                }
-            }
         }
     }
+}
+- (BOOL)isLeftDown {
+    
+    return __scrollDirection & ScrollDirectionLeft || __scrollDirection & ScrollDirectionDown;
+}
+
+- (void)preloadViewController:(NSInteger)page {
+    
+    if (self.dataSource == nil || __preloading) {
+        return;
+    }
+    
+    for (UIViewController *vc in self.viewControllers) {
+        if (vc.scrollPageIndex == page) {
+            return;
+        }
+    }
+    
+    __preloading = true;
+    
+    //    [__queue addOperationWithBlock:^{
+    UIViewController *nextViewController = [self.dataSource viewControllerViewControllerAtIndex:page];
+    if (nextViewController != nil)
+    {
+//                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        
+        [nextViewController setScrollPageIndex:page];
+        
+        if (page >= self.totalPages)
+        {
+            self.totalPages++;
+        }
+        
+        //
+        NSMutableArray *array = [NSMutableArray array];
+        
+        if([self isLeftDown]) {
+            
+            if(_previousViewController != nil) {
+                [array addObject:_previousViewController];
+            }
+            
+            if(_currentViewController != nil) {
+                [array addObject:_currentViewController];
+            }
+            
+            [array addObject:nextViewController];
+        }
+        else {
+            
+            [array addObject:nextViewController];
+            
+            if(_currentViewController != nil) {
+                [array addObject:_currentViewController];
+            }
+            if(_previousViewController != nil) {
+                [array addObject:_previousViewController];
+            }
+            
+            //            _viewControllers = @[nextViewController, _currentViewController, _previousViewController];
+        }
+        
+        _viewControllers = [NSArray arrayWithArray:array];
+        
+        if(nextViewController.parentViewController == nil) {
+            [self __presentViewController:nextViewController];
+        }
+        
+        [self __cleanViewControllers];
+        __preloading = false;
+//                    }];
+    }else {
+        
+        __preloading = false;
+    }
+    //    }];
 }
 
 - (UIViewController*)__getViewControllerWithPage:(NSInteger)page
 {
-//    DDLogVerbose(@"");
+    //    DDLogVerbose(@"");
     for (UIViewController *vc in self.viewControllers) {
         if (vc.scrollPageIndex == page) {
             return vc;
         }
     }
-    return nil;
+    
+    UIViewController *vc = [self.dataSource viewControllerViewControllerAtIndex:page];
+    vc.scrollPageIndex = page;
+    
+    if(vc == nil) {
+        return nil;
+    }
+    NSMutableArray *array = [NSMutableArray arrayWithArray:_viewControllers];
+    [array addObject:vc];
+    _viewControllers = [NSArray arrayWithArray:array];
+    //    [self __presentViewController:vc];
+    
+    return vc;
 }
 
 - (void)__cleanViewControllers
@@ -263,8 +317,10 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
     {
         if (![self.viewControllers containsObject:childController])
         {
-            [childController.view removeFromSuperview];
-            [childController removeFromParentViewController];
+            if(_currentViewController != childController) {
+                [childController.view removeFromSuperview];
+                [childController removeFromParentViewController];
+            }
         }
     }
 }
@@ -277,7 +333,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
     {
         [pageView removeFromSuperview];
     }
-
+    
     
     for (int i = 0; i < self.viewControllers.count; i++)
     {
@@ -286,16 +342,16 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
         {
             [self addChildViewController:page];
             CGRect nextFrame = CGRectMake(
-                (self.direction == Li5UIPageViewControllerDirectionVertical ? self.view.bounds.origin.x : ((CGFloat)page.scrollPageIndex) * self.view.bounds.size.width),
-                (self.direction == Li5UIPageViewControllerDirectionHorizontal ? self.view.bounds.origin.y : ((CGFloat)page.scrollPageIndex) * self.view.bounds.size.height),
-                self.view.bounds.size.width,
-                self.view.bounds.size.height);
+                                          (self.direction == Li5UIPageViewControllerDirectionVertical ? self.view.bounds.origin.x : ((CGFloat)page.scrollPageIndex) * self.view.bounds.size.width),
+                                          (self.direction == Li5UIPageViewControllerDirectionHorizontal ? self.view.bounds.origin.y : ((CGFloat)page.scrollPageIndex) * self.view.bounds.size.height),
+                                          self.view.bounds.size.width,
+                                          self.view.bounds.size.height);
             page.view.frame = nextFrame;
             [self.containerScrollView addSubview:page.view];
             [page didMoveToParentViewController:self];
         }
     }
-
+    
     [self __updateScrollViewContents];
 }
 
@@ -320,22 +376,23 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-//    DDLogDebug(@"");
-    ScrollDirection scrollDirection = ScrollDirectionNone;
+    //    DDLogDebug(@"");
+    __scrollDirection = ScrollDirectionNone;
+    
     if (self.direction == Li5UIPageViewControllerDirectionHorizontal)
     {
         if (self.lastContentOffset > scrollView.contentOffset.x)
-            scrollDirection = ScrollDirectionRight;
+            __scrollDirection = ScrollDirectionRight;
         else if (self.lastContentOffset < scrollView.contentOffset.x)
-            scrollDirection = ScrollDirectionLeft;
+            __scrollDirection = ScrollDirectionLeft;
         self.lastContentOffset = scrollView.contentOffset.x;
     }
     else
     {
         if (self.lastContentOffset > scrollView.contentOffset.y)
-            scrollDirection = ScrollDirectionDown;
+            __scrollDirection = ScrollDirectionDown;
         else if (self.lastContentOffset < scrollView.contentOffset.y)
-            scrollDirection = ScrollDirectionUp;
+            __scrollDirection = ScrollDirectionUp;
         self.lastContentOffset = scrollView.contentOffset.y;
     }
     
@@ -343,16 +400,18 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
     NSInteger page = floor(((self.direction == Li5UIPageViewControllerDirectionVertical ? self.containerScrollView.contentOffset.y : self.containerScrollView.contentOffset.x) - self.pageLength / 2) / self.pageLength) + 1;
     self.containerScrollView.bounces = (self.bounces && page == (self.totalPages - 1));
     
+    double progress = (self.direction == Li5UIPageViewControllerDirectionVertical ? self.containerScrollView.contentOffset.y : self.containerScrollView.contentOffset.x) / self.pageLength;
+    NSInteger fullNextPage = ceil(progress);
+    NSInteger fullPrevPPage = floor(progress);
+    
     if (self.delegate)
     {
-        double progress = (self.direction == Li5UIPageViewControllerDirectionVertical ? self.containerScrollView.contentOffset.y : self.containerScrollView.contentOffset.x) / self.pageLength;
-        NSInteger fullNextPage = ceil(progress);
-        NSInteger fullPrevPPage = floor(progress);
         double percentage = fmod(progress, 1.0);
         
         UIViewController *prevController = nil;
         UIViewController *nextController = nil;
-        if (scrollDirection & ScrollDirectionLeft || scrollDirection & ScrollDirectionDown)
+        
+        if([self isLeftDown])
         {
             prevController = [self __getViewControllerWithPage:fullPrevPPage];
             nextController = [self __getViewControllerWithPage:fullNextPage];
@@ -375,6 +434,21 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
         [self.delegate isSwitchingToPage:nextController fromPage:prevController progress:progress];
     }
     
+    if(!self.delegate && !__preloading) {
+        
+        NSInteger pageToPreload = self.currentPage;
+        
+        if([self isLeftDown]) {
+            pageToPreload = fullNextPage;
+        }
+        else {
+            pageToPreload = fullPrevPPage;
+        }
+//               [__queue addOperationWithBlock:^{
+        [self preloadViewController:pageToPreload];
+//               }];
+    }
+    
     // Check whether the current view controller is fully presented.
     if (((NSInteger)(self.direction == Li5UIPageViewControllerDirectionVertical ? self.containerScrollView.contentOffset.y : self.containerScrollView.contentOffset.x)) % ((NSInteger)self.pageLength) == 0)
     {
@@ -384,12 +458,20 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
             if (page >= 0 && page < self.totalPages)
             {
                 [self setFullySwitchedPage:page];
+                
                 if (self.delegate)
                 {
+                    if([self isLeftDown]) {   [self preloadViewController:page + 1];
+                    }else {
+                    
+                      [self preloadViewController:page - 1];
+                    }
+                  
                     [self.delegate didFinishSwitchingPage:YES];
                 }
             }
         }
+        
     }
 }
 

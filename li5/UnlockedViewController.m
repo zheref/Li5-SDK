@@ -40,6 +40,7 @@ static const CGFloat kCAHideControls = 3.5;
 @property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
 @property (weak, nonatomic) IBOutlet UIButton *muteButton;
 @property (weak, nonatomic) IBOutlet UIImageView *arrow;
+@property (weak, nonatomic) IBOutlet UIButton *castButton;
 
 @property (strong, nonatomic) Wave *waveView;
 
@@ -105,7 +106,7 @@ static const CGFloat kCAHideControls = 3.5;
         newSelf.product = thisProduct;
         NSURL *videoUrl = [NSURL URLWithString:newSelf.product.videoURL];
         newSelf.extendedVideo = [[BCPlayer alloc] initWithUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityUnLock delegate:newSelf];
-        newSelf.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:newSelf.extendedVideo andFrame:[UIScreen mainScreen].bounds];
+        newSelf.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:newSelf.extendedVideo andFrame:[UIScreen mainScreen].bounds previewImageRequired:YES];
     }
     return newSelf;
 }
@@ -122,11 +123,18 @@ static const CGFloat kCAHideControls = 3.5;
     DDLogVerbose(@"");
     [super viewDidLoad];
     
-//    NSData *posterData = [[NSData alloc] initWithBase64EncodedString:self.product.poster64 options:0];
-//    UIImage *posterImage = [UIImage imageWithData:posterData];
-//    UIImageView *posterImageView = [[UIImageView alloc] initWithImage:posterImage];
-//    posterImageView.frame = self.view.bounds;
-//    [self.playerView addSubview:posterImageView];
+#if DEBUG
+    self.castButton.hidden = NO;
+#endif
+    
+    if (self.product.videoPosterPreview)
+    {
+        NSData *posterData = [[NSData alloc] initWithBase64EncodedString:self.product.videoPosterPreview options:0];
+        UIImage *posterImage = [UIImage imageWithData:posterData];
+        UIImageView *posterImageView = [[UIImageView alloc] initWithImage:posterImage];
+        posterImageView.frame = self.view.bounds;
+        [self.playerView addSubview:posterImageView];
+    }
     
     // Do any additional setup after loading the view.
     self.playerLayer.frame = self.view.bounds;
@@ -179,6 +187,16 @@ static const CGFloat kCAHideControls = 3.5;
     [self updateSecondsWatched];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewWillDisappear:animated];
+    
+    __hasAppeared = NO;
+    
+    [self.extendedVideo pause];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     DDLogVerbose(@"");
@@ -228,11 +246,17 @@ static const CGFloat kCAHideControls = 3.5;
             self.seekSlider.hidden = NO;
             self.actionsView.hidden = NO;
             self.muteButton.hidden = NO;
+#if DEBUG
+            self.castButton.hidden = NO;
+#endif
             __renderingAnimations = YES;
             [UIView animateWithDuration:0.5 animations:^{
                 self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,2*sliderHeight));
                 self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(-100, 0));
                 self.muteButton.center = CGPointApplyAffineTransform(self.muteButton.center, CGAffineTransformMakeTranslation(100, 0));
+#if DEBUG
+                self.castButton.center = CGPointApplyAffineTransform(self.castButton.center, CGAffineTransformMakeTranslation(-100, 0));
+#endif
             } completion:^(BOOL finished) {
                 __renderingAnimations = NO;
             }];
@@ -254,10 +278,16 @@ static const CGFloat kCAHideControls = 3.5;
                 self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,-2*sliderHeight));
                 self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(100, 0));
                 self.muteButton.center = CGPointApplyAffineTransform(self.muteButton.center, CGAffineTransformMakeTranslation(-100, 0));
+#if DEBUG
+                self.castButton.center = CGPointApplyAffineTransform(self.castButton.center, CGAffineTransformMakeTranslation(100, 0));
+#endif
             } completion:^(BOOL finished) {
                 self.seekSlider.hidden = finished;
                 self.actionsView.hidden = finished;
                 self.muteButton.hidden = finished;
+#if DEBUG
+                self.castButton.hidden = finished;
+#endif
                 __renderingAnimations = NO;
             }];
             
@@ -290,6 +320,25 @@ static const CGFloat kCAHideControls = 3.5;
     
     [self.muteButton setSelected:!currentState];
     [self setupTimers];
+}
+
+- (IBAction)handleCastAction:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Chromecast",@"Apple TV", @"Amazon Fire", nil];
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheetCancel:(UIActionSheet *)actionSheet
+{
+    DDLogVerbose(@"action sheet canceled");
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    DDLogVerbose(@"clicked at %li",(unsigned long)buttonIndex);
 }
 
 #pragma mark - Animation Delegate
@@ -366,6 +415,7 @@ static const CGFloat kCAHideControls = 3.5;
     }
     else
     {
+        [_waveView startAnimating];
         [self.extendedVideo changePriority:BCPriorityPlay];
     }
 }
@@ -458,12 +508,14 @@ static const CGFloat kCAHideControls = 3.5;
                 
                 if (current.y > [self threshold])
                 {
+                    [_waveView stopAnimating];
                     [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:gr waitUntilDone:NO];
                     [self.extendedVideo changePriority:BCPriorityUnLock];
                     [self.extendedVideo seekToTime:kCMTimeZero];
                     [self.muteButton setSelected:NO];
                     self.extendedVideo.muted = NO;
                     __locked = YES;
+                    
                 }
                 else
                 {

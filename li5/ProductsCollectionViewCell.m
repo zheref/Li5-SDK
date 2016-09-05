@@ -34,20 +34,13 @@
     DDLogVerbose(@"");
     [super awakeFromNib];
     // Initialization code
-    self.layer.shouldRasterize = YES;
-    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
 - (void)prepareForReuse
 {
     DDLogVerbose(@"");
     [super prepareForReuse];
-    [self.imageHelper cancel];
-    
-    [[_videoView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-
-    [self.imageView stopAnimating];
-    self.imageView = nil;
+    [self cleanup];
 }
 
 - (void)updateViews
@@ -72,15 +65,22 @@
     
     self.imageHelper = [[ImageHelper alloc] init];
     
-    [self.imageHelper getImage:url completationHandler:^(NSData * _Nullable data) {
-        if(data != nil) {
-            
-            YYImage *image = [YYImage imageWithData:data];
-            welf.imageView = [[YYAnimatedImageView alloc] initWithImage:image];
-            welf.imageView.layer.cornerRadius = 6;
-            [welf.videoView addSubview:welf.imageView];
-        }
-        [self.spinnerView stopAnimating];
+    [[[NSOperationQueue alloc] init] addOperationWithBlock:^{
+        [self.imageHelper getImage:url completationHandler:^(NSData * _Nullable data) {
+            if(data != nil) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0), ^{
+                    YYImage *image = [YYImage imageWithData:data];
+                    welf.imageView = [[YYAnimatedImageView alloc] initWithImage:image];
+//                    welf.imageView.runloopMode = NSDefaultRunLoopMode;
+                    welf.imageView.layer.cornerRadius = 6;
+                    welf.imageView.frame = welf.bounds;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [welf.videoView addSubview:welf.imageView];
+                        [welf.spinnerView stopAnimating];
+                    });
+                });
+            }
+        }];
     }];
     
     NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
@@ -89,10 +89,28 @@
     self.productPrice.text = price;
 }
 
+- (void)willDisplayCell
+{
+    DDLogVerbose(@"");
+    [self updateViews];
+}
+
 - (void)didEndDisplayingCell
 {
     DDLogVerbose(@"");
-    //    [self.previewVideoPlayer play];
+    [self cleanup];
+}
+
+- (void)cleanup
+{
+    DDLogVerbose(@"");
+    [self.imageHelper cancel];
+    self.imageHelper = nil;
+    
+    [[_videoView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    [self.imageView stopAnimating];
+    self.imageView = nil;
 }
 
 #pragma mark - Public Methods
@@ -102,8 +120,6 @@
     DDLogVerbose(@"");
     _product = product;
     _order = nil;
-    
-    [self updateViews];
 }
 
 - (void)setOrder:(Order*)order
@@ -111,8 +127,6 @@
     DDLogVerbose(@"");
     _order = order;
     _product = order.product;
-    
-    [self updateViews];
 }
 
 #pragma mark - OS Actions
@@ -120,6 +134,7 @@
 - (void)dealloc
 {
     DDLogDebug(@"%p",self);
+    [self cleanup];
     self.imageView = nil;
     self.imageHelper = nil;
     self.spinnerView = nil;

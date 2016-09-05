@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ixL-WB-AG5">
-                    <rect key="frame" x="1" y="0.0" width="373" height="667"/>
+                    <rect key="frame" x="4" y="0.0" width="371" height="667"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Wwa-nP-Q52">
                         <size key="itemSize" width="50" height="50"/>
@@ -28,9 +28,9 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ixL-WB-AG5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="1" id="9nY-5d-l7i"/>
+                <constraint firstItem="ixL-WB-AG5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="9nY-5d-l7i"/>
                 <constraint firstAttribute="bottom" secondItem="ixL-WB-AG5" secondAttribute="bottom" id="FYh-ez-1DS"/>
-                <constraint firstAttribute="trailing" secondItem="ixL-WB-AG5" secondAttribute="trailing" constant="1" id="Wpm-fy-YuT"/>
+                <constraint firstAttribute="trailing" secondItem="ixL-WB-AG5" secondAttribute="trailing" id="Wpm-fy-YuT"/>
                 <constraint firstItem="ixL-WB-AG5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ZOC-F8-KDE"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>

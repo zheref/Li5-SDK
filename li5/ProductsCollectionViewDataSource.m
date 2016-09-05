@@ -39,6 +39,7 @@
     if (query.length > 0 && query.length < 3) {
         return;
     }
+    completion (nil);
     [li5 requestProductsWithQuery:query andCursor:nil withCompletion:^(NSError *error, NSArray<Product *> *products, Cursor *cursor) {
         if (error != nil) {
             DDLogError(@"%@",error.description);
@@ -78,11 +79,13 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ProductsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"productListCell" forIndexPath:indexPath];
-    Product *product = [self.products objectAtIndex:indexPath.row];
-    
-    [cell setProduct:product];
-    
-    return cell;
+    if (self.products.count > indexPath.row)
+    {
+        Product *product = [self.products objectAtIndex:indexPath.row];
+        [cell setProduct:product];
+        return cell;
+    }
+    return nil;
 }
 
 #pragma mark - UIPageViewControllerDataSource
@@ -93,6 +96,11 @@
 }
 
 - (ProductPageViewController *)productPageViewControllerAtIndex:(NSUInteger)index {
+    
+    if(index >= [self numberOfProducts]) {
+        return nil;
+    }
+    
     return [[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] forContext:kProductContextSearch];
 }
 

@@ -91,7 +91,7 @@
     //AVPlayer *player = [[AVPlayer alloc] initWithURL:playerUrl];
 
     
-    self.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_teaserPlayer andFrame:[UIScreen mainScreen].bounds];
+    self.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_teaserPlayer andFrame:[UIScreen mainScreen].bounds previewImageRequired:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(show)
                                                  name:kPrimeTimeReadyToStart
@@ -111,11 +111,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-//    NSData *posterData = [[NSData alloc] initWithBase64EncodedString:self.product.poster64 options:0];
-//    UIImage *posterImage = [UIImage imageWithData:posterData];
-//    UIImageView *posterImageView = [[UIImageView alloc] initWithImage:posterImage];
-//    posterImageView.frame = self.view.bounds;
-//    [self.playerView addSubview:posterImageView];
+    if (self.product.trailerPosterPreview)
+    {
+        NSData *posterData = [[NSData alloc] initWithBase64EncodedString:self.product.trailerPosterPreview options:0];
+        UIImage *posterImage = [UIImage imageWithData:posterData];
+        UIImageView *posterImageView = [[UIImageView alloc] initWithImage:posterImage];
+        posterImageView.frame = self.view.bounds;
+        [self.playerView addSubview:posterImageView];
+    }
     
     self.playerLayer.frame = self.view.bounds;
     self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
@@ -181,6 +184,8 @@
     [super viewWillDisappear:animated];
     
     __hasAppeared = NO;
+    
+    [self.teaserPlayer pause];
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -11,7 +11,7 @@
 
 #import "ProductPageProtocol.h"
 
-@interface UnlockedViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate>
+@interface UnlockedViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate, UIActionSheetDelegate>
 
 @property(nonatomic, assign) CGPoint initialPoint;
 

@@ -17,12 +17,12 @@
 
 - (void)logVerbose:(NSString *)message
 {
-    DDLogVerbose(@"%@", message);
+//    DDLogVerbose(@"%@", message);
 }
 
 - (void)logVerbose:(NSString *)message params:(NSArray *)params
 {
-    DDLogVerbose(@"%@ - %@", message, params);
+//    DDLogVerbose(@"%@ - %@", message, params);
 }
 
 @end

@@ -3,7 +3,7 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Icon-Small@2x.png",
+      "filename" : "Icon-Small.png",
       "scale" : "2x"
     },
     {
@@ -25,6 +25,18 @@
       "scale" : "3x"
     },
     {
+      "size" : "57x57",
+      "idiom" : "iphone",
+      "filename" : "Icon.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "57x57",
+      "idiom" : "iphone",
+      "filename" : "Icon-Amazon.png",
+      "scale" : "2x"
+    },
+    {
       "size" : "60x60",
       "idiom" : "iphone",
       "filename" : "Icon-60@2x.png",
@@ -37,46 +49,181 @@
       "scale" : "3x"
     },
     {
-      "size" : "29x29",
-      "idiom" : "ipad",
-      "filename" : "Icon-Small.png",
+      "size" : "16x16",
+      "idiom" : "mac",
+      "filename" : "Icon-16.png",
       "scale" : "1x"
     },
     {
-      "size" : "29x29",
-      "idiom" : "ipad",
-      "filename" : "Icon-Small@2x.png",
+      "size" : "32x32",
+      "idiom" : "mac",
+      "filename" : "Icon-32.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "32x32",
+      "idiom" : "mac",
+      "filename" : "Icon-64.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "512x512",
+      "idiom" : "mac",
+      "filename" : "iTunesArtwork.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "512x512",
+      "idiom" : "mac",
+      "filename" : "iTunesArtwork@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "Icon-Small-40@3x.png",
+      "unassigned" : true,
+      "scale" : "3x"
+    },
+    {
+      "size" : "57x57",
+      "idiom" : "iphone",
+      "filename" : "Icon@2x.png",
+      "unassigned" : true,
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
       "filename" : "Icon-40.png",
+      "unassigned" : true,
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Icon-40@2x.png",
+      "filename" : "Icon-Small-40.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "Icon-Small-40@2x.png",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "size" : "50x50",
+      "idiom" : "ipad",
+      "filename" : "Icon-Small-50.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "size" : "50x50",
+      "idiom" : "ipad",
+      "filename" : "Icon-Small-50@2x.png",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "size" : "72x72",
+      "idiom" : "ipad",
+      "filename" : "Icon-72.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "size" : "72x72",
+      "idiom" : "ipad",
+      "filename" : "Icon-hdpi.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "size" : "72x72",
+      "idiom" : "ipad",
+      "filename" : "Icon-72@2x.png",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "size" : "72x72",
+      "idiom" : "ipad",
+      "filename" : "Icon-xxhdpi.png",
+      "unassigned" : true,
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
       "filename" : "Icon-76.png",
+      "unassigned" : true,
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
       "filename" : "Icon-76@2x.png",
+      "unassigned" : true,
       "scale" : "2x"
     },
     {
-      "size" : "83.5x83.5",
+      "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Icon-83.5@2x.png",
+      "filename" : "Icon-152.png",
+      "unassigned" : true,
       "scale" : "2x"
+    },
+    {
+      "role" : "notificationCenter",
+      "size" : "24x24",
+      "idiom" : "watch",
+      "filename" : "Icon-mdpi.png",
+      "subtype" : "38mm",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "watch",
+      "filename" : "Icon-24.png",
+      "unassigned" : true,
+      "role" : "companionSettings",
+      "scale" : "2x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "watch",
+      "filename" : "Icon-Small@2x.png",
+      "unassigned" : true,
+      "role" : "companionSettings",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Icon-60.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "Icon-ldpi.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "Icon-xhdpi.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "Icon-xxxhdpi.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "Icon@3x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "upload.png",
+      "unassigned" : true
     }
   ],
   "info" : {

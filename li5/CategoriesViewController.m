@@ -84,8 +84,6 @@
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     _allCategories = [NSArray arrayWithArray:categories];
                     [welf populateSavedUserCategories];
-                    [welf.collectionView reloadData];
-                    [self checkSelectedCategories];
                 }];
             }
         }];
@@ -102,9 +100,13 @@
 - (void)populateSavedUserCategories
 {
     [self.selectedCategoriesIDs removeAllObjects];
-    if ([self.userProfile.preferences count] > 0) {
-        for (Category *category in self.userProfile.preferences) {
-            [self.selectedCategoriesIDs addObject:category.id];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (![userDefaults boolForKey:@"Li5DiscoverModeCustom"])
+    {
+        if ([self.userProfile.preferences count] > 0) {
+            for (Category *category in self.userProfile.preferences) {
+                [self.selectedCategoriesIDs addObject:category.id];
+            }
         }
     }
     [self.collectionView reloadData];

@@ -33,35 +33,35 @@
 {
     self.products = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
-      //Background Thread
-      Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-      [li5 requestDiscoverProductsWithCompletion:^(NSError *error, Products *products) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-          dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
-        DDLogVerbose(@"Total products: %lu expiring:%@", (unsigned long)products.data.count, [dateFormatter stringFromDate:products.expiresAt]);
-        if (error == nil)
-        {
-            if (products.data.count > 0)
+        //Background Thread
+        Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+        [li5 requestDiscoverProductsWithCompletion:^(NSError *error, Products *products) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
+            DDLogVerbose(@"Total products: %lu expiring:%@", (unsigned long)products.data.count, [dateFormatter stringFromDate:products.expiresAt]);
+            if (error == nil)
             {
-                self.products = [NSMutableArray arrayWithArray:products.data];
-                self.expiresAt = products.expiresAt;
-                self.endOfPrimeTime = products.endOfPrimeTime;
+                if (products.data.count > 0)
+                {
+                    self.products = [NSMutableArray arrayWithArray:products.data];
+                    self.expiresAt = products.expiresAt;
+                    self.endOfPrimeTime = products.endOfPrimeTime;
+                }
             }
-        }
-        else
-        {
-            DDLogError(@"Error retrieving products: %@ %@", error, [error userInfo]);
-            //TODO: Only log out user if error 4**
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)error.userInfo[@"com.alamofire.serialization.response.error.response"];
-            if (httpResponse.statusCode > 400 && httpResponse.statusCode < 500)
+            else
             {
-                NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                [notificationCenter postNotificationName:kLoggedOutFromServer object:nil];
+                DDLogError(@"Error retrieving products: %@ %@", error, [error userInfo]);
+                //TODO: Only log out user if error 4**
+                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)error.userInfo[@"com.alamofire.serialization.response.error.response"];
+                if (httpResponse.statusCode > 400 && httpResponse.statusCode < 500)
+                {
+                    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                    [notificationCenter postNotificationName:kLoggedOutFromServer object:nil];
+                }
             }
-        }
-
-        completion(error);
-      }];
+            
+            completion(error);
+        }];
     });
 }
 
@@ -106,7 +106,7 @@
 - (UIViewController *)viewControllerBeforeViewController:(UIViewController *)viewController
 {
     NSUInteger index = viewController.scrollPageIndex;
-
+    
     if ((index == 0) || (index == NSNotFound))
     {
         return nil;
@@ -134,6 +134,19 @@
     else
     {
         return nil;
+    }
+}
+
+
+- (UIViewController *)viewControllerViewControllerAtIndex:(NSInteger)index
+{
+    if ((index < 0) || (index > [self numberOfProducts]) || (index == NSNotFound))
+    {
+        return nil;
+    }
+    else
+    {
+        return [self productPageViewControllerAtIndex:index];
     }
 }
 

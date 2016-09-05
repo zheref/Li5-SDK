@@ -28,7 +28,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O3G-Aw-DXx">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O3G-Aw-DXx">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="productGrid" translatesAutoresizingMaskIntoConstraints="NO" id="9Dv-E3-wXG">
@@ -167,19 +167,28 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qBI-26-MM6" userLabel="Video View">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" red="0.074509806931018829" green="0.074509806931018829" blue="0.074509806931018829" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="qBI-26-MM6" secondAttribute="trailing" id="B8f-Cc-Sm2"/>
                             <constraint firstItem="O3G-Aw-DXx" firstAttribute="leading" secondItem="FWR-Dw-zlK" secondAttribute="leading" id="Ghs-bl-AeK"/>
                             <constraint firstItem="O3G-Aw-DXx" firstAttribute="top" secondItem="FWR-Dw-zlK" secondAttribute="top" id="JH8-SY-x4H"/>
                             <constraint firstAttribute="bottom" secondItem="O3G-Aw-DXx" secondAttribute="bottom" id="YEL-Dq-zWW"/>
+                            <constraint firstItem="qBI-26-MM6" firstAttribute="top" secondItem="FWR-Dw-zlK" secondAttribute="top" id="jyI-AY-h4X"/>
+                            <constraint firstItem="oyF-A9-7NZ" firstAttribute="top" secondItem="qBI-26-MM6" secondAttribute="bottom" id="nKc-6z-D6h"/>
                             <constraint firstAttribute="trailing" secondItem="O3G-Aw-DXx" secondAttribute="trailing" id="oUM-qr-xRt"/>
+                            <constraint firstItem="qBI-26-MM6" firstAttribute="leading" secondItem="FWR-Dw-zlK" secondAttribute="leading" id="ykK-6f-t8h"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="staticView" destination="O3G-Aw-DXx" id="JC9-QR-tuU"/>
+                        <outlet property="videoView" destination="qBI-26-MM6" id="uKS-CL-i3f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pij-n7-bhm" userLabel="First Responder" sceneMemberID="firstResponder"/>

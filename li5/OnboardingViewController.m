@@ -183,6 +183,18 @@
     return [self viewControllerAtIndex:index];
 }
 
+- (UIViewController *)viewControllerViewControllerAtIndex:(NSInteger)index
+{
+    if ((index < 0) || (index == NSNotFound))
+    {
+        return nil;
+    }
+    else
+    {
+        return [self viewControllerAtIndex:index];
+    }
+}
+
 #pragma mark - PageViewControllerDelegate
 
 - (void)isSwitchingToPage:(UIViewController*)newPage fromPage:(UIViewController*)oldPage progress:(CGFloat)progress

@@ -6,11 +6,12 @@
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
-#import "LastPageViewController.h"
 #import "ExploreDynamicInteractor.h"
-#import "UserProfileDynamicInteractor.h"
+#import "LastPageViewController.h"
 #import "Li5Constants.h"
+#import "Li5VolumeView.h"
 #import "SwipeDownToExploreViewController.h"
+#import "UserProfileDynamicInteractor.h"
 
 @interface LastPageViewController ()
 {
@@ -24,6 +25,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIView *staticView;
+@property (weak, nonatomic) IBOutlet UIView *videoView;
 
 @property (nonatomic, strong) BCPlayer *player;
 @property (nonatomic, strong) BCPlayerLayer *playerLayer;
@@ -69,7 +71,27 @@
     _lastVideoURL = lastVideoURL;
     
     _player = [[BCPlayer alloc] initWithUrl:[NSURL URLWithString:self.lastVideoURL] bufferInSeconds:50.0 priority:BCPriorityPlay delegate:self];
-    _playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_player andFrame:[UIScreen mainScreen].bounds];
+    _playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_player andFrame:[UIScreen mainScreen].bounds previewImageRequired:YES];
+    
+    //TODO: Remove this when comes from the server
+    NSString *posterPreview;
+    if ([self.lastVideoURL rangeOfString:@"faces"].location == NSNotFound)
+    {
+        posterPreview = @"/9j/4AAQSkZJRgABAQAAAQABAAD//gAPTGF2YzU3LjQ4LjEwMf/bAEMAAgEBAgEBAgICAgICAgIDBQMDAwMDBgQEAwUHBgcHBwYHBwgJCwkICAoIBwcKDQoKCwwMDAwHCQ4PDQwOCwwMDP/bAEMBAgICAwMDBgMDBgwIBwgMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDP/AABEIAEsAKgMBIgACEQEDEQH/xAAVAAEBAAAAAAAAAAAAAAAAAAAACP/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAWAQEBAQAAAAAAAAAAAAAAAAAABgn/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCIwEG20AAAAAAAAAAAAAAAAAAAAAAAAAAAAf/Z";
+    }
+    else
+    {
+        posterPreview = @"/9j/4AAQSkZJRgABAQEBlQGWAAD//gAPTGF2YzU3LjQ4LjEwMf/bAEMABwUFBgUEBwYFBggHBwgKEQsKCQkKFQ8QDBEYFRoZGBUYFxseJyEbHSUdFxgiLiIlKCkrLCsaIC8zLyoyJyorKv/bAEMBBwgICgkKFAsLFCocGBwqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKv/AABEIAEsAKgMBIgACEQEDEQH/xAAZAAADAQEBAAAAAAAAAAAAAAAFBgcECAP/xAApEAABAwQBAwMEAwAAAAAAAAABAAIDBAUGESESMUETFCIHI1FhMnGR/8QAGAEAAwEBAAAAAAAAAAAAAAAAAgMEAQD/xAAdEQADAAMBAQEBAAAAAAAAAAAAAQIDETEhQRIi/9oADAMBAAIRAxEAPwCz19W2CIuJ1pTLKMscwvZE7/EazG9+hG6NjuSkKktsl2nL3gkErG3G9sqr0XqnJKwTl4Lu6MWX6hTU0rWzPOv2jsuDsfDvo5/pIuS4xJbiXsBGkM5XsHTRdsayyG5xN+Y2f2msTtIB2Fy1h2RzW+4Nje8gA/lWqLLIjCwmQfxHlVzW0aqE/KZH1F06NnW0dx2njhhb1DlAq4iovB8/JM1DSyCNpb2UeT+q0at9GqCKOSLsEl5xb4nUTz0jek0005hi05KmXTPmpngfhLU+jG/CCVZNJc3FnGiizcjqAwDrPAWC807veuJHlYQDpUJ6JmVGGv3e+T3cqvaA2Sia79KBw3DV1a/flWGwXUPtzNHwlZF6UYq+B+aLZ4Qm7UbJKN/UPC9nXQb0Vhutya2heSfCHTQ9pLpH8lpWR1b9flLfS3aL5NcPVrH9J8paNQdpy4QV0ImoImDgfKqWCVjqmNsbipB1bkAVU+njSx7CUNIONplLdZC9vWEoZkHUdE5oOuFS21EbKLZI7KUZ5We5e6KPlJVP6UXTpaJNV/encXHysvtgjFRa52AyFp0hp6gSNJ80mT1jpHlbGe5qmjvyrTh1tdFCxwCjWL81zN88rojFGN9qzgdkbtJcKMVJLhvr5JIKEknWgpRc7nG+7lsruN+VWMm+Nsfrjhc7X+aRt1eWvI+Smp/taOyX74P1dLQuth0W70kCR8Pqu7dys8lZUGm0ZXa0g5lf1H5FJxY3K6c87fT/2Q==";
+    }
+    
+    __weak typeof(self) welf = self;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSData *posterData = [[NSData alloc] initWithBase64EncodedString:posterPreview options:0];
+        UIImage *posterImage = [UIImage imageWithData:posterData];
+        UIImageView *posterImageView = [[UIImageView alloc] initWithImage:posterImage];
+        posterImageView.frame = welf.view.bounds;
+        [welf.videoView insertSubview:posterImageView atIndex:0];
+    }];
 }
 
 #pragma mark - UI Setup
@@ -85,7 +107,7 @@
     _playerLayer.frame = self.view.bounds;
     _playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
-    [self.view.layer addSublayer:_playerLayer];
+    [self.videoView.layer addSublayer:_playerLayer];
 
     NSString *goToExploreSoundURL = [[NSBundle mainBundle] pathForResource:@"go_to_explore" ofType:@"mp3"];
     _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:goToExploreSoundURL] error:nil];
@@ -96,6 +118,8 @@
     [notificationCenter postNotificationName:kPrimeTimeLoaded object:nil];
     
     [self setupGestureRecognizers];
+    
+    [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -152,6 +176,7 @@
     if (_player)
     {
         self.staticView.hidden = NO;
+        self.videoView.hidden = YES;
         [_playerLayer removeFromSuperlayer];
         _playerLayer = nil;
         _player = nil;

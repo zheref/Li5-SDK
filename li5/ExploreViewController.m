@@ -67,9 +67,11 @@
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
+    
+    [_productsViewController searchButtonClicked:_searchBar];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

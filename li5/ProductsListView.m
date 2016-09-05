@@ -11,7 +11,7 @@
 #import "UserProductsCollectionViewDataSource.h"
 #import "ProductsCollectionViewCell.h"
 
-static const CGFloat lineSpacing = 0.0;
+static const CGFloat lineSpacing = 5.0;
 static const CGFloat interimItemSpacing = 5.0;
 
 static const CGFloat topSectionInset = 5.0;
@@ -19,7 +19,9 @@ static const CGFloat bottomSectionInset = 6.0;
 static const CGFloat leftSectionInset = 0.0;
 static const CGFloat rightSectionInset = 0.0;
 
-@interface ProductsListView ()
+@interface ProductsListView () {
+    NSOperationQueue *__queue;
+}
 
 @property (nonatomic, assign) BOOL fetching;
 
@@ -35,6 +37,8 @@ static const CGFloat rightSectionInset = 0.0;
     [super initialize];
 
     _fetching = NO;
+    __queue = [[NSOperationQueue alloc] init];
+    __queue.name = @"Product List Queue";
 }
 
 - (void)awakeFromNib
@@ -61,8 +65,7 @@ static const CGFloat rightSectionInset = 0.0;
 {
     DDLogVerbose(@"");
     
-    CGFloat width = (collectionView.frame.size.width - leftSectionInset - rightSectionInset -
-                     (self.columns-1)*lineSpacing) / self.columns;
+    CGFloat width = ((collectionView.frame.size.width - leftSectionInset - rightSectionInset) / self.columns) - lineSpacing;
     CGFloat height = (collectionView.frame.size.height - topSectionInset - bottomSectionInset - (self.rows-1)*interimItemSpacing ) / self.rows;
     CGSize size = CGSizeMake(width, height);
     return size;
@@ -95,6 +98,12 @@ static const CGFloat rightSectionInset = 0.0;
     }
 }
 
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    DDLogVerbose(@"");
+    [((ProductsCollectionViewCell *)cell) willDisplayCell];
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
     DDLogVerbose(@"");
@@ -117,8 +126,10 @@ static const CGFloat rightSectionInset = 0.0;
         {
             self.fetching = YES;
             __weak typeof(self) welf = self;
-            [self.delegate fetchMoreProductsWithCompletion:^{
-                welf.fetching = NO;
+            [__queue addOperationWithBlock:^{
+                [welf.delegate fetchMoreProductsWithCompletion:^{
+                    welf.fetching = NO;
+                }];
             }];
         }
     }

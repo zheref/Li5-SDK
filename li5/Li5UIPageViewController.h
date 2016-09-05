@@ -44,4 +44,7 @@ typedef enum : NSUInteger {
 
 - (UIViewController *)viewControllerAfterViewController:(UIViewController *)viewController;
 
+
+- (UIViewController *)viewControllerViewControllerAtIndex:(NSInteger)index;
+
 @end

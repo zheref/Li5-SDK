@@ -60,8 +60,6 @@
     _source = [ProductsCollectionViewDataSource new];
     [_productListView setDelegate:self];
     [_productListView.collectionView setDataSource:_source];
-    
-    [self exploreProducts:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -69,7 +67,7 @@
     DDLogVerbose(@"");
     [super viewDidAppear:animated];
     
-    [self exploreProducts:nil];
+//    [self exploreProducts:nil];
 }
 
 #pragma mark - User Actions
@@ -88,10 +86,9 @@
 
 - (void)exploreProducts:(NSString*)searchText
 {
+    DDLogVerbose(@"");
+//    [_productListView.collectionView reloadData];
     [__queue addOperationWithBlock:^{
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [_productListView.collectionView reloadData];
-        }];
         [_source getProductsWithQuery:(searchText.length > 0 ? searchText: nil) withCompletion:^(NSError *error) {
             if (error != nil)
             {
@@ -109,6 +106,7 @@
 
 - (void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    DDLogVerbose(@"");
     PrimeTimeViewController *vc = [[PrimeTimeViewController alloc] initWithDataSource:_source];
     [vc setStartIndex:indexPath.row];
     [self.navigationController pushViewController:vc animated:NO];
@@ -116,6 +114,7 @@
 
 - (void)fetchMoreProductsWithCompletion:(void (^)(void))completion
 {
+    DDLogVerbose(@"");
     [__queue addOperationWithBlock:^{
         [_source fetchMoreProductsWithCompletion:^(NSError *error) {
             if (error != nil)

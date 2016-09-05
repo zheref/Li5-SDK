@@ -18,6 +18,7 @@
 @property (weak, nonatomic) Product *product;
 @property (weak, nonatomic) Order *order;
 
+- (void)willDisplayCell;
 - (void)didEndDisplayingCell;
 
 @end
