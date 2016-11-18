@@ -29,6 +29,8 @@
 @property (nonatomic, assign) CGPoint originalLogoPosition;
 @property (nonatomic, assign) CGPoint lastLogoPosition;
 
+@property (nonatomic, assign) BOOL animationsSetupAlready;
+
 @end
 
 @implementation OnboardingViewController
@@ -56,7 +58,7 @@
 - (void)initialize
 {
     _pageTitles = @[@"Discover",@"Explore"];
-    _pageSubtitles = @[@"What's New On Prime Time",@"Unique Products You'll Love"];
+    _pageSubtitles = @[@"Fun Product-Video Stories",@"Unique Products You'll Love"];
     _pageVideos = @[
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_1" ofType:@"mp4"]],
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_2" ofType:@"mp4"]]
@@ -66,8 +68,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    _originalLogoPosition = self.logoView.layer.position;
     
     UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0,0,16.0,16.0)];
     circlePath.lineWidth = 2.0;
@@ -80,6 +80,8 @@
     _pageControl.numberOfPages = 3;
     _pageControl.indicatorMargin = 10.0;
     _pageControl.indicatorDiameter = 16.0;
+    _pageControl.tapBehavior = SMPageControlTapBehaviorJump;
+    [_pageControl addTarget:self action:@selector(pageUpdated) forControlEvents:UIControlEventValueChanged];
     [_pageControl sizeToFit];
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
@@ -87,7 +89,27 @@
     NSArray *viewControllers = @[[self viewControllerAtIndex:0]];
     [self.pageViewController setViewControllers:viewControllers];
     
-    [self setupAnimations];
+    _animationsSetupAlready = false;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = true;
+}
+
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+
+    if (!_animationsSetupAlready)
+    {
+        _originalLogoPosition = self.logoView.layer.position;
+        
+        [self setupAnimations];
+        _animationsSetupAlready = true;
+    }
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -196,6 +218,11 @@
 }
 
 #pragma mark - PageViewControllerDelegate
+
+- (void)pageUpdated
+{
+    [self.pageViewController setVisiblePage:self.pageControl.currentPage];
+}
 
 - (void)isSwitchingToPage:(UIViewController*)newPage fromPage:(UIViewController*)oldPage progress:(CGFloat)progress
 {

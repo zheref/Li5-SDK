@@ -19,6 +19,7 @@
 #import "Li5VolumeView.h"
 #import "OrderProcessedViewController.h"
 #import "UILabel+Li5.h"
+#import "ShippingInfoViewController.h"
 
 @interface DetailsViewController () {
     BOOL __hasAppeared;
@@ -114,10 +115,10 @@
         NSString *orPrice = [NSString stringWithFormat:@"$%.00f",[self.product.originalPrice doubleValue] / 100];
         NSString *originalPrice = [NSString stringWithFormat:@"%@ %@",orPriceWord, orPrice];
         NSMutableAttributedString *originalPriceText = [[NSMutableAttributedString alloc] initWithString:originalPrice
-                                                                                     attributes:@{
-                                                                                                  NSFontAttributeName : [UIFont fontWithName:@"Rubik" size:16.0],
-                                                                                                  NSForegroundColorAttributeName : [UIColor blackColor]
-                                                                                                  }];
+                                                                                              attributes:@{
+                                                                                                           NSFontAttributeName : [UIFont fontWithName:@"Rubik" size:16.0],
+                                                                                                           NSForegroundColorAttributeName : [UIColor blackColor]
+                                                                                                           }];
         
         NSRange orPriceWordRange = [originalPrice rangeOfString:orPriceWord];
         NSRange orPriceRange = [originalPrice rangeOfString:orPrice];
@@ -129,43 +130,49 @@
     
     self.productTitleLabel.text = self.product.title;
     self.productVendorLabel.text = [self.product.brand uppercaseString];
-
-    NSString *cleanBody = [self.product.body stringByReplacingOccurrencesOfString:@"[\\t\\n]+"
-                                                        withString:@" "
-                                                           options:NSRegularExpressionSearch
-                                                             range:NSMakeRange(0, self.product.body.length)];
-
-    NSString *readMoreText = @" READ MORE";
-    NSString *productDescription = [cleanBody stringByAppendingString:readMoreText];
-
-    NSMutableAttributedString *bodyText = [[NSMutableAttributedString alloc] initWithString:productDescription
-                                                                                 attributes:@{
-                                                                                     NSFontAttributeName : [UIFont fontWithName:@"Rubik" size:18.0],
-                                                                                     NSForegroundColorAttributeName : [UIColor blackColor]
-                                                                                 }];
-
-    NSRange readMoreRange = [productDescription rangeOfString:readMoreText];
-    [bodyText addAttribute:NSForegroundColorAttributeName value:[UIColor li5_cyanColor] range:readMoreRange];
-    [bodyText addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Rubik-Medium" size:16.0] range:readMoreRange];
-
-    [self.productDescriptionLabel setAttributedText:bodyText];
-    [self.productDescriptionLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.productDescriptionLabel setContentScaleFactor:[[UIScreen mainScreen] scale]];
-
+    
+    if (self.product.body != nil && self.product.body.length > 0)
+    {
+        NSString *cleanBody = [self.product.body stringByReplacingOccurrencesOfString:@"[\\t\\n\\r]+"
+                                                                           withString:@" "
+                                                                              options:NSRegularExpressionSearch
+                                                                                range:NSMakeRange(0, self.product.body.length)];
+        
+        NSString *readMoreText = @" READ MORE";
+        NSString *productDescription = [cleanBody stringByAppendingString:readMoreText];
+        
+        NSMutableAttributedString *bodyText = [[NSMutableAttributedString alloc] initWithString:productDescription
+                                                                                     attributes:@{
+                                                                                                  NSFontAttributeName : [UIFont fontWithName:@"Rubik" size:18.0],
+                                                                                                  NSForegroundColorAttributeName : [UIColor blackColor]
+                                                                                                  }];
+        
+        NSRange readMoreRange = [productDescription rangeOfString:readMoreText];
+        [bodyText addAttribute:NSForegroundColorAttributeName value:[UIColor li5_cyanColor] range:readMoreRange];
+        [bodyText addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Rubik-Medium" size:16.0] range:readMoreRange];
+        
+        [self.productDescriptionLabel setAttributedText:bodyText];
+        [self.productDescriptionLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.productDescriptionLabel setContentScaleFactor:[[UIScreen mainScreen] scale]];
+        
+    }
+    
     NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
     NSString *buttonCTA = [NSString stringWithFormat:@"BUY NOW AT %@", price];
     if (self.order != nil)
     {
         buttonCTA = [self.order.status capitalizedString];
     }
-
+    
     NSMutableAttributedString *buyNowText = [[NSMutableAttributedString alloc] initWithString:buttonCTA
                                                                                    attributes:@{
-                                                                                       NSFontAttributeName : [UIFont fontWithName:@"Rubik-Bold" size:20.0],
-                                                                                       NSForegroundColorAttributeName : [UIColor li5_whiteColor]
-                                                                                   }];
-
+                                                                                                NSFontAttributeName : [UIFont fontWithName:@"Rubik-Bold" size:20.0],
+                                                                                                NSForegroundColorAttributeName : [UIColor li5_whiteColor]
+                                                                                                }];
+    
     [self.buyNowBtn setAttributedTitle:buyNowText forState:UIControlStateNormal];
+    
+    self.imagesCollection.hidden = (self.product.images.count == 0);
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
 }
@@ -224,7 +231,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ImageUICollectionViewCell *imageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageView" forIndexPath:indexPath];
-
+    
     imageCell.spinnerView = [[MMMaterialDesignSpinner alloc] initWithFrame:CGRectMake(imageCell.frame.size.width/2,imageCell.frame.size.height/2,15.0,15.0)];
     imageCell.spinnerView.lineWidth = 1.5f;
     imageCell.spinnerView.tintColor = [UIColor whiteColor];
@@ -234,13 +241,13 @@
     [imageCell.spinnerView startAnimating];
     
     // Here we use the new provided sd_setImageWithURL: method to load the web image
-    [imageCell.imageView sd_setImageWithURL:[NSURL URLWithString:self.product.images[indexPath.row]]
+    [imageCell.imageView sd_setImageWithURL:[NSURL URLWithString:self.product.images[indexPath.row].url]
                            placeholderImage:nil
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
                                       //DDLogVerbose(@"completed");
                                       [imageCell.spinnerView stopAnimating];
                                   }];
-
+    
     return imageCell;
 }
 
@@ -260,7 +267,10 @@
     DDLogVerbose(@"Buy Button tapped");
     
     OrderProcessedViewController *nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"processOrderView"];
+    nextVC.parent = self;
+    
     [nextVC setOrder:self.order];
+    [nextVC setProduct:self.product];
     
     Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
     Profile *userProfile = [flowController userProfile];
@@ -269,6 +279,9 @@
         if (!userProfile.defaultAddress)
         {
             nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"shippingView"];
+          
+            [(ShippingInfoViewController *) nextVC setShowSameAsBillingAddress:!userProfile.defaultCard];
+            
         }
         if (!userProfile.defaultCard)
         {
@@ -282,15 +295,20 @@
         nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutView"];
     }
     
-    CATransition *transition = [CATransition animation];
-    transition.duration = 0.3;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromTop;
-    [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+    if([nextVC isKindOfClass:[OrderProcessedViewController class]]) {
         
-    [nextVC setProduct:self.product];
-    [self.navigationController pushViewController:nextVC animated:NO];
+        [self presentViewController:nextVC animated:NO completion:nil];
+    }else {
+        CATransition *transition = [CATransition animation];
+        transition.duration = 0.3;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+        transition.type = kCATransitionPush;
+        transition.subtype = kCATransitionFromTop;
+        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+        
+        [nextVC setProduct:self.product];
+        [self.navigationController pushViewController:nextVC animated:NO];
+    }
 }
 
 #pragma mark - OS Actions

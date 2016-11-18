@@ -20,6 +20,7 @@ abstract_target 'Li5Base' do
   pod 'YYImage/WebP'
   pod 'VMaskTextField'
   pod 'MBProgressHUD'
+  pod 'Branch'
   
   target 'li5' do
     pod 'Fabric'
@@ -55,6 +56,7 @@ post_install do |installer_representation|
     installer_representation.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
             config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+            config.build_settings['SWIFT_VERSION'] = '2.3'
         end
     end
 end

@@ -477,6 +477,9 @@ class LoveLayer : CALayer {
         self.commonInit()
     }
     
+    override init(layer: AnyObject) {
+        super.init(layer: layer)
+    }
     private func commonInit() {
         self.contentsScale = 10 // draw in hi res, will scale later
     }

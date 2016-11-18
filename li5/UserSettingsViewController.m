@@ -14,6 +14,8 @@
 #import "Li5RootFlowController.h"
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
+#import "PaymentInfoViewController.h"
+#import "PaymentEmptyViewController.h"
 
 @interface UserSettingsViewController ()
 
@@ -48,58 +50,58 @@
 - (void)initialize
 {
     _settings = @{
-        @"About" : @[
-                @{
-                    @"Name" : @"Rate our App",
-                    @"Action" : @"nop"
-                    },
-                @{
-                    @"Name" : @"Terms & Privacy Policy",
-                    @"Action" : @"nop"
-                    },
-                @{
-                    @"Name" : @"Support",
-                    @"Action" : @"nop"
-                    }
-                ],
-        @"Shipping and Billing" : @[
-                @{
-                    @"Name" : @"Shipping Information",
-                    @"Action" : @"nop"
-                    },
-                @{
-                    @"Name" : @"Credit Cards",
-                    @"Action" : @"nop"
-                    }
-                ],
-        @"User" : @[
-            @{
-               @"Name" : @"Logout",
-               @"Action" : @"userLogOut"
-            }
-        ]
+                  @"About" : @[
+                          @{
+                              @"Name" : @"Rate our App",
+                              @"Action" : @"rateApp"
+                              },
+                          @{
+                              @"Name" : @"Terms & Privacy Policy",
+                              @"Action" : @"loadTos"
+                              },
+                          @{
+                              @"Name" : @"Support",
+                              @"Action" : @"nop"
+                              }
+                          ],
+                  @"Shipping and Billing" : @[
+                          @{
+                              @"Name" : @"Shipping Information",
+                              @"Action" : @"shippingInfo"
+                              },
+                          @{
+                              @"Name" : @"Credit Cards",
+                              @"Action" : @"creditCardInfo"
+                              }
+                          ],
+                  @"User" : @[
+                          @{
+                              @"Name" : @"Logout",
+                              @"Action" : @"userLogOut"
+                              }
+                          ]
 #if DEBUG
-        ,
-        @"Development" : @[
-            @{
-                @"Name" : @"Reset to Demo",
-                @"Action" : @"enterDemoMode"
-            },
-            @{
-              @"Name" : @"Reset User Defaults",
-              @"Action" : @"clearUserDefaults"
-              },
-            @{
-                @"Name" : @"Clear Cache",
-                @"Action" : @"clearCache"
-                },
-            @{
-               @"Name" : @"Logs",
-               @"Action" : @"shareLogs"
-            }
-        ]
+                  ,
+                  @"Development" : @[
+                          @{
+                              @"Name" : @"Reset to Demo",
+                              @"Action" : @"enterDemoMode"
+                              },
+                          @{
+                              @"Name" : @"Reset User Defaults",
+                              @"Action" : @"clearUserDefaults"
+                              },
+                          @{
+                              @"Name" : @"Clear Cache",
+                              @"Action" : @"clearCache"
+                              },
+                          @{
+                              @"Name" : @"Logs",
+                              @"Action" : @"shareLogs"
+                              }
+                          ]
 #endif
-    };
+                  };
 }
 
 #pragma mark - UI Setup
@@ -128,6 +130,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.title = [@"Settings" uppercaseString];
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor li5_redColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -135,8 +138,8 @@
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"back"]];
     [self.navigationController.navigationBar setTitleTextAttributes:@{
                                                                       NSForegroundColorAttributeName: [UIColor whiteColor],
-                                                                     NSFontAttributeName: [UIFont fontWithName:@"Rubik-Medium" size:18.0]
-                                                                     }];
+                                                                      NSFontAttributeName: [UIFont fontWithName:@"Rubik-Medium" size:18.0]
+                                                                      }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -154,7 +157,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SettingViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingCellView"];
-
+    
     cell.title.text = [[[_settings valueForKey:_settings.allKeys[indexPath.section]][indexPath.row] valueForKey:@"Name"] uppercaseString];
     
     NSString *toggleString = [[_settings valueForKey:_settings.allKeys[indexPath.section]][indexPath.row] valueForKey:@"Toggle"];
@@ -168,7 +171,7 @@
         [switchview setOn:[userDefaults boolForKey:toggleString]];
         cell.accessoryView = switchview;
     }
-
+    
     return cell;
 }
 
@@ -182,7 +185,7 @@
     if (section == _settings.allKeys.count - 1)
     {
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-
+        
         NSString *version = infoDictionary[@"CFBundleShortVersionString"];
         NSString *build = infoDictionary[(NSString *)kCFBundleVersionKey];
         NSString *bundleName = infoDictionary[(NSString *)kCFBundleNameKey];
@@ -233,10 +236,10 @@
     if ([handler clearAccessToken])
     {
         dispatch_async(dispatch_get_main_queue(), ^(void){
-            [self.parentViewController dismissViewControllerAnimated:NO completion:^{
+            [self.parentViewController dismissViewControllerAnimated:YES completion:^{
                 UINavigationController *navVC = (UINavigationController*)[[[UIApplication sharedApplication] keyWindow] rootViewController];
                 DDLogDebug(@"viewControllers: %@",navVC.viewControllers);
-                [navVC popToRootViewControllerAnimated:NO];
+                [navVC popToRootViewControllerAnimated:YES];
                 NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                 [notificationCenter postNotificationName:kLogoutSuccessful object:nil];
             }];
@@ -249,33 +252,33 @@
     DDFileLogger *logger = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).logger;
     NSArray *sortedLogFileInfos = [logger.logFileManager sortedLogFileInfos];
     NSMutableArray *objectsToShare = [NSMutableArray array];
-
+    
     for (int i = 0; i < MIN(sortedLogFileInfos.count, logger.logFileManager.maximumNumberOfLogFiles); i++)
     {
         DDLogFileInfo *logFileInfo = [sortedLogFileInfos objectAtIndex:i];
         NSData *fileData = [NSData dataWithContentsOfFile:logFileInfo.filePath];
         [objectsToShare addObjectsFromArray:@[ fileData ]];
     }
-
+    
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-
+    
     NSArray *excludeActivities = @[
-        UIActivityTypePostToWeibo,
-        UIActivityTypePrint,
-        UIActivityTypeAssignToContact,
-        UIActivityTypeSaveToCameraRoll,
-        UIActivityTypeAddToReadingList,
-        UIActivityTypePostToFlickr,
-        UIActivityTypePostToTencentWeibo,
-        UIActivityTypePostToTwitter,
-        UIActivityTypeCopyToPasteboard,
-        UIActivityTypeMessage,
-        UIActivityTypePostToVimeo,
-        UIActivityTypePostToFacebook,
-    ];
-
+                                   UIActivityTypePostToWeibo,
+                                   UIActivityTypePrint,
+                                   UIActivityTypeAssignToContact,
+                                   UIActivityTypeSaveToCameraRoll,
+                                   UIActivityTypeAddToReadingList,
+                                   UIActivityTypePostToFlickr,
+                                   UIActivityTypePostToTencentWeibo,
+                                   UIActivityTypePostToTwitter,
+                                   UIActivityTypeCopyToPasteboard,
+                                   UIActivityTypeMessage,
+                                   UIActivityTypePostToVimeo,
+                                   UIActivityTypePostToFacebook,
+                                   ];
+    
     activityVC.excludedActivityTypes = excludeActivities;
-
+    
     [self presentViewController:activityVC animated:YES completion:nil];
 }
 
@@ -319,6 +322,47 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:[aSwitch isOn] forKey:aSwitch.accessibilityLabel];
     [self userLogOut];
+}
+
+- (void)shippingInfo {
+    
+    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
+    Profile *userProfile = [flowController userProfile];
+    
+    if (userProfile)
+    {
+        UIViewController *vc =  [self.storyboard instantiateViewControllerWithIdentifier:@"shippingEmptyVC"];
+        
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)creditCardInfo {
+    
+    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
+    Profile *userProfile = [flowController userProfile];
+    
+    if (userProfile)
+    {
+        UIViewController *vc= [self.storyboard instantiateViewControllerWithIdentifier:@"paymentEmptyVC"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)loadTos {
+    
+    UIViewController *vc= [self.storyboard instantiateViewControllerWithIdentifier:@"tosVC"];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+- (void)rateApp {
+
+    NSString *appId = [[NSBundle mainBundle].infoDictionary objectForKey:@"Li5AppId"];
+    NSURL *url = [NSURL URLWithString:
+                  [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@",appId]];
+    
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 #pragma mark - OS Actions

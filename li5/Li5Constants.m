@@ -27,5 +27,6 @@ NSString * const kLi5CategoriesSelectionViewPresented = @"Li5CategoriesSelection
 NSString * const kLi5SwipeLeftExplainerViewPresented = @"Li5SwipeLeftExplainerViewPresented";
 NSString * const kLi5SwipeDownExplainerViewPresented = @"Li5SwipeDownExplainerViewPresented";
 NSString * const kLi5SwipeUpExplainerViewPresented = @"Li5SwipeUpExplainerViewPresented";
+NSString * const kLi5ShareToken = @"Li5ShareToken";
 
 @end

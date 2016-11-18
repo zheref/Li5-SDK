@@ -87,7 +87,7 @@
 {
     CardUICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cardView" forIndexPath:indexPath];
     
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:self.product.images[indexPath.row]]
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:self.product.images[indexPath.row].url]
                            placeholderImage:nil
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
                                       //DDLogVerbose(@"completed");

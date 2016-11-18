@@ -34,6 +34,7 @@
 - (void)awakeFromNib
 {
     DDLogVerbose(@"");
+    [super awakeFromNib];
     [self initialize];
 }
 

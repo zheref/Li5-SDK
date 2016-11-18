@@ -12,15 +12,15 @@
 - (void)userDidPan:(UIPanGestureRecognizer *)gestureRecognizer;
 
 - (void)presentViewWithCompletion:(void (^)(void))completion;
-- (void)dismissViewWithCompletion:(void (^)(void))completion;
+- (void)dismissController:(UIViewController *)controller withCompletion:(void (^)(void))completion;
 
 @end
 
-@interface UserProfileViewController : UIViewController
+@interface UserProfileViewController : UIViewController<UIViewControllerTransitioningDelegate>
 
 
 @property (nonatomic, weak) id<UserProfileViewControllerPanTargetDelegate> panTarget;
 
-+ (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget;
++ (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget andViewController:(UIViewController *)viewController;
 
 @end

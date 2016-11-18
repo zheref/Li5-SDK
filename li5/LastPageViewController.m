@@ -66,27 +66,16 @@
 
 #pragma mark - Public Methods
 
-- (void)setLastVideoURL:(NSString *)lastVideoURL
+- (void)setLastVideoURL:(EndOfPrimeTime *)endOfPrimeTime
 {
-    _lastVideoURL = lastVideoURL;
+    _lastVideoURL = endOfPrimeTime;
     
-    _player = [[BCPlayer alloc] initWithUrl:[NSURL URLWithString:self.lastVideoURL] bufferInSeconds:50.0 priority:BCPriorityPlay delegate:self];
+    _player = [[BCPlayer alloc] initWithUrl:[NSURL URLWithString:endOfPrimeTime.url] bufferInSeconds:50.0 priority:BCPriorityPlay delegate:self];
     _playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_player andFrame:[UIScreen mainScreen].bounds previewImageRequired:YES];
-    
-    //TODO: Remove this when comes from the server
-    NSString *posterPreview;
-    if ([self.lastVideoURL rangeOfString:@"faces"].location == NSNotFound)
-    {
-        posterPreview = @"/9j/4AAQSkZJRgABAQAAAQABAAD//gAPTGF2YzU3LjQ4LjEwMf/bAEMAAgEBAgEBAgICAgICAgIDBQMDAwMDBgQEAwUHBgcHBwYHBwgJCwkICAoIBwcKDQoKCwwMDAwHCQ4PDQwOCwwMDP/bAEMBAgICAwMDBgMDBgwIBwgMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDP/AABEIAEsAKgMBIgACEQEDEQH/xAAVAAEBAAAAAAAAAAAAAAAAAAAACP/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAWAQEBAQAAAAAAAAAAAAAAAAAABgn/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCIwEG20AAAAAAAAAAAAAAAAAAAAAAAAAAAAf/Z";
-    }
-    else
-    {
-        posterPreview = @"/9j/4AAQSkZJRgABAQEBlQGWAAD//gAPTGF2YzU3LjQ4LjEwMf/bAEMABwUFBgUEBwYFBggHBwgKEQsKCQkKFQ8QDBEYFRoZGBUYFxseJyEbHSUdFxgiLiIlKCkrLCsaIC8zLyoyJyorKv/bAEMBBwgICgkKFAsLFCocGBwqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKv/AABEIAEsAKgMBIgACEQEDEQH/xAAZAAADAQEBAAAAAAAAAAAAAAAFBgcECAP/xAApEAABAwQBAwMEAwAAAAAAAAABAAIDBAUGESESMUETFCIHI1FhMnGR/8QAGAEAAwEBAAAAAAAAAAAAAAAAAgMEAQD/xAAdEQADAAMBAQEBAAAAAAAAAAAAAQIDETEhQRIi/9oADAMBAAIRAxEAPwCz19W2CIuJ1pTLKMscwvZE7/EazG9+hG6NjuSkKktsl2nL3gkErG3G9sqr0XqnJKwTl4Lu6MWX6hTU0rWzPOv2jsuDsfDvo5/pIuS4xJbiXsBGkM5XsHTRdsayyG5xN+Y2f2msTtIB2Fy1h2RzW+4Nje8gA/lWqLLIjCwmQfxHlVzW0aqE/KZH1F06NnW0dx2njhhb1DlAq4iovB8/JM1DSyCNpb2UeT+q0at9GqCKOSLsEl5xb4nUTz0jek0005hi05KmXTPmpngfhLU+jG/CCVZNJc3FnGiizcjqAwDrPAWC807veuJHlYQDpUJ6JmVGGv3e+T3cqvaA2Sia79KBw3DV1a/flWGwXUPtzNHwlZF6UYq+B+aLZ4Qm7UbJKN/UPC9nXQb0Vhutya2heSfCHTQ9pLpH8lpWR1b9flLfS3aL5NcPVrH9J8paNQdpy4QV0ImoImDgfKqWCVjqmNsbipB1bkAVU+njSx7CUNIONplLdZC9vWEoZkHUdE5oOuFS21EbKLZI7KUZ5We5e6KPlJVP6UXTpaJNV/encXHysvtgjFRa52AyFp0hp6gSNJ80mT1jpHlbGe5qmjvyrTh1tdFCxwCjWL81zN88rojFGN9qzgdkbtJcKMVJLhvr5JIKEknWgpRc7nG+7lsruN+VWMm+Nsfrjhc7X+aRt1eWvI+Smp/taOyX74P1dLQuth0W70kCR8Pqu7dys8lZUGm0ZXa0g5lf1H5FJxY3K6c87fT/2Q==";
-    }
     
     __weak typeof(self) welf = self;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSData *posterData = [[NSData alloc] initWithBase64EncodedString:posterPreview options:0];
+        NSData *posterData = [[NSData alloc] initWithBase64EncodedString:endOfPrimeTime.poster options:0];
         UIImage *posterImage = [UIImage imageWithData:posterData];
         UIImageView *posterImageView = [[UIImageView alloc] initWithImage:posterImage];
         posterImageView.frame = welf.view.bounds;

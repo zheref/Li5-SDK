@@ -20,4 +20,6 @@
 
 - (void)setPriority:(BCPriority)priority;
 
+- (BCPlayer *)getPlayer;
+
 @end

@@ -13,6 +13,6 @@
 
 - (id)initWithParentViewController:(UIViewController<DisplayableProtocol> *)viewController;
 
-@property (nonatomic, readonly, weak) UIViewController<DisplayableProtocol> *parentViewController;
+@property (nonatomic, readonly, weak) UIViewController *parentViewController;
 
 @end

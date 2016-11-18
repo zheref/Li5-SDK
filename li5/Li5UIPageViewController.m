@@ -104,7 +104,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    DDLogVerbose(@"");
+    DDLogVerbose(@"%p",self);
     [super viewWillAppear:animated];
     
     [self.currentViewController beginAppearanceTransition:YES animated:animated];
@@ -112,7 +112,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DDLogVerbose(@"");
+    DDLogVerbose(@"%p",self);
     [super viewDidAppear:animated];
     
     [self.currentViewController endAppearanceTransition];
@@ -120,7 +120,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    DDLogVerbose(@"");
+    DDLogVerbose(@"%p",self);
     [super viewWillDisappear:animated];
     
     [self.currentViewController beginAppearanceTransition:NO animated:animated];
@@ -128,7 +128,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    DDLogVerbose(@"");
+    DDLogVerbose(@"%p",self);
     [super viewDidDisappear:animated];
     
     [self.currentViewController endAppearanceTransition];
@@ -210,6 +210,16 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
         }
     }
 }
+
+- (void)setVisiblePage:(NSInteger)page
+{
+    [self preloadViewController:page];
+    [self setFullySwitchedPage:page];
+    if (self.delegate) {
+        [self.delegate didFinishSwitchingPage:YES];
+    }
+}
+
 - (BOOL)isLeftDown {
     
     return __scrollDirection & ScrollDirectionLeft || __scrollDirection & ScrollDirectionDown;
@@ -328,12 +338,11 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
 - (void)viewDidLayoutSubviews
 {
     DDLogVerbose(@"");
-    [self.childViewControllers makeObjectsPerformSelector:@selector(removeFromParentViewController)];
-    for (UIView *pageView in self.containerScrollView.subviews)
-    {
-        [pageView removeFromSuperview];
-    }
-    
+//    [self.childViewControllers makeObjectsPerformSelector:@selector(removeFromParentViewController)];
+//    for (UIView *pageView in self.containerScrollView.subviews)
+//    {
+//        [pageView removeFromSuperview];
+//    }
     
     for (int i = 0; i < self.viewControllers.count; i++)
     {

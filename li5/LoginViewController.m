@@ -9,15 +9,23 @@
 @import Li5Api;
 @import MMMaterialDesignSpinner;
 @import FXBlurView;
+@import AVFoundation;
 
 #import "LoginViewController.h"
 #import "Li5Constants.h"
 
 @interface LoginViewController ()
+{
+    id playEndObserver;
+}
 
 @property (weak, nonatomic) IBOutlet UIView *overlayView;
 @property (weak, nonatomic) IBOutlet UIButton *loginFacebookButton;
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
+@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) AVPlayerLayer *videoLayer;
+@property (nonatomic, assign) BOOL viewAppeared;
 
 @property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;
 
@@ -31,25 +39,108 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    _player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_3" ofType:@"mp4"]]];
+    _player.muted = YES;
+    _videoLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+    
+    _videoLayer.frame = self.view.bounds;
+    _videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    
+    [self.backgroundView.layer addSublayer:_videoLayer];
+    
     // Handle clicks on the button
     [_loginFacebookButton addTarget:self action:@selector(loginButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    DDLogVerbose(@"");
+    [super viewWillAppear:animated];
+    
+    _viewAppeared = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     DDLogVerbose(@"");
     [super viewDidAppear:animated];
+    
+    [self readyToPlay];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     DDLogVerbose(@"");
     [super viewDidDisappear:animated];
+    
+    [self.player pause];
+    [self removeObservers];
 }
 
 - (CGPoint)logoPosition
 {
     return self.logoView.layer.position;
+}
+
+#pragma mark - Player Delegate
+
+- (void)readyToPlay
+{
+    DDLogVerbose(@"");
+    if (/*self.player.status == AVPlayerStatusReadyToPlay &&*/ self.viewAppeared)
+    {
+        [self.player play];
+        [self setupObservers];
+    }
+}
+
+- (void)failToLoadItem:(NSError *)error
+{
+    DDLogVerbose(@"");
+}
+
+- (void)bufferEmpty
+{
+    DDLogVerbose(@"");
+}
+
+- (void)bufferReady
+{
+    DDLogVerbose(@"");
+}
+
+- (void)networkFail:(NSError *)error
+{
+    DDLogError(@"");
+}
+
+- (void)replay
+{
+    DDLogVerbose(@"");
+    [self.player seekToTime:kCMTimeZero];
+    [self.player play];
+}
+
+- (void)removeObservers
+{
+    if (playEndObserver)
+    {
+        DDLogVerbose(@"");
+        [[NSNotificationCenter defaultCenter] removeObserver:playEndObserver];
+        playEndObserver = nil;
+    }
+}
+
+- (void)setupObservers
+{
+    if (!playEndObserver)
+    {
+        DDLogVerbose(@"");
+        __weak typeof(id) welf = self;
+        playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
+            [welf replay];
+        }];
+    }
 }
 
 #pragma mark - FBSDKLoginButtonDelegate
@@ -125,6 +216,12 @@
         [welf.spinnerView stopAnimating];
         [welf.loginFacebookButton setHidden:NO];
     }
+}
+
+- (IBAction)loadTos:(id)sender {
+    
+    UIViewController *vc= [self.storyboard instantiateViewControllerWithIdentifier:@"tosVC"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - OS Actions

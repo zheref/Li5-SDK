@@ -16,6 +16,11 @@ PODS:
     - AFNetworking/NSURLSession
   - BCVideoPlayer (0.1.0):
     - GCDWebServer
+  - Branch (0.12.11):
+    - Branch/Core (= 0.12.11)
+    - Branch/without-IDFA (= 0.12.11)
+  - Branch/Core (0.12.11)
+  - Branch/without-IDFA (0.12.11)
   - CardIO (5.3.2)
   - CocoaLumberjack (2.3.0):
     - CocoaLumberjack/Default (= 2.3.0)
@@ -25,7 +30,7 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.3.0):
     - CocoaLumberjack/Default
-  - Crashlytics (3.7.3):
+  - Crashlytics (3.8.2):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
   - FXBlurView (1.6.4)
@@ -60,6 +65,7 @@ PODS:
 
 DEPENDENCIES:
   - BCVideoPlayer (from `../BCPlayerView`)
+  - Branch
   - CardIO
   - CocoaLumberjack
   - Crashlytics
@@ -102,9 +108,10 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   BCVideoPlayer: e7576942f5d2486af00ffe229d528b3489b5535a
+  Branch: a620b19dc96fffabb7873a86c80c77c75395a664
   CardIO: 92c45caef0d986c4a303a7afba0c9b76ff2b1f6e
   CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
-  Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
+  Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   GCDWebServer: 0bd712acb4f246ce04d2ac321d33278fb1f72e63
@@ -124,6 +131,6 @@ SPEC CHECKSUMS:
   VMaskTextField: e77fe33633f999c5c38e70bed0afece0625624a4
   YYImage: b41b45bc5f32bfcdf67bdfb9c09da9e9832357c0
 
-PODFILE CHECKSUM: 78aed4f841dcfb43b23b092e8178c2a0f5d75ed9
+PODFILE CHECKSUM: e592a1242075fc3cecdfc2a2202ae618f8fb3771
 
 COCOAPODS: 1.0.1

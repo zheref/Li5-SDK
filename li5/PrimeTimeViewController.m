@@ -9,12 +9,14 @@
 @import TSMessages;
 @import AVFoundation;
 @import BCVideoPlayer;
+@import Branch;
 
 #import "PrimeTimeViewController.h"
 #import "PrimeTimeViewControllerDataSource.h"
 #import "ProductPageProtocol.h"
 #import "SpinnerViewController.h"
 #import "Li5Constants.h"
+#import "Li5-Swift.h"
 
 @interface PrimeTimeViewController ()
 {
@@ -65,6 +67,9 @@
     // Do any additional setup after loading the view.
     DDLogVerbose(@"Loading");
     
+    self.view.backgroundColor = [UIColor clearColor];
+    self.view.opaque = false;
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self renderPrimeTime];
@@ -82,6 +87,15 @@
 {
     DDLogVerbose(@"");
     [super viewDidAppear:animated];
+    
+    // Read the deep link paramters from the link
+    NSDictionary *deepLinkParams = [[Branch getInstance] getLatestReferringParams];
+    NSString *itemId = [deepLinkParams objectForKey:@"item_id"];
+    // from here, you'd load the appropriate item from the item id
+    if (itemId) {
+        DDLogVerbose(@"Deep linked to page from Branch link with item id: %@", itemId);
+    }
+
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -182,6 +196,12 @@
 }
 
 #pragma mark - OS Actions
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    self.currentViewController.view.frame = self.view.bounds;
+}
 
 - (void)dealloc
 {

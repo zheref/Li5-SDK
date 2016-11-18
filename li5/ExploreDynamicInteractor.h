@@ -9,10 +9,9 @@
 #import "ExploreViewController.h"
 #import "ProductPageProtocol.h"
 
-@interface ExploreDynamicInteractor : NSObject <ExploreViewControllerPanTargetDelegate>
+@interface ExploreDynamicInteractor : UIPercentDrivenInteractiveTransition <ExploreViewControllerPanTargetDelegate, UIViewControllerTransitioningDelegate>
 
-- (id)initWithParentViewController:(UIViewController<DisplayableProtocol> *)viewController;
-
-@property (nonatomic, readonly, weak) UIViewController<DisplayableProtocol> *parentViewController;
+-(id)initWithParentViewController:(UIViewController *)viewController;
+-(void)userDidPan:(UIPanGestureRecognizer *)recognizer andController:(UIViewController *)controller;
 
 @end

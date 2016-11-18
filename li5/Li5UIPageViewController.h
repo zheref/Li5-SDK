@@ -28,6 +28,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL bounces;
 
 - (instancetype)initWithDirection:(Li5UIPageViewControllerDirection)direction;
+- (void)setVisiblePage:(NSInteger)page;
 
 @end
 

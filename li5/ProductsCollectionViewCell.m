@@ -19,7 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderStatus;
 @property (weak, nonatomic) IBOutlet UIView *videoView;
 
-@property (strong, nonatomic) YYAnimatedImageView *imageView;
 @property (strong, nonatomic) ImageHelper *imageHelper;
 
 @property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;

@@ -15,7 +15,7 @@
 @interface PrimeTimeViewControllerDataSource ()
 
 @property (nonatomic, strong) NSDate *expiresAt;
-@property (nonatomic, strong) NSString *endOfPrimeTime;
+@property (nonatomic, strong) EndOfPrimeTime *endOfPrimeTime;
 @property (nonatomic, strong) NSMutableArray<Product *> *products;
 
 @end
@@ -53,10 +53,14 @@
                 DDLogError(@"Error retrieving products: %@ %@", error, [error userInfo]);
                 //TODO: Only log out user if error 4**
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)error.userInfo[@"com.alamofire.serialization.response.error.response"];
+                NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                 if (httpResponse.statusCode > 400 && httpResponse.statusCode < 500)
                 {
-                    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                     [notificationCenter postNotificationName:kLoggedOutFromServer object:nil];
+                }
+                else
+                {
+                    [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
                 }
             }
             

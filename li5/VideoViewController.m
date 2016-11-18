@@ -149,7 +149,20 @@
     [self showViewController:teaserViewController withAppearanceTransition:YES];
 }
 
+-(BCPlayer *)getPlayer {
+    
+    return [teaserViewController getPlayer];
+}
+
 #pragma mark - iOS Actions
+
+
+//- (void)viewWillLayoutSubviews {
+//    [super viewWillLayoutSubviews];
+//    
+//    teaserViewController.view.frame = self.view.bounds;
+//    //    self.posterImageView.frame = self.view.bounds;
+//}
 
 -(void)dealloc
 {

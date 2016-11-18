@@ -30,7 +30,7 @@
     return self;
 }
 
-- (void)getProductsWithQuery:(NSString *)query withCompletion:(void (^)(NSError *error))completion {
+- (void)getProductsWithQuery:(NSString *)query progress:(void (^)())progress withCompletion:(void (^)(NSError *error))completion {
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     __weak typeof(self) welf = self;
     _products = [NSMutableArray array];
@@ -39,7 +39,7 @@
     if (query.length > 0 && query.length < 3) {
         return;
     }
-    completion (nil);
+    progress();
     [li5 requestProductsWithQuery:query andCursor:nil withCompletion:^(NSError *error, NSArray<Product *> *products, Cursor *cursor) {
         if (error != nil) {
             DDLogError(@"%@",error.description);
@@ -67,6 +67,11 @@
     }];
 }
 
+- (NSInteger)totalProducts
+{
+    return self.products.count;
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -85,7 +90,7 @@
         [cell setProduct:product];
         return cell;
     }
-    return nil;
+    return cell;
 }
 
 #pragma mark - UIPageViewControllerDataSource

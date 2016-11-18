@@ -41,6 +41,7 @@
 {
     DDLogVerbose(@"");
     //Do nothing for now
+    [super awakeFromNib];
 }
 
 #pragma mark - UI Setup
@@ -65,13 +66,16 @@
     [self.view bringSubviewToFront:_exploreView];
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
+    
+    [_productsViewController searchButtonClicked:_searchBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    DDLogVerbose(@"");
     [super viewDidAppear:animated];
     
-    [_productsViewController searchButtonClicked:_searchBar];
+   // [_productsViewController searchButtonClicked:_searchBar];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

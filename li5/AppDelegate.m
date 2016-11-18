@@ -14,6 +14,7 @@
 @import BCVideoPlayer;
 @import AVFoundation;
 @import Stripe;
+@import Branch;
 
 #import "AppDelegate.h"
 #import "CategoriesViewController.h"
@@ -21,6 +22,7 @@
 #import "Li5LoggerFormatter.h"
 #import "Li5BCLoggerDelegate.h"
 #import "Heap.h"
+#import "Li5Constants.h"
 
 @interface AppDelegate ()
 
@@ -35,7 +37,7 @@
     DDLogDebug(@"");
     NSDictionary<NSString *, id> *infoDictionary = [NSBundle mainBundle].infoDictionary;
     
-    [Fabric with:@[[Crashlytics class]]];
+    [Fabric with:@[[Crashlytics class], [Branch class]]];
 
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     [DDLog addLogger:[CrashlyticsLogger sharedInstance]];
@@ -83,10 +85,19 @@
     
     self.navController = [[UINavigationController alloc] init];
     self.navController.navigationBarHidden = YES;
-        
+    
     // LoginViewController
     _flowController = [[Li5RootFlowController alloc] initWithNavigationController:self.navController];
     [_flowController showInitialScreen];
+    
+    [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
+        if (!error && [[params objectForKey:@"+clicked_branch_link"] boolValue]) {
+            DDLogVerbose(@"share link token: %@", [params objectForKey:@"share_token"]);
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:[params objectForKey:@"share_token"] forKey:kLi5ShareToken];
+            [_flowController showInitialScreen];
+        }
+    }];
     
     [self.window setRootViewController:self.navController];
     [self.window makeKeyAndVisible];
@@ -95,7 +106,17 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    // For Branch to detect when a URI scheme is clicked
+    [[Branch getInstance] handleDeepLink:url];
+    // do other deep link routing for the Facebook SDK, Pinterest SDK, etc
     return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+
+// Respond to Universal Links
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+    // For Branch to detect when a Universal Link is clicked
+    [[Branch getInstance] continueUserActivity:userActivity];
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -148,6 +169,8 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     DDLogDebug(@"");
     
+    //TODO This causes the spinner to blink since iOS will move the app to foreground prior to handling the URL.
+    //TODO we need to move the logic of expiration of PrimeTime to DidBecomeActive method
     [_flowController showInitialScreen];
     
     [self.window.rootViewController beginAppearanceTransition:YES animated:NO];

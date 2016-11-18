@@ -23,7 +23,7 @@
 #import "Constants.h"
 #import <UIKit/UIKit.h>
 
-@interface BAFluidView : UIView
+@interface BAFluidView : UIView <CAAnimationDelegate>
 
 
 /**

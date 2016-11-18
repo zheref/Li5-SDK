@@ -19,6 +19,7 @@
 {
     BOOL __userLocationShown;
 }
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 
 @property (weak, nonatomic) IBOutlet MKMapView *map;
 
@@ -26,15 +27,21 @@
 @property (weak, nonatomic) IBOutlet UITextField *zipCode;
 @property (weak, nonatomic) IBOutlet UILabel *city;
 
+@property (strong, nonatomic, setter=setCreditCardParams:) STPCardParams *cardParams;
 @property (strong, nonatomic) NSString *country;
 @property (strong, nonatomic) NSString *state;
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) CLGeocoder *geocoder;
+@property (nonatomic, strong) CLGeocoder *geocoder;@property (nonatomic, strong) CLLocationManager *locationManager;
+
 @property (nonatomic, strong) MKPlacemark *shippingAddressMark;
 
 @property (weak, nonatomic) IBOutlet UIButton *continueBtn;
 @property (weak, nonatomic) IBOutlet UIButton *currentLocationBtn;
+@property (weak, nonatomic) IBOutlet UISwitch *isSameAsBillingAddress;
+@property (weak, nonatomic) IBOutlet UILabel *isSameAsBillingAddressLbl;
+@property MBProgressHUD *hud;
+@property (nonatomic) BOOL isBillingAddress;
+@property (nonatomic, setter=setShowSameAsBillingAddress:) BOOL showSameAsBillingAddress;
 
 @end
 
@@ -49,18 +56,25 @@
     DDLogVerbose(@"");
     [super viewDidLoad];
     
+    _isSameAsBillingAddress.hidden = !_showSameAsBillingAddress;
+    _isSameAsBillingAddressLbl.hidden = !_showSameAsBillingAddress;
+    
     [self.currentLocationBtn setImage:[[UIImage imageNamed:@"currentLocation"] blackAndWhiteImage] forState:UIControlStateNormal];
     [self.currentLocationBtn setImage:[UIImage imageNamed:@"currentLocation"] forState:UIControlStateHighlighted];
     
     [self.continueBtn setBackgroundImage:[UIImage imageWithColor:[UIColor lightGrayColor] andRect:self.view.bounds] forState:UIControlStateDisabled];
     [self.continueBtn setEnabled:NO];
     
+    if(_isBillingAddress) {
+        _titleLbl.text = @"BILLING ADDRESS";
+    }
+    
     if ([CLLocationManager locationServicesEnabled])
     {
         if (!_locationManager)
         {
             _locationManager = [[CLLocationManager alloc] init];
-//            _locationManager.delegate = self;
+            //            _locationManager.delegate = self;
             _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
             _locationManager.distanceFilter = 10.0;
         }
@@ -91,12 +105,16 @@
     DDLogVerbose(@"");
     [super viewDidDisappear:animated];
     
-    [self.map removeFromSuperview];
+    //    [self.map removeFromSuperview];
 }
 
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+- (void)setCreditCardParams:(STPCardParams *)value{
+    _cardParams = value;
 }
 
 - (IBAction)goBack:(id)sender
@@ -115,15 +133,111 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)setIsBillingAddress:(BOOL)value {
+    _isBillingAddress = value;
+}
+
+-(void)setShowSameAsBillingAddress:(BOOL)value {
+    _showSameAsBillingAddress = value;
+}
+
+
 - (IBAction)goNext:(id)sender
 {
     DDLogVerbose(@"");
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    [[Li5ApiHandler sharedInstance] updateUserWihAddress:self.address.text zipCode:self.zipCode.text city:self.city.text state:self.state country:self.country completion:^(NSError *error) {
-        [hud hideAnimated:YES];
+    
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud.mode = MBProgressHUDModeIndeterminate;
+  
+    if(_isSameAsBillingAddress.on) {
+        [self updateAddressWithType:Li5AddressTypeShipping completion:^(NSError *error) {
+            
+            [self saveCreditCard];
+        }];
+    }else {
+    
+        if(_isBillingAddress) {
+        
+            [self updateAddressWithType:Li5AddressTypeShipping completion:^(NSError *error) {
+                
+                [self saveCreditCard];
+            }];
+        }else {
+            
+            ShippingInfoViewController *shippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"shippingView"];
+            [shippingVC setProduct:self.product];
+            [shippingVC setIsBillingAddress:true];
+            [shippingVC setShowSameAsBillingAddress:false];
+            [shippingVC setCreditCardParams:_cardParams];
+            [shippingVC setCreditCardParams:_cardParams];
+            
+            [self.navigationController pushViewController:shippingVC animated:YES];
+            [self.hud hideAnimated:YES];
+        }
+    
+    }
+}
+
+-(void)saveCreditCard{
+
+    _cardParams.addressZip = self.zipCode.text;
+    _cardParams.addressCity = self.city.text;
+    _cardParams.addressState = self.state;
+    _cardParams.addressCountry = self.country;
+    _cardParams.addressLine1 = self.address.text;
+    
+    [self generateStripeTokenWithParams:_cardParams completion:^(STPToken *token, NSError *error) {
         if (error)
         {
+            [self.hud hideAnimated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:error.description
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+        else
+        {
+            
+            [[Li5ApiHandler sharedInstance] updateUserWihCreditCard:token.tokenId
+                                                              alias: @""
+                                                         completion:^(NSError *error) {
+                                                             
+                                                             if (error)
+                                                             {
+                                                                 [self.hud hideAnimated:YES];
+                                                                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                                                 message:error.userInfo[@"error"][@"message"]
+                                                                                                                delegate:self
+                                                                                                       cancelButtonTitle:@"OK"
+                                                                                                       otherButtonTitles:nil];
+                                                                 [alert show];
+                                                             }
+                                                             else
+                                                             {
+                                                                 Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
+                                                                 [flowController updateUserProfile];
+                                                                 
+                                                                 OrderProcessedViewController *processOrder = [self.storyboard instantiateViewControllerWithIdentifier:@"processOrderView"];
+                                                                 [processOrder setProduct:self.product];
+                                                                 processOrder.parent = self;
+                                                                 [self presentViewController:processOrder animated:NO completion:nil];
+                                                                 
+                                                                 [self.hud hideAnimated:YES];
+                                                             }
+                                                         }];
+        }
+    }];
+}
+
+-(void)updateAddressWithType:(Li5AddressType)type completion:(void (^)(NSError *error))completion {
+   
+    [[Li5ApiHandler sharedInstance] updateUserWihAddress:self.address.text zipCode:self.zipCode.text city:self.city.text state:self.state country:self.country type:type alias: @"" completion:^(NSError *error) {
+    
+        if (error)
+        {
+            [self.hud hideAnimated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:error.userInfo[@"error"][@"message"]
                                                            delegate:self
@@ -133,12 +247,7 @@
         }
         else
         {
-            Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-            [flowController updateUserProfile];
-            
-            OrderProcessedViewController *processOrder = [self.storyboard instantiateViewControllerWithIdentifier:@"processOrderView"];
-            [processOrder setProduct:self.product];
-            [self.navigationController pushViewController:processOrder animated:YES];
+            completion(nil);
         }
     }];
 }
@@ -267,6 +376,34 @@
     }
     
     return pinView;
+}
+
+
+- (void)generateStripeTokenWithParams:(STPCardParams *)cardParams completion:(void (^)(STPToken *token, NSError *error))completion
+{
+    [[STPAPIClient sharedClient] createTokenWithCard:cardParams completion:^(STPToken *token, NSError *error) {
+        if (error) {
+            // show the error, maybe by presenting an alert to the user
+            DDLogError(@"error while validating card: %@", error.localizedDescription);
+            completion(nil, error);
+        } else {
+            if (completion!=nil)
+            {
+                completion(token, nil);
+            }
+        }
+    }];
+}
+
+- (STPCardParams*)getTestingCard
+{
+    STPCardParams *cardParams = [[STPCardParams alloc] init];
+    cardParams.number = @"4242 4242 4242 4242";
+    cardParams.expMonth = 12;
+    cardParams.expYear = 2021;
+    cardParams.cvc = @"1234";
+    cardParams.name = @"Robert B Cool";
+    return cardParams;
 }
 
 @end

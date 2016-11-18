@@ -9,15 +9,16 @@
 @import SDWebImage;
 @import AVFoundation;
 
+//#import "UserProfileDismissDynamicInteractor.h"
 #import "UserProfileViewController.h"
 #import "Li5RootFlowController.h"
 #import "AppDelegate.h"
 #import "Li5VolumeView.h"
+#import "Li5-Swift.h"
 
 @interface UserProfileViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *settingsBtn;
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImg;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
@@ -28,24 +29,29 @@
 @property (weak, nonatomic) IBOutlet UIView *userLovesView;
 @property (weak, nonatomic) IBOutlet UIView *userOrdersView;
 
+@property (weak, nonatomic) UIViewController * viewController;
+
 @end
 
 @implementation UserProfileViewController
 
-+ (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget
++ (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget andViewController:(UIViewController *)viewController
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"UserProfile" bundle:[NSBundle mainBundle]];
     UserProfileViewController *newSelf = [storyboard instantiateInitialViewController];
     if (newSelf)
     {
         newSelf.panTarget = panTarget;
+        newSelf.viewController = viewController;
     }
+    
     return newSelf;
 }
 
 - (void)awakeFromNib
 {
     //Do needed
+    [super awakeFromNib];
 }
 
 - (void)viewDidLoad
@@ -53,11 +59,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userDidPan:)];
+    UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userDidPan:)];//action:@selector(userDidPan:)];
     [self.view addGestureRecognizer:gestureRecognizer];
-    
-    self.userImage.layer.cornerRadius = self.userImage.bounds.size.width / 2;
-    self.userImage.layer.masksToBounds = YES;
     
     [self.lovesButton setBackgroundImage:[UIImage imageWithColor:[UIColor li5_redColor] andRect:self.lovesButton.bounds] forState:UIControlStateSelected];
     [self.ordersButton setBackgroundImage:[UIImage imageWithColor:[UIColor li5_redColor] andRect:self.ordersButton.bounds] forState:UIControlStateSelected];
@@ -77,6 +80,14 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
     [self refreshProfile];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    self.userImage.layer.cornerRadius = self.userImage.bounds.size.width / 2;
+    self.userImage.clipsToBounds = YES;
 }
 
 - (void)refreshProfile
@@ -147,12 +158,7 @@
 
 - (void)userDidPan:(UIPanGestureRecognizer *)gestureRecognizer
 {
-    CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
-    double degree = atan(velocity.y/velocity.x) * 180 / M_PI;
-    if(fabs(degree) > 70.0)
-    {
-        [self.panTarget userDidPan:gestureRecognizer];
-    }
+    [self.panTarget userDidPan:gestureRecognizer];
 }
 
 #pragma mark - User Actions

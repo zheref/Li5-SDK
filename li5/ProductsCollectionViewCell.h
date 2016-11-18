@@ -17,6 +17,7 @@
 
 @property (weak, nonatomic) Product *product;
 @property (weak, nonatomic) Order *order;
+@property (strong, nonatomic) YYAnimatedImageView *imageView;
 
 - (void)willDisplayCell;
 - (void)didEndDisplayingCell;

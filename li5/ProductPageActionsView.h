@@ -13,9 +13,9 @@
 //IB_DESIGNABLE
 @interface ProductPageActionsView : Li5View<HeartAnimationViewDelegate>
 
-@property (nonatomic,weak) Product *product;
-
+- (void)setProduct:(Product *)product isEligibleForMultiLevel:(BOOL)isEligibleForMultiLevel;
 - (void)refreshStatus;
+- (void)animate;
 
 @end
 

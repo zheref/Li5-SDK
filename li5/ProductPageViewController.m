@@ -49,12 +49,28 @@
     // Do any additional setup after loading the view.
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)setPriority:(BCPriority)priority
 {
     [((VideoViewController*)self.viewControllers.firstObject) setPriority:priority];
 }
 
+-(BCPlayer *)getPlayer{
+    return [(VideoViewController *)self.currentViewController getPlayer];
+}
+
 #pragma mark - OS Actions
+
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    self.currentViewController.view.frame = self.view.bounds;
+}
 
 - (void)dealloc
 {

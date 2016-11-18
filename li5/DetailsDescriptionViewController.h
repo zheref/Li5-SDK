@@ -8,7 +8,7 @@
 
 @import Li5Api;
 
-@interface DetailsDescriptionViewController : UIViewController
+@interface DetailsDescriptionViewController : UIViewController <UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) Product *product;
 

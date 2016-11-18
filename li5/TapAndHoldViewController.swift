@@ -166,18 +166,22 @@ class TapAndHoldViewController: UIViewController {
             var newBucketCenter2 = newBucketCenter1
             newBucketCenter2.y = bounds.height - (bucketFrame.height / 2) - 40
             
-            let bucketSequence = CAAnimationGroup(animations: [
-                ATAnimationSequence(animations: [
-                    CABasicAnimation(keyPath: "transform.rotation", toValue: 0.5, duration: self.scale(1.5)),
-                    CABasicAnimation(keyPath: "transform.rotation", toValue: 0, duration: self.scale(1.5)),
-                    CABasicAnimation(keyPath: "transform.rotation", toValue: 0.1, duration: self.scale(1.2)),
-                    ]),
-                ATAnimationSequence(animations: [
-                    CABasicAnimation(keyPath: "position", timingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut), toValue: NSValue(CGPoint: newBucketCenter1), duration: self.scale(2)),
-                    CASpringAnimation(keyPath: "position", timingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn), toValue: NSValue(CGPoint: newBucketCenter2), duration: self.scale(2))
+            if #available(iOS 9.0, *) {
+                let bucketSequence = CAAnimationGroup(animations: [
+                    ATAnimationSequence(animations: [
+                        CABasicAnimation(keyPath: "transform.rotation", toValue: 0.5, duration: self.scale(1.5)),
+                        CABasicAnimation(keyPath: "transform.rotation", toValue: 0, duration: self.scale(1.5)),
+                        CABasicAnimation(keyPath: "transform.rotation", toValue: 0.1, duration: self.scale(1.2)),
+                        ]),
+                    ATAnimationSequence(animations: [
+                        CABasicAnimation(keyPath: "position", timingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut), toValue: NSValue(CGPoint: newBucketCenter1), duration: self.scale(2)),
+                        CASpringAnimation(keyPath: "position", timingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn), toValue: NSValue(CGPoint: newBucketCenter2), duration: self.scale(2))
+                        ])
                     ])
-                ])
-            self.bucketImageView.layer.addAnimation(bucketSequence, forKey: nil)
+                self.bucketImageView.layer.addAnimation(bucketSequence, forKey: nil)
+            } else {
+                // Fallback on earlier versions
+            }
         }
         
     }

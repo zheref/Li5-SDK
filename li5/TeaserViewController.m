@@ -19,7 +19,9 @@
 #import "ProductPageActionsView.h"
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
+#import "Li5-Swift.h"
 
+#import "PrimeTimeViewController.h"
 #pragma mark - Class Definitions
 
 @interface TeaserViewController ()
@@ -39,6 +41,7 @@
     double __startPositionX;
     double __endPositionX;
     double __space;
+    ExploreProductInteractor *_interactor;
 }
 
 @property (assign, nonatomic) ProductContext pContext;
@@ -51,7 +54,7 @@
 @property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrow;
-
+//@property (strong, nonatomic) UIImageView *posterImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageLeadingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelLeadingConstraint;
 
@@ -72,7 +75,7 @@
     TeaserViewController *newSelf = [productPageStoryboard instantiateViewControllerWithIdentifier:@"TeaserView"];
     if (newSelf)
     {
-        DDLogVerbose(@"%@", thisProduct.id);
+        DDLogVerbose(@"%p %@", newSelf, thisProduct.id);
         newSelf.product = thisProduct;
         newSelf.pContext = ctx;
         
@@ -89,13 +92,18 @@
     NSURL *playerUrl = [NSURL URLWithString:self.product.trailerURL];
     _teaserPlayer = [[BCPlayer alloc] initWithUrl:playerUrl bufferInSeconds:10.0 priority:BCPriorityBuffer delegate:self];
     //AVPlayer *player = [[AVPlayer alloc] initWithURL:playerUrl];
-
     
-    self.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_teaserPlayer andFrame:[UIScreen mainScreen].bounds previewImageRequired:YES];
+    
+    self.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_teaserPlayer andFrame:[UIScreen mainScreen].bounds previewImageRequired:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(show)
                                                  name:kPrimeTimeReadyToStart
                                                object:nil];
+    
+    // self.interactor = [[Interactor alloc] init];
+    
+    //self.modalPresentationStyle = UIModalPresentationCustom;
+    // destinationViewController.interactor = interactor
 }
 
 #pragma mark - UI View
@@ -126,7 +134,7 @@
     [self.playerView.layer addSublayer:self.playerLayer];
     
     [self.playerTimer setHasUnlocked:__hasUnlockedVideo];
-    [self.actionsView setProduct:self.product];
+    [self.actionsView setProduct:self.product isEligibleForMultiLevel:self.product.isEligibleForMultiLevel];
     
     self.categoryLabel.text = [self.product.categoryName uppercaseString];
     self.categoryImage.image = [UIImage imageNamed:[[self.product.categoryName stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString]];
@@ -149,11 +157,6 @@
         self.logoView.hidden = TRUE;
     }
     
-    //Category Animations presets
-    __startPositionX = (self.view.bounds.size.width / 2.0) - (self.categoryLabel.bounds.size.width / 2.0);
-    __endPositionX = self.categoryImage.layer.position.x; //endPositionX
-    __space = (__endPositionX - __startPositionX);
-    
     _waveView = [[Wave alloc] initWithView:self.view];
     [_waveView startAnimating];
     
@@ -163,11 +166,13 @@
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
     
     [self setupGestureRecognizers];
+    
+//    self.transitioningDelegate = self;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    DDLogDebug(@"");
+    DDLogVerbose(@"%p",self);
     [super viewDidDisappear:animated];
     
     __hasAppeared = NO;
@@ -180,7 +185,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    DDLogVerbose(@"");
+    DDLogVerbose(@"%p",self);
     [super viewWillDisappear:animated];
     
     __hasAppeared = NO;
@@ -190,7 +195,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    DDLogVerbose(@"");
+    DDLogVerbose(@"%p",self);
     [super viewWillAppear:animated];
     
     [self.actionsView refreshStatus];
@@ -198,12 +203,23 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DDLogDebug(@"");
+    DDLogVerbose(@"%p",self);
     [super viewDidAppear:animated];
     
     __hasAppeared = YES;
     
     [self show];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    //Category Animations presets
+    __startPositionX = (self.view.bounds.size.width / 2.0) - (self.categoryLabel.bounds.size.width / 2.0);
+    __endPositionX = self.categoryImage.layer.position.x; //endPositionX
+    __space = (__endPositionX - __startPositionX);
+    
 }
 
 #pragma mark - Players
@@ -234,7 +250,7 @@
     [TSMessage showNotificationWithTitle:@"Error"
                                 subtitle:@"Failed to load item, please try again later."
                                     type:TSMessageNotificationTypeError];
-
+    
 }
 
 - (void)bufferReady
@@ -251,7 +267,7 @@
     [TSMessage showNotificationWithTitle:@"Network slow"
                                 subtitle:@"Buffer is empty, waiting for resources to finish downloading"
                                     type:TSMessageNotificationTypeWarning];
-
+    
 }
 
 - (void)networkFail:(NSError *)error
@@ -261,7 +277,7 @@
     [TSMessage showNotificationWithTitle:@"Error"
                                 subtitle:@"Network failed, please try again later."
                                     type:TSMessageNotificationTypeError];
-
+    
 }
 
 #pragma mark - Displayable Protocol
@@ -285,7 +301,7 @@
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         if(__hasAppeared && [userDefaults boolForKey:kLi5SwipeLeftExplainerViewPresented])
         {
-            DDLogVerbose(@"");
+            DDLogVerbose(@"%p",self);
             [self.teaserPlayer play];
             
             [self renderAnimations];
@@ -319,6 +335,17 @@
         __weak typeof(id) welf = self;
         playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.teaserPlayer.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
             [welf replayMovie:note];
+            
+            if (__hasAppeared && __hasUnlockedVideo)
+            {
+                TapAndHoldViewController *modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
+                modalView.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+                modalView.gestureDelegate = self;
+                
+                [self presentViewController:modalView animated:NO completion:^{
+                    //Nothing for now
+                }];
+            }
         }];
     }
 }
@@ -375,7 +402,23 @@
 - (void)goBackToSearch:(UIPanGestureRecognizer *)recognizer
 {
     //TODO use Search interactor
-    [self.navigationController popViewControllerAnimated:NO];
+    
+    _interactor = ((PrimeTimeViewController*)self.parentViewController.parentViewController.parentViewController).interactor;
+    
+    if(_interactor) {
+        [_interactor userDidPan: recognizer];
+    }
+    else {
+        CATransition *outTransition = [CATransition animation];
+        outTransition.duration = 1.0;
+        outTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+        outTransition.type = kCATransitionFade;
+        [self.navigationController.view.layer addAnimation:outTransition forKey:kCATransition];
+        
+        // [self.parentViewController.navigationController pushViewController:vc animated:NO];
+        
+        [self.navigationController popViewControllerAnimated:NO];
+    }
 }
 
 - (IBAction)showProfile:(UIButton*)sender
@@ -407,17 +450,20 @@
         profilePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:profileInteractor action:@selector(userDidPan:)];
         [profilePanGestureRecognizer setDelegate:self];
         [self.view addGestureRecognizer:profilePanGestureRecognizer];
-        
+#ifdef DEBUG
         //Search Products Gesture Recognizer - Swipe Down from below 100px
         searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userDidPan:)];
         [searchPanGestureRecognizer setDelegate:self];
         [self.view addGestureRecognizer:searchPanGestureRecognizer];
+#endif
     }
     else
     {
+#ifdef DEBUG
         backToSearchPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(goBackToSearch:)];
         backToSearchPanGestureRecognzier.delegate = self;
         [self.view addGestureRecognizer:backToSearchPanGestureRecognzier];
+#endif
     }
     
 }
@@ -451,7 +497,7 @@
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
-    shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     if ([[gestureRecognizer view] isKindOfClass:[UIScrollView class]])
     {
@@ -481,6 +527,7 @@
     
     [self __renderMore];
     
+    [self.actionsView animate];
 }
 
 - (void)__renderCategory
@@ -518,7 +565,7 @@
             CGPoint currentPosition = self.categoryImage.layer.position;
             currentPosition.x = __startPositionX+(__space * 1.0 / 10.0);
             self.categoryImage.layer.position = currentPosition;
-
+            
             self.categoryImage.transform = CGAffineTransformScale(CGAffineTransformMakeRotation(M_PI*.125), 0.4, 0.4);
             
         }];
@@ -532,11 +579,11 @@
         }];
         
         [UIView addKeyframeWithRelativeStartTime:4*relativeDuration relativeDuration:relativeDuration animations:^{
-
+            
             CGPoint currentPosition = self.categoryImage.layer.position;
             currentPosition.x = __startPositionX+(__space * 3.0 / 10.0);
             self.categoryImage.layer.position = currentPosition;
-
+            
             self.categoryImage.transform = CGAffineTransformScale(CGAffineTransformMakeRotation(M_PI*.125), 0.8, 0.8);
             
         }];
@@ -564,7 +611,7 @@
             CGPoint currentPosition = self.categoryImage.layer.position;
             currentPosition.x = __startPositionX+(__space * 6.0 / 10.0);
             self.categoryImage.layer.position = currentPosition;
-
+            
             self.categoryImage.transform = CGAffineTransformMakeRotation(-M_PI*.185);
         }];
         
@@ -573,7 +620,7 @@
             CGPoint currentPosition = self.categoryImage.layer.position;
             currentPosition.x = __startPositionX+(__space * 7.0 / 10.0);
             self.categoryImage.layer.position = currentPosition;
-
+            
             self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.0);
         }];
         
@@ -582,7 +629,7 @@
             CGPoint currentPosition = self.categoryImage.layer.position;
             currentPosition.x = __startPositionX+(__space * 8.0 / 10.0);
             self.categoryImage.layer.position = currentPosition;
-
+            
             self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.075);
         }];
         
@@ -591,7 +638,7 @@
             CGPoint currentPosition = self.categoryImage.layer.position;
             currentPosition.x = __startPositionX+(__space * 9.0 / 10.0);
             self.categoryImage.layer.position = currentPosition;
-
+            
             self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.185);
         }];
         
@@ -600,7 +647,7 @@
             CGPoint currentPosition = self.categoryImage.layer.position;
             currentPosition.x = __startPositionX+(__space * 10.0 / 10.0);
             self.categoryImage.layer.position = currentPosition;
-
+            
             self.categoryImage.transform = CGAffineTransformMakeRotation(M_PI*.105);
         }];
         
@@ -629,12 +676,24 @@
     [self.arrow.layer addAnimation:trans forKey:@"bouncing"];
 }
 
+-(BCPlayer *)getPlayer{
+
+    return self.teaserPlayer;
+}
+
 #pragma mark - OS Actions
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    self.playerLayer.frame = self.view.bounds;
+    self.playerView.frame = self.view.bounds;
 }
 
 - (void)dealloc

@@ -13,8 +13,10 @@
 
 @interface ProductsCollectionViewDataSource : PrimeTimeViewControllerDataSource <UICollectionViewDataSource>
 
-- (void)getProductsWithQuery:(NSString *)query withCompletion:(void (^)(NSError *error))completion;
+- (void)getProductsWithQuery:(NSString *)query progress:(void (^)())progress withCompletion:(void (^)(NSError *error))completion;
 
 - (void)fetchMoreProductsWithCompletion:(void (^)(NSError *error))completion;
+
+- (NSInteger)totalProducts;
 
 @end

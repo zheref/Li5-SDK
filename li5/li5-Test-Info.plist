@@ -2,25 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Li5StripePublicKey</key>
-	<string>pk_test_RwxpEAjuWtwZdcUhT6vFRNpa</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>If you accept, we will populate your address based on your location</string>
-	<key>HeapAppId</key>
-	<string>447934008</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Rubik-Regular.ttf</string>
-		<string>Rubik-MediumItalic.ttf</string>
-		<string>Rubik-Medium.ttf</string>
-		<string>Rubik-LightItalic.ttf</string>
-		<string>Rubik-Light.ttf</string>
-		<string>Rubik-Italic.ttf</string>
-		<string>Rubik-BoldItalic.ttf</string>
-		<string>Rubik-Bold.ttf</string>
-		<string>Rubik-BlackItalic.ttf</string>
-		<string>Rubik-Black.ttf</string>
-	</array>
+	<key>Li5AppId</key>
+	<string>XXXXXXXXXXX</string>
+	<key>Li5TOSUrl</key>
+	<string>https://www.li5.tv/terms</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -42,12 +27,13 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>li5-test</string>
 				<string>fb1680814975507775</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>74</string>
+	<string>90</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -60,12 +46,23 @@
 				<key>KitName</key>
 				<string>Crashlytics</string>
 			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>branch_key</key>
+					<string>key_test_cfqnqTq8CngG038w1XYMLefhtsn40Eky</string>
+				</dict>
+				<key>KitName</key>
+				<string>Branch</string>
+			</dict>
 		</array>
 	</dict>
 	<key>FacebookAppID</key>
 	<string>1680814975507775</string>
 	<key>FacebookDisplayName</key>
 	<string>Li5</string>
+	<key>HeapAppId</key>
+	<string>447934008</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -76,7 +73,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>Li5ApiEndpoint</key>
-	<string>https://staging.li5.tv/v1</string>
+	<string>https://api.li5.tv/v1</string>
+	<key>Li5StripePublicKey</key>
+	<string>pk_test_RwxpEAjuWtwZdcUhT6vFRNpa</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -106,6 +105,23 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Uses the Camera to scan credit card if applicable</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>If you accept, we will populate your address based on your location</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Rubik-Regular.ttf</string>
+		<string>Rubik-MediumItalic.ttf</string>
+		<string>Rubik-Medium.ttf</string>
+		<string>Rubik-LightItalic.ttf</string>
+		<string>Rubik-Light.ttf</string>
+		<string>Rubik-Italic.ttf</string>
+		<string>Rubik-BoldItalic.ttf</string>
+		<string>Rubik-Bold.ttf</string>
+		<string>Rubik-BlackItalic.ttf</string>
+		<string>Rubik-Black.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen_Test</string>
 	<key>UIMainStoryboardFile</key>

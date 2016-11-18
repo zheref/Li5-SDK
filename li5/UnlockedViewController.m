@@ -106,7 +106,7 @@ static const CGFloat kCAHideControls = 3.5;
         newSelf.product = thisProduct;
         NSURL *videoUrl = [NSURL URLWithString:newSelf.product.videoURL];
         newSelf.extendedVideo = [[BCPlayer alloc] initWithUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityUnLock delegate:newSelf];
-        newSelf.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:newSelf.extendedVideo andFrame:[UIScreen mainScreen].bounds previewImageRequired:YES];
+        newSelf.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:newSelf.extendedVideo andFrame:[UIScreen mainScreen].bounds previewImageRequired:NO];
     }
     return newSelf;
 }
@@ -142,7 +142,8 @@ static const CGFloat kCAHideControls = 3.5;
     
     [self.playerView.layer addSublayer:self.playerLayer];
     
-    [self.actionsView setProduct:self.product];
+    //isEligibleForMultiLevel = false we dont want to display animation on unlock video
+    [self.actionsView setProduct:self.product isEligibleForMultiLevel:false];
     
     CGRect rect = CGRectMake(self.initialPoint.x, self.initialPoint.y, 1, 1);
     

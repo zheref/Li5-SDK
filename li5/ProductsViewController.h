@@ -8,9 +8,11 @@
 
 #import "ProductsListView.h"
 #import "ExploreViewController.h"
+#import "Li5-Swift.h"
 
-@interface ProductsViewController : UIViewController <ProductsListViewDelegate, Li5SearchBarUIViewDelegate>
+@interface ProductsViewController : UIViewController <ProductsListViewDelegate, Li5SearchBarUIViewDelegate, UIViewControllerTransitioningDelegate>
 
 @property (weak, nonatomic) IBOutlet ProductsListView *productListView;
+//@property (nonatomic, strong) ExploreProductInteractor *interactor;
 
 @end

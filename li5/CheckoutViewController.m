@@ -76,7 +76,7 @@
     [self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor lightGrayColor] andRect:self.continueButton.bounds] forState:UIControlStateDisabled];
     [self.continueButton setEnabled:NO];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 //- (void)keyboardWillChange:(NSNotification*)notification
@@ -85,9 +85,9 @@
 //    int curve = [[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
 //    CGRect curFrame = [[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
 //    CGRect targetFrame = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-//    
+//
 //    double deltaY = targetFrame.origin.y - curFrame.origin.y;
-//    
+//
 //    self.continueButtonBottom.constant = deltaY;
 //    DDLogVerbose(@"deltaY: %f",deltaY);
 //    [UIView animateKeyframesWithDuration:duration delay:0.0 options:UIViewKeyframeAnimationOptionCalculationModePaced animations:^{
@@ -97,7 +97,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [CardIOUtilities preload];    
+    [CardIOUtilities preload];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -145,12 +145,29 @@
 
 - (IBAction)goNext:(id)sender
 {
+    if (![self isFormValid]) return;
+    
+    NSArray<NSString*> *expArr = [self.ccExpiration.text componentsSeparatedByString:@"/"];
+    
+    STPCardParams *cardParams = [[STPCardParams alloc] init];
+    cardParams.number = self.cardInfo != nil && [self.cardInfo.cardNumber isEqualToString:self.creditCardNumber.text]? self.cardInfo.cardNumber:self.creditCardNumber.text;
+    cardParams.expMonth = [expArr.firstObject integerValue];
+    cardParams.expYear = [expArr.lastObject integerValue];
+    cardParams.cvc = self.ccCvv.text;
+    cardParams.name = self.creditCardName.text;
+    
+#if DEBUG
+    cardParams = [self getTestingCard];
+#endif
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
-    [self generateStripeToken:^(NSError *error) {
+    [self generateStripeTokenWithParams:cardParams completion:^(NSError *error) {
+        [hud hideAnimated:YES];
+        
         if (error)
         {
-            [hud hideAnimated:YES];
+            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:error.description
                                                            delegate:self
@@ -160,27 +177,12 @@
         }
         else
         {
-            [[Li5ApiHandler sharedInstance] updateUserWihCreditCard:self.token.tokenId completion:^(NSError *error) {
-                [hud hideAnimated:YES];
-                if (error)
-                {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                    message:error.userInfo[@"error"][@"message"]
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil];
-                    [alert show];
-                }
-                else
-                {
-                    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-                    [flowController updateUserProfile];
-                    
-                    ShippingInfoViewController *shippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"shippingView"];
-                    [shippingVC setProduct:self.product];
-                    [self.navigationController pushViewController:shippingVC animated:YES];
-                }
-            }];
+            
+            ShippingInfoViewController *shippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"shippingView"];
+            [shippingVC setProduct:self.product];
+            [shippingVC setShowSameAsBillingAddress:true];
+            [shippingVC setCreditCardParams:cardParams];
+            [self.navigationController pushViewController:shippingVC animated:YES];
         }
     }];
 }
@@ -273,22 +275,8 @@
     return YES;
 }
 
-- (void)generateStripeToken:(void (^)(NSError *error))completion
+- (void)generateStripeTokenWithParams:(STPCardParams *)cardParams completion:(void (^)(NSError *error))completion
 {
-    if (![self isFormValid]) return;
-    
-    NSArray<NSString*> *expArr = [self.ccExpiration.text componentsSeparatedByString:@"/"];
-    
-    STPCardParams *cardParams = [[STPCardParams alloc] init];
-    cardParams.number = self.cardInfo != nil && [self.cardInfo.cardNumber isEqualToString:self.creditCardNumber.text]? self.cardInfo.cardNumber:self.creditCardNumber.text;
-    cardParams.expMonth = [expArr.firstObject integerValue];
-    cardParams.expYear = [expArr.lastObject integerValue];
-    cardParams.cvc = self.ccCvv.text;
-    
-#if DEBUG
-    cardParams = [self getTestingCard];
-#endif
-    
     __weak typeof(self) welf = self;
     [[STPAPIClient sharedClient] createTokenWithCard:cardParams completion:^(STPToken *token, NSError *error) {
         __strong typeof(welf) swelf = welf;
@@ -313,7 +301,7 @@
     cardParams.expMonth = 12;
     cardParams.expYear = 2021;
     cardParams.cvc = @"1234";
-    
+    cardParams.name = @"Robert B Cool";
     return cardParams;
 }
 

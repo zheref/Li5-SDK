@@ -1,15 +1,18 @@
 //
-//  OrderProcessedViewController.h
+//  OrderSuccessViewController.h
 //  li5
 //
-//  Created by Martin Cocaro on 7/28/16.
+//  Created by gustavo hansen on 10/17/16.
 //  Copyright © 2016 ThriveCom. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+#import "CardUIView.h"
 #import "ProductPageProtocol.h"
 
-@interface OrderProcessedViewController : UIViewController <DisplayableProtocol>
+@interface OrderProcessedViewController : UIViewController<DisplayableProtocol, CardUIViewDelegate>
 
 @property (nonatomic, strong) Order *order;
+@property (nonatomic, strong) UIViewController *parent;
 
 @end

@@ -87,4 +87,16 @@
     }
 }
 
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    CGPoint touch = [gestureRecognizer locationInView:gestureRecognizer.view];
+    return !CGRectContainsPoint(self.cardView.frame, touch);
+}
+
+- (IBAction)tapOutsideCard:(id)sender {
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
+
 @end

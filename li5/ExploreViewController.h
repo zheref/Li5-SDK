@@ -11,6 +11,7 @@
 @protocol ExploreViewControllerPanTargetDelegate <NSObject>
 
 - (void)userDidPan:(UIPanGestureRecognizer *)gestureRecognizer;
+
 - (void)presentViewWithCompletion:(void (^)(void))completion;
 - (void)dismissViewWithCompletion:(void (^)(void))completion;
 
