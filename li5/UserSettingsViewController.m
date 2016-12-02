@@ -3,11 +3,12 @@
 //  li5
 //
 //  Created by Martin Cocaro on 5/22/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 @import BCVideoPlayer;
 @import SDWebImage;
 @import TSMessages;
+@import Intercom;
 
 #import "AppDelegate.h"
 #import "UserSettingsViewController.h"
@@ -15,7 +16,6 @@
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
 #import "PaymentInfoViewController.h"
-#import "PaymentEmptyViewController.h"
 
 @interface UserSettingsViewController ()
 
@@ -61,7 +61,7 @@
                               },
                           @{
                               @"Name" : @"Support",
-                              @"Action" : @"nop"
+                              @"Action" : @"presentMessenger"
                               }
                           ],
                   @"Shipping and Billing" : @[
@@ -229,26 +229,40 @@
 {
 }
 
+- (void)presentMessenger {
+    DDLogDebug(@"%p",self);
+    [Intercom presentMessenger];
+    
+}
+
 - (void)userLogOut
 {
+    DDLogDebug(@"%p",self);
     Li5ApiHandler *handler = [Li5ApiHandler sharedInstance];
-    [FBSDKAccessToken setCurrentAccessToken:nil];
-    if ([handler clearAccessToken])
-    {
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            [self.parentViewController dismissViewControllerAnimated:YES completion:^{
-                UINavigationController *navVC = (UINavigationController*)[[[UIApplication sharedApplication] keyWindow] rootViewController];
-                DDLogDebug(@"viewControllers: %@",navVC.viewControllers);
-                [navVC popToRootViewControllerAnimated:YES];
+    [handler revokeRefreshAccessTokenWithCompletion:^void (NSError *error){
+        if (error) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:error.userInfo[@"error"][@"message"]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        } else {
+            [FBSDKAccessToken setCurrentAccessToken:nil];
+            // This resets the Intercom for iOS cache of your users’ identities
+            // and wipes the slate clean.
+            [Intercom reset];
+            dispatch_async(dispatch_get_main_queue(), ^(void){
                 NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                 [notificationCenter postNotificationName:kLogoutSuccessful object:nil];
-            }];
-        });
-    }
+            });
+        }
+    }];
 }
 
 - (void)shareLogs
 {
+    DDLogDebug(@"%p",self);
     DDFileLogger *logger = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).logger;
     NSArray *sortedLogFileInfos = [logger.logFileManager sortedLogFileInfos];
     NSMutableArray *objectsToShare = [NSMutableArray array];
@@ -284,6 +298,7 @@
 
 - (void)enterDemoMode
 {
+    DDLogDebug(@"%p",self);
     [self clearUserDefaults];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:YES forKey:@"Li5DiscoverModeCustom"];
@@ -292,72 +307,79 @@
 
 - (void)clearUserDefaults
 {
+    DDLogDebug(@"%p",self);
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:kLi5SwipeLeftExplainerViewPresented];
     [defaults removeObjectForKey:kLi5SwipeDownExplainerViewPresented];
     [defaults removeObjectForKey:kLi5SwipeUpExplainerViewPresented];
     [defaults removeObjectForKey:kLi5CategoriesSelectionViewPresented];
     [defaults removeObjectForKey:@"Li5DiscoverModeCustom"];
-    
-    [TSMessage showNotificationWithTitle:@"Success"
-                                subtitle:@"Standard Defaults cleared."
-                                    type:TSMessageNotificationTypeSuccess];
-    
-    [self userLogOut];
+
+    [TSMessage showNotificationInViewController:self
+                                          title:@"Success"
+                                       subtitle:@"Standard Defaults cleared."
+                                           type:TSMessageNotificationTypeSuccess
+                                       duration:0.5];
 }
 
 - (void)clearCache
 {
+    DDLogDebug(@"%p",self);
     [BCPlayer clearCache];
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
     [imageCache clearMemory];
     [imageCache clearDisk];
     
     [TSMessage showNotificationInViewController:self
-                                          title:@"Success" subtitle:@"Cache cleared ok." type:TSMessageNotificationTypeSuccess duration:1.0];
+                                          title:@"Success"
+                                       subtitle:@"Cache cleared ok."
+                                           type:TSMessageNotificationTypeSuccess
+                                       duration:0.5];
 }
 
 - (void)toggleString:(UISwitch *)aSwitch
 {
+    DDLogDebug(@"%p",self);
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:[aSwitch isOn] forKey:aSwitch.accessibilityLabel];
     [self userLogOut];
 }
 
 - (void)shippingInfo {
-    
+    DDLogDebug(@"%p",self);
     Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
     Profile *userProfile = [flowController userProfile];
     
     if (userProfile)
     {
-        UIViewController *vc =  [self.storyboard instantiateViewControllerWithIdentifier:@"shippingEmptyVC"];
+        UIViewController *vc =  [self.storyboard instantiateViewControllerWithIdentifier:@"profileShippingInfoVC"];
         
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
 - (void)creditCardInfo {
-    
+    DDLogDebug(@"%p",self);
     Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
     Profile *userProfile = [flowController userProfile];
     
     if (userProfile)
     {
-        UIViewController *vc= [self.storyboard instantiateViewControllerWithIdentifier:@"paymentEmptyVC"];
+        UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentInfoSelectVC"];
+        
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
 - (void)loadTos {
-    
+    DDLogDebug(@"%p",self);
     UIViewController *vc= [self.storyboard instantiateViewControllerWithIdentifier:@"tosVC"];
     [self.navigationController pushViewController:vc animated:YES];
     
 }
 
 - (void)rateApp {
-
+    DDLogDebug(@"%p",self);
     NSString *appId = [[NSBundle mainBundle].infoDictionary objectForKey:@"Li5AppId"];
     NSURL *url = [NSURL URLWithString:
                   [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@",appId]];

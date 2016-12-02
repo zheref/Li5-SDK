@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 4/27/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 @import Li5Api;
 @import SDWebImage;
@@ -106,8 +106,9 @@
     NSString * segueName = segue.identifier;
     if ([segueName isEqualToString: @"lovesEmbed"]) {
         //_childViewController = (UserProductsViewController *) [segue destinationViewController];
-    }
-    else if ([segueName isEqualToString: @"ordersEmbed"]) {
+    } else if ([segueName isEqualToString: @"ordersEmbed"]) {
+        
+    } else if ([segueName isEqualToString: @"showSettings"]) {
         
     }
 }
@@ -165,6 +166,28 @@
 
 - (IBAction)settingsButtonTouched:(id)sender
 {
+}
+
+@end
+
+@implementation UserProfileNavigationViewController
+
+- (BOOL)prefersStatusBarHidden {
+    return [self.topViewController prefersStatusBarHidden];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [self.topViewController preferredStatusBarStyle];
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    DDLogVerbose(@"");
+    return self.topViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    DDLogVerbose(@"");
+    return self.topViewController;
 }
 
 @end

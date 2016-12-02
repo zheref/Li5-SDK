@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 6/8/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -20,6 +20,7 @@ extern NSString * const kCategoriesUpdateFailed;
 extern NSString * const kPrimeTimeLoaded;
 extern NSString * const kPrimeTimeFailedToLoad;
 extern NSString * const kPrimeTimeReadyToStart;
+extern NSString * const kPrimeTimeExpired;
 extern NSString * const kProfileUpdated;
 extern NSString * const kLoggedOutFromServer;
 

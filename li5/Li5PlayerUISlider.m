@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 4/25/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "Li5PlayerUISlider.h"

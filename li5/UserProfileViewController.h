@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 4/27/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 // This protocol is only to silence the compiler since we're using one of two different classes.
@@ -22,5 +22,10 @@
 @property (nonatomic, weak) id<UserProfileViewControllerPanTargetDelegate> panTarget;
 
 + (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget andViewController:(UIViewController *)viewController;
+
+@end
+
+
+@interface UserProfileNavigationViewController : UINavigationController
 
 @end

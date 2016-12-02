@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 7/25/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 @import VMaskTextField;
@@ -66,15 +66,26 @@
     keyboardToolbar.items = @[spaceItem,doneItem];
     [keyboardToolbar sizeToFit];
     self.ccCvv.inputAccessoryView = keyboardToolbar;
-    self.ccExpiration.inputAccessoryView = keyboardToolbar;
+    self.ccExpiration.inputAccessoryView = nextKeyboardToolbar;
     
     nextKeyboardToolbar.items = @[spaceItem, nextItem];
     [nextKeyboardToolbar sizeToFit];
     self.creditCardNumber.inputAccessoryView = nextKeyboardToolbar;
+    self.creditCardName.inputAccessoryView = nextKeyboardToolbar;
     
     [self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor li5_redColor] andRect:self.continueButton.bounds] forState:UIControlStateNormal];
     [self.continueButton setBackgroundImage:[UIImage imageWithColor:[UIColor lightGrayColor] andRect:self.continueButton.bounds] forState:UIControlStateDisabled];
     [self.continueButton setEnabled:NO];
+    
+    
+    [[self.view viewWithTag:10] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(tapCreditCardNumber:)]];
+    [[self.view viewWithTag:11] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(tapCreditCardName:)]];
+    [[self.view viewWithTag:12] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(tapExpiration:)]];
+    [[self.view viewWithTag:13] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(tapCvv:)]];
     
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
@@ -310,5 +321,26 @@
     [self next:textField];
     return true;
 }
+
+- (void)tapCreditCardNumber:(UIGestureRecognizer *)recognizer
+{
+    [self.creditCardNumber becomeFirstResponder];
+}
+
+- (void)tapExpiration:(UIGestureRecognizer *)recognizer
+{
+    [self.ccExpiration becomeFirstResponder];
+}
+
+- (void)tapCvv:(UIGestureRecognizer *)recognizer
+{
+    [self.ccCvv becomeFirstResponder];
+}
+
+- (void)tapCreditCardName:(UIGestureRecognizer *)recognizer
+{
+    [self.creditCardName becomeFirstResponder];
+}
+
 
 @end

@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Leandro Fournier on 3/29/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "ProductPageViewController.h"

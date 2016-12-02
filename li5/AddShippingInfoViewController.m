@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by gustavo hansen on 10/18/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 @import MapKit;
@@ -19,6 +19,7 @@
     BOOL __userLocationShown;
 }
 
+@property (weak, nonatomic) IBOutlet UILabel *aliasLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *map;
 
 @property (weak, nonatomic) IBOutlet UITextField *address;
@@ -39,6 +40,9 @@
 @property (nonatomic, strong, setter=setCurrentAddress:) Address *currentAddress;
 @property (strong, nonatomic, setter=setCreditCardParams:) STPCardParams *cardParams;
 @property (weak, nonatomic,setter=setCreditCardAlias:) NSString *cardAlias;
+@property int keyboardHeight;
+@property BOOL isAliasTextFieldBeingEdited;
+
 @end
 
 @implementation AddShippingInfoViewController
@@ -85,6 +89,23 @@
     [keyboardToolbar sizeToFit];
     
     self.alias.inputAccessoryView = keyboardToolbar;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moveUpView:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    self.alias.delegate = self;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)done:(id)sender
@@ -94,15 +115,16 @@
 }
 
 - (void)delete {
-
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     
     [[Li5ApiHandler sharedInstance] deleteAddress:_currentAddress completion:^(NSError *error) {
-        [hud hideAnimated:YES];
+        
         
         if (error)
         {
+            [hud hideAnimated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:error.description
                                                            delegate:self
@@ -112,27 +134,35 @@
             
             
         }else {
-            [self goBackToRoot:true];
+            [self goBackToRoot:true hud:hud];
         }
     }];
 }
 
--(void)goBackToRoot:(BOOL)returnToShpping {
-
+-(void)goBackToRoot:(BOOL)returnToShipping hud:(MBProgressHUD *)hud {
+    
     Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-    [flowController updateUserProfile];
-    
-//    NSString *controllerString = returnToShpping ? @"shippingEmptyVC" : @"paymentEmptyVC";
-//    
-//    for (UIViewController *controller in self.navigationController.viewControllers) {
-//    
-//        if([controller.restorationIdentifier isEqualToString:controllerString]){
-//      
-//            [self.navigationController popToViewController:controller animated:YES];
-//        }
-//    }
-    
-    [self.navigationController popViewControllerAnimated:YES];
+    [flowController updateUserProfileWithCompletion:^(BOOL success, NSError *error) {
+        
+        [hud hideAnimated:YES];
+        
+        if(returnToShipping) {
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        }
+        else {
+            
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+                
+                if([controller.restorationIdentifier isEqualToString:@"paymentInfoSelectVC"]){
+                    
+                    [self.navigationController popToViewController:controller animated:YES];
+                    
+                    return;
+                }
+            }
+        }
+    }];
 }
 
 -(void)setCurrentAddress:(Address *)address {
@@ -174,7 +204,7 @@
     self.city.text = address.city;
     self.state = address.state;
     self.zipCode.text = address.zip;
-    
+    self.alias.text = address.alias;
     NSString *location = [NSString stringWithFormat:@"%@, %@ and %@",
                           address.address1, address.state, address.zip];
     
@@ -183,7 +213,6 @@
     [geocoder geocodeAddressString:location
                  completionHandler:^(NSArray* placemarks, NSError* error){
                      
-                     [self.map removeAnnotations:self.map.annotations];
                      if (placemarks && placemarks.count > 0) {
                          CLPlacemark *topResult = [placemarks objectAtIndex:0];
                          MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:topResult];
@@ -210,6 +239,8 @@
     
     if(_cardParams != nil) {
         self.title = [@"Billing Address" uppercaseString];
+        self.alias.hidden = true;
+        self.aliasLabel.hidden = true;
     }
     else {
         self.title = [@"Shipping Info" uppercaseString];
@@ -217,23 +248,24 @@
 }
 
 -(void)setCreditCardAlias:(NSString *)value {
-
+    
     _cardAlias = value;
 }
 - (IBAction)save:(id)sender
 {
     DDLogVerbose(@"");
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
     
     if(_cardParams == nil || _currentAddress != nil) {
         
-    [self updateAddressWithType:Li5AddressTypeBilling completion:^(NSError *error) {
-        
-         [self goBackToRoot:true];
-    }];
+        [self updateAddressWithType:Li5AddressTypeBilling completion:^(NSError *error) {
+            
+            [self goBackToRoot:true hud:hud];
+        }];
     }
     else {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.mode = MBProgressHUDModeIndeterminate;
+        
         
 #if DEBUG
         _cardParams = [self getTestingCard];
@@ -263,9 +295,10 @@
                                                                   alias: _cardAlias
                                                              completion:^(NSError *error) {
                                                                  
-                                                                 [hud hideAnimated:YES];
+                                                                 
                                                                  if (error)
                                                                  {
+                                                                     [hud hideAnimated:YES];
                                                                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                                                                      message:error.userInfo[@"error"][@"message"]
                                                                                                                     delegate:self
@@ -275,12 +308,12 @@
                                                                  }
                                                                  else
                                                                  {
-                                                                     [self goBackToRoot:false];
+                                                                     [self goBackToRoot:false hud:hud];
                                                                  }
                                                              }];
             }
         }];
-    
+        
     }
 }
 
@@ -289,22 +322,49 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     
-    [[Li5ApiHandler sharedInstance] updateUserWihAddress:self.address.text zipCode:self.zipCode.text city:self.city.text state:self.state country:self.country type:type alias:self.alias.text completion:^(NSError *error) {
-        [hud hideAnimated:YES];
-        if (error)
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:error.userInfo[@"error"][@"message"]
-                                                           delegate:self
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
-        }
-        else
-        {
-            completion(nil);
-        }
-    }];
+    if(_currentAddress.id) {
+        
+        _currentAddress.address1 = self.address.text;
+        _currentAddress.zip = self.zipCode.text;
+        _currentAddress.city = self.city.text;
+        _currentAddress.state = self.state;
+        _currentAddress.country = self.country;
+        _currentAddress.alias = self.alias.text;
+        
+        [[Li5ApiHandler sharedInstance] updateAddress:_currentAddress completion:^(NSError *error) {
+            [hud hideAnimated:YES];
+            if (error)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:error.userInfo[@"error"][@"message"]
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            else
+            {
+                completion(nil);
+            }
+        }];
+    } else {
+        [[Li5ApiHandler sharedInstance] updateUserWihAddress:self.address.text zipCode:self.zipCode.text city:self.city.text state:self.state country:self.country type:type alias:self.alias.text completion:^(NSError *error) {
+            [hud hideAnimated:YES];
+            if (error)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:error.userInfo[@"error"][@"message"]
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            else
+            {
+                completion(nil);
+            }
+        }];
+    }
 }
 
 #pragma mark - UITextFieldDelegate
@@ -317,21 +377,27 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    DDLogVerbose(@"");
-    NSString *newAddress = textField.text;
-    [self.geocoder geocodeAddressString:newAddress completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        DDLogVerbose(@"Found placemarks: %lu, error: %@", placemarks.count, error);
-        if (error == nil && [placemarks count] > 0) {
-            [self.map removeAnnotations:self.map.annotations];
-            
-            CLPlacemark *placemark = [placemarks lastObject];
-            
-            [self setUserAddress:placemark isUserLocation:NO];
-        } else {
-            DDLogError(@"%@", error.debugDescription);
-            [self cleanUserAddress];
-        }
-    }];
+    if(textField.tag == 1) {
+        _isAliasTextFieldBeingEdited = false;
+        [self animate: NO];
+    }else {
+        DDLogVerbose(@"");
+        NSString *newAddress = textField.text;
+        [self.geocoder geocodeAddressString:newAddress completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+            DDLogVerbose(@"Found placemarks: %lu, error: %@", placemarks.count, error);
+            if (error == nil && [placemarks count] > 0) {
+                [self.map removeAnnotations:self.map.annotations];
+                
+                CLPlacemark *placemark = [placemarks lastObject];
+                
+                [self setUserAddress:placemark isUserLocation:NO];
+            } else {
+                DDLogError(@"%@", error.debugDescription);
+                [self cleanUserAddress];
+            }
+        }];
+    }
+    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -353,6 +419,7 @@
 - (void)setUserAddress:(CLPlacemark*)placemark isUserLocation:(BOOL)userLocation
 {
     DDLogVerbose(@"");
+    [self.map setShowsUserLocation:false];
     [self.currentLocationBtn setHighlighted:YES];
     
     self.address.text = [NSString stringWithFormat:@"%@ %@",placemark.subThoroughfare, placemark.thoroughfare];
@@ -362,16 +429,21 @@
     self.country = placemark.country;
     
     
+    [self.map removeAnnotations:self.map.annotations];
+    
     self.shippingAddressMark = [[MKPlacemark alloc] initWithCoordinate:placemark.location.coordinate addressDictionary:placemark.addressDictionary];
-    if (!userLocation)
-    {
+//    if (!userLocation)
+//    {
         [self.map addAnnotation:self.shippingAddressMark];
         [self.map showAnnotations:@[self.shippingAddressMark] animated:YES];
-    }
-    else
-    {
-        [self.map showAnnotations:@[self.map.userLocation] animated:YES];
-    }
+//    }
+//    else
+//    {
+//        if(self.map.userLocation != nil) {
+//            
+//            [self.map showAnnotations:@[self.map.userLocation] animated:YES];
+//        }
+//    }
     
     [self enableContinueButton];
 }
@@ -460,6 +532,45 @@
     cardParams.cvc = @"1234";
     cardParams.name = @"Robert B Cool";
     return cardParams;
+}
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if(textField.tag == 1) {
+        _isAliasTextFieldBeingEdited = true;
+    }
+}
+
+- (void) animate: (BOOL) up
+{
+    if(up) {
+        self.view.frame = [UIScreen mainScreen].bounds;
+    }
+    
+    const int movementDistance = _keyboardHeight;
+    const float movementDuration = 0.1f;
+    
+    int movement = (up ? -movementDistance : movementDistance);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
+}
+
+-(void)moveUpView:(NSNotification*)notification
+{
+    NSDictionary* keyboardInfo = [notification userInfo];
+    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    
+    _keyboardHeight = keyboardFrameBeginRect.size.height;
+    
+    if(_isAliasTextFieldBeingEdited) {
+        [self animate:YES];
+    }
 }
 
 @end

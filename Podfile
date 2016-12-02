@@ -6,7 +6,7 @@ use_frameworks!
 abstract_target 'Li5Base' do
   pod 'CocoaLumberjack'
   pod 'Li5Api', :path => '../li5-api-ios'
-  pod 'GCDWebServer', :git => 'git@github.com:thrivecom/GCDWebServer.git', :branch => 'custom-dev'
+  pod 'GCDWebServer', :git => 'git@github.com:lifive/GCDWebServer.git', :branch => 'custom-dev'
   pod 'BCVideoPlayer', :path => '../BCPlayerView'
   pod 'SDWebImage', '~>3.7'
   pod 'Masonry'
@@ -21,19 +21,15 @@ abstract_target 'Li5Base' do
   pod 'VMaskTextField'
   pod 'MBProgressHUD'
   pod 'Branch'
+  pod 'Instabug'
   
   target 'li5' do
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'CardIO'
     pod 'Stripe'
-  end
-  
-  target 'li5-Dev' do
-    pod 'Fabric'
-    pod 'Crashlytics'
-    pod 'CardIO'
-    pod 'Stripe'
+    pod 'Intercom'
+    pod 'JSBadgeView'
   end
   
   target 'li5-Test' do
@@ -41,6 +37,8 @@ abstract_target 'Li5Base' do
     pod 'Crashlytics'
     pod 'CardIO'
     pod 'Stripe'
+    pod 'Intercom'
+    pod 'JSBadgeView'
   end
   
   target 'li5Tests' do

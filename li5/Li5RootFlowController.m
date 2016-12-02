@@ -3,10 +3,11 @@
 //  li5
 //
 //  Created by Martin Cocaro on 1/19/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 @import Li5Api;
+@import Intercom;
 
 #import "CategoriesViewController.h"
 #import "Li5RootFlowController.h"
@@ -18,6 +19,7 @@
 #import "ExploreDynamicInteractor.h"
 #import "Li5Constants.h"
 #import "ImageCardViewController.h"
+#import "Heap.h"
 
 @interface Li5RootFlowController ()
 
@@ -65,6 +67,12 @@
                                selector:@selector(logoutAndShowOnboardingScreen)
                                    name:kLoggedOutFromServer
                                  object:nil];
+        
+        [notificationCenter addObserver:self
+                               selector:@selector(showInitialScreen)
+                                   name:kPrimeTimeExpired
+                                 object:nil];
+
     }
     return self;
 }
@@ -114,6 +122,10 @@
                 DDLogInfo(@"Profile requested successfully");
                 swelf.userProfile = profile;
                 
+                [Intercom registerUserWithUserId:profile.id email:profile.email];
+                [Heap identify:profile.email];
+                [Heap addUserProperties:@{@"email":profile.email, @"id":profile.id}];
+                
                 NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                 [notificationCenter postNotificationName:kProfileUpdated object:nil];
                 
@@ -121,6 +133,36 @@
                 {
                     [swelf showCategoriesSelectionScreen];
                 }
+            }
+        }];
+    });
+}
+
+
+- (void)updateUserProfileWithCompletion: (void (^)(BOOL success, NSError* error))completion
+
+{
+    DDLogVerbose(@"");
+    //Update User Profile
+    __weak typeof (self) welf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        __strong typeof(self) swelf = welf;
+        [swelf.service requestProfile:^(NSError *profileError, Profile *profile) {
+            //If anything, take the user back to login as default
+            if (profileError != nil)
+            {
+                DDLogError(@"Error while requesting Profile %@", profileError.description);
+                [swelf logoutAndShowOnboardingScreen];
+                completion(NO, profileError);
+            }
+            else
+            {
+                DDLogInfo(@"Profile requested successfully");
+                swelf.userProfile = profile;
+                
+                NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                [notificationCenter postNotificationName:kProfileUpdated object:nil];
+                completion(YES, nil);
             }
         }];
     });
@@ -138,12 +180,14 @@
     }
 }
 
-- (void)__dismissPresentedViewController:(BOOL)animated
+- (void)__dismissPresentedViewController:(BOOL)animated completion:(void (^)())completion
 {
     if ([self.navigationController.topViewController presentedViewController])
     {
         DDLogVerbose(@"dismissing presented view controller");
-        [self.navigationController.topViewController dismissViewControllerAnimated:NO completion:nil];
+        [self.navigationController.topViewController dismissViewControllerAnimated:animated completion:completion];
+    } else {
+        completion();
     }
 }
 
@@ -152,8 +196,9 @@
     DDLogVerbose(@"");
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
     OnboardingViewController *onboardingScreen = [storyboard instantiateInitialViewController];
-    [self __dismissPresentedViewController:NO];
-    [self.navigationController setViewControllers:@[onboardingScreen]];
+    [self __dismissPresentedViewController:YES completion:^{
+        [self.navigationController setViewControllers:@[onboardingScreen]];
+    }];
 }
 
 - (void)showCategoriesSelectionScreen
@@ -174,8 +219,9 @@
     }
     PrimeTimeViewController *primeTimeVC = [[PrimeTimeViewController alloc] initWithDataSource:_primeTimeDataSource];
     
-    [self __dismissPresentedViewController:NO];
-    [self.navigationController setViewControllers:@[primeTimeVC]];
+    [self __dismissPresentedViewController:YES completion:^{
+        [self.navigationController setViewControllers:@[primeTimeVC]];
+    }];
 }
 
 - (void)showExploreScreen

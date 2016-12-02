@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 5/23/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "Li5SearchBarUIView.h"
@@ -12,7 +12,6 @@
 
 - (void)userDidPan:(UIPanGestureRecognizer *)gestureRecognizer;
 
-- (void)presentViewWithCompletion:(void (^)(void))completion;
 - (void)dismissViewWithCompletion:(void (^)(void))completion;
 
 @end

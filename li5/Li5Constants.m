@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 6/8/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "Li5Constants.h"
@@ -19,6 +19,7 @@ NSString * const kCategoriesUpdateFailed = @"kCategoriesUpdateFailed";
 NSString * const kPrimeTimeLoaded = @"kPrimeTimeLoaded";
 NSString * const kPrimeTimeFailedToLoad = @"kPrimeTimeFailedToLoad";
 NSString * const kPrimeTimeReadyToStart = @"kPrimeTimeReadyToStart";
+NSString * const kPrimeTimeExpired = @"kPrimeTimeExpired";
 NSString * const kProfileUpdated = @"kProfileUpdated";
 NSString * const kLoggedOutFromServer = @"kLoggedOutFromServer";
 

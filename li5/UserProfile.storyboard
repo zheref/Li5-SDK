@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JPB-nZ-wc1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11761" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JPB-nZ-wc1">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -350,64 +350,10 @@
             </objects>
             <point key="canvasLocation" x="886" y="338"/>
         </scene>
-        <!--Payment Empty View Controller-->
-        <scene sceneID="5O5-nV-Gvg">
-            <objects>
-                <viewController storyboardIdentifier="paymentEmptyVC" id="LLk-l0-Qlj" customClass="PaymentEmptyViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="yRj-FI-bwU"/>
-                        <viewControllerLayoutGuide type="bottom" id="HR2-OO-Zmy"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="AqU-iQ-XMl">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="credit_cart_empty" translatesAutoresizingMaskIntoConstraints="NO" id="5BY-2n-6Cl">
-                                <rect key="frame" x="142" y="54" width="92" height="70"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DNX-NM-mZA">
-                                <rect key="frame" x="73" y="208" width="230" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="230" id="UbE-TC-oL2"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="16.799999237060547"/>
-                                <state key="normal" title="Add other Payment Method">
-                                    <color key="titleColor" red="0.011764705882352941" green="0.78431372549019607" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="addPayment:" destination="LLk-l0-Qlj" eventType="touchUpInside" id="eVq-3z-B6T"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There is no cred card entered" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XaJ-nh-rzM">
-                                <rect key="frame" x="88" y="148" width="200" height="17"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="nBu-OE-MNN"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="13.800000190734863"/>
-                                <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="DNX-NM-mZA" firstAttribute="top" secondItem="XaJ-nh-rzM" secondAttribute="bottom" constant="43.5" id="4Zx-vc-g91"/>
-                            <constraint firstItem="DNX-NM-mZA" firstAttribute="centerX" secondItem="AqU-iQ-XMl" secondAttribute="centerX" id="94p-1U-LfB"/>
-                            <constraint firstItem="XaJ-nh-rzM" firstAttribute="centerX" secondItem="AqU-iQ-XMl" secondAttribute="centerX" id="EkL-Fu-d13"/>
-                            <constraint firstItem="5BY-2n-6Cl" firstAttribute="leading" secondItem="AqU-iQ-XMl" secondAttribute="leading" constant="141.5" id="Jeh-fT-mNn"/>
-                            <constraint firstAttribute="trailing" secondItem="5BY-2n-6Cl" secondAttribute="trailing" constant="141.5" id="Nfk-rg-hNV"/>
-                            <constraint firstItem="XaJ-nh-rzM" firstAttribute="top" secondItem="5BY-2n-6Cl" secondAttribute="bottom" constant="23.5" id="m2t-rg-hDl"/>
-                            <constraint firstItem="5BY-2n-6Cl" firstAttribute="top" secondItem="yRj-FI-bwU" secondAttribute="bottom" constant="34" id="xc9-fo-M66"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0nt-DZ-oeR" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1620" y="326.98650674662673"/>
-        </scene>
         <!--Payment Info Select View Controller-->
         <scene sceneID="IgN-fy-vHM">
             <objects>
-                <viewController storyboardIdentifier="paymentInfoSelectVC" id="Uox-Lx-7YF" customClass="PaymentInfoSelectViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="paymentInfoSelectVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Uox-Lx-7YF" customClass="PaymentInfoSelectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1Ew-vw-tUd"/>
                         <viewControllerLayoutGuide type="bottom" id="vFS-Hh-1kQ"/>
@@ -634,6 +580,48 @@
                                             <action selector="addOtherCreditCard:" destination="Uox-Lx-7YF" eventType="touchUpInside" id="DOm-OS-KWa"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D9G-AW-bdV">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6hQ-dN-PFh">
+                                                <rect key="frame" x="72" y="249" width="230" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="230" id="ur2-Xc-H3J"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="16.799999237060547"/>
+                                                <state key="normal" title="Add other Payment Method">
+                                                    <color key="titleColor" red="0.01176470588" green="0.7843137255" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="addOtherCreditCard:" destination="Uox-Lx-7YF" eventType="touchUpInside" id="Ujp-Lt-HOl"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="credit_cart_empty" translatesAutoresizingMaskIntoConstraints="NO" id="Ocd-vg-6rL">
+                                                <rect key="frame" x="141" y="95" width="92" height="70"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There is no cred card entered" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e23-8W-9DP">
+                                                <rect key="frame" x="87" y="189" width="200" height="17"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Q3p-tj-eBo"/>
+                                                    <constraint firstAttribute="width" constant="200" id="ujz-PU-qx8"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="13.800000190734863"/>
+                                                <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="e23-8W-9DP" firstAttribute="centerX" secondItem="D9G-AW-bdV" secondAttribute="centerX" id="8jj-FO-MDS"/>
+                                            <constraint firstItem="Ocd-vg-6rL" firstAttribute="top" secondItem="D9G-AW-bdV" secondAttribute="top" constant="95" id="9TH-2a-Lve"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ocd-vg-6rL" secondAttribute="trailing" constant="141.5" id="Bzr-eQ-6L1"/>
+                                            <constraint firstItem="6hQ-dN-PFh" firstAttribute="centerX" secondItem="D9G-AW-bdV" secondAttribute="centerX" id="Dcr-Iq-fQO"/>
+                                            <constraint firstItem="Ocd-vg-6rL" firstAttribute="leading" secondItem="D9G-AW-bdV" secondAttribute="leading" constant="141.5" id="Isw-Ob-onC"/>
+                                            <constraint firstItem="6hQ-dN-PFh" firstAttribute="top" secondItem="e23-8W-9DP" secondAttribute="bottom" constant="43.5" id="JE3-Gb-oSE"/>
+                                            <constraint firstItem="e23-8W-9DP" firstAttribute="top" secondItem="Ocd-vg-6rL" secondAttribute="bottom" constant="23.5" id="fUv-kF-E7e"/>
+                                            <constraint firstItem="e23-8W-9DP" firstAttribute="top" secondItem="Ocd-vg-6rL" secondAttribute="bottom" constant="23.5" id="jO6-Yc-ZGS"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -643,12 +631,15 @@
                                     <constraint firstItem="Ax1-se-i2l" firstAttribute="top" secondItem="O5z-AK-FFr" secondAttribute="bottom" id="DnI-Sn-j2B"/>
                                     <constraint firstAttribute="trailing" secondItem="UY5-cU-mKo" secondAttribute="trailing" id="Dzk-ke-qgX"/>
                                     <constraint firstAttribute="trailing" secondItem="Ax1-se-i2l" secondAttribute="trailing" id="Ev4-JY-e4W"/>
+                                    <constraint firstItem="D9G-AW-bdV" firstAttribute="leading" secondItem="t2h-yV-pbc" secondAttribute="leading" id="IjS-Gw-F3e"/>
                                     <constraint firstItem="mtG-NB-lUs" firstAttribute="leading" secondItem="t2h-yV-pbc" secondAttribute="leading" id="Mva-yh-Xy6"/>
                                     <constraint firstAttribute="trailing" secondItem="wGa-OI-SN2" secondAttribute="trailing" constant="98.799999999999997" id="NL3-cf-Gyg"/>
                                     <constraint firstItem="kiP-R7-F2O" firstAttribute="leading" secondItem="t2h-yV-pbc" secondAttribute="leading" id="OPM-Xd-aJp"/>
                                     <constraint firstItem="XmP-85-zfK" firstAttribute="top" secondItem="Ax1-se-i2l" secondAttribute="bottom" id="RMo-ho-7ZO"/>
                                     <constraint firstItem="XmP-85-zfK" firstAttribute="top" secondItem="Ax1-se-i2l" secondAttribute="bottom" id="S6R-p0-QjK"/>
                                     <constraint firstItem="XmP-85-zfK" firstAttribute="leading" secondItem="t2h-yV-pbc" secondAttribute="leading" id="SFZ-jD-SBu"/>
+                                    <constraint firstAttribute="trailing" secondItem="D9G-AW-bdV" secondAttribute="trailing" id="SgH-4T-zoO"/>
+                                    <constraint firstItem="D9G-AW-bdV" firstAttribute="top" secondItem="t2h-yV-pbc" secondAttribute="top" id="Zyx-Kp-Tq3"/>
                                     <constraint firstItem="Ru3-RS-VQH" firstAttribute="top" secondItem="t2h-yV-pbc" secondAttribute="top" constant="61" id="bPw-aK-Bhi"/>
                                     <constraint firstItem="O5z-AK-FFr" firstAttribute="top" secondItem="kiP-R7-F2O" secondAttribute="bottom" id="cSr-UX-Aqm"/>
                                     <constraint firstItem="O5z-AK-FFr" firstAttribute="leading" secondItem="t2h-yV-pbc" secondAttribute="leading" id="ceL-97-y8K"/>
@@ -661,6 +652,7 @@
                                     <constraint firstItem="Ru3-RS-VQH" firstAttribute="leading" secondItem="t2h-yV-pbc" secondAttribute="leading" id="hbg-H1-nkc"/>
                                     <constraint firstAttribute="bottom" secondItem="wGa-OI-SN2" secondAttribute="bottom" constant="51.5" id="jRQ-Db-dRA"/>
                                     <constraint firstItem="UY5-cU-mKo" firstAttribute="top" secondItem="rrk-f2-DOl" secondAttribute="bottom" constant="59" id="jeu-lm-24z"/>
+                                    <constraint firstAttribute="bottom" secondItem="D9G-AW-bdV" secondAttribute="bottom" id="jv6-FS-Kjp"/>
                                     <constraint firstItem="UY5-cU-mKo" firstAttribute="leading" secondItem="t2h-yV-pbc" secondAttribute="leading" id="k1Y-UC-wzU"/>
                                     <constraint firstItem="O5z-AK-FFr" firstAttribute="top" secondItem="IPg-ny-15m" secondAttribute="bottom" id="k9D-rf-hFz"/>
                                     <constraint firstItem="wGa-OI-SN2" firstAttribute="leading" secondItem="t2h-yV-pbc" secondAttribute="leading" constant="98.799999999999997" id="kNb-Re-tTB"/>
@@ -702,6 +694,8 @@
                         <outlet property="ccExpiration" destination="WzT-Sj-Vch" id="pWd-6K-6YJ"/>
                         <outlet property="creditCardName" destination="qa2-5G-C0c" id="ayn-zh-7tA"/>
                         <outlet property="creditCardNumber" destination="Tom-LE-JgG" id="8ST-65-ZZO"/>
+                        <outlet property="emptyView" destination="D9G-AW-bdV" id="XaN-Uy-4xf"/>
+                        <outlet property="selectPayment" destination="Ru3-RS-VQH" id="CRf-gg-igI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vYJ-IA-XEP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -752,7 +746,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zhI-30-30W" userLabel="CC Number View">
                                 <rect key="frame" x="0.0" y="80" width="375" height="60"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SP1-9r-Doc">
+                                    <label opaque="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SP1-9r-Doc">
                                         <rect key="frame" x="18" y="19" width="40" height="22"/>
                                         <fontDescription key="fontDescription" name="Rubik-Regular" family="Rubik" pointSize="18"/>
                                         <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -787,7 +781,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MgQ-42-ZiU" userLabel="CC Name View">
                                 <rect key="frame" x="0.0" y="141" width="375" height="60"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZa-f9-5ne">
+                                    <label opaque="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZa-f9-5ne">
                                         <rect key="frame" x="18" y="19" width="49" height="22"/>
                                         <fontDescription key="fontDescription" name="Rubik-Regular" family="Rubik" pointSize="18"/>
                                         <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -825,7 +819,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4t0-gR-PaD" userLabel="Expiration Month">
                                         <rect key="frame" x="0.0" y="0.0" width="187" height="60"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MM/YY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oWC-GJ-qek">
+                                            <label opaque="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MM/YY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oWC-GJ-qek">
                                                 <rect key="frame" x="18" y="19" width="61" height="22"/>
                                                 <fontDescription key="fontDescription" name="Rubik-Regular" family="Rubik" pointSize="18"/>
                                                 <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -868,7 +862,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hz1-wb-Buc" userLabel="CVV">
                                         <rect key="frame" x="188" y="0.0" width="187" height="60"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CVV" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OZk-BO-d1y">
+                                            <label opaque="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CVV" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OZk-BO-d1y">
                                                 <rect key="frame" x="17" y="19" width="35" height="22"/>
                                                 <fontDescription key="fontDescription" name="Rubik-Regular" family="Rubik" pointSize="18"/>
                                                 <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -947,7 +941,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Bz-Ay-AbB" userLabel="Alias View">
                                 <rect key="frame" x="0.0" y="262" width="375" height="60"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alias" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMJ-45-8Bk">
+                                    <label opaque="NO" tag="14" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alias" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMJ-45-8Bk">
                                         <rect key="frame" x="18" y="19" width="40" height="22"/>
                                         <fontDescription key="fontDescription" name="Rubik-Regular" family="Rubik" pointSize="18"/>
                                         <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1306,66 +1300,10 @@
             </objects>
             <point key="canvasLocation" x="450" y="986"/>
         </scene>
-        <!--Shipping Info Empty View Controller-->
-        <scene sceneID="Y2w-B0-pgD">
-            <objects>
-                <viewController storyboardIdentifier="shippingEmptyVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0A0-ZC-JkZ" customClass="ShippingInfoEmptyViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="CWz-ce-qCV"/>
-                        <viewControllerLayoutGuide type="bottom" id="ks4-Qf-6d3"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="fnA-9h-Us0">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="empty_address" translatesAutoresizingMaskIntoConstraints="NO" id="tJW-Wp-aBo">
-                                <rect key="frame" x="147" y="54" width="82" height="81"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="81.5" id="GI5-T8-cuP"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1dR-my-tt2">
-                                <rect key="frame" x="76" y="215" width="223" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="223" id="Sxz-JK-XDq"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="16.799999237060547"/>
-                                <state key="normal" title="Add one Shipping Address">
-                                    <color key="titleColor" red="0.01176470588" green="0.7843137255" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="addShippingInfo:" destination="0A0-ZC-JkZ" eventType="touchUpInside" id="uuP-uL-yee"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no shipping info entered" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dpi-hg-J0s">
-                                <rect key="frame" x="73" y="154" width="230" height="17"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="230" id="tPD-Lw-Ldd"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="13.800000190734863"/>
-                                <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Dpi-hg-J0s" firstAttribute="top" secondItem="tJW-Wp-aBo" secondAttribute="bottom" constant="19" id="2um-zb-cXU"/>
-                            <constraint firstItem="tJW-Wp-aBo" firstAttribute="centerX" secondItem="fnA-9h-Us0" secondAttribute="centerX" id="5Qm-2F-WSn"/>
-                            <constraint firstItem="1dR-my-tt2" firstAttribute="top" secondItem="Dpi-hg-J0s" secondAttribute="bottom" constant="43.5" id="6GC-Ea-e5V"/>
-                            <constraint firstItem="tJW-Wp-aBo" firstAttribute="top" secondItem="CWz-ce-qCV" secondAttribute="bottom" constant="34" id="f4q-0S-ddW"/>
-                            <constraint firstItem="1dR-my-tt2" firstAttribute="centerX" secondItem="fnA-9h-Us0" secondAttribute="centerX" id="rol-er-rd4"/>
-                            <constraint firstItem="Dpi-hg-J0s" firstAttribute="centerX" secondItem="fnA-9h-Us0" secondAttribute="centerX" id="yEA-yg-AVh"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vFh-qL-5dI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1607" y="1070"/>
-        </scene>
         <!--Profile Shipping Info View Controller-->
         <scene sceneID="1p1-mq-i1X">
             <objects>
-                <viewController storyboardIdentifier="shippingInfoVC" id="HOe-pm-X88" customClass="ProfileShippingInfoViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profileShippingInfoVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HOe-pm-X88" customClass="ProfileShippingInfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RDZ-Tt-tJA"/>
                         <viewControllerLayoutGuide type="bottom" id="eO4-tV-IbN"/>
@@ -1416,8 +1354,8 @@
                                         <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YkJ-Sy-wtj">
-                                        <rect key="frame" x="92.5" y="19.5" width="255.5" height="21"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YkJ-Sy-wtj">
+                                        <rect key="frame" x="93" y="19" width="255" height="22"/>
                                         <fontDescription key="fontDescription" name="Rubik-Light" family="Rubik" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                     </textField>
@@ -1453,8 +1391,8 @@
                                         <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lrm-I3-XgP">
-                                        <rect key="frame" x="92.5" y="19.5" width="255.5" height="21"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lrm-I3-XgP">
+                                        <rect key="frame" x="93" y="19" width="255" height="22"/>
                                         <fontDescription key="fontDescription" name="Rubik-Light" family="Rubik" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                     </textField>
@@ -1490,8 +1428,8 @@
                                         <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdM-Sy-490">
-                                        <rect key="frame" x="92.5" y="19.5" width="255.5" height="21"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdM-Sy-490">
+                                        <rect key="frame" x="93" y="19" width="255" height="22"/>
                                         <fontDescription key="fontDescription" name="Rubik-Light" family="Rubik" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                     </textField>
@@ -1520,8 +1458,8 @@
                                         <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vyi-LN-Xvp">
-                                        <rect key="frame" x="92.5" y="19.5" width="255.5" height="21"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vyi-LN-Xvp">
+                                        <rect key="frame" x="93" y="19" width="255" height="22"/>
                                         <fontDescription key="fontDescription" name="Rubik-Light" family="Rubik" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                     </textField>
@@ -1566,6 +1504,48 @@
                                     <action selector="addShippingInfo:" destination="HOe-pm-X88" eventType="touchUpInside" id="e5g-ki-F7h"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W20-sf-WXL">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="empty_address" translatesAutoresizingMaskIntoConstraints="NO" id="4oa-a8-dbA">
+                                        <rect key="frame" x="146" y="24" width="82" height="81"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="81.5" id="NuT-IH-cqP"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lSE-by-LDk">
+                                        <rect key="frame" x="76" y="185" width="223" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="223" id="TTn-dj-suM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="16.799999237060547"/>
+                                        <state key="normal" title="Add one Shipping Address">
+                                            <color key="titleColor" red="0.01176470588" green="0.7843137255" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addShippingInfo:" destination="HOe-pm-X88" eventType="touchUpInside" id="3oo-X5-6mM"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no shipping info entered" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qIj-S2-j20">
+                                        <rect key="frame" x="73" y="125" width="230" height="17"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="230" id="8Hi-20-a01"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="13.800000190734863"/>
+                                        <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="lSE-by-LDk" firstAttribute="top" secondItem="qIj-S2-j20" secondAttribute="bottom" constant="43.5" id="7DO-ld-Iyp"/>
+                                    <constraint firstItem="4oa-a8-dbA" firstAttribute="top" secondItem="W20-sf-WXL" secondAttribute="top" constant="24" id="S0e-Pp-2wB"/>
+                                    <constraint firstItem="4oa-a8-dbA" firstAttribute="centerX" secondItem="W20-sf-WXL" secondAttribute="centerX" id="TcQ-fU-cd0"/>
+                                    <constraint firstItem="qIj-S2-j20" firstAttribute="centerX" secondItem="W20-sf-WXL" secondAttribute="centerX" id="VEi-IS-aII"/>
+                                    <constraint firstItem="lSE-by-LDk" firstAttribute="centerX" secondItem="W20-sf-WXL" secondAttribute="centerX" id="bn9-PV-p38"/>
+                                    <constraint firstItem="qIj-S2-j20" firstAttribute="top" secondItem="4oa-a8-dbA" secondAttribute="bottom" constant="19.5" id="hSo-aF-xVt"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1576,8 +1556,11 @@
                             <constraint firstItem="iba-Hq-g6j" firstAttribute="leading" secondItem="2qF-LC-rJB" secondAttribute="leading" id="7xz-yD-7K5"/>
                             <constraint firstItem="Ppb-tI-Qm1" firstAttribute="top" secondItem="iba-Hq-g6j" secondAttribute="bottom" id="8yE-Sa-2eh"/>
                             <constraint firstAttribute="trailing" secondItem="r3w-nu-CKe" secondAttribute="trailing" id="9CA-IQ-21t"/>
+                            <constraint firstItem="W20-sf-WXL" firstAttribute="top" secondItem="RDZ-Tt-tJA" secondAttribute="bottom" id="9T0-bu-1DP"/>
                             <constraint firstAttribute="trailing" secondItem="PXB-Fs-3qy" secondAttribute="trailing" id="AlJ-MQ-Yj0"/>
+                            <constraint firstItem="W20-sf-WXL" firstAttribute="leading" secondItem="2qF-LC-rJB" secondAttribute="leading" id="Ct0-9Z-pRA"/>
                             <constraint firstItem="b5A-ig-nNJ" firstAttribute="centerX" secondItem="2qF-LC-rJB" secondAttribute="centerX" id="FYH-qd-cEb"/>
+                            <constraint firstAttribute="bottom" secondItem="W20-sf-WXL" secondAttribute="bottom" id="GBh-BH-7di"/>
                             <constraint firstItem="PXB-Fs-3qy" firstAttribute="top" secondItem="Vc5-Gf-EvG" secondAttribute="bottom" id="GgP-Ml-t2m"/>
                             <constraint firstAttribute="trailing" secondItem="wdT-P6-4iZ" secondAttribute="trailing" id="IJm-no-AGg"/>
                             <constraint firstItem="Vc5-Gf-EvG" firstAttribute="leading" secondItem="2qF-LC-rJB" secondAttribute="leading" id="K12-ql-zBQ"/>
@@ -1597,6 +1580,7 @@
                             <constraint firstItem="r3w-nu-CKe" firstAttribute="top" secondItem="2OA-sh-Xxk" secondAttribute="bottom" id="nTO-vl-K5A"/>
                             <constraint firstItem="sgH-C8-Nxb" firstAttribute="top" secondItem="c1n-UK-a9b" secondAttribute="bottom" id="nUQ-Rw-akY"/>
                             <constraint firstAttribute="trailing" secondItem="jLA-7w-SDb" secondAttribute="trailing" id="pOZ-2G-qXd"/>
+                            <constraint firstAttribute="trailing" secondItem="W20-sf-WXL" secondAttribute="trailing" id="r8J-6q-xqk"/>
                             <constraint firstItem="c1n-UK-a9b" firstAttribute="top" secondItem="wdT-P6-4iZ" secondAttribute="bottom" id="rRY-Je-lCJ"/>
                             <constraint firstItem="f0N-ky-1Dn" firstAttribute="leading" secondItem="2qF-LC-rJB" secondAttribute="leading" id="rqy-EE-N2g"/>
                             <constraint firstItem="2OA-sh-Xxk" firstAttribute="leading" secondItem="2qF-LC-rJB" secondAttribute="leading" id="tP7-K3-ZFB"/>
@@ -1610,6 +1594,7 @@
                         <outlet property="LocationBtn" destination="wdT-P6-4iZ" id="1XT-WN-mAk"/>
                         <outlet property="address" destination="YkJ-Sy-wtj" id="7g7-vv-Ghd"/>
                         <outlet property="cityText" destination="lrm-I3-XgP" id="YKL-NU-0Nm"/>
+                        <outlet property="emptyView" destination="W20-sf-WXL" id="6Zt-FL-dZ3"/>
                         <outlet property="map" destination="f0N-ky-1Dn" id="XFs-Li-JyG"/>
                         <outlet property="postalCodeText" destination="Vyi-LN-Xvp" id="neq-dm-BnK"/>
                         <outlet property="stateText" destination="sdM-Sy-490" id="bDs-p0-oMM"/>
@@ -1805,6 +1790,7 @@
                     <connections>
                         <outlet property="address" destination="dSb-SA-Z3A" id="e4K-TS-Pax"/>
                         <outlet property="alias" destination="Jyy-Mu-UNl" id="A0x-Ms-ByO"/>
+                        <outlet property="aliasLabel" destination="Oqb-FN-H1L" id="VGY-yx-NqG"/>
                         <outlet property="city" destination="AbV-W1-u3W" id="0Wo-5Y-714"/>
                         <outlet property="currentLocationBtn" destination="oSi-db-RYN" id="scY-uB-Gkx"/>
                         <outlet property="map" destination="NAC-3C-Qmz" id="jep-GY-Wm9"/>

@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Leandro Fournier on 3/29/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 @import Li5Api;
@@ -12,7 +12,9 @@
 #import "PrimeTimeViewControllerDataSource.h"
 #import "Li5Constants.h"
 
-@interface PrimeTimeViewControllerDataSource ()
+@interface PrimeTimeViewControllerDataSource () {
+    NSTimer *_expirationTimer;
+}
 
 @property (nonatomic, strong) NSDate *expiresAt;
 @property (nonatomic, strong) EndOfPrimeTime *endOfPrimeTime;
@@ -46,27 +48,26 @@
                     self.products = [NSMutableArray arrayWithArray:products.data];
                     self.expiresAt = products.expiresAt;
                     self.endOfPrimeTime = products.endOfPrimeTime;
+                    _expirationTimer = [NSTimer scheduledTimerWithTimeInterval:[self.expiresAt timeIntervalSinceNow] target:self selector:@selector(primeTimeExpired:) userInfo: nil repeats:NO];
                 }
             }
             else
             {
                 DDLogError(@"Error retrieving products: %@ %@", error, [error userInfo]);
-                //TODO: Only log out user if error 4**
-                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)error.userInfo[@"com.alamofire.serialization.response.error.response"];
                 NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                if (httpResponse.statusCode > 400 && httpResponse.statusCode < 500)
-                {
-                    [notificationCenter postNotificationName:kLoggedOutFromServer object:nil];
-                }
-                else
-                {
-                    [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
-                }
+                [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
             }
             
             completion(error);
         }];
     });
+}
+
+- (void)primeTimeExpired:(NSTimer*)timer {
+    DDLogVerbose(@"");
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter
+                                                defaultCenter];
+    [notificationCenter postNotificationName:kPrimeTimeExpired object:nil];
 }
 
 - (void)fetchMoreProductsWithCompletion:(void (^)(NSError *))completion
@@ -151,6 +152,12 @@
     else
     {
         return [self productPageViewControllerAtIndex:index];
+    }
+}
+
+- (void)dealloc {
+    if (_expirationTimer) {
+        [_expirationTimer invalidate];
     }
 }
 

@@ -1,4 +1,4 @@
-app_identifier "com.thrivecom.li5.consumer" # The bundle identifier of your app
+app_identifier "com.li5.buy" # The bundle identifier of your app
 apple_id "martin.cocaro@gmail.com" # Your Apple email address
 
 team_id "TU6NU5JAT5"  # Developer Portal Team ID

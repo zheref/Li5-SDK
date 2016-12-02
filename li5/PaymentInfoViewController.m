@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by gustavo hansen on 10/17/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 @import VMaskTextField;
@@ -81,7 +81,7 @@
     [self.saveButton setEnabled:NO];
     
     if(_currentCard != nil) {
-    
+        
         self.ccExpiration.text = [NSString stringWithFormat:@"%@/%@", _currentCard.expirationMonth, _currentCard.expirationYear];
         self.creditCardName.text = _currentCard.name;
         self.creditCardName.enabled = false;
@@ -91,10 +91,31 @@
         UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(delete)];
         self.navigationItem.rightBarButtonItem = delete;
     }
+    
+    [[self.view viewWithTag:10] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(tapCreditCardNumber:)]];
+    [[self.view viewWithTag:11] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(tapCreditCardName:)]];
+    [[self.view viewWithTag:12] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(tapExpiration:)]];
+    [[self.view viewWithTag:13] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(tapCvv:)]];
+    [[self.view viewWithTag:14] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(tapAlias:)]];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void) delete {
-
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     
@@ -113,16 +134,16 @@
             
         }else {
             Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-            [flowController updateUserProfile];
-            
-            
-            for (UIViewController *controller in self.navigationController.viewControllers) {
+            [flowController updateUserProfileWithCompletion:^(BOOL success, NSError *error) {
                 
-                if([controller.restorationIdentifier isEqualToString:@"paymentEmptyVC"]){
+                for (UIViewController *controller in self.navigationController.viewControllers) {
                     
-                    [self.navigationController popToViewController:controller animated:YES];
+                    if([controller.restorationIdentifier isEqualToString:@"paymentInfoSelectVC"]){
+                        
+                        [self.navigationController popToViewController:controller animated:YES];
+                    }
                 }
-            }
+            }];
         }
     }];
 }
@@ -178,26 +199,29 @@
         _currentCard.expirationYear = [[NSNumber alloc] initWithInt:[expArr.lastObject intValue]];
         
         _currentCard.cvv = self.ccCvv.text;
+        
+        
+        _currentCard.alias = self.alias.text;
         [[Li5ApiHandler sharedInstance]
-                      updateCreditCard:self.currentCard
-                      completion:^(NSError *error) {
-                         [hud hideAnimated:YES];
-                         if (error)
-                         {
-                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                             message:error.userInfo[@"error"][@"message"]
-                                                                            delegate:self
-                                                                   cancelButtonTitle:@"OK"
-                                                                   otherButtonTitles:nil];
-                             [alert show];
-                         }
-                         else
-                         {
-                             [vc setCurrentAddress:_currentCard.address];
-                             
-                             [self.navigationController popViewControllerAnimated:YES];
-                         }
-                     }];
+         updateCreditCard:self.currentCard
+         completion:^(NSError *error) {
+             [hud hideAnimated:YES];
+             if (error)
+             {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                 message:error.userInfo[@"error"][@"message"]
+                                                                delegate:self
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles:nil];
+                 [alert show];
+             }
+             else
+             {
+                 [vc setCurrentAddress:_currentCard.address];
+                 
+                 [self.navigationController popViewControllerAnimated:YES];
+             }
+         }];
         
     }
     else {
@@ -214,45 +238,6 @@
         
         [self.navigationController pushViewController:vc animated:YES];
     }
-    
-//                        [self.navigationController popViewControllerAnimated:YES];
-//    [self generateStripeToken:^(NSError *error) {
-//        if (error)
-//        {
-//            [hud hideAnimated:YES];
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                            message:error.description
-//                                                           delegate:self
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//            [alert show];
-//        }
-//        else
-//        {
-//            [[Li5ApiHandler sharedInstance]
-//             updateUserWihCreditCard:self.token.tokenId
-//             alias: self.alias.text
-//             completion:^(NSError *error) {
-//                [hud hideAnimated:YES];
-//                if (error)
-//                {
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                                    message:error.userInfo[@"error"][@"message"]
-//                                                                   delegate:self
-//                                                          cancelButtonTitle:@"OK"
-//                                                          otherButtonTitles:nil];
-//                    [alert show];
-//                }
-//                else
-//                {
-//                    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-//                    [flowController updateUserProfile];
-//                    
-//                    [self.navigationController popViewControllerAnimated:YES];
-//                }
-//            }];
-//        }
-//    }];
 }
 
 - (void)userDidCancelPaymentViewController:(CardIOPaymentViewController *)scanViewController {
@@ -309,6 +294,31 @@
     }
 }
 
+- (void)tapCreditCardNumber:(UIGestureRecognizer *)recognizer
+{
+    [self.creditCardNumber becomeFirstResponder];
+}
+
+- (void)tapExpiration:(UIGestureRecognizer *)recognizer
+{
+    [self.ccExpiration becomeFirstResponder];
+}
+
+- (void)tapAlias:(UIGestureRecognizer *)recognizer
+{
+    [self.alias becomeFirstResponder];
+}
+
+- (void)tapCvv:(UIGestureRecognizer *)recognizer
+{
+    [self.ccCvv becomeFirstResponder];
+}
+
+- (void)tapCreditCardName:(UIGestureRecognizer *)recognizer
+{
+    [self.creditCardName becomeFirstResponder];
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if ( [textField isKindOfClass:[VMaskTextField class]])
@@ -347,9 +357,6 @@
 {
     [self next:textField];
     return true;
-}
-- (IBAction)back:(id)sender {
-     [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

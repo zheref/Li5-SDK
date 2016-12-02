@@ -3,10 +3,11 @@
 //  li5
 //
 //  Created by gustavo hansen on 10/17/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "OrderProcessedViewController.h"
+#import "OrderProcessedDetailViewController.h"
 #import "Li5RootFlowController.h"
 #import "AppDelegate.h"
 
@@ -67,7 +68,7 @@
     }
     else
     {
-        [self performBuyAction];
+        [self updateOrderDetails];
     }
     // Do any additional setup after loading the view.
 }
@@ -107,12 +108,32 @@
             else
             {
                 self.card.hidden = false;
+                [FBSDKAppEvents logPurchase:[self.product.price doubleValue] / 100 currency:@"USD"];
 //                self.errorView.hidden = YES;
 //                self.orderView.hidden = NO;
 //                self.order = newOrder;
 //                [self updateOrderDetails];
             }
         }];
+}
+
+- (void)updateOrderDetails
+{
+    
+    OrderProcessedDetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"orderDetailVC"];
+    [vc setOrder:self.order];
+//    [shippingVC setIsBillingAddress:true];
+//    [shippingVC setShowSameAsBillingAddress:false];
+//    [shippingVC setCreditCardParams:_cardParams];
+//    [shippingVC setCreditCardParams:_cardParams];
+    
+//     [self presentViewController:vc animated:YES completion:nil];
+//    vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    
+    [self presentViewController:vc animated:YES completion:nil];//:vc animated:YES];
+//    [self presentViewController:vc animated:YES completion:nil];
+    //.presentViewController:vc animated:YES];//presentationController:vc animated:YES];
+
 }
 
 - (void)updateViewConstraints

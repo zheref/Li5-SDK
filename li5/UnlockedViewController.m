@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 4/26/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 @import Li5Api;
@@ -143,7 +143,7 @@ static const CGFloat kCAHideControls = 3.5;
     [self.playerView.layer addSublayer:self.playerLayer];
     
     //isEligibleForMultiLevel = false we dont want to display animation on unlock video
-    [self.actionsView setProduct:self.product isEligibleForMultiLevel:false];
+    [self.actionsView setProduct:self.product animate:false];
     
     CGRect rect = CGRectMake(self.initialPoint.x, self.initialPoint.y, 1, 1);
     
@@ -473,8 +473,8 @@ static const CGFloat kCAHideControls = 3.5;
 
 - (void)updateSecondsWatched
 {
-    float secondsWatched = CMTimeGetSeconds(self.extendedVideo.currentTime);
-    DDLogVerbose(@"User saw %@ during %f", self.product.id, secondsWatched);
+    int secondsWatched = (int) (CMTimeGetSeconds(self.extendedVideo.currentTime)*1000);
+    DDLogVerbose(@"User saw %@ during %i", self.product.id, secondsWatched);
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeFull during:[NSNumber numberWithFloat:secondsWatched] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
         if (error)

@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by gustavo hansen on 11/16/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "TermAndConditionViewController.h"
@@ -19,6 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationController.navigationBar.topItem.title = @"";
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
@@ -45,6 +47,16 @@
     }] resume];
     
     [self.webView loadRequest:request];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -39,6 +39,9 @@ PODS:
   - GCDWebServer/Core (3.3.4)
   - Heap (3.0.0)
   - HexColors (2.3.0)
+  - Instabug (5.3.2)
+  - Intercom (3.0.12)
+  - JSBadgeView (1.4.1)
   - JSONModel (1.2.0)
   - Li5Api (0.0.1):
     - AFNetworking
@@ -71,8 +74,11 @@ DEPENDENCIES:
   - Crashlytics
   - Fabric
   - FXBlurView
-  - GCDWebServer (from `git@github.com:thrivecom/GCDWebServer.git`, branch `custom-dev`)
+  - GCDWebServer (from `git@github.com:lifive/GCDWebServer.git`, branch `custom-dev`)
   - Heap
+  - Instabug
+  - Intercom
+  - JSBadgeView
   - Li5Api (from `../li5-api-ios`)
   - Masonry
   - MBProgressHUD
@@ -91,7 +97,7 @@ EXTERNAL SOURCES:
     :path: "../BCPlayerView"
   GCDWebServer:
     :branch: custom-dev
-    :git: git@github.com:thrivecom/GCDWebServer.git
+    :git: git@github.com:lifive/GCDWebServer.git
   Li5Api:
     :path: "../li5-api-ios"
   TSMessages:
@@ -100,7 +106,7 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   GCDWebServer:
     :commit: 26270616ea1811ae6bc9e2c6b628ab4d15b8a37a
-    :git: git@github.com:thrivecom/GCDWebServer.git
+    :git: git@github.com:lifive/GCDWebServer.git
   TSMessages:
     :commit: e63f23304f781dcadbac31e6d338f3105fb3cd78
     :git: git@github.com:KrauseFx/TSMessages.git
@@ -117,8 +123,11 @@ SPEC CHECKSUMS:
   GCDWebServer: 0bd712acb4f246ce04d2ac321d33278fb1f72e63
   Heap: b95bc7a21f47ddd470e8ebccefa59c91f4fe1d68
   HexColors: 6ad3947c3447a055a3aa8efa859def096351fe5f
+  Instabug: 035bf24475ffac1bcb81f8c542774487bc72f528
+  Intercom: b709f2055c8ab0333c255d0ad49886598d14705f
+  JSBadgeView: 3861ddee41094284d9468e6d0af5107f703aaac5
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
-  Li5Api: 0b2a50f7209cc17ae9f3e90bdcd78b772255a704
+  Li5Api: b734424523ea83c4279e7aee4cb2b6db2bf7f8a6
   Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MMMaterialDesignSpinner: 55c80b454f7928d0ed789cc3c456fa06bd6a2f16
@@ -131,6 +140,6 @@ SPEC CHECKSUMS:
   VMaskTextField: e77fe33633f999c5c38e70bed0afece0625624a4
   YYImage: b41b45bc5f32bfcdf67bdfb9c09da9e9832357c0
 
-PODFILE CHECKSUM: e592a1242075fc3cecdfc2a2202ae618f8fb3771
+PODFILE CHECKSUM: 5f6ba8d7d298b78b55566e01d06bb47b785d422b
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

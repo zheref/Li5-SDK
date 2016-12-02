@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Leandro Fournier on 4/27/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "ExploreDynamicInteractor.h"
@@ -12,6 +12,7 @@
 #import "Li5VolumeView.h"
 #import "SwipeDownToExploreViewController.h"
 #import "UserProfileDynamicInteractor.h"
+#import "Heap.h"
 
 @interface LastPageViewController ()
 {
@@ -26,6 +27,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *staticView;
 @property (weak, nonatomic) IBOutlet UIView *videoView;
+@property (weak, nonatomic) IBOutlet UILabel *closeMessage;
 
 @property (nonatomic, strong) BCPlayer *player;
 @property (nonatomic, strong) BCPlayerLayer *playerLayer;
@@ -109,6 +111,10 @@
     [self setupGestureRecognizers];
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
+    
+#if DEBUG
+    self.closeMessage.text = @"SWIPE DOWN TO EXPLORE MORE";
+#endif
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -139,6 +145,8 @@
 {
     DDLogVerbose(@"");
     [self removeObservers];
+    
+#if DEBUG
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:kLi5SwipeDownExplainerViewPresented])
     {
@@ -158,6 +166,10 @@
         [_audioPlayer play];
         [self hideVideo];
     }
+#else
+    [_audioPlayer play];
+    [self hideVideo];
+#endif
 }
 
 - (void)hideVideo
@@ -206,6 +218,8 @@
         if (__hasAppeared && self.player != nil)
         {
             [self.player play];
+            
+            [Heap track:@"Li5.EndOfPrimeTimeReached" withProperties:@{}];
         }
         else
         {
@@ -246,11 +260,14 @@
     [profilePanGestureRecognizer setDelegate:self];
     [self.view addGestureRecognizer:profilePanGestureRecognizer];
     
+#if DEBUG
     //Search Products Gesture Recognizer - Swipe Down from below 100px
     searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
     searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:searchInteractor action:@selector(userDidPan:)];
     [searchPanGestureRecognizer setDelegate:self];
     [self.view addGestureRecognizer:searchPanGestureRecognizer];
+#endif
+    
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -264,7 +281,11 @@
     if (gestureRecognizer == profilePanGestureRecognizer)
     {
         CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
+#ifdef DEBUG
         return (touch.y < 150) && (velocity.y > 0);
+#else
+        return (velocity.y > 0);
+#endif
     }
     else if (gestureRecognizer == searchPanGestureRecognizer)
     {

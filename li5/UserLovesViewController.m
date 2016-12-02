@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 5/21/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "UserLovesViewController.h"
@@ -74,6 +74,8 @@
 - (void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PrimeTimeViewController *vc = [[PrimeTimeViewController alloc] initWithDataSource:_source];
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    vc.modalPresentationCapturesStatusBarAppearance = YES;
     [vc setStartIndex:indexPath.row];
     [self.navigationController pushViewController:vc animated:NO];
 }

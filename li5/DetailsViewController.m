@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 1/20/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 @import Li5Api;
 @import SDWebImage;
@@ -266,49 +266,63 @@
 {
     DDLogVerbose(@"Buy Button tapped");
     
-    OrderProcessedViewController *nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"processOrderView"];
-    nextVC.parent = self;
+    OrderProcessedViewController *nextVC;
     
-    [nextVC setOrder:self.order];
-    [nextVC setProduct:self.product];
     
-    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-    Profile *userProfile = [flowController userProfile];
-    if (userProfile)
-    {
-        if (!userProfile.defaultAddress)
+    if(self.order == nil) {
+        
+        nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"processOrderView"];
+        nextVC.parent = self;
+        
+        [nextVC setOrder:self.order];
+        [nextVC setProduct:self.product];
+        
+        Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
+        Profile *userProfile = [flowController userProfile];
+        
+        if (userProfile)
         {
-            nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"shippingView"];
-          
-            [(ShippingInfoViewController *) nextVC setShowSameAsBillingAddress:!userProfile.defaultCard];
-            
+            if (!userProfile.defaultAddress)
+            {
+                nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"shippingView"];
+                
+                [(ShippingInfoViewController *) nextVC setShowSameAsBillingAddress:!userProfile.defaultCard];
+                
+            }
+            if (!userProfile.defaultCard)
+            {
+                nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutView"];
+            }
         }
-        if (!userProfile.defaultCard)
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        if ([userDefaults boolForKey:@"Li5DiscoverModeCustom"])
         {
             nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutView"];
         }
+        
+        if([nextVC isKindOfClass:[OrderProcessedViewController class]]) {
+            
+            [self presentViewController:nextVC animated:NO completion:nil];
+        }else {
+            CATransition *transition = [CATransition animation];
+            transition.duration = 0.3;
+            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+            transition.type = kCATransitionPush;
+            transition.subtype = kCATransitionFromTop;
+            [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+            
+            [nextVC setProduct:self.product];
+            [self.navigationController pushViewController:nextVC animated:NO];
+        }
+    }
+    else {
+        nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderDetailVC"];
+        [nextVC setOrder:self.order];
+         [self presentViewController:nextVC animated:NO completion:nil];
+    
     }
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if ([userDefaults boolForKey:@"Li5DiscoverModeCustom"])
-    {
-        nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutView"];
-    }
-    
-    if([nextVC isKindOfClass:[OrderProcessedViewController class]]) {
-        
-        [self presentViewController:nextVC animated:NO completion:nil];
-    }else {
-        CATransition *transition = [CATransition animation];
-        transition.duration = 0.3;
-        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-        transition.type = kCATransitionPush;
-        transition.subtype = kCATransitionFromTop;
-        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-        
-        [nextVC setProduct:self.product];
-        [self.navigationController pushViewController:nextVC animated:NO];
-    }
+   
 }
 
 #pragma mark - OS Actions

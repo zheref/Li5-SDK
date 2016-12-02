@@ -3,7 +3,7 @@
 //  Heart
 //
 //  Created by Martin Cocaro on 7/1/16.
-//  Copyright (c) 2016 ThriveCom. All rights reserved.
+//  Copyright @ 2016 Li5, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

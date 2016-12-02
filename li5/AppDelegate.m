@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 1/18/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 @import Li5Api;
@@ -15,6 +15,8 @@
 @import AVFoundation;
 @import Stripe;
 @import Branch;
+@import Intercom;
+@import Instabug;
 
 #import "AppDelegate.h"
 #import "CategoriesViewController.h"
@@ -68,11 +70,16 @@
     //Stripe SDK
     [STPPaymentConfiguration sharedConfiguration].publishableKey = [infoDictionary objectForKey:@"Li5StripePublicKey"];
     
+    //Intercom SDK
+    [Intercom setApiKey:[infoDictionary objectForKey:@"Li5IntercomApiKey"] forAppId:[infoDictionary objectForKey:@"Li5IntercomAppId"]];
+    
     //Heap Analytics
     [Heap setAppId:[infoDictionary objectForKey:@"HeapAppId"]];
 #ifdef DEBUG
     [Heap enableVisualizer];
 #endif
+    
+    [Instabug startWithToken:[infoDictionary objectForKey:@"InstaBugToken"] invocationEvent:IBGInvocationEventShake];
     
     //Environment endpoint, uses preprocessor macro by default, overwritten by environment url
     NSDictionary *environment = [[NSProcessInfo processInfo] environment];
@@ -88,7 +95,7 @@
     
     // LoginViewController
     _flowController = [[Li5RootFlowController alloc] initWithNavigationController:self.navController];
-    [_flowController showInitialScreen];
+//    [_flowController showInitialScreen];
     
     [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
         if (!error && [[params objectForKey:@"+clicked_branch_link"] boolValue]) {
@@ -145,11 +152,18 @@
     
     if ([self.navController.topViewController isViewLoaded])
     {
-        [self.window.rootViewController beginAppearanceTransition:YES animated:NO];
-        [self.window.rootViewController endAppearanceTransition];
+        if (![self.navController.topViewController presentedViewController]) {
+            [self.window.rootViewController beginAppearanceTransition:YES animated:NO];
+            [self.window.rootViewController endAppearanceTransition];
+        }
+    } else {
+        //TODO This causes the spinner to blink since iOS will move the app to foreground prior to handling the URL.
+        //TODO we need to move the logic of expiration of PrimeTime to DidBecomeActive method
+        [_flowController showInitialScreen];
     }
     
     [[[BCFileHelper alloc] init] removeCacheFromDays:1];
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -169,12 +183,6 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     DDLogDebug(@"");
     
-    //TODO This causes the spinner to blink since iOS will move the app to foreground prior to handling the URL.
-    //TODO we need to move the logic of expiration of PrimeTime to DidBecomeActive method
-    [_flowController showInitialScreen];
-    
-    [self.window.rootViewController beginAppearanceTransition:YES animated:NO];
-    [self.window.rootViewController endAppearanceTransition];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

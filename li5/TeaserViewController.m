@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 1/18/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 @import BCVideoPlayer;
 @import pop;
@@ -134,7 +134,7 @@
     [self.playerView.layer addSublayer:self.playerLayer];
     
     [self.playerTimer setHasUnlocked:__hasUnlockedVideo];
-    [self.actionsView setProduct:self.product isEligibleForMultiLevel:self.product.isEligibleForMultiLevel];
+    [self.actionsView setProduct:self.product animate:YES];
     
     self.categoryLabel.text = [self.product.categoryName uppercaseString];
     self.categoryImage.image = [UIImage imageNamed:[[self.product.categoryName stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString]];
@@ -352,8 +352,8 @@
 
 - (void)updateSecondsWatched
 {
-    float secondsWatched = CMTimeGetSeconds(self.teaserPlayer.currentTime);
-    DDLogVerbose(@"%@:%f", self.product.id, secondsWatched);
+    int secondsWatched = (int) (CMTimeGetSeconds(self.teaserPlayer.currentTime)*1000);
+    DDLogVerbose(@"%@:%i", self.product.id, secondsWatched);
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeTrailer during:[NSNumber numberWithFloat:secondsWatched] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
         if (error)
@@ -364,11 +364,6 @@
 }
 
 #pragma mark - User Actions
-
-- (void)userDidPan:(UIPanGestureRecognizer*)gestureRecognizer
-{
-    [searchInteractor userDidPan:gestureRecognizer];
-}
 
 - (IBAction)userDidTap:(UITapGestureRecognizer*)sender
 {
@@ -452,7 +447,7 @@
         [self.view addGestureRecognizer:profilePanGestureRecognizer];
 #ifdef DEBUG
         //Search Products Gesture Recognizer - Swipe Down from below 100px
-        searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userDidPan:)];
+        searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:searchInteractor action:@selector(userDidPan:)];
         [searchPanGestureRecognizer setDelegate:self];
         [self.view addGestureRecognizer:searchPanGestureRecognizer];
 #endif
@@ -479,7 +474,11 @@
     if (gestureRecognizer == profilePanGestureRecognizer)
     {
         CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
+#ifdef DEBUG
         return (touch.y < 150) && (velocity.y > 0);
+#else
+        return (velocity.y > 0);
+#endif
     }
     else if (gestureRecognizer == searchPanGestureRecognizer)
     {

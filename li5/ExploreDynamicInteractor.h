@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 5/9/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "ExploreViewController.h"
@@ -11,7 +11,6 @@
 
 @interface ExploreDynamicInteractor : UIPercentDrivenInteractiveTransition <ExploreViewControllerPanTargetDelegate, UIViewControllerTransitioningDelegate>
 
--(id)initWithParentViewController:(UIViewController *)viewController;
--(void)userDidPan:(UIPanGestureRecognizer *)recognizer andController:(UIViewController *)controller;
+-(id)initWithParentViewController:(UIViewController *)triggeringViewController;
 
 @end

@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 7/25/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 @import MapKit;
@@ -149,7 +149,7 @@
     _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _hud.mode = MBProgressHUDModeIndeterminate;
   
-    if(_isSameAsBillingAddress.on) {
+    if(_showSameAsBillingAddress && _isSameAsBillingAddress.on) {
         [self updateAddressWithType:Li5AddressTypeShipping completion:^(NSError *error) {
             
             [self saveCreditCard];
@@ -157,22 +157,20 @@
     }else {
     
         if(_isBillingAddress) {
-        
-            [self updateAddressWithType:Li5AddressTypeShipping completion:^(NSError *error) {
-                
-                [self saveCreditCard];
-            }];
+            [self saveCreditCard];
         }else {
             
-            ShippingInfoViewController *shippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"shippingView"];
-            [shippingVC setProduct:self.product];
-            [shippingVC setIsBillingAddress:true];
-            [shippingVC setShowSameAsBillingAddress:false];
-            [shippingVC setCreditCardParams:_cardParams];
-            [shippingVC setCreditCardParams:_cardParams];
-            
-            [self.navigationController pushViewController:shippingVC animated:YES];
-            [self.hud hideAnimated:YES];
+            [self updateAddressWithType:Li5AddressTypeShipping completion:^(NSError *error) {
+                
+                ShippingInfoViewController *shippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"shippingView"];
+                [shippingVC setProduct:self.product];
+                [shippingVC setIsBillingAddress:true];
+                [shippingVC setShowSameAsBillingAddress:false];
+                [shippingVC setCreditCardParams:_cardParams];
+                
+                [self.navigationController pushViewController:shippingVC animated:YES];
+                [self.hud hideAnimated:YES];
+            }];
         }
     
     }
@@ -217,14 +215,15 @@
                                                              else
                                                              {
                                                                  Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-                                                                 [flowController updateUserProfile];
-                                                                 
-                                                                 OrderProcessedViewController *processOrder = [self.storyboard instantiateViewControllerWithIdentifier:@"processOrderView"];
-                                                                 [processOrder setProduct:self.product];
-                                                                 processOrder.parent = self;
-                                                                 [self presentViewController:processOrder animated:NO completion:nil];
-                                                                 
-                                                                 [self.hud hideAnimated:YES];
+                                                                 [flowController updateUserProfileWithCompletion:^(BOOL success, NSError *error) {
+                                                                     OrderProcessedViewController *processOrder = [self.storyboard instantiateViewControllerWithIdentifier:@"processOrderView"];
+                                                                     [processOrder setProduct:self.product];
+                                                                     processOrder.parent = self;
+                                                                     [self presentViewController:processOrder animated:NO completion:nil];
+                                                                     
+                                                                     [self.hud hideAnimated:YES];
+                                                                 }];
+                                                            
                                                              }
                                                          }];
         }
@@ -297,7 +296,7 @@
 {
     DDLogVerbose(@"");
     [self.currentLocationBtn setHighlighted:YES];
-    
+    [self.map setShowsUserLocation:false];
     self.address.text = [NSString stringWithFormat:@"%@ %@",placemark.subThoroughfare, placemark.thoroughfare];
     self.city.text = placemark.locality;
     self.zipCode.text = placemark.postalCode;
@@ -306,15 +305,15 @@
     
     [self.map removeAnnotations:self.map.annotations];
     self.shippingAddressMark = [[MKPlacemark alloc] initWithCoordinate:placemark.location.coordinate addressDictionary:placemark.addressDictionary];
-    if (!userLocation)
-    {
+//    if (!userLocation)
+//    {
         [self.map addAnnotation:self.shippingAddressMark];
         [self.map showAnnotations:@[self.shippingAddressMark] animated:YES];
-    }
-    else
-    {
-        [self.map showAnnotations:@[self.map.userLocation] animated:YES];
-    }
+//    }
+//    else
+//    {
+//        [self.map showAnnotations:@[self.map.userLocation] animated:YES];
+//    }
     
     [self enableContinueButton];
 }

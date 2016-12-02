@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 1/25/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 @import Li5Api;
@@ -204,6 +204,13 @@
           {
               DDLogError(@"Error when fetching email: %@", error);
               
+              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                              message:@"There was an error with your request. Please try again later."
+                                                             delegate:self
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+              [alert show];
+              
               [welf.spinnerView stopAnimating];
               [welf.loginFacebookButton setHidden:NO];
           }
@@ -213,6 +220,13 @@
     {
         DDLogError(@"Couldn't login: %@", error);
         
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:error.localizedDescription
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+
         [welf.spinnerView stopAnimating];
         [welf.loginFacebookButton setHidden:NO];
     }

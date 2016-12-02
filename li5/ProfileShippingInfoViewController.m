@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by gustavo hansen on 10/17/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -18,6 +18,7 @@
 @import Li5Api;
 
 @interface ProfileShippingInfoViewController ()
+@property (weak, nonatomic) IBOutlet UIView *emptyView;
 
 @property (weak, nonatomic) IBOutlet MKMapView *map;
 @property (nonatomic, strong) CLLocationManager *locationManager;
@@ -39,10 +40,29 @@
 @implementation ProfileShippingInfoViewController
 
 - (void)viewDidLoad {
+    
     DDLogVerbose(@"");
     
     [super viewDidLoad];
     self.navigationController.navigationBar.topItem.title = @"";
+    
+    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
+    
+    Profile *userProfile = [flowController userProfile];
+    
+    if(userProfile.defaultAddress != nil) {
+        
+        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
+        
+        self.navigationItem.rightBarButtonItem = edit;
+        
+        [self defaultAddress];
+    }
+    
+    self.emptyView.hidden = userProfile.defaultAddress != nil;
+}
+
+-(void)defaultAddress {
     
     Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
     Profile *userProfile = [flowController userProfile];
@@ -55,31 +75,17 @@
         
         [self setAddressValues:userProfile.defaultAddress];
     }
-    
-    UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
-    self.navigationItem.rightBarButtonItem = edit;
-    
-    
-    UIBarButtonItem *back =  [[UIBarButtonItem alloc] initWithImage:[UIImage
-                                                                     imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self
-                                                             action:@selector(goBack:)];
-    self.navigationItem.leftBarButtonItem = back;
-    
-    
-    self.currentAddres = userProfile.defaultAddress;
 }
 
 -(void)edit {
-    
     
     AddShippingInfoViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingInfoVC"];
     
     [vc setCurrentAddress:self.currentAddres];
     [self.navigationController pushViewController:vc animated:YES];
-    
 }
 
-- (void)setAddressValues:(Address *) address{
+- (void)setAddressValues:(Address *) address {
     
     self.currentAddres = address;
     self.address.text = address.address1;
@@ -87,6 +93,8 @@
     self.stateText.text = address.state;
     self.postalCodeText.text = address.zip;
     
+    NSString *alias = _currentAddres.alias ? _currentAddres.alias : _currentAddres.address1;
+    [self.LocationBtn setTitle:alias forState:UIControlStateNormal];
     NSString *location = [NSString stringWithFormat:@"%@, %@ and %@",
                           address.address1, address.state, address.zip];
     
@@ -137,6 +145,21 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     
+    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
+    
+    Profile *userProfile = [flowController userProfile];
+    
+    if(userProfile.defaultAddress != nil) {
+        
+        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
+        
+        self.navigationItem.rightBarButtonItem = edit;
+    }
+    else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    self.emptyView.hidden = userProfile.defaultAddress != nil;
+    
     [[Li5ApiHandler sharedInstance] requestUserAddressesWithCompletion:^(NSError *error, NSArray<Address *> *addresses) {
         
         [hud hideAnimated:YES];
@@ -152,33 +175,52 @@
         else
         {
             
-            if(addresses.count == 0) {
-                [self goBack:nil];
-            }else {
+            self.emptyView.hidden = addresses.count != 0;
+            
+            if(addresses.count != 0) {
+                
+                if(self.addresses.count < addresses.count){
+                    
+                    self.addresses = addresses;
+                    [self setAddressValues:addresses.lastObject];
+                    
+                    return;
+                }
+                else if(self.currentAddres != nil) {
+                    
+                    self.addresses = addresses;
+                    for (Address *ad in self.addresses) {
+                        
+                        if(ad.id == self.currentAddres.id) {
+                            
+                            
+                            [self setAddressValues:self.currentAddres];
+                            
+                            return;
+                        }
+                    }
+                }
+                
                 self.addresses = addresses;
+                [self defaultAddress];
             }
         }
     }];
-    
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)addShippingAddress:(id)sender {
-}
-
-- (IBAction)goBack:(id)sender {
-    
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        
-        if([controller.restorationIdentifier isEqualToString:@"userSettingsVC"]){
-            
-            [self.navigationController popToViewController:controller animated:YES];
-        }
-    }
 }
 
 - (IBAction)changeLocation:(id)sender {
@@ -198,7 +240,7 @@
                                                        }];
         
         if(_currentAddres.id == address.id){
-        
+            
             [action setValue:[UIImage imageNamed:@"check.png"] forKey:@"_image"];
         }
         
@@ -217,16 +259,11 @@
 
 -(void)handleAddressChange:(Address *) address {
     
-    
-    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-    [flowController updateUserProfile];
-    
     [self setAddressValues:address];
-    
-    
 }
 
 - (IBAction)addShippingInfo:(id)sender {
+    
     AddShippingInfoViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingInfoVC"];
     
     [self.navigationController pushViewController:vc animated:YES];
@@ -250,33 +287,5 @@
     
     return pinView;
 }
-
-- (void)generateStripeTokenWithParams:(STPCardParams *)cardParams completion:(void (^)(STPToken *token, NSError *error))completion
-{
-    [[STPAPIClient sharedClient] createTokenWithCard:cardParams completion:^(STPToken *token, NSError *error) {
-        if (error) {
-            // show the error, maybe by presenting an alert to the user
-            DDLogError(@"error while validating card: %@", error.localizedDescription);
-            completion(nil, error);
-        } else {
-            if (completion!=nil)
-            {
-                completion(token, nil);
-            }
-        }
-    }];
-}
-
-- (STPCardParams*)getTestingCard
-{
-    STPCardParams *cardParams = [[STPCardParams alloc] init];
-    cardParams.number = @"4242 4242 4242 4242";
-    cardParams.expMonth = 12;
-    cardParams.expYear = 2021;
-    cardParams.cvc = @"1234";
-    cardParams.name = @"Robert B Cool";
-    return cardParams;
-}
-
 
 @end

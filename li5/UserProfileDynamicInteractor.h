@@ -3,7 +3,7 @@
 //  li5
 //
 //  Created by Martin Cocaro on 4/27/16.
-//  Copyright © 2016 ThriveCom. All rights reserved.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 #import "UserProfileViewController.h"
