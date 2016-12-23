@@ -22,10 +22,10 @@
 @import CocoaLumberjack;
 #import "CrashlyticsLogger.h"
 
-#ifdef DEBUG
+#if DEBUG
 static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
 #else
-static const DDLogLevel ddLogLevel = DDLogLevelError;
+static const DDLogLevel ddLogLevel = DDLogLevelInfo;
 #endif
 
 

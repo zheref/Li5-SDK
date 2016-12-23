@@ -13,18 +13,16 @@
 #import "ProductsCollectionViewDataSource.h"
 #import "ProductsViewController.h"
 #import "ProductsCollectionViewCell.h"
-//#import "ExploreProductInteractor.h"
 
 @interface ProductsViewController () <UISearchBarDelegate> {
     NSOperationQueue *__queue;
-    
-    PrensentationTransition * _prensentationTransition;
-    ExploreProductInteractor *interactor;
 }
 
 @property (nonatomic, strong) ProductsCollectionViewDataSource *source;
 @property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;
 @property (weak, nonatomic) IBOutlet UILabel *noResultsView;
+
+@property (nonatomic, assign, getter = isPresenting) BOOL presenting;
 
 @end
 
@@ -58,6 +56,8 @@
 {
     __queue = [[NSOperationQueue alloc] init];
     [__queue setName:@"Explore Queue"];
+    
+    _presenting = NO;
 }
 
 - (void)viewDidLoad
@@ -78,8 +78,6 @@
     _source = [ProductsCollectionViewDataSource new];
     [_productListView setDelegate:self];
     [_productListView.collectionView setDataSource:_source];
-    
-    self.transitioningDelegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -88,6 +86,8 @@
     [super viewDidAppear:animated];
     
     //    [self exploreProducts:nil];
+    
+    self.presenting = NO;
 }
 
 - (void)viewDidLayoutSubviews
@@ -143,57 +143,63 @@
 {
     DDLogVerbose(@"");
     
-    ProductsCollectionViewCell *cell = (ProductsCollectionViewCell*)[_productListView.collectionView cellForItemAtIndexPath:indexPath];
-    
-    PrimeTimeViewController *vc = [[PrimeTimeViewController alloc] initWithDataSource:_source];
-    [vc setStartIndex:indexPath.row];
-   
-    CGRect collectionViewBounds = _productListView.collectionView.bounds;
-    CGRect windowsBounds =  [UIScreen mainScreen].bounds;
-
-   
-    CGFloat deltaBetweenViewsY = windowsBounds.size.height - _productListView.frame.size.height;
-    
-    CGRect frame = CGRectMake(cell.frame.origin.x - collectionViewBounds.origin.x,
-                              cell.frame.origin.y + deltaBetweenViewsY,
-                              cell.frame.size.width,
-                              cell.frame.size.height);
-  
-    interactor = [[ExploreProductInteractor alloc] initWithParentViewController:self
-                                                             andChildController:vc
-                                                                andInitialFrame:frame
-                                                                        andCell:cell];
-    
-    vc.interactor = interactor;
-    
-    UIImageView *image = [[UIImageView alloc] initWithImage:cell.imageView.image];
-   
-    CGRect rect= CGRectMake(windowsBounds.size.width - (windowsBounds.size.width - frame.origin.x),
-                            windowsBounds.size.height - (_productListView.frame.size.height - cell.frame.origin.y),
-                              cell.frame.size.width,
-                              cell.frame.size.height);
-    
-
-    [self.parentViewController.view addSubview:image];
+    if (!self.presenting) {
+        self.presenting = YES;
+        ProductsCollectionViewCell *cell = (ProductsCollectionViewCell*)[_productListView.collectionView cellForItemAtIndexPath:indexPath];
+        
+        PrimeTimeViewController *vc = [[PrimeTimeViewController alloc] initWithDataSource:_source];
+        [vc setStartIndex:indexPath.row];
+        
+        CGRect collectionViewBounds = _productListView.collectionView.bounds;
+        CGRect windowsBounds =  [UIScreen mainScreen].bounds;
+        
+        
+        CGFloat deltaBetweenViewsY = windowsBounds.size.height - _productListView.frame.size.height;
+        
+        CGRect frame = CGRectMake(cell.frame.origin.x - collectionViewBounds.origin.x,
+                                  cell.frame.origin.y + deltaBetweenViewsY,
+                                  cell.frame.size.width,
+                                  cell.frame.size.height);
+        
+        PrimeTimeNavigationViewController *navVc = [[PrimeTimeNavigationViewController alloc] initWithRootViewController:vc];
+        navVc.navigationBarHidden = YES;
+        
+        vc.interactor = [[ExploreProductInteractor alloc] initWithParentViewController:self
+                                                               andChildController:navVc
+                                                                  andInitialFrame:frame
+                                                                          andCell:cell];
+        
+        UIImageView *image = [[UIImageView alloc] initWithImage:cell.imageView.image];
+        
+        CGRect rect= CGRectMake(windowsBounds.size.width - (windowsBounds.size.width - frame.origin.x),
+                                windowsBounds.size.height - (_productListView.frame.size.height - cell.frame.origin.y),
+                                cell.frame.size.width,
+                                cell.frame.size.height);
+        
+        
+        [self.parentViewController.view addSubview:image];
         image.frame = rect;
-    
-    [UIView animateWithDuration:0.4 animations:^{
         
-        image.frame = [UIScreen mainScreen].bounds;
-        
-    } completion:^(BOOL finished) {
-        
-        [interactor presentViewWithCompletion:^{
+        [UIView animateWithDuration:0.4 animations:^{
             
-            [UIView animateWithDuration:0.4 animations:^{
+            image.frame = [UIScreen mainScreen].bounds;
+            
+        } completion:^(BOOL finished) {
+            
+            [vc.interactor presentViewWithCompletion:^{
                 
-                image.alpha = 0;
-                cell.hidden = true;
-                
-            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.4 animations:^{
+                    
+                    image.alpha = 0;
+                    cell.hidden = true;
+                    
+                } completion:^(BOOL finished) {
+                    
+                    self.presenting = NO;
+                }];
             }];
         }];
-    }];
+    }
 }
 
 
@@ -227,18 +233,5 @@ DDLogVerbose(@"");
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-
-    return _prensentationTransition;
-}
-
-//- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-//    return [ExploreProductInteractor new];
-//}
-//
-//- (id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator{
-//    return self.interactor.hasStarted ? self.interactor : nil;
-//}
 
 @end

@@ -9,6 +9,7 @@
 @import SDWebImage;
 @import TSMessages;
 @import Intercom;
+@import DigitsKit;
 
 #import "AppDelegate.h"
 #import "UserSettingsViewController.h"
@@ -242,13 +243,14 @@
     [handler revokeRefreshAccessTokenWithCompletion:^void (NSError *error){
         if (error) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:error.userInfo[@"error"][@"message"]
+                                                            message:error.localizedDescription
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
             [alert show];
         } else {
             [FBSDKAccessToken setCurrentAccessToken:nil];
+            [[Digits sharedInstance] logOut];
             // This resets the Intercom for iOS cache of your users’ identities
             // and wipes the slate clean.
             [Intercom reset];

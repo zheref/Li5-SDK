@@ -22,9 +22,12 @@ abstract_target 'Li5Base' do
   pod 'MBProgressHUD'
   pod 'Branch'
   pod 'Instabug'
+  pod 'FBNotifications'
   
   target 'li5' do
     pod 'Fabric'
+    pod 'Digits'
+    pod 'TwitterCore'
     pod 'Crashlytics'
     pod 'CardIO'
     pod 'Stripe'
@@ -34,6 +37,8 @@ abstract_target 'Li5Base' do
   
   target 'li5-Test' do
     pod 'Fabric'
+    pod 'Digits'
+    pod 'TwitterCore'
     pod 'Crashlytics'
     pod 'CardIO'
     pod 'Stripe'

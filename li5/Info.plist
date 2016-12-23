@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>InstaBugToken</key>
-	<string>7e935d0c724a44a76f266a6cc1fe6f9f</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -33,7 +31,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>98</string>
+	<string>112</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -50,10 +48,21 @@
 				<key>KitInfo</key>
 				<dict>
 					<key>branch_key</key>
-					<string>key_live_nczhuLE1xcaVX25x843GPfhkEym09qnj</string>
+					<string>key_live_ifFeNBEYhqsc2YhYQbj9vgpbEwidi8JJ</string>
 				</dict>
 				<key>KitName</key>
 				<string>Branch</string>
+			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>consumerKey</key>
+					<string>ZBIVtMGsLihp0004T5kCzCfec</string>
+					<key>consumerSecret</key>
+					<string>OpWSxygpnYdYdhOlT1RzEqoGrHAin79eRqEdQpVtZKUObQca7q</string>
+				</dict>
+				<key>KitName</key>
+				<string>Digits</string>
 			</dict>
 		</array>
 	</dict>
@@ -63,6 +72,8 @@
 	<string>Li5</string>
 	<key>HeapAppId</key>
 	<string>412007199</string>
+	<key>InstaBugToken</key>
+	<string>7e935d0c724a44a76f266a6cc1fe6f9f</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -75,15 +86,15 @@
 	<key>Li5ApiEndpoint</key>
 	<string>https://api.li5.tv/v1</string>
 	<key>Li5AppId</key>
-	<string>XXXXXXXXXXX</string>
+	<string>1187286036</string>
 	<key>Li5IntercomApiKey</key>
 	<string>ios_sdk-fdb733d6764503521030597860472205e41733a9</string>
 	<key>Li5IntercomAppId</key>
 	<string>hjgp9w6m</string>
 	<key>Li5StripePublicKey</key>
-	<string>pk_test_RwxpEAjuWtwZdcUhT6vFRNpa</string>
+	<string>pk_live_xEgdhchNQLCu4xGGDSOmIdG9</string>
 	<key>Li5TOSUrl</key>
-	<string>https://www.li5.tv/terms</string>
+	<string>https://www.li5.tv/legal</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -114,9 +125,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Uses the Camera to scan credit card if applicable</string>
+	<string>Li5 uses your camera upon your request to scan your credit card to fill the numbers for you.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>If you accept, we will populate your address based on your location</string>
+	<string>Li5 uses your location to populate the shipping or billing address for you.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Li5 does not use your microphone on any way.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Li5 does not require permission to access your library.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Regular.ttf</string>
@@ -129,6 +144,10 @@
 		<string>Rubik-Bold.ttf</string>
 		<string>Rubik-BlackItalic.ttf</string>
 		<string>Rubik-Black.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>

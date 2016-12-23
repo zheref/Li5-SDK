@@ -8,6 +8,7 @@
 @import BCVideoPlayer;
 @import pop;
 @import TSMessages;
+@import FBSDKCoreKit;
 
 #import "ShapesHelper.h"
 #import "TeaserViewController.h"
@@ -41,7 +42,8 @@
     double __startPositionX;
     double __endPositionX;
     double __space;
-    ExploreProductInteractor *_interactor;
+    
+    TapAndHoldViewController *_modalView;
 }
 
 @property (assign, nonatomic) ProductContext pContext;
@@ -165,9 +167,9 @@
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
     
-    [self setupGestureRecognizers];
-    
 //    self.transitioningDelegate = self;
+    
+    [self setupGestureRecognizers];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -190,7 +192,12 @@
     
     __hasAppeared = NO;
     
-    [self.teaserPlayer pause];
+    //TODO: Fix real cause - #245
+    if (CMTimeGetSeconds(CMTimeSubtract(self.teaserPlayer.currentItem.duration, self.teaserPlayer.currentItem.currentTime)) < 1) {
+        [self.teaserPlayer pauseAndDestroy];
+    } else {
+        [self.teaserPlayer pause];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -263,10 +270,12 @@
 {
     DDLogVerbose(@"");
     [_waveView startAnimating];
-    
+
+#if DEBUG
     [TSMessage showNotificationWithTitle:@"Network slow"
                                 subtitle:@"Buffer is empty, waiting for resources to finish downloading"
                                     type:TSMessageNotificationTypeWarning];
+#endif
     
 }
 
@@ -338,13 +347,12 @@
             
             if (__hasAppeared && __hasUnlockedVideo)
             {
-                TapAndHoldViewController *modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
-                modalView.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-                modalView.gestureDelegate = self;
+                if (!_modalView) {
+                    _modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
+                    _modalView.gestureDelegate = self;
+                }
                 
-                [self presentViewController:modalView animated:NO completion:^{
-                    //Nothing for now
-                }];
+                [self.view addSubview:_modalView.view];
             }
         }];
     }
@@ -354,8 +362,13 @@
 {
     int secondsWatched = (int) (CMTimeGetSeconds(self.teaserPlayer.currentTime)*1000);
     DDLogVerbose(@"%@:%i", self.product.id, secondsWatched);
+    
+    [FBSDKAppEvents logEvent:FBSDKAppEventNameViewedContent parameters:@{
+                                                                         FBSDKAppEventParameterNameContentType: @"video",
+                                                                         FBSDKAppEventParameterNameContentID: self.product.id
+                                                                         }];
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-    [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeTrailer during:[NSNumber numberWithFloat:secondsWatched] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
+    [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeTrailer during:[NSNumber numberWithFloat:secondsWatched] inContext:(self.pContext == kProductContextDiscover? Li5ContextDiscover:Li5ContextSearch) withCompletion:^(NSError *error) {
         if (error)
         {
             DDLogError(@"%@", error.localizedDescription);
@@ -368,40 +381,47 @@
 - (IBAction)userDidTap:(UITapGestureRecognizer*)sender
 {
     DDLogVerbose(@"");
-    if (__hasUnlockedVideo)
+    if (self.teaserPlayer.status == AVPlayerStatusReadyToPlay && __hasUnlockedVideo)
     {
-        TapAndHoldViewController *modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
-        modalView.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-        modalView.gestureDelegate = self;
+        if (!_modalView) {
+            _modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
+            _modalView.gestureDelegate = self;
+        }
         
-        [self presentViewController:modalView animated:NO completion:^{
-            //Nothing for now
-        }];
+        [self.view addSubview:_modalView.view];
     }
 }
 
 - (void)handleLongTap:(UITapGestureRecognizer *)sender
 {
-    if (sender.state == UIGestureRecognizerStateBegan)
-    {
-        //if a VC is presented, dismiss it
-        if (self.presentedViewController != nil)
+    if (self.teaserPlayer.status == AVPlayerStatusReadyToPlay) {
+        if (sender.state == UIGestureRecognizerStateBegan)
         {
-            [self dismissViewControllerAnimated:NO completion:nil];
+            //if a VC is presented, dismiss it
+            if (self.presentedViewController != nil)
+            {
+                [self dismissViewControllerAnimated:NO completion:^{
+                    [self handleDismiss];
+                }];
+            }
+            
+            [self.parentViewController performSelectorOnMainThread:@selector(handleLongTap:) withObject:sender waitUntilDone:NO];
         }
-        
-        [self.parentViewController performSelectorOnMainThread:@selector(handleLongTap:) withObject:sender waitUntilDone:NO];
     }
+}
+
+- (void)handleDismiss {
+    [_modalView.view removeFromSuperview];
 }
 
 - (void)goBackToSearch:(UIPanGestureRecognizer *)recognizer
 {
     //TODO use Search interactor
     
-    _interactor = ((PrimeTimeViewController*)self.parentViewController.parentViewController.parentViewController).interactor;
+    ExploreProductInteractor *interactor = ((PrimeTimeViewController*)self.parentViewController.parentViewController.parentViewController).interactor;
     
-    if(_interactor) {
-        [_interactor userDidPan: recognizer];
+    if(interactor) {
+        [interactor userDidPan: recognizer];
     }
     else {
         CATransition *outTransition = [CATransition animation];
@@ -435,17 +455,17 @@
         [self.view addGestureRecognizer:longTapGestureRecognizer];
     }
     
-    //User Profile Gesture Recognizer - Swipe Down from 0-100px
-    profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
-    searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
-    
     if (self.pContext == kProductContextDiscover)
     {
+        //User Profile Gesture Recognizer - Swipe Down from 0-100px
+        profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
+        searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
+
         //Profile Gesture Recognizer - Swipe Down from 0-100px
         profilePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:profileInteractor action:@selector(userDidPan:)];
         [profilePanGestureRecognizer setDelegate:self];
         [self.view addGestureRecognizer:profilePanGestureRecognizer];
-#ifdef DEBUG
+#if FULL_VERSION
         //Search Products Gesture Recognizer - Swipe Down from below 100px
         searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:searchInteractor action:@selector(userDidPan:)];
         [searchPanGestureRecognizer setDelegate:self];
@@ -454,11 +474,9 @@
     }
     else
     {
-#ifdef DEBUG
         backToSearchPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(goBackToSearch:)];
         backToSearchPanGestureRecognzier.delegate = self;
         [self.view addGestureRecognizer:backToSearchPanGestureRecognzier];
-#endif
     }
     
 }
@@ -474,11 +492,7 @@
     if (gestureRecognizer == profilePanGestureRecognizer)
     {
         CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
-#ifdef DEBUG
         return (touch.y < 150) && (velocity.y > 0);
-#else
-        return (velocity.y > 0);
-#endif
     }
     else if (gestureRecognizer == searchPanGestureRecognizer)
     {

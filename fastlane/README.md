@@ -11,9 +11,14 @@ sudo gem install fastlane
 fastlane ios xcode
 ```
 Installs XCode plugin to disable fix it!
-### ios match
+### ios match_dev
 ```
-fastlane ios match
+fastlane ios match_dev
+```
+Installs all required provisionin profiles and certificates
+### ios match_prod
+```
+fastlane ios match_prod
 ```
 Installs all required provisionin profiles and certificates
 ### ios add_device
@@ -52,6 +57,11 @@ fastlane ios crashlytics
 Submit a new Beta Build to Apple TestFlight
 
 This will also make sure the profile is up to date
+### ios build_appstore
+```
+fastlane ios build_appstore
+```
+Deploy a new version to the App Store
 ### ios appstore
 ```
 fastlane ios appstore

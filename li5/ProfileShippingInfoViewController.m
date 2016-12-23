@@ -134,6 +134,25 @@
         if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
             [_locationManager requestWhenInUseAuthorization];
         
+        if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Allow Li5 Access your Location"
+                                                                           message:@"Li5 uses your location to populate the address for you. Go to Settings->Location and Enable it."
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       
+                                                                       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                                   }];
+            
+            [alert addAction:settingsAction];
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        
         [_locationManager startUpdatingLocation];
     }
 }
@@ -166,7 +185,7 @@
         if (error)
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:error.userInfo[@"error"][@"message"]
+                                                            message:error.localizedDescription
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];

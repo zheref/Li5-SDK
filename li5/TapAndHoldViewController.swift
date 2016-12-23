@@ -1,9 +1,9 @@
 //
 //  TapAndHoldViewController.swift
-//  AnimationText
+//  li5
 //
-//  Created by Martin Adoue on 2016/07/12.
-//  Copyright © 2016 Ubernerden. All rights reserved.
+//  Created by Martin Cocaro on 07/12/16.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 import UIKit
@@ -33,6 +33,7 @@ func delay(delay: Double, queue: dispatch_queue_t = dispatch_get_main_queue(), c
 
 @objc public protocol TapAndHoldViewControllerDelegate: class {
     func handleLongTap(sender: UILongPressGestureRecognizer)
+    func handleDismiss()
 }
 
 class TapAndHoldViewController: UIViewController {
@@ -205,7 +206,7 @@ class TapAndHoldViewController: UIViewController {
         self.bucketImageView.layer.addAnimation(CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: newBucketCenter), duration: self.scale(1)), forKey: nil)
         
         delay(self.scale(2)) {
-            self.dismissViewControllerAnimated(false, completion: nil)
+            self.gestureDelegate?.handleDismiss()
         }
     }
     

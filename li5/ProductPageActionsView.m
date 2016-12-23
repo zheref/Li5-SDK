@@ -11,11 +11,13 @@
 @import Intercom;
 @import JSBadgeView;
 @import FBSDKCoreKit;
+@import FBSDKShareKit;
 
 #import "ProductPageActionsView.h"
 #import "Li5-Swift.h"
+#import "Heap.h"
 
-@interface ProductPageActionsView ()
+@interface ProductPageActionsView () <FBSDKSharingDelegate>
 {
     NSTimer *__t;
     BOOL _animate;
@@ -113,18 +115,6 @@
         }
     }
     
-    // Initialize a Branch Universal Object for the page the user is viewing
-    self.branchUniversalObject = [[BranchUniversalObject alloc] initWithCanonicalIdentifier:self.product.id];
-    // Define the content that the object represents
-    self.branchUniversalObject.title = self.product.title;
-    self.branchUniversalObject.contentDescription = self.product.shareMessage;
-    self.branchUniversalObject.canonicalUrl = self.product.shareUrl;
-    [self.branchUniversalObject addMetadataKey:@"share_token" value:[[NSURL URLWithString:self.product.shareUrl] lastPathComponent]];
-    // Trigger a view on the content for analytics tracking
-    [self.branchUniversalObject registerView];
-    // List on Apple Spotlight
-    [self.branchUniversalObject listOnSpotlight];
-    
     [self updateUnreadCount:nil];
 }
 
@@ -176,8 +166,24 @@
 - (IBAction)shareProduct:(UIButton*)button
 {
     DDLogVerbose(@"Share Button Pressed");
+
+    FBSDKShareLinkContent *content = [[FBSDKShareLinkContent alloc] init];
+    content.contentTitle = self.product.shareMessage;
+    content.contentDescription = self.product.title;
+    content.hashtag = [FBSDKHashtag hashtagWithString:self.product.shareMessage];
+    content.ref = [[NSURL URLWithString:self.product.shareUrl] lastPathComponent];
+    content.contentURL = [NSURL URLWithString:self.product.shareUrl];
+    
+    FBSDKShareDialog *dialog = [[FBSDKShareDialog alloc] init];
+    dialog.fromViewController = [self parentViewController];
+    dialog.shareContent = content;
+    dialog.mode = FBSDKShareDialogModeShareSheet;
+    
+    [dialog setDelegate:self];
+    
+    [dialog show];
+    
 //    NSArray *objectsToShare = @[self.product.title, self.product.shareUrl];
-//
 //    ActivityViewController *activityVC = [[ActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
 //    
 //    NSArray *excludeActivities = @[ UIActivityTypePostToWeibo,
@@ -193,42 +199,57 @@
 //    
 //    activityVC.excludedActivityTypes = excludeActivities;
 //    
-//    [[self parentViewController] presentViewController:activityVC animated:YES completion:^{
-//        [[Li5ApiHandler sharedInstance] postShareForProductWithID:self.product.id withCompletion:^(NSError *error) {
-//            if (error) {
-//                DDLogError(@"Error - %@",error.description);
-//            }
-//        }];
+//    [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+//        if(completed){
+//            [FBSDKAppEvents logEvent:@"ShareProduct"];
+//            
+//            [[Li5ApiHandler sharedInstance] postShareForProductWithID:self.product.id withCompletion:^(NSError *error) {
+//                if (error) {
+//                    DDLogError(@"Error - %@",error.description);
+//                } else {
+//                    if (self.product.isEligibleForMultiLevel) {
+//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
+//                                                                        message:@"Now when a friend of yours signs up and buys through your link, you will get the same product for FREE!"
+//                                                                       delegate:self
+//                                                              cancelButtonTitle:@"😻 Great!"
+//                                                              otherButtonTitles:nil];
+//                        [alert show];
+//                    }
+//                }
+//            }];
+//        }
 //    }];
+//    
+//    [[self parentViewController] presentViewController:activityVC animated:YES completion:nil];
+//    
+}
+
+- (void)sharer:(id<FBSDKSharing>)sharer didCompleteWithResults:(NSDictionary *)results {
+    [FBSDKAppEvents logEvent:@"ShareProduct"];
+
+    [[Li5ApiHandler sharedInstance] postShareForProductWithID:self.product.id withCompletion:^(NSError *error) {
+        if (error) {
+            DDLogError(@"Error - %@",error.description);
+        } else {
+            if (self.product.isEligibleForMultiLevel) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
+                                                                message:@"Now when a friend of yours signs up and buys this product, you will get it for FREE!"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"😻 Great!"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    }];
+
+}
+
+- (void)sharerDidCancel:(id<FBSDKSharing>)sharer {
     
-    // More link properties available at https://dev.branch.io/getting-started/configuring-links/guide/#link-control-parameters
-    BranchLinkProperties *linkProperties = [[BranchLinkProperties alloc] init];
-    linkProperties.feature = @"sharing";
-    [linkProperties addControlParam:@"$desktop_url" withValue:self.product.shareUrl];
-    // Show the share sheet for the content you want the user to share. A link will be automatically created and put in the message.
-    [self.branchUniversalObject showShareSheetWithLinkProperties:linkProperties
-                                                    andShareText:self.product.shareMessage
-                                              fromViewController:[self parentViewController]
-                                                      completion:^(NSString *activityType, BOOL completed) {
-                                                          if (completed) {
-                                                              [FBSDKAppEvents logEvent:@"ShareProduct"];
-                                                              // This code path is executed if a successful share occurs
-                                                              [[Li5ApiHandler sharedInstance] postShareForProductWithID:self.product.id withCompletion:^(NSError *error) {
-                                                                  if (error) {
-                                                                      DDLogError(@"Error - %@",error.description);
-                                                                  } else {
-                                                                      if (self.product.isEligibleForMultiLevel) {
-                                                                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                                                                                          message:@"Great! Now when a friend of yours buys through your link, you will get the same product for FREE!"
-                                                                                                                         delegate:self
-                                                                                                                cancelButtonTitle:@"OK"
-                                                                                                                otherButtonTitles:nil];
-                                                                          [alert show];
-                                                                      }
-                                                                  }
-                                                              }];
-                                                          }
-                                                      }];
+}
+
+- (void)sharer:(id<FBSDKSharing>)sharer didFailWithError:(NSError *)error {
+    
 }
 
 - (void)didTapButton
@@ -260,6 +281,9 @@
         
         //Vibrate sound
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        
+        [FBSDKAppEvents logEvent:@"LoveProduct"];
+        [Heap track:@"Li5.LoveProduct" withProperties:@{}];
         
         [[Li5ApiHandler sharedInstance] postLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil)

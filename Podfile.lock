@@ -30,9 +30,12 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.3.0):
     - CocoaLumberjack/Default
-  - Crashlytics (3.8.2):
+  - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
+  - Digits (2.4.0):
+    - TwitterCore (= 2.4.0)
   - Fabric (1.6.7)
+  - FBNotifications (1.0.1)
   - FXBlurView (1.6.4)
   - GCDWebServer (3.3.4):
     - GCDWebServer/Core (= 3.3.4)
@@ -59,6 +62,8 @@ PODS:
   - Stripe (8.0.2)
   - TSMessages (0.9.13):
     - HexColors (~> 2.3.0)
+  - TwitterCore (2.4.0):
+    - Fabric
   - VMaskTextField (1.0.8)
   - YYImage (1.0.1):
     - YYImage/Core (= 1.0.1)
@@ -72,7 +77,9 @@ DEPENDENCIES:
   - CardIO
   - CocoaLumberjack
   - Crashlytics
+  - Digits
   - Fabric
+  - FBNotifications
   - FXBlurView
   - GCDWebServer (from `git@github.com:lifive/GCDWebServer.git`, branch `custom-dev`)
   - Heap
@@ -88,6 +95,7 @@ DEPENDENCIES:
   - SMPageControl
   - Stripe
   - TSMessages (from `git@github.com:KrauseFx/TSMessages.git`)
+  - TwitterCore
   - VMaskTextField
   - YYImage
   - YYImage/WebP
@@ -117,8 +125,10 @@ SPEC CHECKSUMS:
   Branch: a620b19dc96fffabb7873a86c80c77c75395a664
   CardIO: 92c45caef0d986c4a303a7afba0c9b76ff2b1f6e
   CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
-  Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
+  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
+  Digits: 8173fa5420d64bf490bade840e6bc36b74537d6c
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  FBNotifications: 3f1a9e43ffa2979a685eec29c960ca6a15c70be9
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   GCDWebServer: 0bd712acb4f246ce04d2ac321d33278fb1f72e63
   Heap: b95bc7a21f47ddd470e8ebccefa59c91f4fe1d68
@@ -137,9 +147,10 @@ SPEC CHECKSUMS:
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   Stripe: 3dfcde17037996e00db0a2f6dbfdedb7ad2ae55b
   TSMessages: 6e403b790139636c15ab4f51946537095e03e79c
+  TwitterCore: a139904c80805ad3dde9eef1100704f96f646d1d
   VMaskTextField: e77fe33633f999c5c38e70bed0afece0625624a4
   YYImage: b41b45bc5f32bfcdf67bdfb9c09da9e9832357c0
 
-PODFILE CHECKSUM: 5f6ba8d7d298b78b55566e01d06bb47b785d422b
+PODFILE CHECKSUM: f697fa66b8c660dabf2bcdcb2e27540e167d4a8f
 
 COCOAPODS: 1.1.1

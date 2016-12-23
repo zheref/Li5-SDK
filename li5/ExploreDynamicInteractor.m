@@ -16,14 +16,11 @@
 
 @interface ExploreDynamicInteractor () <UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate, UIViewControllerInteractiveTransitioning, UIDynamicAnimatorDelegate>
 
-//@property (nonatomic, readonly, strong) UIViewController *parentViewController;
-//@property (nonatomic, readonly, strong) UIViewController *presentingViewController;
 @property (nonatomic, assign) BOOL presented;
 @property (nonatomic, assign, getter = isPresenting) BOOL presenting;
 @property (nonatomic, assign, getter = isInteractive) BOOL interactive;
 @property (nonatomic, assign, getter = isInProgress) BOOL inProgress;
 
-//@property (nonatomic, assign) BOOL shouldFinish;
 @property (nonatomic, strong) id<UIViewControllerContextTransitioning> transitionContext;
 
 @property (nonatomic, strong) UIImageView *imagePreview;
@@ -38,17 +35,14 @@
 @implementation ExploreDynamicInteractor
 
 -(id)initWithParentViewController:(UIViewController *)trigeringViewController {
-    
+    DDLogVerbose(@"");
     if (!(self = [super init])) return nil;
-    
-//    trigeringViewController.modalPresentationStyle = UIModalPresentationCustom;
-//    trigeringViewController.modalPresentationCapturesStatusBarAppearance = YES;
-//    trigeringViewController.transitioningDelegate = self;
     
     UIStoryboard *searchStoryboard = [UIStoryboard storyboardWithName:@"ExploreViews" bundle:[NSBundle mainBundle]];
     self.exploreProductsViewController = [searchStoryboard instantiateInitialViewController];
     [self.exploreProductsViewController setPanTarget:self];
     
+    //NOTE: UIModalPresentationCustom offers no default implementation by Apple, meaning we have to Add AND Remove Views for EVERY interaction
     self.exploreProductsViewController.modalPresentationStyle = UIModalPresentationCustom;
     self.exploreProductsViewController.modalPresentationCapturesStatusBarAppearance = YES;
     self.exploreProductsViewController.transitioningDelegate = self;
@@ -82,7 +76,9 @@
             if(!self.presented) {
                 self.inProgress = YES;
                 [_dimissingController.navigationController
-                 presentViewController:self.exploreProductsViewController animated:YES completion:nil];
+                 presentViewController:self.exploreProductsViewController animated:YES completion:^ {
+                     self.inProgress = NO;
+                 }];
             }
         }
     }
@@ -120,7 +116,6 @@
 }
 
 - (id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {
-    
     if (_interactive)
         return self;
     return nil;
@@ -133,6 +128,8 @@
     self.presenting = NO;
     self.transitionContext = nil;
     self.interactive = NO;
+    self.presented = transitionCompleted;
+    self.inProgress = NO;
 }
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
@@ -142,16 +139,37 @@
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
     DDLogVerbose(@"");
-    if (!self.interactive) {
-        [self startInteractiveTransition:transitionContext];
-        [self updateInteractiveTransition:1.0];
-        [self finishInteractiveTransition];
+    
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    if (!self.interactive){
+        if (!self.presented) {
+            self.inProgress = YES;
+            [self startInteractiveTransition:transitionContext];
+            [self updateInteractiveTransition:1.0];
+            [self finishInteractiveTransition];
+        } else {
+            //Dismissing View Controller animated
+            [[UIApplication sharedApplication].keyWindow addSubview:toViewController.view];
+            [fromViewController.view removeFromSuperview];
+            
+            self.presenting = NO;
+            self.presented = NO;
+            self.interactive = NO;
+            self.inProgress = NO;
+            
+            [toViewController beginAppearanceTransition:YES animated:NO];
+            [toViewController endAppearanceTransition];
+
+            [transitionContext completeTransition:YES];
+        }
     }
 }
 
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    DDLogVerbose(@"");
     if (self.inProgress) {
-        DDLogVerbose(@"");
         self.transitionContext = transitionContext;
         
         UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
@@ -222,6 +240,7 @@
 #pragma mark - UIPercentDrivenInteractiveTransition Overridden Methods
 
 - (void)updateInteractiveTransition:(CGFloat)percentComplete {
+    DDLogVerbose(@"");
     if (self.inProgress) {
         DDLogVerbose(@"%f",percentComplete);
         int blurRadius = (int)ceilf((percentComplete * 40.0));
@@ -244,6 +263,7 @@
 }
 
 - (void)finishInteractiveTransition {
+    DDLogVerbose(@"");
     if (self.inProgress) {
         DDLogVerbose(@"");
         id<UIViewControllerContextTransitioning> transitionContext = self.transitionContext;
@@ -263,10 +283,14 @@
         
         toViewController.view.userInteractionEnabled = true;
         
-        [fromViewController beginAppearanceTransition:NO animated:YES];
-        [fromViewController endAppearanceTransition];
-        [toViewController beginAppearanceTransition:YES animated:YES];
-        [toViewController endAppearanceTransition];
+//        if (!fromViewController.shouldAutomaticallyForwardAppearanceMethods) {
+            [fromViewController beginAppearanceTransition:NO animated:YES];
+            [fromViewController endAppearanceTransition];
+//        }
+//        if (!toViewController.shouldAutomaticallyForwardAppearanceMethods) {
+            [toViewController beginAppearanceTransition:YES animated:YES];
+            [toViewController endAppearanceTransition];
+//        }
         [transitionContext finishInteractiveTransition];
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         self.inProgress = NO;
@@ -274,6 +298,7 @@
 }
 
 - (void)cancelInteractiveTransition {
+    DDLogVerbose(@"");
     if (self.inProgress) {
         DDLogVerbose(@"");
         id<UIViewControllerContextTransitioning> transitionContext = self.transitionContext;
@@ -294,10 +319,14 @@
         self.presenting = NO;
         self.presented = NO;
         
-        [toViewController beginAppearanceTransition:NO animated:YES];
-        [toViewController endAppearanceTransition];
-        [fromViewController beginAppearanceTransition:YES animated:YES];
-        [fromViewController endAppearanceTransition];
+//        if (!toViewController.shouldAutomaticallyForwardAppearanceMethods) {
+            [toViewController beginAppearanceTransition:NO animated:YES];
+            [toViewController endAppearanceTransition];
+//        }
+//        if (!fromViewController.shouldAutomaticallyForwardAppearanceMethods) {
+            [fromViewController beginAppearanceTransition:YES animated:YES];
+            [fromViewController endAppearanceTransition];
+//        }
         [transitionContext cancelInteractiveTransition];
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         
@@ -318,8 +347,10 @@
         self.presented = NO;
         self.interactive = NO;
         self.inProgress = NO;
-        [self.dimissingController beginAppearanceTransition:YES animated:YES];
-        [self.dimissingController endAppearanceTransition];
+//        if (!self.dimissingController.shouldAutomaticallyForwardAppearanceMethods) {
+            [self.dimissingController beginAppearanceTransition:YES animated:NO];
+            [self.dimissingController endAppearanceTransition];
+//        }
     }];//.navigationController popViewControllerAnimated:NO];
 }
 

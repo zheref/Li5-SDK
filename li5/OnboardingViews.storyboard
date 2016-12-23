@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6o7-JU-wkU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6o7-JU-wkU">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -140,13 +140,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Curated Products" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ec2-6q-Tt3">
-                                        <rect key="frame" x="62" y="534" width="252" height="34"/>
+                                        <rect key="frame" x="62.5" y="535" width="251.5" height="33"/>
                                         <fontDescription key="fontDescription" name="Rubik-Bold" family="Rubik" pointSize="28"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Presented in short videos" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Axq-bR-LKu">
-                                        <rect key="frame" x="77" y="575" width="222" height="22"/>
+                                        <rect key="frame" x="77.5" y="575" width="221.5" height="21"/>
                                         <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="18"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -221,7 +221,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_medium" translatesAutoresizingMaskIntoConstraints="NO" id="YjZ-SY-ppn">
-                                        <rect key="frame" x="147" y="97" width="81" height="104"/>
+                                        <rect key="frame" x="147" y="84" width="81" height="104"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="YjZ-SY-ppn" secondAttribute="height" multiplier="81:104" id="Mik-bs-rnF"/>
                                             <constraint firstAttribute="height" constant="104" id="THz-I0-FPf"/>
@@ -236,9 +236,9 @@
                                         </variation>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZzV-XZ-IGw">
-                                        <rect key="frame" x="44" y="360" width="287" height="36"/>
+                                        <rect key="frame" x="44" y="334.5" width="287" height="36"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfF-1n-pwK">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  7" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfF-1n-pwK">
                                                 <rect key="frame" x="0.0" y="0.0" width="35" height="36"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="35" id="aoW-3M-9lY"/>
@@ -299,7 +299,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="p3I-mL-ecj">
-                                        <rect key="frame" x="20" y="419" width="335" height="72"/>
+                                        <rect key="frame" x="20" y="393.5" width="335" height="72"/>
                                         <color key="backgroundColor" red="0.1803921568627451" green="0.28627450980392155" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="72" id="mhT-Zq-KyQ"/>
@@ -317,11 +317,11 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ygo-SA-pyg" userLabel="Spacer View">
-                                        <rect key="frame" x="0.0" y="600" width="375" height="67"/>
+                                        <rect key="frame" x="0.0" y="609.5" width="375" height="57.5"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cFv-Dx-aeC">
-                                        <rect key="frame" x="100" y="569" width="175" height="31"/>
+                                        <rect key="frame" x="100" y="578.5" width="175" height="31"/>
                                         <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="16"/>
                                         <state key="normal" title="Terms &amp; Privacy Policy">
                                             <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -331,19 +331,19 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uua-8a-T5C" userLabel="Spacer View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="97"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gym-e4-UCu" userLabel="Spacer View">
-                                        <rect key="frame" x="0.0" y="259" width="375" height="101"/>
+                                        <rect key="frame" x="0.0" y="246" width="375" height="88.5"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="amP-Ep-XN3" userLabel="Spacer View">
-                                        <rect key="frame" x="0.0" y="491" width="375" height="78"/>
+                                        <rect key="frame" x="0.0" y="510.5" width="375" height="68"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shop Like I'm Five" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-qd-m6v">
-                                        <rect key="frame" x="20" y="227" width="335" height="32"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Love How You Shop" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-qd-m6v">
+                                        <rect key="frame" x="20" y="214" width="335" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="375" id="Jzh-DD-zOY"/>
                                         </constraints>
@@ -356,6 +356,15 @@
                                             </mask>
                                         </variation>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOj-gL-2BU">
+                                        <rect key="frame" x="76.5" y="480.5" width="223" height="30"/>
+                                        <state key="normal" title="or Login With My Phone Number">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginWithPhoneNumber:" destination="yc2-Na-TaH" eventType="touchUpInside" id="igp-8E-39i"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.14901960784313725" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -369,9 +378,9 @@
                                     <constraint firstAttribute="bottom" secondItem="Ygo-SA-pyg" secondAttribute="bottom" id="8fc-3Y-eYt"/>
                                     <constraint firstItem="uua-8a-T5C" firstAttribute="top" secondItem="C0r-W5-Xom" secondAttribute="top" id="9Ze-Qo-9Gc"/>
                                     <constraint firstItem="cFv-Dx-aeC" firstAttribute="centerX" secondItem="C0r-W5-Xom" secondAttribute="centerX" id="9kb-fC-Ka2"/>
-                                    <constraint firstItem="amP-Ep-XN3" firstAttribute="top" secondItem="p3I-mL-ecj" secondAttribute="bottom" id="BME-FV-ct9"/>
                                     <constraint firstAttribute="trailing" secondItem="uua-8a-T5C" secondAttribute="trailing" id="Bof-1b-QCT"/>
                                     <constraint firstItem="qcS-qd-m6v" firstAttribute="top" secondItem="YjZ-SY-ppn" secondAttribute="bottom" constant="26" id="F6Y-SU-daP"/>
+                                    <constraint firstItem="amP-Ep-XN3" firstAttribute="top" secondItem="hOj-gL-2BU" secondAttribute="bottom" id="Lfx-iB-qyd"/>
                                     <constraint firstItem="ZzV-XZ-IGw" firstAttribute="centerX" secondItem="C0r-W5-Xom" secondAttribute="centerX" id="MRp-T0-z0z"/>
                                     <constraint firstItem="amP-Ep-XN3" firstAttribute="leading" secondItem="C0r-W5-Xom" secondAttribute="leading" id="N8a-tW-R4i"/>
                                     <constraint firstItem="Gym-e4-UCu" firstAttribute="height" secondItem="uua-8a-T5C" secondAttribute="height" multiplier="1.05" id="PBY-bd-Xji"/>
@@ -387,8 +396,10 @@
                                     <constraint firstItem="amP-Ep-XN3" firstAttribute="height" secondItem="Gym-e4-UCu" secondAttribute="height" multiplier="0.77" id="cTy-mc-bK4"/>
                                     <constraint firstItem="YjZ-SY-ppn" firstAttribute="top" secondItem="uua-8a-T5C" secondAttribute="bottom" id="j0k-Jn-L3c"/>
                                     <constraint firstItem="Ygo-SA-pyg" firstAttribute="height" secondItem="amP-Ep-XN3" secondAttribute="height" multiplier="0.85" id="mdN-hE-pky"/>
+                                    <constraint firstItem="hOj-gL-2BU" firstAttribute="centerX" secondItem="C0r-W5-Xom" secondAttribute="centerX" id="qYl-aN-KLJ"/>
                                     <constraint firstItem="ZzV-XZ-IGw" firstAttribute="top" secondItem="Gym-e4-UCu" secondAttribute="bottom" id="qfI-iq-cdZ"/>
                                     <constraint firstAttribute="trailing" secondItem="Gym-e4-UCu" secondAttribute="trailing" id="r3a-Gy-ihA"/>
+                                    <constraint firstItem="hOj-gL-2BU" firstAttribute="top" secondItem="p3I-mL-ecj" secondAttribute="bottom" constant="15" id="rne-zb-z1i"/>
                                     <constraint firstItem="Gym-e4-UCu" firstAttribute="leading" secondItem="C0r-W5-Xom" secondAttribute="leading" id="tcx-Wi-7Sj"/>
                                 </constraints>
                                 <variation key="default">
@@ -429,6 +440,7 @@
                     <connections>
                         <outlet property="backgroundView" destination="hec-C1-oDm" id="nqB-b7-azD"/>
                         <outlet property="loginFacebookButton" destination="p3I-mL-ecj" id="P9k-9F-Miy"/>
+                        <outlet property="loginWithPhoneNumber" destination="hOj-gL-2BU" id="juK-IX-jQa"/>
                         <outlet property="logoView" destination="YjZ-SY-ppn" id="5ip-fY-2k8"/>
                         <outlet property="overlayView" destination="C0r-W5-Xom" id="Zwd-9K-wCG"/>
                     </connections>
@@ -518,7 +530,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BEAUTY" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="Zd7-sw-vDO">
                                                     <rect key="frame" x="0.0" y="0.0" width="109" height="109"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="fontDescription" name="Rubik-Bold" family="Rubik" pointSize="22"/>
+                                                    <fontDescription key="fontDescription" name="Rubik-Bold" family="Rubik" pointSize="20"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -604,13 +616,13 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="7dP-nM-Q47"/>
+                                <exclude reference="9h8-Ey-1GF"/>
                                 <exclude reference="4jD-zP-Vvl"/>
                                 <exclude reference="7jI-YD-9EM"/>
                                 <exclude reference="gWe-vz-INC"/>
                                 <exclude reference="luV-Rn-jkh"/>
                                 <exclude reference="qMb-kQ-26n"/>
-                                <exclude reference="7dP-nM-Q47"/>
-                                <exclude reference="9h8-Ey-1GF"/>
                                 <exclude reference="1PP-07-shR"/>
                                 <exclude reference="Ebe-2A-Lvd"/>
                                 <exclude reference="KMq-Wt-lQU"/>

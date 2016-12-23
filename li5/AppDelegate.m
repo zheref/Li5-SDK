@@ -17,6 +17,7 @@
 @import Branch;
 @import Intercom;
 @import Instabug;
+@import DigitsKit;
 
 #import "AppDelegate.h"
 #import "CategoriesViewController.h"
@@ -25,6 +26,8 @@
 #import "Li5BCLoggerDelegate.h"
 #import "Heap.h"
 #import "Li5Constants.h"
+#import "UIViewController+Indexed.h"
+#import <FBNotifications/FBNotifications.h>
 
 @interface AppDelegate ()
 
@@ -39,8 +42,8 @@
     DDLogDebug(@"");
     NSDictionary<NSString *, id> *infoDictionary = [NSBundle mainBundle].infoDictionary;
     
-    [Fabric with:@[[Crashlytics class], [Branch class]]];
-
+    [Fabric with:@[[Crashlytics class], [Branch class], [Digits class]]];
+    
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     [DDLog addLogger:[CrashlyticsLogger sharedInstance]];
     
@@ -61,7 +64,8 @@
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor greenColor] backgroundColor:nil forFlag:DDLogFlagInfo];
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagDebug];
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blackColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
-    
+        
+    //Li5 Video Player
     [BCLogger addDelegate:[Li5BCLoggerDelegate new]];
     
     //Facebook SDK
@@ -75,11 +79,11 @@
     
     //Heap Analytics
     [Heap setAppId:[infoDictionary objectForKey:@"HeapAppId"]];
-#ifdef DEBUG
-    [Heap enableVisualizer];
-#endif
     
+#if DEBUG
+//    [Heap enableVisualizer];
     [Instabug startWithToken:[infoDictionary objectForKey:@"InstaBugToken"] invocationEvent:IBGInvocationEventShake];
+#endif
     
     //Environment endpoint, uses preprocessor macro by default, overwritten by environment url
     NSDictionary *environment = [[NSProcessInfo processInfo] environment];
@@ -95,13 +99,20 @@
     
     // LoginViewController
     _flowController = [[Li5RootFlowController alloc] initWithNavigationController:self.navController];
-//    [_flowController showInitialScreen];
     
     [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
         if (!error && [[params objectForKey:@"+clicked_branch_link"] boolValue]) {
-            DDLogVerbose(@"share link token: %@", [params objectForKey:@"share_token"]);
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:[params objectForKey:@"share_token"] forKey:kLi5ShareToken];
+            NSString *shareToken = [params objectForKey:@"share_token"];
+            if (shareToken) {
+                DDLogVerbose(@"share link token: %@", shareToken);
+                [userDefaults setObject:shareToken forKey:kLi5ShareToken];
+            }
+            NSString *product = [params objectForKey:@"product"];
+            if (product) {
+                DDLogVerbose(@"product: %@", product);
+                [userDefaults setObject:product forKey:kLi5Product];
+            }
             [_flowController showInitialScreen];
         }
     }];
@@ -111,6 +122,38 @@
     
     return YES;
 }
+
+#pragma mark - Push Notifications
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *token = [[deviceToken.description componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet]invertedSet]]componentsJoinedByString:@""];
+    DDLogVerbose(@"%@",token);
+    [FBSDKAppEvents setPushNotificationsDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [FBSDKAppEvents logPushNotificationOpen:userInfo];
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completionHandler {
+    [FBSDKAppEvents logPushNotificationOpen:userInfo action:identifier];
+}
+
+/// Present In-App Notification from remote notification (if present).
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+    FBNotificationsManager *notificationsManager = [FBNotificationsManager sharedManager];
+    [notificationsManager presentPushCardForRemoteNotificationPayload:userInfo
+                                                   fromViewController:nil
+                                                           completion:^(FBNCardViewController * _Nullable viewController, NSError * _Nullable error) {
+                                                               if (error) {
+                                                                   completionHandler(UIBackgroundFetchResultFailed);
+                                                               } else {
+                                                                   completionHandler(UIBackgroundFetchResultNewData);
+                                                               }
+                                                           }];
+}
+
+#pragma mark - URL Deep/Smart linking
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     // For Branch to detect when a URI scheme is clicked
@@ -126,20 +169,25 @@
     return YES;
 }
 
+#pragma mark - Application States
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     DDLogDebug(@"");
     
-    [[AVAudioSession sharedInstance] setActive:FALSE error:nil];
-    
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if ([self.navController.topViewController isViewLoaded])
     {
-        [self.window.rootViewController beginAppearanceTransition:NO animated:NO];
-        [self.window.rootViewController endAppearanceTransition];
+        UIViewController *topController = [self.navController.topViewController topMostViewController];
+        if (!topController.shouldAutomaticallyForwardAppearanceMethods) {
+            [topController beginAppearanceTransition:NO animated:NO];
+            [topController endAppearanceTransition];
+        }
     }
+    
+    [[AVAudioSession sharedInstance] setActive:FALSE error:nil];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -148,13 +196,12 @@
     
     [FBSDKAppEvents activateApp];
     
-    [[AVAudioSession sharedInstance] setActive:TRUE error:nil];
-    
     if ([self.navController.topViewController isViewLoaded])
     {
-        if (![self.navController.topViewController presentedViewController]) {
-            [self.window.rootViewController beginAppearanceTransition:YES animated:NO];
-            [self.window.rootViewController endAppearanceTransition];
+        UIViewController *topController = [self.navController.topViewController topMostViewController];
+        if (!topController.shouldAutomaticallyForwardAppearanceMethods) {
+            [topController beginAppearanceTransition:YES animated:NO];
+            [topController endAppearanceTransition];
         }
     } else {
         //TODO This causes the spinner to blink since iOS will move the app to foreground prior to handling the URL.
@@ -162,7 +209,7 @@
         [_flowController showInitialScreen];
     }
     
-    [[[BCFileHelper alloc] init] removeCacheFromDays:1];
+    [[AVAudioSession sharedInstance] setActive:TRUE error:nil];
     
 }
 
@@ -172,9 +219,6 @@
     DDLogDebug(@"");
     
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [self.window.rootViewController beginAppearanceTransition:NO animated:NO];
-    [self.window.rootViewController endAppearanceTransition];
     
     [[[BCFileHelper alloc] init] removeCacheFromDays:1];
 }
@@ -188,6 +232,10 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     DDLogDebug(@"");
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[[BCFileHelper alloc] init] removeCacheFromDays:1];
 }
 
 @end

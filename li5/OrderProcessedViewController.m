@@ -94,7 +94,7 @@
             {
                 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:error.userInfo[@"error"][@"message"]
+                                                                message:error.localizedDescription
                                                                delegate:self
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];

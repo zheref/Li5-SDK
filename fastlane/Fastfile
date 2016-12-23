@@ -33,7 +33,7 @@ platform :ios do
   end
 
   desc "Installs all required provisionin profiles and certificates"
-  lane :match do
+  lane :match_dev do
     produce(
       app_identifier: 'com.li5.buy',
       app_name: 'Li5 Buy',
@@ -54,6 +54,19 @@ platform :ios do
 
     match(app_identifier: "com.li5.buy", type:"development")
     match(app_identifier: "com.li5.buy.test", type:"development")
+  end
+
+  desc "Installs all required provisionin profiles and certificates"
+  lane :match_prod do
+    produce(
+      app_identifier: 'com.li5.buy',
+      app_name: 'Li5',
+      language: 'English',
+      app_version: '1.0',
+      company_name: 'Li5, Inc.'
+    )
+
+    match(app_identifier: "com.li5.buy", type:"appstore")
   end
 
   lane :add_device do
@@ -170,7 +183,7 @@ platform :ios do
     gym(
       scheme: "li5",
       use_legacy_build_api: true,
-      configuration: "Release"
+      configuration: "Debug"
     ) # Build your app - more options available
 
     #produce(
@@ -194,6 +207,40 @@ platform :ios do
 
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)
+  end
+
+  desc "Deploy a new version to the App Store"
+  lane :build_appstore do
+
+    cocoapods
+    
+    # match(type: "appstore")
+    # snapshot
+    #increment_version_number(
+    #  bump_type: 'patch'
+    #)
+
+    match(
+      app_identifier: "com.li5.buy", 
+      type:"appstore"
+    )
+
+    gym(
+      scheme: "li5",
+      use_legacy_build_api: true,
+      configuration: "Release"
+    ) # Build your app - more options available
+
+    #produce(
+    #  app_version: '0.1'
+    #)
+
+    #deliver(
+    #  skip_deploy: true,
+    #  force: true,
+    #  app_version: "0.1"
+    #)
+    # frameit
   end
 
   desc "Deploy a new version to the App Store"

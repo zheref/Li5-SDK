@@ -12,4 +12,6 @@
 
 @property (nonatomic, assign) NSInteger scrollPageIndex;
 
+- (UIViewController*)topMostViewController;
+
 @end

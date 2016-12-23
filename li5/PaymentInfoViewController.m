@@ -51,9 +51,7 @@
     self.ccCvv.mask = @"####";
     
     [self.scanButton setImage:[[UIImage imageNamed:@"creditcard"] blackAndWhiteImage] forState:UIControlStateDisabled];
-    
-    // Hide your "Scan Card" button, or take other appropriate action...
-    self.scanButton.enabled = [CardIOUtilities canReadCardWithCamera];
+    self.scanButton.enabled = YES;
     
     UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width, self.view.bounds.size.height)];
     
@@ -85,6 +83,7 @@
         self.ccExpiration.text = [NSString stringWithFormat:@"%@/%@", _currentCard.expirationMonth, _currentCard.expirationYear];
         self.creditCardName.text = _currentCard.name;
         self.creditCardName.enabled = false;
+        self.creditCardNumber.enabled = false;
         self.creditCardNumber.text = [NSString stringWithFormat:@"**** **** **** %@", _currentCard.last4];
         self.alias.text = _currentCard.alias;
         
@@ -125,7 +124,7 @@
         if (error)
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:error.description
+                                                            message:error.localizedDescription
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
@@ -161,17 +160,36 @@
 
 - (IBAction)scanCreditCard:(id)sender
 {
-    CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
-    scanViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-    scanViewController.hideCardIOLogo = YES;
-    scanViewController.keepStatusBarStyle = YES;
-    scanViewController.guideColor = [UIColor li5_redColor];
-    scanViewController.suppressScanConfirmation = YES;
-    scanViewController.collectExpiry = YES;
-    scanViewController.collectCVV = YES;
-    scanViewController.collectCardholderName = YES;
-    scanViewController.disableManualEntryButtons = YES;
-    [self presentViewController:scanViewController animated:YES completion:nil];
+    if (![CardIOUtilities canReadCardWithCamera]) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Allow Li5 Access your Camera"
+                                                                       message:@"Li5 uses your camera to scan your credit card to fill the numbers for you. Go to Settings->Camera and Enable it."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {
+                                                                   
+                                                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                               }];
+        
+        [alert addAction:settingsAction];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    } else {
+        CardIOPaymentViewController *scanViewController = [[CardIOPaymentViewController alloc] initWithPaymentDelegate:self];
+        scanViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+        scanViewController.hideCardIOLogo = YES;
+        scanViewController.keepStatusBarStyle = YES;
+        scanViewController.guideColor = [UIColor li5_redColor];
+        scanViewController.suppressScanConfirmation = YES;
+        scanViewController.collectExpiry = YES;
+        scanViewController.collectCVV = YES;
+        scanViewController.collectCardholderName = YES;
+        scanViewController.disableManualEntryButtons = YES;
+        [self presentViewController:scanViewController animated:YES completion:nil];
+    }
 }
 
 - (IBAction)showCVVHelp:(id)sender
@@ -209,7 +227,7 @@
              if (error)
              {
                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                 message:error.userInfo[@"error"][@"message"]
+                                                                 message:error.localizedDescription
                                                                 delegate:self
                                                        cancelButtonTitle:@"OK"
                                                        otherButtonTitles:nil];

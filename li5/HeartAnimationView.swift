@@ -2,8 +2,8 @@
 //  HeartAnimationView.swift
 //  AnimationText
 //
-//  Created by Martin Adoue on 2016/07/05.
-//  Copyright © 2016 Ubernerden. All rights reserved.
+//  Created by Martin Cocaro on 2016/07/05.
+//  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
 import Foundation

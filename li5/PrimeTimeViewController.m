@@ -95,7 +95,16 @@
     if (itemId) {
         DDLogVerbose(@"Deep linked to page from Branch link with item id: %@", itemId);
     }
+}
 
+- (void)viewWillDisappear:(BOOL)animated {
+    DDLogVerbose(@"");
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    DDLogVerbose(@"");
+    [super viewDidDisappear:animated];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -214,6 +223,28 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+@end
+
+@implementation PrimeTimeNavigationViewController
+
+- (BOOL)prefersStatusBarHidden {
+    return [self.topViewController prefersStatusBarHidden];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [self.topViewController preferredStatusBarStyle];
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    DDLogVerbose(@"");
+    return self.topViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    DDLogVerbose(@"");
+    return self.topViewController;
 }
 
 @end

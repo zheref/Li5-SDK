@@ -6,11 +6,12 @@
 //  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
+@import FBSDKCoreKit;
+
 #import "ExploreDynamicInteractor.h"
 #import "LastPageViewController.h"
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
-#import "SwipeDownToExploreViewController.h"
 #import "UserProfileDynamicInteractor.h"
 #import "Heap.h"
 
@@ -28,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIView *staticView;
 @property (weak, nonatomic) IBOutlet UIView *videoView;
 @property (weak, nonatomic) IBOutlet UILabel *closeMessage;
+@property (weak, nonatomic) IBOutlet UIView *swipeDownView;
 
 @property (nonatomic, strong) BCPlayer *player;
 @property (nonatomic, strong) BCPlayerLayer *playerLayer;
@@ -112,7 +114,7 @@
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
     
-#if DEBUG
+#if FULL_VERSION
     self.closeMessage.text = @"SWIPE DOWN TO EXPLORE MORE";
 #endif
 }
@@ -146,20 +148,13 @@
     DDLogVerbose(@"");
     [self removeObservers];
     
-#if DEBUG
+#if FULL_VERSION
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:kLi5SwipeDownExplainerViewPresented])
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"DiscoverViews" bundle:[NSBundle mainBundle]];
-        SwipeDownToExploreViewController *explainer= [storyboard instantiateViewControllerWithIdentifier:@"SwipeDownExplainerView"];
-        explainer.modalPresentationStyle = UIModalPresentationCurrentContext;
-        [explainer setSearchInteractor:searchInteractor];
         [_audioPlayer play];
-        __weak typeof(self) welf = self;
-        [self presentViewController:explainer animated:NO completion:^{
-            __strong typeof(welf) swelf = welf;
-            [swelf hideVideo];
-        }];
+        self.swipeDownView.hidden = NO;
+        [self hideVideo];
     }
     else
     {
@@ -219,6 +214,7 @@
         {
             [self.player play];
             
+            [FBSDKAppEvents logEvent:@"EndOfPrimeTimeReached"];
             [Heap track:@"Li5.EndOfPrimeTimeReached" withProperties:@{}];
         }
         else
@@ -251,6 +247,16 @@
 
 #pragma mark - Gesture Recognizers
 
+- (void)userDidPan:(UIPanGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        self.swipeDownView.hidden = YES;
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setBool:TRUE forKey:kLi5SwipeDownExplainerViewPresented];
+    }
+    
+    [searchInteractor userDidPan:recognizer];
+}
+
 - (void)setupGestureRecognizers
 {
     DDLogVerbose(@"");
@@ -260,10 +266,10 @@
     [profilePanGestureRecognizer setDelegate:self];
     [self.view addGestureRecognizer:profilePanGestureRecognizer];
     
-#if DEBUG
+#if FULL_VERSION
     //Search Products Gesture Recognizer - Swipe Down from below 100px
     searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
-    searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:searchInteractor action:@selector(userDidPan:)];
+    searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userDidPan:)];
     [searchPanGestureRecognizer setDelegate:self];
     [self.view addGestureRecognizer:searchPanGestureRecognizer];
 #endif
@@ -281,11 +287,7 @@
     if (gestureRecognizer == profilePanGestureRecognizer)
     {
         CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:gestureRecognizer.view];
-#ifdef DEBUG
         return (touch.y < 150) && (velocity.y > 0);
-#else
-        return (velocity.y > 0);
-#endif
     }
     else if (gestureRecognizer == searchPanGestureRecognizer)
     {

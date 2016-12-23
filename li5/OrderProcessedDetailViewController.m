@@ -32,7 +32,7 @@
     self.productTitle.text = self.order.product.title;
     self.productBrand.text = self.order.product.brand;
     self.orderStatus.text = self.order.status;
-    //    self.creditCardCharged.text = self.order.cre
+    self.creditCardCharged.text = [NSString stringWithFormat:@"**** **** **** %@", self.order.card.last4];
     self.priceCharged.text = [NSString stringWithFormat:@"$%.00f",([self.order.total doubleValue] / 100)];
     self.shippingInfo.text = [NSString stringWithFormat:@"%@ ,%@ (%@)",self.order.shippingAddress.address1,self.order.shippingAddress.city, self.order.shippingAddress.zip];
     

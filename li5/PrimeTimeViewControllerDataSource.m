@@ -54,6 +54,10 @@
             else
             {
                 DDLogError(@"Error retrieving products: %@ %@", error, [error userInfo]);
+                self.products = nil;
+                self.expiresAt = nil;
+                self.endOfPrimeTime = nil;
+                [_expirationTimer invalidate];
                 NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                 [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
             }

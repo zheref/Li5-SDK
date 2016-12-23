@@ -31,5 +31,6 @@ extern NSString * const kLi5SwipeLeftExplainerViewPresented;
 extern NSString * const kLi5SwipeDownExplainerViewPresented;
 extern NSString * const kLi5SwipeUpExplainerViewPresented;
 extern NSString * const kLi5ShareToken;
+extern NSString * const kLi5Product;
 
 @end

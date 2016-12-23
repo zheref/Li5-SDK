@@ -57,8 +57,8 @@
 
 - (void)initialize
 {
-    _pageTitles = @[@"Discover",@"Explore"];
-    _pageSubtitles = @[@"Fun Product-Video Stories",@"Unique Products You'll Love"];
+    _pageTitles = @[@"Discover",@"Experience"];
+    _pageSubtitles = @[@"Fun Product Stories",@"Unique Products You'll Love"];
     _pageVideos = @[
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_1" ofType:@"mp4"]],
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_2" ofType:@"mp4"]]

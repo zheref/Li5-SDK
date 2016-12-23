@@ -96,6 +96,25 @@
         if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
             [_locationManager requestWhenInUseAuthorization];
         
+        if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Allow Li5 Access your Location"
+                                                                           message:@"Li5 uses your location to populate the address for you. Go to Settings->Location and Enable it."
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       
+                                                                       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                                   }];
+            
+            [alert addAction:settingsAction];
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        
         [_locationManager startUpdatingLocation];
     }
 }
@@ -189,7 +208,7 @@
         {
             [self.hud hideAnimated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:error.description
+                                                            message:error.localizedDescription
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
@@ -206,7 +225,7 @@
                                                              {
                                                                  [self.hud hideAnimated:YES];
                                                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                                                                 message:error.userInfo[@"error"][@"message"]
+                                                                                                                 message:error.localizedDescription
                                                                                                                 delegate:self
                                                                                                        cancelButtonTitle:@"OK"
                                                                                                        otherButtonTitles:nil];
@@ -238,7 +257,7 @@
         {
             [self.hud hideAnimated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:error.userInfo[@"error"][@"message"]
+                                                            message:error.localizedDescription
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
@@ -264,7 +283,7 @@
     DDLogVerbose(@"");
     NSString *newAddress = textField.text;
     [self.geocoder geocodeAddressString:newAddress completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        DDLogVerbose(@"Found placemarks: %lu, error: %@", placemarks.count, error);
+        DDLogVerbose(@"Found placemarks: %u, error: %@", placemarks.count, error);
         if (error == nil && [placemarks count] > 0) {
             CLPlacemark *placemark = [placemarks lastObject];
             

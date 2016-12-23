@@ -25,18 +25,22 @@
 - (void)presentViewWithCompletion:(void (^)(void))completion
 {
     DDLogVerbose(@"beginning menu presentation");
-    self.presenting = YES;
-    self.interactive = NO;
-    self.inProgress = YES;
-    
-    [self.parentViewController presentViewController:_presentingViewController animated:YES completion:^{
-        self.presenting = NO;
-        self.presented =  YES;
-        [self.parentViewController beginAppearanceTransition:NO animated:YES];
-        [self.parentViewController endAppearanceTransition];
-        if (completion) completion();
-        self.inProgress = NO;
-    }];
+    if (!self.presented && !self.presenting) {
+        self.presenting = YES;
+        self.interactive = NO;
+        self.inProgress = YES;
+        
+        [self.parentViewController presentViewController:_presentingViewController animated:YES completion:^{
+            self.presenting = NO;
+            self.presented =  YES;
+//            if (!self.parentViewController.shouldAutomaticallyForwardAppearanceMethods) {
+                [self.parentViewController beginAppearanceTransition:NO animated:YES];
+                [self.parentViewController endAppearanceTransition];
+//            }
+            if (completion) completion();
+            self.inProgress = NO;
+        }];
+    }
 }
 
 - (void)dismissController:(UIViewController *) controller withCompletion:(void (^)(void))completion
@@ -46,8 +50,10 @@
     self.inProgress = YES;
     
     [controller dismissViewControllerAnimated:YES completion:^{
-        [self.parentViewController beginAppearanceTransition:YES animated:YES];
-        [self.parentViewController endAppearanceTransition];
+//        if (!self.parentViewController.shouldAutomaticallyForwardAppearanceMethods){
+            [self.parentViewController beginAppearanceTransition:YES animated:YES];
+            [self.parentViewController endAppearanceTransition];
+//        }
         if (completion) completion();
         self.inProgress = NO;
     }];
@@ -157,6 +163,8 @@
         [self startInteractiveTransition:transitionContext];
         [self updateInteractiveTransition:1.0];
         [self finishInteractiveTransition];
+    } else {
+        [transitionContext completeTransition:YES];
     }
 }
 
@@ -231,11 +239,15 @@
             toViewController.view.userInteractionEnabled = true;
             if (self.interactive || !self.presenting) {
                 if (self.presenting) {
-                    [fromViewController beginAppearanceTransition:NO animated:YES];
-                    [fromViewController endAppearanceTransition];
+//                    if (!fromViewController.shouldAutomaticallyForwardAppearanceMethods) {
+                        [fromViewController beginAppearanceTransition:NO animated:YES];
+                        [fromViewController endAppearanceTransition];
+//                    }
                 } else {
-                    [toViewController beginAppearanceTransition:YES animated:YES];
-                    [toViewController endAppearanceTransition];
+//                    if (!toViewController.shouldAutomaticallyForwardAppearanceMethods) {
+                        [toViewController beginAppearanceTransition:YES animated:YES];
+                        [toViewController endAppearanceTransition];
+//                    }
                 }
             }
             if (self.interactive) {
@@ -266,11 +278,15 @@
         } completion:^(BOOL finished) {
             if (self.interactive || !self.presenting) {
                 if (self.presenting) {
-                    [toViewController beginAppearanceTransition:NO animated:YES];
-                    [toViewController endAppearanceTransition];
+//                    if (!toViewController.shouldAutomaticallyForwardAppearanceMethods) {
+                        [toViewController beginAppearanceTransition:NO animated:YES];
+                        [toViewController endAppearanceTransition];
+//                    }
                 } else {
-                    [fromViewController beginAppearanceTransition:YES animated:YES];
-                    [fromViewController endAppearanceTransition];
+//                    if (!fromViewController.shouldAutomaticallyForwardAppearanceMethods) {
+                        [fromViewController beginAppearanceTransition:YES animated:YES];
+                        [fromViewController endAppearanceTransition];
+//                    }
                 }
             }
             if (self.interactive) {

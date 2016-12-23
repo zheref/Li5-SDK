@@ -21,4 +21,19 @@
     return [objc_getAssociatedObject(self, @selector(scrollPageIndex)) integerValue];
 }
 
+- (UIViewController*)topMostViewController
+{
+    UIViewController *topController = self;
+    BOOL stop = NO;
+    
+    while (topController.presentedViewController && !stop) {
+        stop = topController.presentedViewController.modalPresentationStyle == UIModalPresentationOverCurrentContext || topController.presentedViewController.modalPresentationStyle == UIModalPresentationPopover;
+        if (!stop) {
+            topController = topController.presentedViewController;
+        }
+    }
+    
+    return topController;
+}
+
 @end

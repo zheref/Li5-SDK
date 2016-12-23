@@ -3,7 +3,7 @@ git_url "git@github.com:lifive/li5-certs.git"
 type "development" # The default type, can be: appstore, adhoc or development
 
 app_identifier "com.li5.buy" 
-username "martin.cocaro@gmail.com" # Your Apple Developer Portal username
+username "likeiam5@gmail.com" # Your Apple Developer Portal username
 
 # For all available options run `match --help`
 # Remove the # in the beginning of the line to enable the other options

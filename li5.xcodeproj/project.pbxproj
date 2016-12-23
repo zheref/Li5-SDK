@@ -59,10 +59,6 @@
 		5B360E9D1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */; };
 		5B360E9E1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */; };
 		5B360E9F1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */; };
-		5B360EA21D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */; };
-		5B360EA41D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */; };
-		5B360EA51D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */; };
-		5B360EA61D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */; };
 		5B360EA91D087524004B3691 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
 		5B360EAB1D087524004B3691 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
 		5B360EAC1D087524004B3691 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
@@ -71,6 +67,10 @@
 		5B360EB21D09BBD5004B3691 /* Li5SearchBarUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EAF1D09BBD5004B3691 /* Li5SearchBarUIView.m */; };
 		5B360EB41D09BBEB004B3691 /* Li5SearchBarUIView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B360EB31D09BBEB004B3691 /* Li5SearchBarUIView.xib */; };
 		5B360EB61D09BBEB004B3691 /* Li5SearchBarUIView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B360EB31D09BBEB004B3691 /* Li5SearchBarUIView.xib */; };
+		5B4245FC1DF8A65900020EA2 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4245FB1DF8A65900020EA2 /* Bolts.framework */; };
+		5B4245FD1DF8A65900020EA2 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4245FB1DF8A65900020EA2 /* Bolts.framework */; };
+		5B4245FE1DF8A65900020EA2 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4245FB1DF8A65900020EA2 /* Bolts.framework */; };
+		5B4245FF1DF8A65900020EA2 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4245FB1DF8A65900020EA2 /* Bolts.framework */; };
 		5B427E121CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
 		5B427E141CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
 		5B427E151CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
@@ -347,15 +347,8 @@
 		EF1591CC1DB5A0360004C9FF /* ProfileShippingInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1591C91DB5A0360004C9FF /* ProfileShippingInfoViewController.m */; };
 		EF188E491D3EAB45002E173E /* ImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF188E481D3EAB45002E173E /* ImageHelper.m */; };
 		EF188E4B1D3EB242002E173E /* ImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF188E481D3EAB45002E173E /* ImageHelper.m */; };
-		EF2431E11D9473670015513B /* DismissInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2431E01D9473670015513B /* DismissInteractor.swift */; };
-		EF2431E31D9473670015513B /* DismissInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2431E01D9473670015513B /* DismissInteractor.swift */; };
-		EF2431E41D9473670015513B /* DismissInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2431E01D9473670015513B /* DismissInteractor.swift */; };
 		EF4C68351DD1FD9C00FE8361 /* ExploreProductInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4C68341DD1FD9C00FE8361 /* ExploreProductInteractor.m */; };
 		EF4C68361DD1FF0700FE8361 /* ExploreProductInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4C68341DD1FD9C00FE8361 /* ExploreProductInteractor.m */; };
-		EF6F05D81D95A13F00ED15B4 /* PresentationTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F05D71D95A13F00ED15B4 /* PresentationTransition.swift */; };
-		EF6F05DA1D95A13F00ED15B4 /* PresentationTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F05D71D95A13F00ED15B4 /* PresentationTransition.swift */; };
-		EF6F05DC1D9AB7A000ED15B4 /* ExploreTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F05DB1D9AB7A000ED15B4 /* ExploreTransition.swift */; };
-		EF6F05DE1D9AB7A000ED15B4 /* ExploreTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F05DB1D9AB7A000ED15B4 /* ExploreTransition.swift */; };
 		EFA343151DB5A4C80092F628 /* PaymentInfoSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA343141DB5A4C80092F628 /* PaymentInfoSelectViewController.m */; };
 		EFA343171DB5A4C80092F628 /* PaymentInfoSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA343141DB5A4C80092F628 /* PaymentInfoSelectViewController.m */; };
 		EFA8A36E1DB65D5E00C0EBA1 /* AddShippingInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA8A36D1DB65D5E00C0EBA1 /* AddShippingInfoViewController.m */; };
@@ -450,13 +443,12 @@
 		5B2A25001D492F5900DCA209 /* SwipeUpExplainerUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeUpExplainerUIViewController.m; sourceTree = "<group>"; };
 		5B360E991D086389004B3691 /* SwipeLeftToBeginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeLeftToBeginViewController.h; sourceTree = "<group>"; };
 		5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeLeftToBeginViewController.m; sourceTree = "<group>"; };
-		5B360EA01D087279004B3691 /* SwipeDownToExploreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeDownToExploreViewController.h; sourceTree = "<group>"; };
-		5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeDownToExploreViewController.m; sourceTree = "<group>"; };
 		5B360EA71D087524004B3691 /* Li5Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5Constants.h; sourceTree = "<group>"; };
 		5B360EA81D087524004B3691 /* Li5Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5Constants.m; sourceTree = "<group>"; };
 		5B360EAE1D09BBD5004B3691 /* Li5SearchBarUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5SearchBarUIView.h; sourceTree = "<group>"; };
 		5B360EAF1D09BBD5004B3691 /* Li5SearchBarUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5SearchBarUIView.m; sourceTree = "<group>"; };
 		5B360EB31D09BBEB004B3691 /* Li5SearchBarUIView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Li5SearchBarUIView.xib; sourceTree = "<group>"; };
+		5B4245FB1DF8A65900020EA2 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		5B427E101CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalUICollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalUICollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		5B48F2841CE0E21F00EBE566 /* ExploreDynamicInteractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreDynamicInteractor.h; sourceTree = "<group>"; };
@@ -639,11 +631,8 @@
 		EF1591C91DB5A0360004C9FF /* ProfileShippingInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileShippingInfoViewController.m; sourceTree = "<group>"; };
 		EF188E471D3EAB45002E173E /* ImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageHelper.h; sourceTree = "<group>"; };
 		EF188E481D3EAB45002E173E /* ImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageHelper.m; sourceTree = "<group>"; };
-		EF2431E01D9473670015513B /* DismissInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissInteractor.swift; sourceTree = "<group>"; };
 		EF4C68331DD1FD9C00FE8361 /* ExploreProductInteractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreProductInteractor.h; sourceTree = "<group>"; };
 		EF4C68341DD1FD9C00FE8361 /* ExploreProductInteractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreProductInteractor.m; sourceTree = "<group>"; };
-		EF6F05D71D95A13F00ED15B4 /* PresentationTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationTransition.swift; sourceTree = "<group>"; };
-		EF6F05DB1D9AB7A000ED15B4 /* ExploreTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreTransition.swift; sourceTree = "<group>"; };
 		EF998EE692B005C6EF509A7B /* Pods-li5UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-li5UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-li5UITests/Pods-li5UITests.release.xcconfig"; sourceTree = "<group>"; };
 		EFA343131DB5A4C80092F628 /* PaymentInfoSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentInfoSelectViewController.h; sourceTree = "<group>"; };
 		EFA343141DB5A4C80092F628 /* PaymentInfoSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentInfoSelectViewController.m; sourceTree = "<group>"; };
@@ -662,6 +651,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B4245FE1DF8A65900020EA2 /* Bolts.framework in Frameworks */,
 				7C518D81242A3AAB368FEDC9 /* Pods_li5Tests.framework in Frameworks */,
 				7E6A4C911D982F4A2A5EF941 /* Pods_Li5Base_li5Tests.framework in Frameworks */,
 			);
@@ -671,6 +661,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B4245FF1DF8A65900020EA2 /* Bolts.framework in Frameworks */,
 				E1D86692A5119647D4D72FAA /* Pods_li5UITests.framework in Frameworks */,
 				62B44E7FAEF24761F18E1678 /* Pods_Li5Base_li5UITests.framework in Frameworks */,
 			);
@@ -683,6 +674,7 @@
 				5BED28AA1D4692BF00C05A01 /* MapKit.framework in Frameworks */,
 				5B6204811CCA7625003C9390 /* FBSDKShareKit.framework in Frameworks */,
 				5B6204821CCA7625003C9390 /* FBSDKCoreKit.framework in Frameworks */,
+				5B4245FD1DF8A65900020EA2 /* Bolts.framework in Frameworks */,
 				5B6204831CCA7625003C9390 /* FBSDKLoginKit.framework in Frameworks */,
 				76DA3CC04A15DD66E02061C4 /* Pods_Li5Base_li5_Test.framework in Frameworks */,
 			);
@@ -695,6 +687,7 @@
 				5BED28A91D4692B900C05A01 /* MapKit.framework in Frameworks */,
 				5B8625D51C764C33006869DE /* FBSDKShareKit.framework in Frameworks */,
 				5B8625D31C764C33006869DE /* FBSDKCoreKit.framework in Frameworks */,
+				5B4245FC1DF8A65900020EA2 /* Bolts.framework in Frameworks */,
 				5B8625D41C764C33006869DE /* FBSDKLoginKit.framework in Frameworks */,
 				1D75DAC533E9D5562F9BC8B8 /* Pods_Li5Base_li5.framework in Frameworks */,
 			);
@@ -706,6 +699,7 @@
 		3F42F740CE8663DBD2D0DCE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5B4245FB1DF8A65900020EA2 /* Bolts.framework */,
 				5BED28A71D46927C00C05A01 /* MapKit.framework */,
 				5BB4AAF91C4D7EBD002C22C8 /* Foundation.framework */,
 				5BB4AAF71C4D7D93002C22C8 /* AVFoundation.framework */,
@@ -856,9 +850,6 @@
 				EF4C68341DD1FD9C00FE8361 /* ExploreProductInteractor.m */,
 				5B48F2841CE0E21F00EBE566 /* ExploreDynamicInteractor.h */,
 				5B48F2851CE0E21F00EBE566 /* ExploreDynamicInteractor.m */,
-				EF2431E01D9473670015513B /* DismissInteractor.swift */,
-				EF6F05D71D95A13F00ED15B4 /* PresentationTransition.swift */,
-				EF6F05DB1D9AB7A000ED15B4 /* ExploreTransition.swift */,
 			);
 			name = Interactors;
 			sourceTree = "<group>";
@@ -928,8 +919,6 @@
 				5B8625CE1C763CE4006869DE /* IndexedViewController.m */,
 				9C5AA8221CD10F9400F3DE08 /* LastPageViewController.h */,
 				9C5AA8231CD10F9400F3DE08 /* LastPageViewController.m */,
-				5B360EA01D087279004B3691 /* SwipeDownToExploreViewController.h */,
-				5B360EA11D087279004B3691 /* SwipeDownToExploreViewController.m */,
 				5B360E991D086389004B3691 /* SwipeLeftToBeginViewController.h */,
 				5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */,
 			);
@@ -1044,12 +1033,12 @@
 		5B7551C71CD176BD007FAF67 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				EF0A04141DDCA13F00B41166 /* TOS */,
-				EFA3431D1DB5BEBB0092F628 /* AddressInfo */,
-				EFCAE69F1DB5049100BD63CB /* CreditInformation */,
 				5B7551CF1CD178A0007FAF67 /* UserProfileViewController.h */,
 				5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */,
 				5B7551D61CD26A69007FAF67 /* UserProfile.storyboard */,
+				EF0A04141DDCA13F00B41166 /* TOS */,
+				EFA3431D1DB5BEBB0092F628 /* AddressInfo */,
+				EFCAE69F1DB5049100BD63CB /* CreditInformation */,
 				5B06F3BA1CF8C237007FA3AB /* Orders */,
 				5B06F3B91CF8C233007FA3AB /* Loves */,
 				5B06F3B81CF8C22A007FA3AB /* Settings */,
@@ -1455,27 +1444,35 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Li5, Inc.";
 				TargetAttributes = {
 					5B13D3091CDEA0070015ECFC = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = B64365EYZ4;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 5B62046E1CCA7625003C9390;
 					};
 					5B13D3171CDEA0400015ECFC = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = TU6NU5JAT5;
+						DevelopmentTeam = B64365EYZ4;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 5B62046E1CCA7625003C9390;
 					};
 					5B62046E1CCA7625003C9390 = {
-						DevelopmentTeam = TU6NU5JAT5;
+						DevelopmentTeam = B64365EYZ4;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 							com.apple.SafariKeychain = {
@@ -1485,11 +1482,20 @@
 					};
 					5BB4AABC1C4D60B9002C22C8 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = TU6NU5JAT5;
+						DevelopmentTeam = B64365EYZ4;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
 						};
@@ -2011,7 +2017,6 @@
 				5B983CDC1D356B9C00D0A3C0 /* Heart.m in Sources */,
 				5B983CD31D3418B100D0A3C0 /* SliderFluidView.m in Sources */,
 				5B5E4E1F1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
-				5B360EA51D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */,
 				5B5134DE1D12FCE900EE374C /* Li5BCLoggerDelegate.m in Sources */,
 				5BE693C71CF4F04D00445439 /* SuggestionsDataSource.m in Sources */,
 				5B360E9E1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */,
@@ -2028,7 +2033,6 @@
 				5B1EA3091D1C832300EA8519 /* UIView+Li5.m in Sources */,
 				5B2A25041D492F5900DCA209 /* SwipeUpExplainerUIViewController.m in Sources */,
 				5B625C6E1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */,
-				EF2431E41D9473670015513B /* DismissInteractor.swift in Sources */,
 				5B625C851D061AF1001CA076 /* UserOrdersViewController.m in Sources */,
 				5B983CCB1D33E97E00D0A3C0 /* UIColor+ColorWithHex.m in Sources */,
 				5B5C79441D25CBAA009CF5D7 /* Wave.swift in Sources */,
@@ -2087,7 +2091,6 @@
 				5BE1771C1D1F079000CF30BF /* UIViewController+Indexed.m in Sources */,
 				5B06F3CF1CFA44AA007FA3AB /* UIImage+Li5.m in Sources */,
 				5B06F3C81CFA410A007FA3AB /* NSObject+Li5.m in Sources */,
-				5B360EA61D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */,
 				5BE693C81CF4F04D00445439 /* SuggestionsDataSource.m in Sources */,
 				5BF008C91D467E61007716C2 /* ShippingInfoViewController.m in Sources */,
 				5B5134FE1D1304C300EE374C /* Li5VolumeView.m in Sources */,
@@ -2100,7 +2103,6 @@
 			files = (
 				5B360EAB1D087524004B3691 /* Li5Constants.m in Sources */,
 				5B5C793D1D25C120009CF5D7 /* UIBezierPath+UIImage.m in Sources */,
-				5B360EA41D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */,
 				5B6204711CCA7625003C9390 /* TeaserViewController.m in Sources */,
 				5B6204721CCA7625003C9390 /* DetailsViewController.m in Sources */,
 				5B7551A81CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
@@ -2142,9 +2144,7 @@
 				5B6204791CCA7625003C9390 /* CategoriesViewController.m in Sources */,
 				5B2617691CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
 				5B5E4E1E1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
-				EF2431E31D9473670015513B /* DismissInteractor.swift in Sources */,
 				5B7551BD1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
-				EF6F05DA1D95A13F00ED15B4 /* PresentationTransition.swift in Sources */,
 				5B73B62E1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */,
 				5B62047A1CCA7625003C9390 /* main.m in Sources */,
 				EF188E4B1D3EB242002E173E /* ImageHelper.m in Sources */,
@@ -2174,7 +2174,6 @@
 				5B625C6D1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */,
 				EF0A041E1DDCAE8000B41166 /* LoginTosViewController.m in Sources */,
 				5BBC66EB1D00A777001BE4BB /* Li5PlayerTimer.m in Sources */,
-				EF6F05DE1D9AB7A000ED15B4 /* ExploreTransition.swift in Sources */,
 				5B360EB21D09BBD5004B3691 /* Li5SearchBarUIView.m in Sources */,
 				5B08C4551D1479800090FFCC /* CardUICollectionViewCell.m in Sources */,
 				5B1EA3101D1D7DBE00EA8519 /* Li5UIPageViewController.m in Sources */,
@@ -2200,7 +2199,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B360EA91D087524004B3691 /* Li5Constants.m in Sources */,
-				5B360EA21D087279004B3691 /* SwipeDownToExploreViewController.m in Sources */,
 				5BB4AAC81C4D60B9002C22C8 /* TeaserViewController.m in Sources */,
 				5BB4AB171C4FC631002C22C8 /* DetailsViewController.m in Sources */,
 				5B7551A61CCFBEBC007FAF67 /* VideoViewController.m in Sources */,
@@ -2243,9 +2241,7 @@
 				5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */,
 				5B2617671CEA5E1800B51593 /* TagsCollectionViewCell.m in Sources */,
 				5B5E4E1C1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
-				EF2431E11D9473670015513B /* DismissInteractor.swift in Sources */,
 				9CFFC2531CC17EC5005AC8DC /* CategoriesViewController.m in Sources */,
-				EF6F05D81D95A13F00ED15B4 /* PresentationTransition.swift in Sources */,
 				5B73B62C1CFC8E5A00B00FA0 /* OnboardingViewController.m in Sources */,
 				5B7551BB1CCFED36007FAF67 /* Li5LoggerFormatter.m in Sources */,
 				EF188E491D3EAB45002E173E /* ImageHelper.m in Sources */,
@@ -2275,7 +2271,6 @@
 				5B625C6B1D05D602001CA076 /* ImageUICollectionViewCell.m in Sources */,
 				EF0A041C1DDCAE8000B41166 /* LoginTosViewController.m in Sources */,
 				5BBC66E91D00A777001BE4BB /* Li5PlayerTimer.m in Sources */,
-				EF6F05DC1D9AB7A000ED15B4 /* ExploreTransition.swift in Sources */,
 				5B360EB01D09BBD5004B3691 /* Li5SearchBarUIView.m in Sources */,
 				5B08C4531D1479800090FFCC /* CardUICollectionViewCell.m in Sources */,
 				5B1EA30E1D1D7DBE00EA8519 /* Li5UIPageViewController.m in Sources */,
@@ -2343,7 +2338,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = B64365EYZ4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = li5Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2365,7 +2364,11 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = B64365EYZ4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = li5Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2384,8 +2387,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = TU6NU5JAT5;
+				DEVELOPMENT_TEAM = B64365EYZ4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = li5UITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2406,7 +2414,11 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = TU6NU5JAT5;
+				DEVELOPMENT_TEAM = B64365EYZ4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = li5UITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2426,19 +2438,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "li5-Test.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = TU6NU5JAT5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"FULL_VERSION=1",
 				);
 				INFOPLIST_FILE = "li5/li5-Test-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.li5.buy.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6e591cd5-5ded-4aa6-933d-1dd091057e4f";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.li5.buy.test";
 				SWIFT_OBJC_BRIDGING_HEADER = "li5/li5-Test-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2454,9 +2467,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "li5-Test.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = TU6NU5JAT5;
+				DEVELOPMENT_TEAM = B64365EYZ4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2466,7 +2477,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.li5.buy.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6e591cd5-5ded-4aa6-933d-1dd091057e4f";
+				PROVISIONING_PROFILE = "8cefac9d-20f8-486e-8ff4-a74c7adb7bc8";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.li5.buy.test";
 				SWIFT_OBJC_BRIDGING_HEADER = "li5/li5-Test-Bridging-Header.h";
 				SWIFT_VERSION = 2.3;
@@ -2494,12 +2505,13 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mariano Fernandez (FQAYVHL3TJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mariano Fernandez (FQAYVHL3TJ)";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 112;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = B64365EYZ4;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2508,9 +2520,9 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "li5/Li5-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 					"__GCDWEBSERVER_LOGGING_HEADER__=\\\"Logger.h\\\"",
+					"DEBUG=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2548,12 +2560,13 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Li5, Inc (B64365EYZ4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Li5, Inc (B64365EYZ4)";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 112;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = B64365EYZ4;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2584,9 +2597,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = li5/li5.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = TU6NU5JAT5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2596,7 +2606,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.li5.buy;
 				PRODUCT_NAME = li5;
-				PROVISIONING_PROFILE = "c01c4cd2-ff6c-4a32-ae84-ab2a272bdc56";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.li5.buy";
 				SWIFT_OBJC_BRIDGING_HEADER = "li5/li5-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2612,9 +2621,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = li5/li5.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = TU6NU5JAT5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2624,8 +2630,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.li5.buy;
 				PRODUCT_NAME = li5;
-				PROVISIONING_PROFILE = "c01c4cd2-ff6c-4a32-ae84-ab2a272bdc56";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.li5.buy";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.li5.buy";
 				SWIFT_OBJC_BRIDGING_HEADER = "li5/li5-Bridging-Header.h";
 				SWIFT_VERSION = 2.3;
 			};

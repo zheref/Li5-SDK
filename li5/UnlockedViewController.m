@@ -7,6 +7,7 @@
 //
 
 @import Li5Api;
+@import FBSDKCoreKit;
 
 #import "Li5PlayerUISlider.h"
 #import "UnlockedViewController.h"
@@ -18,7 +19,7 @@
 static const CGFloat sliderHeight = 50.0;
 static const CGFloat kCAHideControls = 3.5;
 
-@interface UnlockedViewController ()
+@interface UnlockedViewController () <CAAnimationDelegate>
 {
     id __playEndObserver;
     NSTimer *hideControlsTimer;
@@ -31,6 +32,7 @@ static const CGFloat kCAHideControls = 3.5;
     BOOL __locked;
 }
 
+@property (assign, nonatomic) ProductContext pContext;
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (strong, nonatomic) BCPlayer *extendedVideo;
@@ -107,6 +109,9 @@ static const CGFloat kCAHideControls = 3.5;
         NSURL *videoUrl = [NSURL URLWithString:newSelf.product.videoURL];
         newSelf.extendedVideo = [[BCPlayer alloc] initWithUrl:videoUrl bufferInSeconds:20.0 priority:BCPriorityUnLock delegate:newSelf];
         newSelf.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:newSelf.extendedVideo andFrame:[UIScreen mainScreen].bounds previewImageRequired:NO];
+        newSelf.pContext = ctx;
+        
+        [newSelf initialize];
     }
     return newSelf;
 }
@@ -123,7 +128,7 @@ static const CGFloat kCAHideControls = 3.5;
     DDLogVerbose(@"");
     [super viewDidLoad];
     
-#if DEBUG
+#if FULL_VERSION
     self.castButton.hidden = NO;
 #endif
     
@@ -195,7 +200,12 @@ static const CGFloat kCAHideControls = 3.5;
     
     __hasAppeared = NO;
     
-    [self.extendedVideo pause];
+    //TODO: Fix real cause - #245
+    if (CMTimeGetSeconds(CMTimeSubtract(self.extendedVideo.currentItem.duration, self.extendedVideo.currentItem.currentTime)) < 1) {
+        [self.extendedVideo pauseAndDestroy];
+    } else {
+        [self.extendedVideo pause];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -247,7 +257,7 @@ static const CGFloat kCAHideControls = 3.5;
             self.seekSlider.hidden = NO;
             self.actionsView.hidden = NO;
             self.muteButton.hidden = NO;
-#if DEBUG
+#if FULL_VERSION
             self.castButton.hidden = NO;
 #endif
             __renderingAnimations = YES;
@@ -255,7 +265,7 @@ static const CGFloat kCAHideControls = 3.5;
                 self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,2*sliderHeight));
                 self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(-100, 0));
                 self.muteButton.center = CGPointApplyAffineTransform(self.muteButton.center, CGAffineTransformMakeTranslation(100, 0));
-#if DEBUG
+#if FULL_VERSION
                 self.castButton.center = CGPointApplyAffineTransform(self.castButton.center, CGAffineTransformMakeTranslation(-100, 0));
 #endif
             } completion:^(BOOL finished) {
@@ -279,14 +289,14 @@ static const CGFloat kCAHideControls = 3.5;
                 self.seekSlider.center = CGPointApplyAffineTransform(self.seekSlider.center, CGAffineTransformMakeTranslation(0,-2*sliderHeight));
                 self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(100, 0));
                 self.muteButton.center = CGPointApplyAffineTransform(self.muteButton.center, CGAffineTransformMakeTranslation(-100, 0));
-#if DEBUG
+#if FULL_VERSION
                 self.castButton.center = CGPointApplyAffineTransform(self.castButton.center, CGAffineTransformMakeTranslation(100, 0));
 #endif
             } completion:^(BOOL finished) {
                 self.seekSlider.hidden = finished;
                 self.actionsView.hidden = finished;
                 self.muteButton.hidden = finished;
-#if DEBUG
+#if FULL_VERSION
                 self.castButton.hidden = finished;
 #endif
                 __renderingAnimations = NO;
@@ -342,7 +352,7 @@ static const CGFloat kCAHideControls = 3.5;
     DDLogVerbose(@"clicked at %li",(unsigned long)buttonIndex);
 }
 
-#pragma mark - Animation Delegate
+#pragma mark - CAAnimationDelegate
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
@@ -475,8 +485,12 @@ static const CGFloat kCAHideControls = 3.5;
 {
     int secondsWatched = (int) (CMTimeGetSeconds(self.extendedVideo.currentTime)*1000);
     DDLogVerbose(@"User saw %@ during %i", self.product.id, secondsWatched);
+    [FBSDKAppEvents logEvent:FBSDKAppEventNameViewedContent parameters:@{
+                                                                         FBSDKAppEventParameterNameContentType: @"video",
+                                                                         FBSDKAppEventParameterNameContentID: self.product.id
+                                                                         }];
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-    [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeFull during:[NSNumber numberWithFloat:secondsWatched] inContext:Li5ContextDiscover withCompletion:^(NSError *error) {
+    [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeFull during:[NSNumber numberWithFloat:secondsWatched] inContext:(self.pContext == kProductContextDiscover?Li5ContextDiscover:Li5ContextSearch) withCompletion:^(NSError *error) {
         if (error)
         {
             DDLogError(@"%@", error.localizedDescription);

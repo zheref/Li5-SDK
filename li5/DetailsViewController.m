@@ -161,7 +161,7 @@
     NSString *buttonCTA = [NSString stringWithFormat:@"BUY NOW AT %@", price];
     if (self.order != nil)
     {
-        buttonCTA = [self.order.status capitalizedString];
+        buttonCTA = @"See Details";
     }
     
     NSMutableAttributedString *buyNowText = [[NSMutableAttributedString alloc] initWithString:buttonCTA

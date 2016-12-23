@@ -10,6 +10,7 @@
 @import MMMaterialDesignSpinner;
 @import FXBlurView;
 @import AVFoundation;
+@import DigitsKit;
 
 #import "LoginViewController.h"
 #import "Li5Constants.h"
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerLayer *videoLayer;
 @property (nonatomic, assign) BOOL viewAppeared;
+@property (weak, nonatomic) IBOutlet UIButton *loginWithPhoneNumber;
 
 @property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;
 
@@ -145,6 +147,70 @@
 
 #pragma mark - FBSDKLoginButtonDelegate
 
+- (IBAction)loginWithPhoneNumber:(id)sender {
+    DGTAuthenticationConfiguration *configuration = [[DGTAuthenticationConfiguration alloc] initWithAccountFields:DGTAccountFieldsEmail];
+    configuration.appearance = [self makeTheme];
+    [[Digits sharedInstance] authenticateWithViewController:nil configuration:configuration completion:^(DGTSession *session, NSError *error) {
+        if (session) {
+            // TODO: associate the session userID with your user model
+            DDLogVerbose(@"Mail: %@ - Phone Number: %@", session.emailAddress, session.phoneNumber);
+            Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+            NSDictionary *dict = @{
+                                   @"first_name": session.phoneNumber,
+                                   @"last_name": @"(ph)",
+                                   @"email": session.emailAddress,
+                                   @"password":session.userID
+                                   };
+            
+            [li5 new:session.emailAddress withPassword:session.authToken andData:dict withCompletion:^(NSError *error) {
+                if (!error) {
+                    DDLogInfo(@"Successfully registered in Li5 - Logging in now...");
+                    [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration];
+                }
+                
+                [li5 login:session.emailAddress withPassword:session.userID withCompletion:^(NSError *error) {
+                    if (error == nil)
+                    {
+                        DDLogInfo(@"Successfully logged in into Li5");
+                        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                        [notificationCenter postNotificationName:kLoginSuccessful object:nil];
+                    }
+                    else
+                    {
+                        DDLogError(@"Couldn't login into Li5 with Digits: %@", error.localizedDescription);
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                        message:@"There was an error with your request. Please try again later."
+                                                                       delegate:self
+                                                              cancelButtonTitle:@"OK"
+                                                              otherButtonTitles:nil];
+                        [alert show];
+                    }
+                }];
+            }];
+        } else if (error && error.code != 1) {
+            DDLogError(@"Error when fetching phone + email: %@", error.localizedDescription);
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:@"There was an error with your request. Please try again later."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+}
+
+- (DGTAppearance *)makeTheme {
+    DGTAppearance *theme = [[DGTAppearance alloc] init];
+    theme.bodyFont = [UIFont fontWithName:@"Rubik-Regular" size:26];
+    theme.labelFont = [UIFont fontWithName:@"Rubik-Regular" size:17];
+    theme.accentColor = [UIColor li5_whiteColor];
+    theme.backgroundColor = [UIColor li5_redColor];
+    return theme;
+}
+
+
 // Once the button is clicked, show the login dialog
 - (void)loginButtonClicked
 {
@@ -190,6 +256,8 @@
                 if (error == nil)
                 {
                     DDLogInfo(@"Successfully logged in into Li5");
+                    
+                    [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration];
                     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                     [notificationCenter postNotificationName:kLoginSuccessful object:nil];
                 }
@@ -197,12 +265,19 @@
                 {
                     DDLogError(@"Couldn't login into Li5 with Facebook: %@", error.localizedDescription);
                     [welf.loginFacebookButton setHidden:NO];
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                    message:@"There was an error with your request. Please try again later."
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                    [alert show];
                 }
               }];
           }
           else
           {
-              DDLogError(@"Error when fetching email: %@", error);
+              DDLogError(@"Error when fetching email: %@", error.localizedDescription);
               
               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                               message:@"There was an error with your request. Please try again later."
@@ -220,13 +295,23 @@
     {
         DDLogError(@"Couldn't login: %@", error);
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:error.localizedDescription
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:error.localizedDescription
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  
+                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                              }];
+        
+        [alert addAction:settingsAction];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
         [welf.spinnerView stopAnimating];
         [welf.loginFacebookButton setHidden:NO];
     }

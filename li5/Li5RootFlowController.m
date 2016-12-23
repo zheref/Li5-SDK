@@ -8,6 +8,8 @@
 
 @import Li5Api;
 @import Intercom;
+@import TSMessages;
+@import DigitsKit;
 
 #import "CategoriesViewController.h"
 #import "Li5RootFlowController.h"
@@ -83,7 +85,7 @@
 {
     DDLogVerbose(@"");
     // Do any additional setup after loading the view.
-    if (!FBSDKAccessToken.currentAccessToken)
+    if (!FBSDKAccessToken.currentAccessToken && ![[Digits sharedInstance] session])
     {
         [self showOnboardingScreen];
     }
@@ -140,7 +142,6 @@
 
 
 - (void)updateUserProfileWithCompletion: (void (^)(BOOL success, NSError* error))completion
-
 {
     DDLogVerbose(@"");
     //Update User Profile
@@ -171,12 +172,27 @@
 - (void)logoutAndShowOnboardingScreen
 {
     DDLogVerbose(@"");
+    BOOL wasLoggedIn = false;
     if ([FBSDKAccessToken currentAccessToken] != nil)
     {
         //Logging out user - force them to log in again
         [FBSDKAccessToken setCurrentAccessToken:nil];
+        wasLoggedIn = true;
+    }
+    
+    if ([[Digits sharedInstance] session]) {
+        wasLoggedIn = true;
+        [[Digits sharedInstance] logOut];
+    }
+    
+    if (wasLoggedIn) {
+        [[Li5ApiHandler sharedInstance] logout];
         
         [self showOnboardingScreen];
+        
+        [TSMessage showNotificationWithTitle:@"Something went wrong"
+                                    subtitle:@"You were logged out by the server. Log-in again please."
+                                        type:TSMessageNotificationTypeError];
     }
 }
 
@@ -185,7 +201,7 @@
     if ([self.navigationController.topViewController presentedViewController])
     {
         DDLogVerbose(@"dismissing presented view controller");
-        [self.navigationController.topViewController dismissViewControllerAnimated:animated completion:completion];
+        [[UIApplication sharedApplication].keyWindow.rootViewController dismissViewControllerAnimated:animated completion:completion];
     } else {
         completion();
     }

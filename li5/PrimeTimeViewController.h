@@ -16,6 +16,10 @@
 
 - (void)setStartIndex:(NSInteger)idx;
 
-@property (nonatomic, weak) ExploreProductInteractor *interactor;
+@property (nonatomic, retain) ExploreProductInteractor *interactor;
+
+@end
+
+@interface PrimeTimeNavigationViewController : UINavigationController
 
 @end

@@ -2,11 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>aps-environment</key>
+	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:xk04.test.app.link</string>
-		<string>applinks:xk04.test-alternate.app.link</string>
-		<string>applinks:li5.tv.app.link</string>
+		<string>applinks:www-testing.li5.tv</string>
+		<string>applinks:get-testing.li5.tv</string>
+		<string>applinks:u8pq.test-alternate.app.link</string>
+		<string>applinks:u8pq.test-app.link</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>
