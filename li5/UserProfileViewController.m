@@ -96,7 +96,11 @@
     Profile *userProfile = [flowController userProfile];
     if (userProfile)
     {
-        [self.userNameLabel setText:[NSString stringWithFormat:@"%@ %@",userProfile.first_name,userProfile.last_name]];
+        if (userProfile.first_name && userProfile.last_name) {
+            [self.userNameLabel setText:[NSString stringWithFormat:@"%@ %@",userProfile.first_name,userProfile.last_name]];
+        } else {
+            self.userNameLabel.hidden = YES;
+        }
         [self.userImage sd_setImageWithURL:[NSURL URLWithString:userProfile.picture]];
     }
 }

@@ -205,7 +205,6 @@
 		5BB4AAC51C4D60B9002C22C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC41C4D60B9002C22C8 /* AppDelegate.m */; };
 		5BB4AAC81C4D60B9002C22C8 /* TeaserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */; };
 		5BB4AACB1C4D60B9002C22C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC91C4D60B9002C22C8 /* Main.storyboard */; };
-		5BB4AACD1C4D60B9002C22C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AACC1C4D60B9002C22C8 /* Assets.xcassets */; };
 		5BB4AB121C4ED3DC002C22C8 /* Li5RootFlowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB111C4ED3DC002C22C8 /* Li5RootFlowController.m */; };
 		5BB4AB171C4FC631002C22C8 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
 		5BBC61DC1D047292006B4C68 /* ProductPageActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC61DB1D047292006B4C68 /* ProductPageActionsView.xib */; };
@@ -245,6 +244,11 @@
 		5BE1771A1D1F079000CF30BF /* UIViewController+Indexed.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE177171D1F079000CF30BF /* UIViewController+Indexed.m */; };
 		5BE1771B1D1F079000CF30BF /* UIViewController+Indexed.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE177171D1F079000CF30BF /* UIViewController+Indexed.m */; };
 		5BE1771C1D1F079000CF30BF /* UIViewController+Indexed.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE177171D1F079000CF30BF /* UIViewController+Indexed.m */; };
+		5BE600971E0DA6AB007553B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AACC1C4D60B9002C22C8 /* Assets.xcassets */; };
+		5BE6009F1E1564DB007553B8 /* ShareExplainerUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6009E1E1564DB007553B8 /* ShareExplainerUIViewController.m */; };
+		5BE600A01E1564DB007553B8 /* ShareExplainerUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6009E1E1564DB007553B8 /* ShareExplainerUIViewController.m */; };
+		5BE600A11E1564DB007553B8 /* ShareExplainerUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6009E1E1564DB007553B8 /* ShareExplainerUIViewController.m */; };
+		5BE600A21E1564DB007553B8 /* ShareExplainerUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6009E1E1564DB007553B8 /* ShareExplainerUIViewController.m */; };
 		5BE6935A1CF3959500445439 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693591CF3959500445439 /* TagsViewController.m */; };
 		5BE6935C1CF3959500445439 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693591CF3959500445439 /* TagsViewController.m */; };
 		5BE6935D1CF3959500445439 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693591CF3959500445439 /* TagsViewController.m */; };
@@ -565,6 +569,8 @@
 		5BE00A1B1D108CFA00C8E72F /* SpinnerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpinnerViewController.m; sourceTree = "<group>"; };
 		5BE177161D1F079000CF30BF /* UIViewController+Indexed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Indexed.h"; sourceTree = "<group>"; };
 		5BE177171D1F079000CF30BF /* UIViewController+Indexed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Indexed.m"; sourceTree = "<group>"; };
+		5BE6009D1E1564DB007553B8 /* ShareExplainerUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareExplainerUIViewController.h; sourceTree = "<group>"; };
+		5BE6009E1E1564DB007553B8 /* ShareExplainerUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareExplainerUIViewController.m; sourceTree = "<group>"; };
 		5BE693581CF3959500445439 /* TagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsViewController.h; sourceTree = "<group>"; };
 		5BE693591CF3959500445439 /* TagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsViewController.m; sourceTree = "<group>"; };
 		5BE693661CF3A4CC00445439 /* ExploreViews.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExploreViews.storyboard; sourceTree = "<group>"; };
@@ -1070,6 +1076,8 @@
 				5B983CD61D356B9C00D0A3C0 /* Heart.h */,
 				5B983CD71D356B9C00D0A3C0 /* Heart.m */,
 				5B983CD81D356B9C00D0A3C0 /* HeartAnimationView.swift */,
+				5BE6009D1E1564DB007553B8 /* ShareExplainerUIViewController.h */,
+				5BE6009E1E1564DB007553B8 /* ShareExplainerUIViewController.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -1602,11 +1610,11 @@
 				5B9DFAB11CC6C40B00436D0A /* Launch Screen.storyboard in Resources */,
 				5BE693891CF4C63C00445439 /* Rubik-BlackItalic.ttf in Resources */,
 				5BE693671CF3A4CC00445439 /* ExploreViews.storyboard in Resources */,
+				5BE600971E0DA6AB007553B8 /* Assets.xcassets in Resources */,
 				5BE693931CF4C63C00445439 /* Rubik-BoldItalic.ttf in Resources */,
 				5BE693841CF4C63C00445439 /* Rubik-Black.ttf in Resources */,
 				5B7551D71CD26A69007FAF67 /* UserProfile.storyboard in Resources */,
 				5BAB34F41CF105CD00AE74DC /* ProductsListView.xib in Resources */,
-				5BB4AACD1C4D60B9002C22C8 /* Assets.xcassets in Resources */,
 				5BE693981CF4C63C00445439 /* Rubik-Italic.ttf in Resources */,
 				5B224B201D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.xib in Resources */,
 				5BBC66DF1CFF62F1001BE4BB /* DiscoverViews.storyboard in Resources */,
@@ -2018,6 +2026,7 @@
 				5B983CD31D3418B100D0A3C0 /* SliderFluidView.m in Sources */,
 				5B5E4E1F1CED0B2000155A6F /* UserProductsCollectionViewDataSource.m in Sources */,
 				5B5134DE1D12FCE900EE374C /* Li5BCLoggerDelegate.m in Sources */,
+				5BE600A11E1564DB007553B8 /* ShareExplainerUIViewController.m in Sources */,
 				5BE693C71CF4F04D00445439 /* SuggestionsDataSource.m in Sources */,
 				5B360E9E1D086389004B3691 /* SwipeLeftToBeginViewController.m in Sources */,
 				5BF008C81D467E61007716C2 /* ShippingInfoViewController.m in Sources */,
@@ -2069,6 +2078,7 @@
 				5B5134DF1D12FCE900EE374C /* Li5BCLoggerDelegate.m in Sources */,
 				5B1EA30A1D1C832300EA8519 /* UIView+Li5.m in Sources */,
 				5BE693781CF4C39800445439 /* UIColor+Li5UIColor.m in Sources */,
+				5BE600A21E1564DB007553B8 /* ShareExplainerUIViewController.m in Sources */,
 				5B4C78C41CF2087A00770311 /* UserSettingsViewController.m in Sources */,
 				5B5C79451D25CBAA009CF5D7 /* Wave.swift in Sources */,
 				5B427E151CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
@@ -2153,6 +2163,7 @@
 				5B06F3C61CFA410A007FA3AB /* NSObject+Li5.m in Sources */,
 				9C5AA81D1CD0341200F3DE08 /* ProductsCollectionViewCell.m in Sources */,
 				5B62047B1CCA7625003C9390 /* Li5RootFlowController.m in Sources */,
+				5BE600A01E1564DB007553B8 /* ShareExplainerUIViewController.m in Sources */,
 				EFA8A3701DB65D5E00C0EBA1 /* AddShippingInfoViewController.m in Sources */,
 				5B5134DD1D12FCE900EE374C /* Li5BCLoggerDelegate.m in Sources */,
 				5B625C841D061AF1001CA076 /* UserOrdersViewController.m in Sources */,
@@ -2250,6 +2261,7 @@
 				5B06F3C41CFA410A007FA3AB /* NSObject+Li5.m in Sources */,
 				5BB4AAC21C4D60B9002C22C8 /* main.m in Sources */,
 				5BB4AB121C4ED3DC002C22C8 /* Li5RootFlowController.m in Sources */,
+				5BE6009F1E1564DB007553B8 /* ShareExplainerUIViewController.m in Sources */,
 				EFA8A36E1DB65D5E00C0EBA1 /* AddShippingInfoViewController.m in Sources */,
 				5B5134DB1D12FCE900EE374C /* Li5BCLoggerDelegate.m in Sources */,
 				5B625C821D061AF1001CA076 /* UserOrdersViewController.m in Sources */,
@@ -2332,7 +2344,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1733DA4AC29114B0DA40AE17 /* Pods-Li5Base-li5Tests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -2359,7 +2370,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B058F873A6943BFDE747398E /* Pods-Li5Base-li5Tests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -2384,7 +2394,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A0CF58D147BBB9A27D561F50 /* Pods-Li5Base-li5UITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2410,7 +2419,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C9D7FC5193BD48E46425245 /* Pods-Li5Base-li5UITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2434,8 +2442,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F868AA1142178695D19A6DC /* Pods-Li5Base-li5-Test.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Test";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "li5-Test.entitlements";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2463,8 +2470,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6EA784C440B9E4538C400BC9 /* Pods-Li5Base-li5-Test.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Test";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "li5-Test.entitlements";
 				DEVELOPMENT_TEAM = B64365EYZ4;
@@ -2487,7 +2493,6 @@
 		5BB4AAE81C4D60B9002C22C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2508,7 +2513,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Mariano Fernandez (FQAYVHL3TJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mariano Fernandez (FQAYVHL3TJ)";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 112;
+				CURRENT_PROJECT_VERSION = 119;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = B64365EYZ4;
@@ -2542,7 +2547,6 @@
 		5BB4AAE91C4D60B9002C22C8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2563,7 +2567,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Li5, Inc (B64365EYZ4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Li5, Inc (B64365EYZ4)";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 112;
+				CURRENT_PROJECT_VERSION = 119;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = B64365EYZ4;
@@ -2593,13 +2597,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 28B890D8A27B6B6CE83C198F /* Pods-Li5Base-li5.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = li5/li5.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
 				);
 				INFOPLIST_FILE = li5/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2617,7 +2624,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 004CD6F050535795652E2ADB /* Pods-Li5Base-li5.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = li5/li5.entitlements;

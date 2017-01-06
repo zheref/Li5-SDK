@@ -27,6 +27,7 @@
 #import "STPPaymentMethod.h"
 #import "STPPaymentMethodsViewController.h"
 #import "STPPaymentResult.h"
+#import "STPShippingAddressViewController.h"
 #import "STPSource.h"
 #import "STPTheme.h"
 #import "STPToken.h"

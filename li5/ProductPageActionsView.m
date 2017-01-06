@@ -16,8 +16,11 @@
 #import "ProductPageActionsView.h"
 #import "Li5-Swift.h"
 #import "Heap.h"
+#import "Li5Constants.h"
+#import "CardUIView.h"
+#import "ShareExplainerUIViewController.h"
 
-@interface ProductPageActionsView () <FBSDKSharingDelegate>
+@interface ProductPageActionsView () <FBSDKSharingDelegate,CardUIViewDelegate>
 {
     NSTimer *__t;
     BOOL _animate;
@@ -31,9 +34,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *reviewsCounter;
 @property (strong, nonatomic) JSBadgeView *badgeView;
 
-@property (weak, nonatomic) IBOutlet UIView *multilevelCallout;
 @property (weak, nonatomic) IBOutlet UIView *shareView;
-@property (weak, nonatomic) IBOutlet UILabel *multilevelLabel;
 @property (weak, nonatomic) IBOutlet UIView *unlockedMultilevelCallout;
 
 @property (nonatomic,weak) Product *product;
@@ -104,13 +105,12 @@
 {
     DDLogVerbose(@"");
     [self.loveButton setSelected:_product.isLoved];
-    self.loveCounter.text = [_product.loves stringValue];
+    self.loveCounter.text = [self friendlyNumber:_product.loves.longLongValue];
     
-    self.multilevelCallout.hidden = !self.product.isEligibleForMultiLevel;
+    self.unlockedMultilevelCallout.hidden = !self.product.isEligibleForMultiLevel;
     
     if(self.product.isEligibleForMultiLevel) {
         if(!_animate){
-            self.multilevelCallout.hidden = YES;
             self.unlockedMultilevelCallout.hidden = NO;
         }
     }
@@ -130,26 +130,12 @@
 - (void)animate
 {
     DDLogVerbose(@"%p",self);
-    if (_animate) {
-         __t  = [NSTimer scheduledTimerWithTimeInterval:3.5
-                                         target:self
-                                       selector:@selector(dissmisAnimation)
-                                       userInfo:nil
-                                        repeats:NO];
-    }
 }
 
 -(void)dissmisAnimation {
     DDLogVerbose(@"%p",self);
-    [UIView transitionWithView:self.multilevelCallout
-                      duration:.75
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                        self.multilevelCallout.frame = self.shareButton.frame;
-                        self.multilevelLabel.alpha = 0.0;
-                    }
-                    completion:nil];
 }
+
 #pragma mark - User Actions
 
 - (IBAction)chatButton:(id)sender {
@@ -163,65 +149,99 @@
     
 }
 
+- (void)cardDismissed
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:TRUE forKey:kLi5ShareExplainerViewPresented];
+    
+    [[self parentViewController] beginAppearanceTransition:YES animated:NO];
+    [[self parentViewController] endAppearanceTransition];
+    
+    [self shareProduct:self.shareButton];
+}
+
+- (BOOL)presentShareExplainerViewIfNeeded
+{
+    DDLogVerbose(@"");
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (![userDefaults boolForKey:kLi5ShareExplainerViewPresented])
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+        ShareExplainerUIViewController *explainerView = (ShareExplainerUIViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ShareExplainerView"];
+        explainerView.delegate = self;
+        
+        [[self parentViewController] presentViewController:explainerView animated:NO completion:^{
+            [[self parentViewController] beginAppearanceTransition:NO animated:NO];
+            [[self parentViewController] endAppearanceTransition];
+        }];
+        
+        return YES;
+    }
+    return NO;
+}
+
 - (IBAction)shareProduct:(UIButton*)button
 {
     DDLogVerbose(@"Share Button Pressed");
-
-    FBSDKShareLinkContent *content = [[FBSDKShareLinkContent alloc] init];
-    content.contentTitle = self.product.shareMessage;
-    content.contentDescription = self.product.title;
-    content.hashtag = [FBSDKHashtag hashtagWithString:self.product.shareMessage];
-    content.ref = [[NSURL URLWithString:self.product.shareUrl] lastPathComponent];
-    content.contentURL = [NSURL URLWithString:self.product.shareUrl];
     
-    FBSDKShareDialog *dialog = [[FBSDKShareDialog alloc] init];
-    dialog.fromViewController = [self parentViewController];
-    dialog.shareContent = content;
-    dialog.mode = FBSDKShareDialogModeShareSheet;
+    if (![self presentShareExplainerViewIfNeeded]) {
+        FBSDKShareLinkContent *content = [[FBSDKShareLinkContent alloc] init];
+        content.contentTitle = self.product.shareMessage;
+        content.contentDescription = self.product.title;
+        content.hashtag = [FBSDKHashtag hashtagWithString:self.product.shareMessage];
+        content.ref = [[NSURL URLWithString:self.product.shareUrl] lastPathComponent];
+        content.contentURL = [NSURL URLWithString:self.product.shareUrl];
+        
+        FBSDKShareDialog *dialog = [[FBSDKShareDialog alloc] init];
+        dialog.fromViewController = [self parentViewController];
+        dialog.shareContent = content;
+        dialog.mode = FBSDKShareDialogModeShareSheet;
+        
+        [dialog setDelegate:self];
+        
+        [dialog show];
+        
+        //    NSArray *objectsToShare = @[self.product.title, self.product.shareUrl];
+        //    ActivityViewController *activityVC = [[ActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+        //
+        //    NSArray *excludeActivities = @[ UIActivityTypePostToWeibo,
+        //                                    UIActivityTypePrint,
+        //                                    UIActivityTypeAssignToContact,
+        //                                    UIActivityTypeSaveToCameraRoll,
+        //                                    UIActivityTypeAddToReadingList,
+        //                                    UIActivityTypePostToFlickr,
+        //                                    UIActivityTypePostToTencentWeibo,
+        //                                    UIActivityTypeAirDrop,
+        //                                    UIActivityTypeOpenInIBooks
+        //                                  ];
+        //
+        //    activityVC.excludedActivityTypes = excludeActivities;
+        //
+        //    [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+        //        if(completed){
+        //            [FBSDKAppEvents logEvent:@"ShareProduct"];
+        //
+        //            [[Li5ApiHandler sharedInstance] postShareForProductWithID:self.product.id withCompletion:^(NSError *error) {
+        //                if (error) {
+        //                    DDLogError(@"Error - %@",error.description);
+        //                } else {
+        //                    if (self.product.isEligibleForMultiLevel) {
+        //                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
+        //                                                                        message:@"Now when a friend of yours signs up and buys through your link, you will get the same product for FREE!"
+        //                                                                       delegate:self
+        //                                                              cancelButtonTitle:@"😻 Great!"
+        //                                                              otherButtonTitles:nil];
+        //                        [alert show];
+        //                    }
+        //                }
+        //            }];
+        //        }
+        //    }];
+        //    
+        //    [[self parentViewController] presentViewController:activityVC animated:YES completion:nil];
+        //
+    }
     
-    [dialog setDelegate:self];
-    
-    [dialog show];
-    
-//    NSArray *objectsToShare = @[self.product.title, self.product.shareUrl];
-//    ActivityViewController *activityVC = [[ActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-//    
-//    NSArray *excludeActivities = @[ UIActivityTypePostToWeibo,
-//                                    UIActivityTypePrint,
-//                                    UIActivityTypeAssignToContact,
-//                                    UIActivityTypeSaveToCameraRoll,
-//                                    UIActivityTypeAddToReadingList,
-//                                    UIActivityTypePostToFlickr,
-//                                    UIActivityTypePostToTencentWeibo,
-//                                    UIActivityTypeAirDrop,
-//                                    UIActivityTypeOpenInIBooks
-//                                  ];
-//    
-//    activityVC.excludedActivityTypes = excludeActivities;
-//    
-//    [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-//        if(completed){
-//            [FBSDKAppEvents logEvent:@"ShareProduct"];
-//            
-//            [[Li5ApiHandler sharedInstance] postShareForProductWithID:self.product.id withCompletion:^(NSError *error) {
-//                if (error) {
-//                    DDLogError(@"Error - %@",error.description);
-//                } else {
-//                    if (self.product.isEligibleForMultiLevel) {
-//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-//                                                                        message:@"Now when a friend of yours signs up and buys through your link, you will get the same product for FREE!"
-//                                                                       delegate:self
-//                                                              cancelButtonTitle:@"😻 Great!"
-//                                                              otherButtonTitles:nil];
-//                        [alert show];
-//                    }
-//                }
-//            }];
-//        }
-//    }];
-//    
-//    [[self parentViewController] presentViewController:activityVC animated:YES completion:nil];
-//    
 }
 
 - (void)sharer:(id<FBSDKSharing>)sharer didCompleteWithResults:(NSDictionary *)results {
@@ -252,6 +272,24 @@
     
 }
 
+-(NSString *)friendlyNumber:(long long)num{
+    
+    NSString *stringNumber;
+    
+    if (num < 1000) {
+        stringNumber = [NSString stringWithFormat:@"%lld", num];
+        
+    }else if(num < 1000000){
+        float newNumber = floor(num / 100) / 10.0;
+        stringNumber = [NSString stringWithFormat:@"%.1fK", newNumber];
+        
+    }else{
+        float newNumber = floor(num / 100000) / 10.0;
+        stringNumber = [NSString stringWithFormat:@"%.1fM", newNumber];
+    }
+    return stringNumber;
+}
+
 - (void)didTapButton
 {
     DDLogVerbose(@"Love Button Pressed");
@@ -260,7 +298,7 @@
         self.product.isLoved = false;
         [self.loveButton setSelected:false];
         self.product.loves = @([self.product.loves integerValue] - 1);
-        self.loveCounter.text = [self.product.loves stringValue];
+        self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
         
         [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil)
@@ -268,7 +306,7 @@
                 self.product.isLoved = true;
                 [self.loveButton setSelected:true];
                 self.product.loves = @([self.product.loves integerValue] + 1);
-                self.loveCounter.text = [self.product.loves stringValue];
+                self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
             }
         }];
     }
@@ -277,7 +315,7 @@
         self.product.isLoved = true;
         [self.loveButton setSelected:true];
         self.product.loves = @([self.product.loves integerValue] + 1);
-        self.loveCounter.text = [self.product.loves stringValue];
+        self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
         
         //Vibrate sound
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -291,7 +329,7 @@
                 self.product.isLoved = false;
                 [self.loveButton setSelected:false];
                 self.product.loves = @([self.product.loves integerValue] - 1);
-                self.loveCounter.text = [self.product.loves stringValue];
+                self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
             }
         }];
     }

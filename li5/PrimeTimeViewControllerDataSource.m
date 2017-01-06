@@ -7,6 +7,7 @@
 //
 
 @import Li5Api;
+@import Branch;
 
 #import "LastPageViewController.h"
 #import "PrimeTimeViewControllerDataSource.h"
@@ -27,8 +28,36 @@
 - (instancetype)init
 {
     if (self = [super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(disableExpirationTimer:)
+                                                     name:UIApplicationWillResignActiveNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(enableExpirationTimer:)
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:nil];
+
     }
     return self;
+}
+
+- (void)disableExpirationTimer:(NSNotification *)notification {
+    DDLogVerbose(@"");
+    if ([_expirationTimer isValid]) {
+        [_expirationTimer invalidate];
+        _expirationTimer = nil;
+    }
+}
+
+- (void)enableExpirationTimer:(NSNotification *)notification {
+    DDLogVerbose(@"");
+    if (self.expiresAt != nil) {
+        if (![self isExpired]) {
+            _expirationTimer = [NSTimer scheduledTimerWithTimeInterval:[self.expiresAt timeIntervalSinceNow] target:self selector:@selector(primeTimeExpired:) userInfo: nil repeats:NO];
+        } else {
+            [[NSNotificationCenter defaultCenter] removeObserver:self];
+        }
+    }
 }
 
 - (void)startFetchingProductsInBackgroundWithCompletion:(void (^)(NSError *error))completion
@@ -37,6 +66,31 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
         //Background Thread
         Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+        
+        NSDictionary *params = [[Branch getInstance] getLatestReferringParams];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *shareToken = [params objectForKey:@"share_token"];
+        if (shareToken) {
+            DDLogVerbose(@"share link token: %@", shareToken);
+            [userDefaults setObject:shareToken forKey:kLi5ShareToken];
+        } else {
+            NSString *nonBranchLink = [params objectForKey:@"+non_branch_link"];
+            NSString *launchProduct = [userDefaults objectForKey:@"Li5LaunchUserActivity"];
+            if (nonBranchLink.length > 0 || launchProduct) {
+                NSString *product = [[NSURL URLWithString:nonBranchLink] lastPathComponent];
+                
+                if (![product isEqualToString:launchProduct] && launchProduct.length > 0) {
+                    product = launchProduct;
+                }
+                
+                if (product) {
+                    DDLogVerbose(@"product: %@", product);
+                    [userDefaults removeObjectForKey:@"Li5LaunchUserActivity"];
+                    [userDefaults setObject:product forKey:kLi5Product];
+                }
+            }
+        }
+        
         [li5 requestDiscoverProductsWithCompletion:^(NSError *error, Products *products) {
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
@@ -160,6 +214,9 @@
 }
 
 - (void)dealloc {
+    DDLogVerbose(@"");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     if (_expirationTimer) {
         [_expirationTimer invalidate];
     }

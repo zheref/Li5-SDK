@@ -75,12 +75,12 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "Digits/iOS/DigitsKit.framework/Versions/A/Resources/DigitsKitResources.bundle"
-  install_resource "Instabug/Instabug.bundle"
+  install_resource "Instabug/Instabug.framework/Instabug.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "Digits/iOS/DigitsKit.framework/Versions/A/Resources/DigitsKitResources.bundle"
-  install_resource "Instabug/Instabug.bundle"
+  install_resource "Instabug/Instabug.framework/Instabug.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
 fi
 

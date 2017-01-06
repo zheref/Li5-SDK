@@ -31,4 +31,6 @@
 
 - (void)updateUserProfileWithCompletion: (void (^)(BOOL success, NSError* error))completion;
 
+- (BOOL)isPrimeTimeExpired;
+
 @end

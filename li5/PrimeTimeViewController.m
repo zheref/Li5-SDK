@@ -86,15 +86,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     DDLogVerbose(@"");
-    [super viewDidAppear:animated];
-    
-    // Read the deep link paramters from the link
-    NSDictionary *deepLinkParams = [[Branch getInstance] getLatestReferringParams];
-    NSString *itemId = [deepLinkParams objectForKey:@"item_id"];
-    // from here, you'd load the appropriate item from the item id
-    if (itemId) {
-        DDLogVerbose(@"Deep linked to page from Branch link with item id: %@", itemId);
-    }
+    [super viewDidAppear:animated];    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

@@ -248,17 +248,17 @@
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
             [alert show];
-        } else {
-            [FBSDKAccessToken setCurrentAccessToken:nil];
-            [[Digits sharedInstance] logOut];
-            // This resets the Intercom for iOS cache of your users’ identities
-            // and wipes the slate clean.
-            [Intercom reset];
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                [notificationCenter postNotificationName:kLogoutSuccessful object:nil];
-            });
         }
+        
+        [FBSDKAccessToken setCurrentAccessToken:nil];
+        [[Digits sharedInstance] logOut];
+        // This resets the Intercom for iOS cache of your users’ identities
+        // and wipes the slate clean.
+        [Intercom reset];
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+            [notificationCenter postNotificationName:kLogoutSuccessful object:nil];
+        });
     }];
 }
 
@@ -315,6 +315,7 @@
     [defaults removeObjectForKey:kLi5SwipeDownExplainerViewPresented];
     [defaults removeObjectForKey:kLi5SwipeUpExplainerViewPresented];
     [defaults removeObjectForKey:kLi5CategoriesSelectionViewPresented];
+    [defaults removeObjectForKey:kLi5ShareExplainerViewPresented];
     [defaults removeObjectForKey:@"Li5DiscoverModeCustom"];
 
     [TSMessage showNotificationInViewController:self
@@ -322,6 +323,8 @@
                                        subtitle:@"Standard Defaults cleared."
                                            type:TSMessageNotificationTypeSuccess
                                        duration:0.5];
+    
+    [self userLogOut];
 }
 
 - (void)clearCache

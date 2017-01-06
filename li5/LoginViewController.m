@@ -154,39 +154,44 @@
         if (session) {
             // TODO: associate the session userID with your user model
             DDLogVerbose(@"Mail: %@ - Phone Number: %@", session.emailAddress, session.phoneNumber);
-            Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-            NSDictionary *dict = @{
-                                   @"first_name": session.phoneNumber,
-                                   @"last_name": @"(ph)",
-                                   @"email": session.emailAddress,
-                                   @"password":session.userID
-                                   };
             
-            [li5 new:session.emailAddress withPassword:session.authToken andData:dict withCompletion:^(NSError *error) {
-                if (!error) {
-                    DDLogInfo(@"Successfully registered in Li5 - Logging in now...");
-                    [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration];
-                }
+            
+            DGTOAuthSigning *oauthSigning = [[DGTOAuthSigning alloc] initWithAuthConfig:[Digits sharedInstance].authConfig authSession:session];
+            
+            NSDictionary *authHeaders = [oauthSigning OAuthEchoHeadersToVerifyCredentials];
+            NSString *authProvider = [authHeaders objectForKey:TWTROAuthEchoRequestURLStringKey];
+            NSString *verificationCredential = [authHeaders objectForKey:TWTROAuthEchoAuthorizationHeaderKey];
+            
+            if (!(authProvider.length > 0 && verificationCredential.length > 0)) {
+                DDLogError(@"Error pulling oAuth Echo tokens");
                 
-                [li5 login:session.emailAddress withPassword:session.userID withCompletion:^(NSError *error) {
-                    if (error == nil)
-                    {
-                        DDLogInfo(@"Successfully logged in into Li5");
-                        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                        [notificationCenter postNotificationName:kLoginSuccessful object:nil];
-                    }
-                    else
-                    {
-                        DDLogError(@"Couldn't login into Li5 with Digits: %@", error.localizedDescription);
-                        
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                        message:@"There was an error with your request. Please try again later."
-                                                                       delegate:self
-                                                              cancelButtonTitle:@"OK"
-                                                              otherButtonTitles:nil];
-                        [alert show];
-                    }
-                }];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:@"There was an error with your request. Please try again later."
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+            
+            [li5 login:session.emailAddress withDigitsAuthServiceProvider:authProvider andCredentialsAuthorization:verificationCredential withCompletion:^(NSError *error) {
+                if (error == nil)
+                {
+                    DDLogInfo(@"Successfully logged in into Li5");
+                    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                    [notificationCenter postNotificationName:kLoginSuccessful object:nil];
+                }
+                else
+                {
+                    DDLogError(@"Couldn't login into Li5 with Digits: %@", error.localizedDescription);
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                    message:@"There was an error with your request. Please try again later."
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
             }];
         } else if (error && error.code != 1) {
             DDLogError(@"Error when fetching phone + email: %@", error.localizedDescription);

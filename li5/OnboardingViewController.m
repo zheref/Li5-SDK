@@ -57,8 +57,8 @@
 
 - (void)initialize
 {
-    _pageTitles = @[@"Discover",@"Experience"];
-    _pageSubtitles = @[@"Fun Product Stories",@"Unique Products You'll Love"];
+    _pageTitles = @[@"Discover",@"Wonder"];
+    _pageSubtitles = @[@"Fun Product Videos",@"With Curated Products You'll ❤️"];
     _pageVideos = @[
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_1" ofType:@"mp4"]],
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_2" ofType:@"mp4"]]
@@ -85,6 +85,13 @@
     [_pageControl sizeToFit];
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
+    
+#if DEBUG
+    NSString *target = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+    if ([target containsString:@"Test"]) {
+        self.logoView.image = [UIImage imageNamed:@"logo_small_test"];
+    }
+#endif
     
     NSArray *viewControllers = @[[self viewControllerAtIndex:0]];
     [self.pageViewController setViewControllers:viewControllers];

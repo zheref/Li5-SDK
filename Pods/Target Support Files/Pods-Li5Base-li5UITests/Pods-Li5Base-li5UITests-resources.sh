@@ -74,10 +74,10 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "Instabug/Instabug.bundle"
+  install_resource "Instabug/Instabug.framework/Instabug.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "Instabug/Instabug.bundle"
+  install_resource "Instabug/Instabug.framework/Instabug.bundle"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

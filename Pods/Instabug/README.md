@@ -25,15 +25,13 @@ $ pod install
 
 1. [Download the Instabug SDK](https://s3.amazonaws.com/instabug-pro/sdk_releases/Instabug.zip)
 
-2. Extract it then drag & drop the Instabug.framework and Instabug.bundle files to your project, and make sure that the "Copy items if needed" checkbox is checked.
+2. Extract it then drag & drop the Instabug.framework files to your project, and make sure that the "Copy items if needed" checkbox is checked
 
-3. Make sure your project links to the following system frameworks. You can add these under your project's Build Phases tab, under Link Binary With Libraries.
-	* AVFoundation.framework
-	* CoreGraphics.framework
-	* CoreMotion.framework
-	* CoreTelephony.framework
-	* SystemConfiguration.framework
-	* UIKit.framework
+3. Create a new "Run Script Phase" in your project’s target "Build Phases" and add the following snippet
+
+```
+bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Instabug.framework/Instabug.bundle/strip-frameworks.sh"
+```
 
 ## Usage
 
@@ -53,13 +51,28 @@ $ pod install
 	
 	```swift
 	// Swift
-	Instabug.startWithToken("{{app_token}}", invocationEvent: IBGInvocationEvent.Shake)
+	Instabug.start(withToken: <#app token#>, invocationEvent: .shake)
 	```
 	```objective-c
 	// Objective-C
-	[Instabug startWithToken:@"{{app_token}}" invocationEvent:IBGInvocationEventShake];
+	[Instabug startWithToken:<#app token#> invocationEvent:IBGInvocationEventShake];
 	```
-	Make sure to replace `{{app_token}}` with your application token. Find it [here](https://instabug.com/app/sdk/).
+	Make sure to replace `app_token` with your application token. Find it [here](https://instabug.com/app/sdk/).
+
+## Notes
+Instabug needs access to the microphone and photo library. Starting from iOS 10, apps that don’t provide a usage description for those 2 permissions would be rejected when submitted to the App Store.
+
+For your app not to be rejected, you’ll need to add the following 2 keys to your app’s info.plist file with text explaining to the user why those permissions are needed:
+
+* `NSMicrophoneUsageDescription`
+* `NSPhotoLibraryUsageDescription`
+
+If your app doesn’t already access the microphone or photo library, we recommend using a usage description like:
+
+* "`<app name>` needs access to the microphone to be able to attach voice notes."
+* "`<app name>` needs access to your photo library for you to be able to attach images."
+
+**The permission alert for accessing the microphone/photo library will NOT appear unless users attempt to attach a voice note/photo while using Instabug.**
 	
 ## More
 

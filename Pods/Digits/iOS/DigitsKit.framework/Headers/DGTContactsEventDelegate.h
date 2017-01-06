@@ -74,6 +74,9 @@
 @protocol ContactsDeletionFailureDetails <NSObject>
 @end
 
+@protocol ContactsInvitationDetails <NSObject>
+@end
+
 // external facing logger protocol for contacts related events
 @protocol DGTContactsEventDelegate <NSObject>
 @optional
@@ -143,4 +146,5 @@
  */
 - (void)contactsDeletionFailure:(id<ContactsDeletionFailureDetails>)details;
 
+- (void)contactsInvitationImpression:(id<ContactsInvitationDetails>)details;
 @end

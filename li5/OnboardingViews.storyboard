@@ -238,7 +238,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZzV-XZ-IGw">
                                         <rect key="frame" x="44" y="334.5" width="287" height="36"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  7" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfF-1n-pwK">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfF-1n-pwK">
                                                 <rect key="frame" x="0.0" y="0.0" width="35" height="36"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="35" id="aoW-3M-9lY"/>
@@ -247,7 +247,7 @@
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily products" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IfU-TX-z7O">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily Show" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IfU-TX-z7O">
                                                 <rect key="frame" x="45" y="0.0" width="64" height="36"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="64" id="Ysp-GK-JZg"/>
@@ -256,8 +256,8 @@
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+25k" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bei-DE-j8N">
-                                                <rect key="frame" x="144" y="0.0" width="64" height="36"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+7" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bei-DE-j8N">
+                                                <rect key="frame" x="154" y="0.0" width="29" height="36"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="49" id="71F-nm-Kl0"/>
                                                 </constraints>
@@ -270,10 +270,10 @@
                                                     </mask>
                                                 </variation>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More to explore" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uqu-uJ-JdE">
-                                                <rect key="frame" x="218" y="0.0" width="64" height="36"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Godsend Products" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uqu-uJ-JdE">
+                                                <rect key="frame" x="203" y="0.0" width="90" height="36"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="64" id="vue-uV-XUm"/>
+                                                    <constraint firstAttribute="width" constant="90" id="vue-uV-XUm"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -282,13 +282,13 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="bei-DE-j8N" firstAttribute="leading" secondItem="IfU-TX-z7O" secondAttribute="trailing" constant="35" id="1ym-IB-cm1"/>
+                                            <constraint firstItem="bei-DE-j8N" firstAttribute="leading" secondItem="IfU-TX-z7O" secondAttribute="trailing" constant="45" id="1ym-IB-cm1"/>
                                             <constraint firstItem="Uqu-uJ-JdE" firstAttribute="top" secondItem="ZzV-XZ-IGw" secondAttribute="top" id="51r-DT-f9L"/>
                                             <constraint firstAttribute="bottom" secondItem="Uqu-uJ-JdE" secondAttribute="bottom" id="5gG-S8-FdD"/>
                                             <constraint firstAttribute="width" constant="287" id="8qZ-3K-YPB"/>
                                             <constraint firstItem="IfU-TX-z7O" firstAttribute="top" secondItem="ZzV-XZ-IGw" secondAttribute="top" id="I3S-Oq-Ggm"/>
                                             <constraint firstItem="AfF-1n-pwK" firstAttribute="top" secondItem="ZzV-XZ-IGw" secondAttribute="top" id="JUF-9B-TGT"/>
-                                            <constraint firstItem="Uqu-uJ-JdE" firstAttribute="leading" secondItem="bei-DE-j8N" secondAttribute="trailing" constant="10" id="MRH-dR-AZ2"/>
+                                            <constraint firstItem="Uqu-uJ-JdE" firstAttribute="leading" secondItem="bei-DE-j8N" secondAttribute="trailing" constant="20" id="MRH-dR-AZ2"/>
                                             <constraint firstItem="AfF-1n-pwK" firstAttribute="leading" secondItem="ZzV-XZ-IGw" secondAttribute="leading" id="NXa-Y4-ii3"/>
                                             <constraint firstAttribute="bottom" secondItem="AfF-1n-pwK" secondAttribute="bottom" id="Ogl-kt-JUI"/>
                                             <constraint firstAttribute="bottom" secondItem="IfU-TX-z7O" secondAttribute="bottom" id="UmY-MS-QFA"/>
@@ -342,7 +342,7 @@
                                         <rect key="frame" x="0.0" y="510.5" width="375" height="68"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Love How You Shop" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-qd-m6v">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It's Shoptime!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-qd-m6v">
                                         <rect key="frame" x="20" y="214" width="335" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="375" id="Jzh-DD-zOY"/>

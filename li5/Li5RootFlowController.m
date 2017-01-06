@@ -229,7 +229,7 @@
 - (void)showPrimeTimeScreen
 {
     DDLogVerbose(@"");
-    if (!_primeTimeDataSource || [_primeTimeDataSource isExpired])
+    if ([self isPrimeTimeExpired])
     {
         _primeTimeDataSource = [PrimeTimeViewControllerDataSource new];
     }
@@ -251,6 +251,10 @@
 
 - (void)showSettingsScreen
 {
+}
+
+- (BOOL)isPrimeTimeExpired {
+    return !_primeTimeDataSource || [_primeTimeDataSource isExpired];
 }
 
 #pragma mark - OS Actions

@@ -186,9 +186,9 @@ static const CGFloat kCAHideControls = 3.5;
     
     __hasAppeared = NO;
     
-    [self.extendedVideo pause];
-    
     [self removeObservers];
+    
+    [self.extendedVideo pauseAndDestroy];
     
     [self updateSecondsWatched];
 }
@@ -201,11 +201,11 @@ static const CGFloat kCAHideControls = 3.5;
     __hasAppeared = NO;
     
     //TODO: Fix real cause - #245
-    if (CMTimeGetSeconds(CMTimeSubtract(self.extendedVideo.currentItem.duration, self.extendedVideo.currentItem.currentTime)) < 1) {
-        [self.extendedVideo pauseAndDestroy];
-    } else {
-        [self.extendedVideo pause];
-    }
+//    if (CMTimeGetSeconds(CMTimeSubtract(self.extendedVideo.currentItem.duration, self.extendedVideo.currentItem.currentTime)) < 1) {
+//        [self.extendedVideo pauseAndDestroy];
+//    } else {
+//        [self.extendedVideo pause];
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -720,7 +720,7 @@ static const CGFloat kCAHideControls = 3.5;
 {
     DDLogDebug(@"%p",self);
     [self removeObservers];
-    [_extendedVideo pauseAndDestroy];
+//    [_extendedVideo pauseAndDestroy];
 }
 
 @end

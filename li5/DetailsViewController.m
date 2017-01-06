@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buyNowBtn;
 @property (weak, nonatomic) IBOutlet UILabel *originalPrice;
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollection;
+@property (weak, nonatomic) IBOutlet UILabel *offerDisclaimer;
 
 @property (nonatomic, weak) Order *order;
 
@@ -111,6 +112,8 @@
     }
     else
     {
+        self.offerDisclaimer.hidden = NO;
+        
         NSString *orPriceWord = @"O.PRICE: ";
         NSString *orPrice = [NSString stringWithFormat:@"$%.00f",[self.product.originalPrice doubleValue] / 100];
         NSString *originalPrice = [NSString stringWithFormat:@"%@ %@",orPriceWord, orPrice];
@@ -159,6 +162,10 @@
     
     NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
     NSString *buttonCTA = [NSString stringWithFormat:@"BUY NOW AT %@", price];
+    if ([self.product.stock isEqualToNumber:@(0)]) {
+        buttonCTA = @"SOLD OUT";
+        self.buyNowBtn.enabled = NO;
+    }
     if (self.order != nil)
     {
         buttonCTA = @"See Details";
@@ -171,6 +178,7 @@
                                                                                                 }];
     
     [self.buyNowBtn setAttributedTitle:buyNowText forState:UIControlStateNormal];
+    [self.buyNowBtn setBackgroundImage:[UIImage imageWithColor:[UIColor lightGrayColor] andRect:self.buyNowBtn.bounds] forState:UIControlStateDisabled];
     
     self.imagesCollection.hidden = (self.product.images.count == 0);
     

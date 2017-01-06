@@ -54,7 +54,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *categoryImage;
 @property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
-@property (weak, nonatomic) IBOutlet UIImageView *logoView;
+@property (weak, nonatomic) IBOutlet UIButton *logoView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrow;
 //@property (strong, nonatomic) UIImageView *posterImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageLeadingConstraint;
@@ -147,6 +147,12 @@
     self.categoryImage.layer.shadowRadius = 1.0;
     self.categoryImage.clipsToBounds = NO;
     
+#if DEBUG
+    NSString *target = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+    if ([target containsString:@"Test"]) {
+        [self.logoView setImage:[UIImage imageNamed:@"logo_small_test"] forState:UIControlStateNormal];
+    }
+#endif
     self.logoView.transform = CGAffineTransformMakeScale(0.8, 0.8);
     
     if (self.pContext != kProductContextDiscover)
@@ -167,8 +173,6 @@
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
     
-//    self.transitioningDelegate = self;
-    
     [self setupGestureRecognizers];
 }
 
@@ -179,8 +183,9 @@
     
     __hasAppeared = NO;
     
-    [self.teaserPlayer pause];
     [self removeObservers];
+    
+    [self.teaserPlayer pauseAndDestroy];
     
     [self updateSecondsWatched];
 }
@@ -192,12 +197,12 @@
     
     __hasAppeared = NO;
     
-    //TODO: Fix real cause - #245
-    if (CMTimeGetSeconds(CMTimeSubtract(self.teaserPlayer.currentItem.duration, self.teaserPlayer.currentItem.currentTime)) < 1) {
-        [self.teaserPlayer pauseAndDestroy];
-    } else {
-        [self.teaserPlayer pause];
-    }
+    //TODO: Fix real cause - #245 
+//    if (CMTimeGetSeconds(CMTimeSubtract(self.teaserPlayer.currentItem.duration, self.teaserPlayer.currentItem.currentTime)) < 1) {
+//        [self.teaserPlayer pauseAndDestroy];
+//    } else {
+//        [self.teaserPlayer pause];
+//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -714,7 +719,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
     DDLogDebug(@"%p",self);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self removeObservers];
-    [_teaserPlayer pauseAndDestroy];
+//    [_teaserPlayer pauseAndDestroy];
 }
 
 @end

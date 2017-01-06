@@ -19,14 +19,10 @@ platform :ios do
   before_all do
     ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
     
-    #git_pull
-
-    #cocoapods
-    
   end
 
   desc "Installs XCode plugin to disable fix it!"
-  lane :xcode do
+  lane :xcode_plugin do
     install_xcode_plugin(
       url: "https://github.com/fastlane/FixCode/releases/download/0.5.0/FixCode.xcplugin.zip"
     )
@@ -97,7 +93,16 @@ platform :ios do
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
-    # match(type: "appstore") # more information: https://codesigning.guide
+
+    build
+
+    deliver_beta
+
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "This will also make sure the profile is up to date"
+  lane :build do
 
     cocoapods
 
@@ -112,8 +117,7 @@ platform :ios do
       scheme: "li5",
       use_legacy_build_api: true,
       configuration: "Debug"
-    ) # Build your app - more options available
-
+    )
 
     match(
       app_identifier: "com.li5.buy.test", 
@@ -124,15 +128,18 @@ platform :ios do
       scheme: "li5-Test",
       use_legacy_build_api: true,
       configuration: "Debug"
-    ) # Build your app - more options available
+    )
 
-    #produce(
-    #  app_version: '0.1'
-    #)
+    puts "Version: #{get_version_number} (#{get_build_number})"
 
-    #pilot(
-    #  skip_submission: true
-    #)
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "This will also make sure the profile is up to date"
+  lane :deliver_beta do
+    
+    puts "Version: #{get_version_number} (#{get_build_number})"
+
     crashlytics(
       crashlytics_path: "./Pods/Crashlytics",
       api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
@@ -155,70 +162,12 @@ platform :ios do
     # You can also use other beta testing services here (run `fastlane actions`)
   end
 
-  desc "Submit a new Beta Build to Apple TestFlight"
-  desc "This will also make sure the profile is up to date"
-  lane :build do
-    # match(type: "appstore") # more information: https://codesigning.guide
-
-    cocoapods
-
-    increment_build_number # version bump
-
-    match(
-      app_identifier: "com.li5.buy", 
-      type:"development"
-    )
-
-    match(
-      app_identifier: "com.li5.buy.test", 
-      type:"development"
-    )
-
-    gym(
-      scheme: "li5-Test",
-      use_legacy_build_api: true,
-      configuration: "Debug"
-    ) # Build your app - more options available
-
-    gym(
-      scheme: "li5",
-      use_legacy_build_api: true,
-      configuration: "Debug"
-    ) # Build your app - more options available
-
-    #produce(
-    #  app_version: '0.1'
-    #)
-
-    # sh "your_script.sh"
-    # You can also use other beta testing services here (run `fastlane actions`)
-  end
-
-  desc "Submit a new Beta Build to Apple TestFlight"
-  desc "This will also make sure the profile is up to date"
-  lane :crashlytics do
-    crashlytics(
-      crashlytics_path: "./Pods/Crashlytics",
-      api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
-      build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
-      groups: [“internal”],
-      notifications: true
-    )
-
-    # sh "your_script.sh"
-    # You can also use other beta testing services here (run `fastlane actions`)
-  end
-
   desc "Deploy a new version to the App Store"
   lane :build_appstore do
 
     cocoapods
-    
-    # match(type: "appstore")
-    # snapshot
-    #increment_version_number(
-    #  bump_type: 'patch'
-    #)
+
+    #increment_build_number
 
     match(
       app_identifier: "com.li5.buy", 
@@ -228,64 +177,45 @@ platform :ios do
     gym(
       scheme: "li5",
       use_legacy_build_api: true,
-      configuration: "Release"
+      configuration: "Release",
+      toolchain: "com.apple.dt.toolchain.Swift_2_3" #Fix for fastlane error of Swift version
     ) # Build your app - more options available
 
-    #produce(
-    #  app_version: '0.1'
-    #)
+    puts "Version: #{get_version_number} (#{get_build_number})"
 
-    #deliver(
-    #  skip_deploy: true,
-    #  force: true,
-    #  app_version: "0.1"
-    #)
     # frameit
   end
 
   desc "Deploy a new version to the App Store"
-  lane :appstore do
+  lane :deliver_appstore do
 
-    cocoapods
-    
-    # match(type: "appstore")
-    # snapshot
-    increment_version_number(
-      bump_type: 'patch'
-    )
-
-    match(
-      app_identifier: "com.li5.buy", 
-      type:"appstore"
-    )
-
-    gym(
-      scheme: "li5",
-      use_legacy_build_api: true,
-      configuration: "Release"
-    ) # Build your app - more options available
-
-    produce(
-      app_version: '0.1'
-    )
+    puts "Version: #{get_version_number} (#{get_build_number})"
 
     deliver(
-      skip_deploy: true,
-      force: true,
-      app_version: "0.1"
+      ipa: "li5.ipa",
+      app_version: "#{get_version_number}"
     )
+
+    #increment_version_number(
+    #  bump_type: 'patch'
+    #)
+    
     # frameit
+  end
+
+  desc "Build & Deploy a new version to the App Store"
+  lane :new_version do
+
+    build_appstore
+
+    deliver_appstore
+    
   end
 
   # You can define as many lanes as you want
 
   after_all do |lane|
     # This block is called, only if the executed lane was successful
-
-#    commit_version_bump(
-#      message: 'Build Version Bump by fastlane',
-#      force: true
-#    )
 
     slack(
       message: "Successfully deployed new App Update.",
@@ -294,10 +224,6 @@ platform :ios do
   end
 
   error do |lane, exception|
-
-#    reset_git_repo(
-#      force: true
-#    )
 
     slack(
        message: exception.message,

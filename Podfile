@@ -6,13 +6,13 @@ use_frameworks!
 abstract_target 'Li5Base' do
   pod 'CocoaLumberjack'
   pod 'Li5Api', :path => '../li5-api-ios'
-  pod 'GCDWebServer', :git => 'git@github.com:lifive/GCDWebServer.git', :branch => 'custom-dev'
+  pod 'GCDWebServer', :git => 'git@github.com:lifive/GCDWebServer.git', :branch => 'master'
   pod 'BCVideoPlayer', :path => '../BCPlayerView'
   pod 'SDWebImage', '~>3.7'
   pod 'Masonry'
   pod 'SMPageControl'
   pod 'TSMessages', :git => 'git@github.com:KrauseFx/TSMessages.git'
-  pod "MMMaterialDesignSpinner"
+  pod 'MMMaterialDesignSpinner'
   pod 'FXBlurView'
   pod 'Heap'
   pod 'pop', '~> 1.0'
@@ -20,8 +20,8 @@ abstract_target 'Li5Base' do
   pod 'YYImage/WebP'
   pod 'VMaskTextField'
   pod 'MBProgressHUD'
-  pod 'Branch'
-  pod 'Instabug'
+  pod 'Branch', :git => 'git@github.com:BranchMetrics/ios-branch-deep-linking.git', :branch => 'revert-lifecyle-change'
+  pod 'Instabug', :git => 'git@github.com:Instabug/Instabug-iOS.git'
   pod 'FBNotifications'
   
   target 'li5' do

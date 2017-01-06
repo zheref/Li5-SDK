@@ -6,9 +6,9 @@ sudo gem install fastlane
 ```
 # Available Actions
 ## iOS
-### ios xcode
+### ios xcode_plugin
 ```
-fastlane ios xcode
+fastlane ios xcode_plugin
 ```
 Installs XCode plugin to disable fix it!
 ### ios match_dev
@@ -50,9 +50,9 @@ fastlane ios build
 Submit a new Beta Build to Apple TestFlight
 
 This will also make sure the profile is up to date
-### ios crashlytics
+### ios deliver_beta
 ```
-fastlane ios crashlytics
+fastlane ios deliver_beta
 ```
 Submit a new Beta Build to Apple TestFlight
 
@@ -62,11 +62,16 @@ This will also make sure the profile is up to date
 fastlane ios build_appstore
 ```
 Deploy a new version to the App Store
-### ios appstore
+### ios deliver_appstore
 ```
-fastlane ios appstore
+fastlane ios deliver_appstore
 ```
 Deploy a new version to the App Store
+### ios new_version
+```
+fastlane ios new_version
+```
+Build & Deploy a new version to the App Store
 
 ----
 

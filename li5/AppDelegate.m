@@ -29,7 +29,9 @@
 #import "UIViewController+Indexed.h"
 #import <FBNotifications/FBNotifications.h>
 
-@interface AppDelegate ()
+@interface AppDelegate () {
+    BOOL __comesFromULink;
+}
 
 @end
 
@@ -53,10 +55,13 @@
     logger.doNotReuseLogFiles = YES;
     [DDLog addLogger:logger];
     
+    DDLogVerbose(@"log file name: %@", logger.currentLogFileInfo.fileName);
+    
     //Adding custom formatter for TTY
     Li5LoggerFormatter *logFormatter = [[Li5LoggerFormatter alloc] init];
     [DDTTYLogger sharedInstance].logFormatter = logFormatter;
     [CrashlyticsLogger sharedInstance].logFormatter = logFormatter;
+    logger.logFormatter = logFormatter;
     
     // And we also enable colors
     [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
@@ -100,22 +105,19 @@
     // LoginViewController
     _flowController = [[Li5RootFlowController alloc] initWithNavigationController:self.navController];
     
-    [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
-        if (!error && [[params objectForKey:@"+clicked_branch_link"] boolValue]) {
+    [[Branch getInstance] initSessionWithLaunchOptions:launchOptions];
+
+    NSDictionary *activityDictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsUserActivityDictionaryKey];
+    if (activityDictionary) {
+        NSUserActivity *userActivity = [activityDictionary valueForKey:@"UIApplicationLaunchOptionsUserActivityKey"];
+        if (userActivity) {
+            __comesFromULink = YES;
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            NSString *shareToken = [params objectForKey:@"share_token"];
-            if (shareToken) {
-                DDLogVerbose(@"share link token: %@", shareToken);
-                [userDefaults setObject:shareToken forKey:kLi5ShareToken];
-            }
-            NSString *product = [params objectForKey:@"product"];
-            if (product) {
-                DDLogVerbose(@"product: %@", product);
-                [userDefaults setObject:product forKey:kLi5Product];
-            }
-            [_flowController showInitialScreen];
+            [userDefaults setObject:[userActivity.webpageURL lastPathComponent] forKey:@"Li5LaunchUserActivity"];
         }
-    }];
+    }
+    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     [self.window setRootViewController:self.navController];
     [self.window makeKeyAndVisible];
@@ -125,22 +127,31 @@
 
 #pragma mark - Push Notifications
 
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    DDLogVerbose(@"");
+    [[NSNotificationCenter defaultCenter] postNotificationName:kUserSettingsUpdated object:nil];
+}
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSString *token = [[deviceToken.description componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet]invertedSet]]componentsJoinedByString:@""];
     DDLogVerbose(@"%@",token);
+    [[NSNotificationCenter defaultCenter] postNotificationName:kUserSettingsUpdated object:nil];
     [FBSDKAppEvents setPushNotificationsDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    DDLogVerbose(@"");
     [FBSDKAppEvents logPushNotificationOpen:userInfo];
 }
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completionHandler {
+    DDLogVerbose(@"");
     [FBSDKAppEvents logPushNotificationOpen:userInfo action:identifier];
 }
 
 /// Present In-App Notification from remote notification (if present).
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+    DDLogVerbose(@"");
     FBNotificationsManager *notificationsManager = [FBNotificationsManager sharedManager];
     [notificationsManager presentPushCardForRemoteNotificationPayload:userInfo
                                                    fromViewController:nil
@@ -156,6 +167,8 @@
 #pragma mark - URL Deep/Smart linking
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    DDLogVerbose(@"");
+    __comesFromULink = YES;
     // For Branch to detect when a URI scheme is clicked
     [[Branch getInstance] handleDeepLink:url];
     // do other deep link routing for the Facebook SDK, Pinterest SDK, etc
@@ -164,6 +177,8 @@
 
 // Respond to Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+    DDLogVerbose(@"");
+    __comesFromULink = YES;
     // For Branch to detect when a Universal Link is clicked
     [[Branch getInstance] continueUserActivity:userActivity];
     return YES;
@@ -196,21 +211,20 @@
     
     [FBSDKAppEvents activateApp];
     
-    if ([self.navController.topViewController isViewLoaded])
-    {
-        UIViewController *topController = [self.navController.topViewController topMostViewController];
-        if (!topController.shouldAutomaticallyForwardAppearanceMethods) {
-            [topController beginAppearanceTransition:YES animated:NO];
-            [topController endAppearanceTransition];
-        }
-    } else {
-        //TODO This causes the spinner to blink since iOS will move the app to foreground prior to handling the URL.
-        //TODO we need to move the logic of expiration of PrimeTime to DidBecomeActive method
+    if ([_flowController isPrimeTimeExpired] || __comesFromULink) {
         [_flowController showInitialScreen];
+    } else {
+        UIViewController *topController = [self.navController.topViewController topMostViewController];
+        if ([self.navController.topViewController isViewLoaded])
+        {
+            if (!topController.shouldAutomaticallyForwardAppearanceMethods) {
+                [topController beginAppearanceTransition:YES animated:NO];
+                [topController endAppearanceTransition];
+            }
+        }
     }
-    
     [[AVAudioSession sharedInstance] setActive:TRUE error:nil];
-    
+    __comesFromULink = NO;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {

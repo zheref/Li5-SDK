@@ -23,6 +23,7 @@ extern NSString * const kPrimeTimeReadyToStart;
 extern NSString * const kPrimeTimeExpired;
 extern NSString * const kProfileUpdated;
 extern NSString * const kLoggedOutFromServer;
+extern NSString * const kUserSettingsUpdated;
 
 //User Defaults Keys
 extern NSString * const kLi5UserID;
@@ -32,5 +33,6 @@ extern NSString * const kLi5SwipeDownExplainerViewPresented;
 extern NSString * const kLi5SwipeUpExplainerViewPresented;
 extern NSString * const kLi5ShareToken;
 extern NSString * const kLi5Product;
+extern NSString * const kLi5ShareExplainerViewPresented;
 
 @end

@@ -30,6 +30,14 @@
 @property (weak, nonatomic) IBOutlet UIView *videoView;
 @property (weak, nonatomic) IBOutlet UILabel *closeMessage;
 @property (weak, nonatomic) IBOutlet UIView *swipeDownView;
+@property (weak, nonatomic) IBOutlet UIButton *turnOnNotifications;
+@property (weak, nonatomic) IBOutlet UIImageView *dropDownArrow;
+
+@property (weak, nonatomic) IBOutlet UIImageView *popcorn1;
+@property (weak, nonatomic) IBOutlet UIImageView *popcorn2;
+@property (weak, nonatomic) IBOutlet UIImageView *popcornFloor;
+@property (weak, nonatomic) IBOutlet UIImageView *popcorn3;
+@property (weak, nonatomic) IBOutlet UIImageView *popcorn4;
 
 @property (nonatomic, strong) BCPlayer *player;
 @property (nonatomic, strong) BCPlayerLayer *playerLayer;
@@ -117,6 +125,15 @@
 #if FULL_VERSION
     self.closeMessage.text = @"SWIPE DOWN TO EXPLORE MORE";
 #endif
+    
+    [self updateNotificationsViews];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    DDLogVerbose(@"");
+    [super viewWillAppear:animated];
+    
+    [self updateNotificationsViews];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -143,6 +160,33 @@
     self.staticView.hidden = (self.player!=nil);
 }
 
+- (void)updateNotificationsViews {
+    DDLogVerbose(@"");
+    if ([self notificationsEnabled]) {
+        self.turnOnNotifications.hidden = YES;
+        self.dropDownArrow.hidden = YES;
+        for (UIView *v in @[_popcorn1, _popcorn2, _popcorn3, _popcorn4, _popcornFloor]) {
+            v.hidden = NO;
+        }
+    } else {
+        self.turnOnNotifications.hidden = NO;
+        self.dropDownArrow.hidden = NO;
+        for (UIView *v in @[_popcorn1, _popcorn2, _popcorn3, _popcorn4, _popcornFloor]) {
+            v.hidden = YES;
+        }
+        [self __bounce:self.dropDownArrow];
+    }
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
+- (BOOL)notificationsEnabled {
+    UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+    return settings.types != UIUserNotificationTypeNone;
+}
+
 - (void)presentSwipeDownViewIfNeeded
 {
     DDLogVerbose(@"");
@@ -160,12 +204,29 @@
     {
         [_audioPlayer play];
         [self hideVideo];
+        [self.view bringSubviewToFront:self.staticView];
     }
 #else
     [_audioPlayer play];
     [self hideVideo];
 #endif
 }
+
+- (void)__bounce:(UIView *)view
+{
+    CAKeyframeAnimation *trans = [CAKeyframeAnimation animationWithKeyPath:@"position.y"];
+    trans.values = @[@(0),@(5),@(-2.0),@(3),@(0)];
+    trans.keyTimes = @[@(0.0),@(0.35),@(0.70),@(0.90),@(1)];
+    trans.timingFunction = [CAMediaTimingFunction functionWithControlPoints:.5 :1.8 :1 :1];
+    trans.duration = 2.0;
+    trans.additive = YES;
+    trans.repeatCount = INFINITY;
+    trans.beginTime = CACurrentMediaTime() + 2.0;
+    trans.removedOnCompletion = NO;
+    trans.fillMode = kCAFillModeForwards;
+    [view.layer addAnimation:trans forKey:@"bouncing"];
+}
+
 
 - (void)hideVideo
 {
@@ -176,6 +237,37 @@
         [_playerLayer removeFromSuperlayer];
         _playerLayer = nil;
         _player = nil;
+    }
+}
+
+- (IBAction)doTurnOnNotifications:(id)sender {
+    DDLogVerbose(@"");
+    if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications]) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Turn On Notifications"
+                                                                       message:@"We will only send you push notifications when your new show is ready. Go to Settings->Notifications and Enable it."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {
+                                                                   
+                                                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                               }];
+        
+        [alert addAction:settingsAction];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+
+    } else {
+        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+                                                        UIUserNotificationTypeBadge |
+                                                        UIUserNotificationTypeSound);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
+                                                                                 categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
     }
 }
 
@@ -191,6 +283,8 @@
             [welf presentSwipeDownViewIfNeeded];
         }];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNotificationsViews) name:kUserSettingsUpdated object:nil];
 }
 
 - (void)removeObservers
@@ -201,6 +295,8 @@
         [[NSNotificationCenter defaultCenter] removeObserver:__playerEndObserver];
         __playerEndObserver = nil;
     }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Player
@@ -248,23 +344,28 @@
 #pragma mark - Gesture Recognizers
 
 - (void)userDidPan:(UIPanGestureRecognizer *)recognizer {
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        self.swipeDownView.hidden = YES;
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setBool:TRUE forKey:kLi5SwipeDownExplainerViewPresented];
+    if (self.videoView.hidden) {
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+            if (!self.swipeDownView.hidden) {
+                self.swipeDownView.hidden = YES;
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [userDefaults setBool:TRUE forKey:kLi5SwipeDownExplainerViewPresented];
+                [self.view bringSubviewToFront:self.staticView];
+            }
+        }
+        
+        [searchInteractor userDidPan:recognizer];
     }
-    
-    [searchInteractor userDidPan:recognizer];
 }
 
 - (void)setupGestureRecognizers
 {
     DDLogVerbose(@"");
-    //User Profile Gesture Recognizer - Swipe Down from 0-100px
-    profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
-    profilePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:profileInteractor action:@selector(userDidPan:)];
-    [profilePanGestureRecognizer setDelegate:self];
-    [self.view addGestureRecognizer:profilePanGestureRecognizer];
+//    //User Profile Gesture Recognizer - Swipe Down from 0-100px
+//    profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
+//    profilePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:profileInteractor action:@selector(userDidPan:)];
+//    [profilePanGestureRecognizer setDelegate:self];
+//    [self.view addGestureRecognizer:profilePanGestureRecognizer];
     
 #if FULL_VERSION
     //Search Products Gesture Recognizer - Swipe Down from below 100px

@@ -22,6 +22,7 @@ NSString * const kPrimeTimeReadyToStart = @"kPrimeTimeReadyToStart";
 NSString * const kPrimeTimeExpired = @"kPrimeTimeExpired";
 NSString * const kProfileUpdated = @"kProfileUpdated";
 NSString * const kLoggedOutFromServer = @"kLoggedOutFromServer";
+NSString * const kUserSettingsUpdated = @"kUserSettingsUpdated";
 
 NSString * const kLi5UserID = @"Li5UserId";
 NSString * const kLi5CategoriesSelectionViewPresented = @"Li5CategoriesSelectionViewPresented";
@@ -30,5 +31,6 @@ NSString * const kLi5SwipeDownExplainerViewPresented = @"Li5SwipeDownExplainerVi
 NSString * const kLi5SwipeUpExplainerViewPresented = @"Li5SwipeUpExplainerViewPresented";
 NSString * const kLi5ShareToken = @"Li5ShareToken";
 NSString * const kLi5Product = @"Li5Product";
+NSString * const kLi5ShareExplainerViewPresented = @"Li5ShareExplainerViewPresented";
 
 @end
