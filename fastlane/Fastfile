@@ -30,26 +30,43 @@ platform :ios do
 
   desc "Installs all required provisionin profiles and certificates"
   lane :match_dev do
-    produce(
-      app_identifier: 'com.li5.buy',
-      app_name: 'Li5 Buy',
-      language: 'English',
-      app_version: '1.0',
-      company_name: 'Li5, Inc.',
-      skip_itc: true
-    )
 
-    produce(
-      app_identifier: 'com.li5.buy.test',
-      app_name: 'Li5 Buy TEST',
-      language: 'English',
-      app_version: '1.0',
-      company_name: 'Li5, Inc.',
-      skip_itc: true
-    )
+    project = UI.select("Select your project: ", ["com.li5.buy", "com.li5.embed"])
 
-    match(app_identifier: "com.li5.buy", type:"development")
-    match(app_identifier: "com.li5.buy.test", type:"development")
+    case project
+    when "com.li5.buy"
+      produce(
+        app_identifier: 'com.li5.buy',
+        app_name: 'Li5 Buy',
+        language: 'English',
+        app_version: '1.0',
+        company_name: 'Li5, Inc.',
+        skip_itc: true
+      )
+
+      produce(
+        app_identifier: 'com.li5.buy.test',
+        app_name: 'Li5 Buy TEST',
+        language: 'English',
+        app_version: '1.0',
+        company_name: 'Li5, Inc.',
+        skip_itc: true
+      )
+
+      match(app_identifier: "com.li5.buy", type:"development")
+      match(app_identifier: "com.li5.buy.test", type:"development")
+    when "com.li5.embed"
+      produce(
+        app_identifier: 'com.li5.embed',
+        app_name: 'Embed',
+        language: 'English',
+        app_version: '1.0',
+        company_name: 'Li5, Inc.',
+        skip_itc: true
+      )
+
+      match(app_identifier: "com.li5.embed", type:"development")
+    end
   end
 
   desc "Installs all required provisionin profiles and certificates"
@@ -92,71 +109,96 @@ platform :ios do
 
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
-  lane :beta do
+  lane :beta do |options|
 
-    build
+    build(options)
 
-    deliver_beta
+    deliver_beta(options)
 
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
-  lane :build do
+  lane :build do |options|
 
     cocoapods
 
     increment_build_number # version bump
 
-    match(
-      app_identifier: "com.li5.buy", 
-      type:"development"
-    )
+    case options[:app]
+    when "com.li5.buy"
+      match(
+        app_identifier: "com.li5.buy", 
+        type:"development"
+      )
 
-    gym(
-      scheme: "li5",
-      use_legacy_build_api: true,
-      configuration: "Debug"
-    )
+      gym(
+        scheme: "li5",
+        use_legacy_build_api: true,
+        configuration: "Debug"
+      )
 
-    match(
-      app_identifier: "com.li5.buy.test", 
-      type:"development"
-    )
+      match(
+        app_identifier: "com.li5.buy.test", 
+        type:"development"
+      )
 
-    gym(
-      scheme: "li5-Test",
-      use_legacy_build_api: true,
-      configuration: "Debug"
-    )
+      gym(
+        scheme: "li5-Test",
+        use_legacy_build_api: true,
+        configuration: "Debug"
+      )
+    when "com.li5.embed"
+      match(
+        app_identifier: "com.li5.embed", 
+        type:"development"
+      )
 
+      gym(
+        scheme: "Embed",
+        toolchain: :swift_2_3,
+        configuration: "Debug"
+      )
+    end
     puts "Version: #{get_version_number} (#{get_build_number})"
 
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
-  lane :deliver_beta do
+  lane :deliver_beta do |options|
     
     puts "Version: #{get_version_number} (#{get_build_number})"
 
-    crashlytics(
-      crashlytics_path: "./Pods/Crashlytics",
-      api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
-      build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
-      groups: [“internal”],
-      notifications: true,
-      ipa_path: "li5.ipa"
-    )
+    case options[:app]
+    when "com.li5.buy"
+      crashlytics(
+        crashlytics_path: "./Pods/Crashlytics",
+        api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
+        build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
+        groups: [“internal”],
+        notifications: true,
+        ipa_path: "li5.ipa"
+      )
 
-    crashlytics(
-      crashlytics_path: "./Pods/Crashlytics",
-      api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
-      build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
-      groups: [“internal”],
-      notifications: true,
-      ipa_path: "li5-Test.ipa"
-    )
+      crashlytics(
+        crashlytics_path: "./Pods/Crashlytics",
+        api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
+        build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
+        groups: [“internal”],
+        notifications: true,
+        ipa_path: "li5-Test.ipa"
+      )
+    when "com.li5.embed"
+      crashlytics(
+        crashlytics_path: "./Pods/Crashlytics",
+        api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
+        build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
+        groups: [“internal”],
+        notifications: true,
+        ipa_path: "Embed.ipa"
+      )
+    end
 
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)
@@ -195,21 +237,44 @@ platform :ios do
       ipa: "li5.ipa",
       app_version: "#{get_version_number}"
     )
-
-    #increment_version_number(
-    #  bump_type: 'patch'
-    #)
     
     # frameit
   end
 
   desc "Build & Deploy a new version to the App Store"
-  lane :new_version do
+  lane :new_version_appstore do
 
     build_appstore
 
     deliver_appstore
     
+  end
+
+  desc "Increase Version Number"
+  lane :set_version  do
+    
+    ver = prompt(
+      text: "Enter new version number"
+    )
+
+    increment_version_number(
+      version_number: ver
+    )
+
+  end
+
+  lane :refresh_dsyms do
+    
+    # Download dSYM files from iTC
+    download_dsyms(version: "#{get_version_number}", build_number: "#{get_build_number}")
+
+    # Upload them to Crashlytics
+    upload_symbols_to_crashlytics
+    #(dsym_path: "./App.dSYM.zip")
+
+    # Delete the local dSYM files
+    clean_build_artifacts
+
   end
 
   # You can define as many lanes as you want
@@ -219,7 +284,7 @@ platform :ios do
 
     slack(
       message: "Successfully deployed new App Update.",
-      channel: "li5-apps"
+      channel: "dev"
      )
   end
 
@@ -227,7 +292,7 @@ platform :ios do
 
     slack(
        message: exception.message,
-       channel: "li5-apps",
+       channel: "dev",
        success: false
      )
   end

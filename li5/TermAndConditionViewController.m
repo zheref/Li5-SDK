@@ -66,7 +66,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.title = [@"Terms & Privacy Policy" uppercaseString];
+    self.navigationItem.title = [NSLocalizedString(@"Terms & Privacy Policy",nil) uppercaseString];
     self.navigationController.navigationBar.backItem.title = @"";
 }
 

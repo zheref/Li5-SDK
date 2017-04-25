@@ -125,10 +125,10 @@
         if (error)
         {
             [hud hideAnimated:YES];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                             message:error.localizedDescription
                                                            delegate:self
-                                                  cancelButtonTitle:@"OK"
+                                                  cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
             [alert show];
             
@@ -194,14 +194,14 @@
             [_locationManager requestWhenInUseAuthorization];
         
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Allow Li5 Access your Location"
-                                                                           message:@"Li5 uses your location to populate the address for you. Go to Settings->Location and Enable it."
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Allow Li5 Access your Location",nil)
+                                                                           message:NSLocalizedString(@"Li5 uses your location to populate the address for you. Go to Settings->Location and Enable it.", nil)
                                                                     preferredStyle:UIAlertControllerStyleAlert];
             
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil) style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {}];
             
-            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Settings",nil) style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action) {
                                                                        
                                                                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
@@ -257,13 +257,16 @@
     [super viewWillAppear:animated];
     
     if(_cardParams != nil) {
-        self.title = [@"Billing Address" uppercaseString];
+        self.title = [NSLocalizedString(@"Billing Address",nil) uppercaseString];
         self.alias.hidden = true;
         self.aliasLabel.hidden = true;
     }
     else {
-        self.title = [@"Shipping Info" uppercaseString];
+        self.title = [NSLocalizedString(@"Shipping Info",nil) uppercaseString];
+        
     }
+    
+    self.navigationItem.title = self.title;
 }
 
 -(void)setCreditCardAlias:(NSString *)value {
@@ -299,10 +302,10 @@
             if (error)
             {
                 [hud hideAnimated:YES];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                                 message:error.localizedDescription
                                                                delegate:self
-                                                      cancelButtonTitle:@"OK"
+                                                      cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                       otherButtonTitles:nil];
                 [alert show];
             }
@@ -317,10 +320,10 @@
                                                                  if (error)
                                                                  {
                                                                      [hud hideAnimated:YES];
-                                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                                                                                      message:error.localizedDescription
                                                                                                                     delegate:self
-                                                                                                           cancelButtonTitle:@"OK"
+                                                                                                           cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                                                                            otherButtonTitles:nil];
                                                                      [alert show];
                                                                  }
@@ -353,10 +356,10 @@
             [hud hideAnimated:YES];
             if (error)
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                                 message:error.localizedDescription
                                                                delegate:self
-                                                      cancelButtonTitle:@"OK"
+                                                      cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                       otherButtonTitles:nil];
                 [alert show];
             }
@@ -370,10 +373,10 @@
             [hud hideAnimated:YES];
             if (error)
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                                 message:error.localizedDescription
                                                                delegate:self
-                                                      cancelButtonTitle:@"OK"
+                                                      cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                       otherButtonTitles:nil];
                 [alert show];
             }
@@ -411,6 +414,9 @@
                 [self setUserAddress:placemark isUserLocation:NO];
             } else {
                 DDLogError(@"%@", error.debugDescription);
+                
+                [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
+                
                 [self cleanUserAddress];
             }
         }];
@@ -497,6 +503,8 @@
             [self setUserAddress:placemark isUserLocation:YES];
         } else {
             DDLogError(@"%@", error.debugDescription);
+            [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
+            
             [self cleanUserAddress];
         }
     } ];
@@ -531,6 +539,7 @@
         if (error) {
             // show the error, maybe by presenting an alert to the user
             DDLogError(@"error while validating card: %@", error.localizedDescription);
+            [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
             completion(nil, error);
         } else {
             if (completion!=nil)

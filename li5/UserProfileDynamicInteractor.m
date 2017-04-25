@@ -8,6 +8,7 @@
 
 #import "UserProfileDynamicInteractor.h"
 #import "UserProfileViewController.h"
+#import "Li5UINavigationController.h"
 
 @interface UserProfileDynamicInteractor () <UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate, UIViewControllerInteractiveTransitioning, UIDynamicAnimatorDelegate>
 
@@ -64,7 +65,7 @@
     
     _parentViewController = viewController;
     
-    _presentingViewController = [[UserProfileNavigationViewController alloc] initWithRootViewController:[UserProfileViewController initWithPanTarget:self andViewController:viewController]];
+    _presentingViewController = [[Li5UINavigationController alloc] initWithRootViewController:[UserProfileViewController initWithPanTarget:self andViewController:viewController]];
     _presentingViewController.modalPresentationStyle = UIModalPresentationCustom;
     _presentingViewController.modalPresentationCapturesStatusBarAppearance = YES;
     _presentingViewController.transitioningDelegate = self;

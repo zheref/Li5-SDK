@@ -37,7 +37,7 @@
     [_noOrdersView setHidden:YES];
     [_ordersListView setHidden:NO];
     
-    NSString *message = @"You haven't made any orders yet!";
+    NSString *message = NSLocalizedString(@"You haven't made any orders yet!",nil);
     NSString *redWords = @"orders";
     NSMutableAttributedString *attrMessage = [[NSMutableAttributedString alloc] initWithString:message
                                                                                     attributes:@{
@@ -81,6 +81,7 @@
             if (error != nil)
             {
                 DDLogError(@"Error fetching more products: %@", error);
+                [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
             }
             
             [_ordersListView.collectionView reloadData];

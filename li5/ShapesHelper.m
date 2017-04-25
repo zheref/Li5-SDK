@@ -260,4 +260,38 @@
     return aPath;
 }
 
++ (UIBezierPath *)drawRightArrowWithFrame: (CGRect)frame
+{
+    //// General Declarations
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    //// Color Declarations
+    UIColor* color = [UIColor colorWithRed: 1 green: 1 blue: 1 alpha: 1];
+    
+    //// Shadow Declarations
+    NSShadow* shadow = [[NSShadow alloc] init];
+    [shadow setShadowColor: UIColor.blackColor];
+    [shadow setShadowOffset: CGSizeMake(-1.1, 1.1)];
+    [shadow setShadowBlurRadius: 4];
+    
+    //// Bezier Drawing
+    UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+    [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(frame) + 0.27000 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.11905 * CGRectGetHeight(frame))];
+    [bezierPath addCurveToPoint: CGPointMake(CGRectGetMinX(frame) + 0.87000 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.48413 * CGRectGetHeight(frame)) controlPoint1: CGPointMake(CGRectGetMinX(frame) + 0.91000 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.50000 * CGRectGetHeight(frame)) controlPoint2: CGPointMake(CGRectGetMinX(frame) + 0.87000 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.48413 * CGRectGetHeight(frame))];
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.27000 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.86508 * CGRectGetHeight(frame))];
+    bezierPath.lineCapStyle = kCGLineCapRound;
+    
+    bezierPath.lineJoinStyle = kCGLineJoinRound;
+    
+    CGContextSaveGState(context);
+    CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadius, [shadow.shadowColor CGColor]);
+    [color setStroke];
+    bezierPath.lineWidth = 1;
+    [bezierPath stroke];
+    CGContextRestoreGState(context);
+    
+    return bezierPath;
+}
+
+
 @end

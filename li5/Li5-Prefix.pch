@@ -26,4 +26,7 @@
 
 #endif
 
+#define GWS_DCHECK(__CONDITION__)
+#define GWS_DNOT_REACHED()
+
 #endif /* Li5_Prefix_pch */

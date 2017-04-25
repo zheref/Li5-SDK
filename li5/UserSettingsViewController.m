@@ -51,33 +51,33 @@
 - (void)initialize
 {
     _settings = @{
-                  @"About" : @[
+                  NSLocalizedString(@"About",nil) : @[
                           @{
-                              @"Name" : @"Rate our App",
+                              @"Name" : NSLocalizedString(@"Rate our App",nil),
                               @"Action" : @"rateApp"
                               },
                           @{
-                              @"Name" : @"Terms & Privacy Policy",
+                              @"Name" : NSLocalizedString(@"Terms & Privacy Policy",nil),
                               @"Action" : @"loadTos"
                               },
                           @{
-                              @"Name" : @"Support",
+                              @"Name" : NSLocalizedString(@"Support",nil),
                               @"Action" : @"presentMessenger"
                               }
                           ],
-                  @"Shipping and Billing" : @[
+                  NSLocalizedString(@"Shipping and Billing",nil) : @[
                           @{
-                              @"Name" : @"Shipping Information",
+                              @"Name" : NSLocalizedString(@"Shipping Information",nil),
                               @"Action" : @"shippingInfo"
                               },
                           @{
-                              @"Name" : @"Credit Cards",
+                              @"Name" : NSLocalizedString(@"Credit Cards",nil),
                               @"Action" : @"creditCardInfo"
                               }
                           ],
-                  @"User" : @[
+                  NSLocalizedString(@"User",nil) : @[
                           @{
-                              @"Name" : @"Logout",
+                              @"Name" : NSLocalizedString(@"Logout",nil),
                               @"Action" : @"userLogOut"
                               }
                           ]
@@ -87,6 +87,10 @@
                           @{
                               @"Name" : @"Reset to Demo",
                               @"Action" : @"enterDemoMode"
+                              },
+                          @{
+                              @"Name" : @"Reset Episode",
+                              @"Action" : @"resetEpisode"
                               },
                           @{
                               @"Name" : @"Reset User Defaults",
@@ -122,7 +126,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = [@"Settings" uppercaseString];
+    self.title = [NSLocalizedString(@"Settings",nil) uppercaseString];
     self.navigationController.navigationBar.topItem.title = @"";
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
@@ -131,7 +135,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.title = [@"Settings" uppercaseString];
+    self.navigationItem.title = [NSLocalizedString(@"Settings",nil) uppercaseString];
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor li5_redColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -141,6 +145,7 @@
                                                                       NSForegroundColorAttributeName: [UIColor whiteColor],
                                                                       NSFontAttributeName: [UIFont fontWithName:@"Rubik-Medium" size:18.0]
                                                                       }];
+    
 }
 
 #pragma mark - UITableViewDataSource
@@ -210,7 +215,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([cell.textLabel.text compare:@"Logout" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+    if ([cell.textLabel.text compare:NSLocalizedString(@"Logout",nil) options:NSCaseInsensitiveSearch] == NSOrderedSame)
     {
         [cell.textLabel setFont:[UIFont fontWithName:@"Rubik-Medium" size:18.0]];
         [cell.textLabel setTextColor:[UIColor li5_redColor]];
@@ -242,10 +247,10 @@
     Li5ApiHandler *handler = [Li5ApiHandler sharedInstance];
     [handler revokeRefreshAccessTokenWithCompletion:^void (NSError *error){
         if (error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                             message:error.localizedDescription
                                                            delegate:self
-                                                  cancelButtonTitle:@"OK"
+                                                  cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
             [alert show];
         }
@@ -317,14 +322,37 @@
     [defaults removeObjectForKey:kLi5CategoriesSelectionViewPresented];
     [defaults removeObjectForKey:kLi5ShareExplainerViewPresented];
     [defaults removeObjectForKey:@"Li5DiscoverModeCustom"];
+    [defaults removeObjectForKey:kUserSettingsUpdated];
 
     [TSMessage showNotificationInViewController:self
-                                          title:@"Success"
-                                       subtitle:@"Standard Defaults cleared."
+                                          title:NSLocalizedString(@"Success",nil)
+                                       subtitle:NSLocalizedString(@"Standard Defaults cleared.",nil)
                                            type:TSMessageNotificationTypeSuccess
                                        duration:0.5];
     
     [self userLogOut];
+}
+
+- (void)resetEpisode {
+    DDLogDebug(@"%p",self);
+    [[Li5ApiHandler sharedInstance] deleteEpisode:^(NSError *error) {
+        if (!error) {
+            [TSMessage showNotificationInViewController:self
+                                                  title:NSLocalizedString(@"Success",nil)
+                                               subtitle:NSLocalizedString(@"Episode was reset.",nil)
+                                                   type:TSMessageNotificationTypeSuccess
+                                               duration:0.5];
+            
+            NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+            [notificationCenter postNotificationName:kPrimeTimeReset object:nil];
+        } else {
+            [TSMessage showNotificationInViewController:self
+                                                  title:NSLocalizedString(@"Error",nil)
+                                               subtitle:error.localizedDescription
+                                                   type:TSMessageNotificationTypeError
+                                               duration:0.5];
+        }
+    }];
 }
 
 - (void)clearCache
@@ -336,8 +364,8 @@
     [imageCache clearDisk];
     
     [TSMessage showNotificationInViewController:self
-                                          title:@"Success"
-                                       subtitle:@"Cache cleared ok."
+                                          title:NSLocalizedString(@"Success",nil)
+                                       subtitle:NSLocalizedString(@"Cache cleared ok.",nil)
                                            type:TSMessageNotificationTypeSuccess
                                        duration:0.5];
 }

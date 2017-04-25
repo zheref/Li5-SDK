@@ -93,10 +93,10 @@
             if (error)
             {
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                                 message:error.localizedDescription
                                                                delegate:self
-                                                      cancelButtonTitle:@"OK"
+                                                      cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                       otherButtonTitles:nil];
                 [alert show];
                 [self dismissViewControllerAnimated:YES completion:nil];

@@ -25,6 +25,7 @@
     
     BOOL __primeTimeLoaded;
     BOOL __spinnerOn;
+    BOOL __primeTimeLoading;
     
     NSOperationQueue *__queue;
 }
@@ -49,6 +50,7 @@
         startIndex = 0;
         __primeTimeLoaded = NO;
         __spinnerOn = NO;
+        __primeTimeLoading = NO;
         __queue = [[NSOperationQueue alloc] init];
         [__queue setName:@"Prime Time Queue"];
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
@@ -56,6 +58,11 @@
         [notificationCenter addObserver:self
                                selector:@selector(__popSpinnerScreen)
                                    name:kPrimeTimeLoaded
+                                 object:nil];
+        
+        [notificationCenter addObserver:self
+                               selector:@selector(renderPrimeTime)
+                                   name:kFetchPrimeTime
                                  object:nil];
     }
     return self;
@@ -157,34 +164,35 @@
     DDLogInfo(@"Rendering Prime Time Today's Episode");
     
     __weak typeof(self) welf = self;
-    if (!__primeTimeLoaded)
-    {
-        [__queue addOperationWithBlock:^{
-            [welf.primeTimeSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
-                __strong typeof(self) swelf = welf;
-                if (error != nil)
-                {
-                    DDLogError(@"ERROR while Fetching Prime Time %@", error.localizedDescription);
-                    
-                    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                    [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
-
-                    [TSMessage showNotificationWithTitle:@"Something went wrong"
-                                                subtitle:error.localizedDescription
-                                                    type:TSMessageNotificationTypeError];
-                }
-                else
-                {
-                    [swelf __startPrimeTime];
-                }
+    if (!__primeTimeLoading) {
+        if (!__primeTimeLoaded)
+        {
+            [__queue addOperationWithBlock:^{
+                __primeTimeLoading = YES;
+                [welf.primeTimeSource startFetchingProductsInBackgroundWithCompletion:^(NSError *error) {
+                    __primeTimeLoading = NO;
+                    __strong typeof(self) swelf = welf;
+                    if (error != nil)
+                    {
+                        DDLogError(@"ERROR while Fetching Prime Time %@", error.localizedDescription);
+                        [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
+                        
+                        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                        [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:error];
+                    }
+                    else
+                    {
+                        [swelf __startPrimeTime];
+                    }
+                }];
             }];
-        }];
-    }
-    else
-    {
+        }
+        else
+        {
 //        [__queue addOperationWithBlock:^{
             [welf __startPrimeTime];
 //        }];
+        }
     }
 }
 

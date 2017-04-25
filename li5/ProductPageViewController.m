@@ -9,6 +9,7 @@
 #import "Li5Constants.h"
 #import "ProductPageViewController.h"
 #import "VideoViewController.h"
+#import "Li5-Swift.h"
 
 @interface ProductPageViewController ()
 
@@ -25,7 +26,12 @@
     if (self)
     {
         self.product = thisProduct;
-        self.viewControllers = @[ [[VideoViewController alloc] initWithProduct:self.product andContext:context], [DetailsViewController detailsWithProduct:self.product andContext:context] ];
+        BOOL noMore = self.product.isAd || ([self.product.type caseInsensitiveCompare:@"url"] == NSOrderedSame && self.product.contentUrl == nil);
+        if (!noMore) {
+            self.viewControllers = @[ [[VideoViewController alloc] initWithProduct:self.product andContext:context], ([self.product.type caseInsensitiveCompare:@"url"] == NSOrderedSame ? [[DetailsHTMLViewController alloc] initWithProduct:self.product andContext:context] : [DetailsViewController detailsWithProduct:self.product andContext:context] ) ];
+        } else {
+            self.viewControllers = @[ [[VideoViewController alloc] initWithProduct:self.product andContext:context]];
+        }
     }
     return self;
 }

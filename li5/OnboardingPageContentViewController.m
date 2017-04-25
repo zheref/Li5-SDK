@@ -175,6 +175,7 @@
 - (void)networkFail:(NSError *)error
 {
     DDLogError(@"");
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
 }
 
 - (void)replay

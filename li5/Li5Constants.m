@@ -23,6 +23,8 @@ NSString * const kPrimeTimeExpired = @"kPrimeTimeExpired";
 NSString * const kProfileUpdated = @"kProfileUpdated";
 NSString * const kLoggedOutFromServer = @"kLoggedOutFromServer";
 NSString * const kUserSettingsUpdated = @"kUserSettingsUpdated";
+NSString * const kFetchPrimeTime = @"kFetchPrimeTime";
+NSString * const kPrimeTimeReset = @"kPrimeTimeReset";
 
 NSString * const kLi5UserID = @"Li5UserId";
 NSString * const kLi5CategoriesSelectionViewPresented = @"Li5CategoriesSelectionViewPresented";

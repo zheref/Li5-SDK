@@ -178,6 +178,7 @@
             [notificationCenter postNotificationName:kCategoriesUpdateSuccessful object:nil];
         } else {
             DDLogError(@"Couldn't commit selected categories: %@", error.description);
+            [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
             NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
             [notificationCenter postNotificationName:kCategoriesUpdateFailed object:nil];
         }
@@ -190,10 +191,10 @@
     switch([_selectedCategoriesIDs count])
     {
         case 0:
-            [self.continueBtn setTitle:@"SELECT AT LEAST 2!" forState:UIControlStateDisabled];
+            [self.continueBtn setTitle:NSLocalizedString(@"SELECT AT LEAST 2!",nil) forState:UIControlStateDisabled];
             break;
         case 1:
-            [self.continueBtn setTitle:@"SELECT 1 MORE!" forState:UIControlStateDisabled];
+            [self.continueBtn setTitle:NSLocalizedString(@"SELECT 1 MORE!",nil) forState:UIControlStateDisabled];
             break;
     }
     [self.continueBtn setEnabled:([_selectedCategoriesIDs count] >= 2)];

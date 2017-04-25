@@ -43,7 +43,7 @@
     DDLogVerbose(@"");
     [super viewDidLoad];
     
-    self.title = [@"Payments" uppercaseString];
+    self.title = [NSLocalizedString(@"Payments",nil) uppercaseString];
     self.navigationController.navigationBar.topItem.title = @"";
     
     self.creditCardNumber.mask = @"#### #### #### ####";
@@ -56,11 +56,11 @@
     UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width, self.view.bounds.size.height)];
     
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(done:)];
+    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done",nil) style:UIBarButtonItemStyleDone target:self action:@selector(done:)];
     
     UIToolbar *nextKeyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width, self.view.bounds.size.height)];
     
-    UIBarButtonItem *nextItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(next:)];
+    UIBarButtonItem *nextItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next",nil) style:UIBarButtonItemStyleDone target:self action:@selector(next:)];
     
     keyboardToolbar.items = @[spaceItem,doneItem];
     [keyboardToolbar sizeToFit];
@@ -87,7 +87,7 @@
         self.creditCardNumber.text = [NSString stringWithFormat:@"**** **** **** %@", _currentCard.last4];
         self.alias.text = _currentCard.alias;
         
-        UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(delete)];
+        UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Delete",nil) style:UIBarButtonItemStylePlain target:self action:@selector(delete)];
         self.navigationItem.rightBarButtonItem = delete;
     }
     
@@ -123,10 +123,10 @@
         
         if (error)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                             message:error.localizedDescription
                                                            delegate:self
-                                                  cancelButtonTitle:@"OK"
+                                                  cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
             [alert show];
             
@@ -154,21 +154,21 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [CardIOUtilities preload];
-    self.title = [@"Payments" uppercaseString];
+    self.navigationItem.title = [NSLocalizedString(@"Payments",nil) uppercaseString];
 }
 
 
 - (IBAction)scanCreditCard:(id)sender
 {
     if (![CardIOUtilities canReadCardWithCamera]) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Allow Li5 Access your Camera"
-                                                                       message:@"Li5 uses your camera to scan your credit card to fill the numbers for you. Go to Settings->Camera and Enable it."
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Allow Li5 Access your Camera",nil)
+                                                                       message:NSLocalizedString(@"Li5 uses your camera to scan your credit card to fill the numbers for you. Go to Settings->Camera and Enable it.",nil)
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil) style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {}];
         
-        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Settings",nil) style:UIAlertActionStyleDefault
                                                                handler:^(UIAlertAction * action) {
                                                                    
                                                                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
@@ -226,10 +226,10 @@
              [hud hideAnimated:YES];
              if (error)
              {
-                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                                  message:error.localizedDescription
                                                                 delegate:self
-                                                       cancelButtonTitle:@"OK"
+                                                       cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                        otherButtonTitles:nil];
                  [alert show];
              }

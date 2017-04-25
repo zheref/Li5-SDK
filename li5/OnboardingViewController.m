@@ -8,6 +8,7 @@
 
 @import SMPageControl;
 @import AVFoundation;
+@import Intercom;
 
 #import "OnboardingViewController.h"
 #import "LoginViewController.h"
@@ -15,6 +16,7 @@
 #import <objc/runtime.h>
 #import "Li5VolumeView.h"
 #import "UIBezierPath+UIImage.h"
+#import "RightArrowUIView.h"
 
 @interface OnboardingViewController ()
 
@@ -30,6 +32,8 @@
 @property (nonatomic, assign) CGPoint lastLogoPosition;
 
 @property (nonatomic, assign) BOOL animationsSetupAlready;
+
+@property (weak, nonatomic) IBOutlet UIButton *rightArrow;
 
 @end
 
@@ -57,8 +61,9 @@
 
 - (void)initialize
 {
-    _pageTitles = @[@"Discover",@"Wonder"];
-    _pageSubtitles = @[@"Fun Product Videos",@"With Curated Products You'll ❤️"];
+    
+    _pageTitles = @[NSLocalizedString(@"Watch Fun Videos",nil),NSLocalizedString(@"Discover",nil)];
+    _pageSubtitles = @[NSLocalizedString(@"Made by Creative Sellers",nil),NSLocalizedString(@"Awesome New Products You'll ❤️",nil)];
     _pageVideos = @[
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_1" ofType:@"mp4"]],
                     [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"onboarding_2" ofType:@"mp4"]]
@@ -68,6 +73,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [Intercom registerUnidentifiedUser];
     
     UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0,0,16.0,16.0)];
     circlePath.lineWidth = 2.0;
@@ -103,8 +110,24 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = true;
+    
+    [_pageViewController beginAppearanceTransition:YES animated:animated];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [_pageViewController endAppearanceTransition];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [_pageViewController beginAppearanceTransition:NO animated:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [_pageViewController endAppearanceTransition];
+}
 
 - (void)viewDidLayoutSubviews
 {
@@ -119,14 +142,16 @@
     }
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
     return NO;
 }
 
--(UIStatusBarStyle)preferredStatusBarStyle
-{
+-(UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+- (BOOL)shouldAutomaticallyForwardAppearanceMethods {
+    return _pageViewController.shouldAutomaticallyForwardAppearanceMethods;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -159,6 +184,19 @@
     logoAnimations.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.43 :0 :0.82 :0.60];
     
     [self.logoView.layer addAnimation:logoAnimations forKey:@"logoView"];
+    
+    CAKeyframeAnimation *trans = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    trans.values = @[@(0),@(-5),@(2.0),@(-3),@(0)];
+    trans.keyTimes = @[@(0.0),@(0.35),@(0.70),@(0.90),@(1)];
+    trans.timingFunction = [CAMediaTimingFunction functionWithControlPoints:.5 :1.8 :1 :1];
+    trans.duration = 2.0;
+    trans.additive = YES;
+    trans.repeatCount = INFINITY;
+    trans.beginTime = CACurrentMediaTime() + 2.0;
+    trans.removedOnCompletion = NO;
+    trans.fillMode = kCAFillModeForwards;
+    [self.rightArrow.layer addAnimation:trans forKey:@"bouncing"];
+    
 }
 
 #pragma mark - PageViewControllerDataSource
@@ -277,6 +315,7 @@
                                                            _lastLogoPosition.y);
                 self.logoView.transform = CGAffineTransformMakeScale(newScale, newScale);
             }];
+            self.rightArrow.hidden = YES;
         }
         else
         {
@@ -286,9 +325,15 @@
                                                            _originalLogoPosition.y);
                 self.logoView.transform = CGAffineTransformMakeScale(newScale, newScale);
             }];
+            self.rightArrow.hidden = NO;
         }
 
     }
+}
+
+- (IBAction)didTapOnArrow:(id)sender {
+    self.pageControl.currentPage++;
+    [self pageUpdated];
 }
 
 #pragma mark - OS Actions

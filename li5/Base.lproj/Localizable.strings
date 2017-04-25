@@ -1,0 +1,69 @@
+/* 
+  Localizable.strings
+  li5
+
+  Created by Martin Cocaro on 2/2/17.
+  Copyright © 2017 Li5, Inc. All rights reserved.
+*/
+"Watch Fun Videos" = "Watch Fun Videos";
+"Discover" = "Discover";
+"Made by Creative Sellers" = "Made by Creative Sellers";
+"Awesome New Products You'll ❤️" = "Awesome New Products You'll ❤️";
+"Error" = "Error";
+"OK" = "OK";
+"Allow Li5 Access your Location" = "Allow Li5 Access your Location";
+"Li5 uses your location to populate the address for you. Go to Settings->Location and Enable it." = "Li5 uses your location to populate the address for you. Go to Settings->Location and Enable it.";
+"Cancel" = "Cancel";
+"Settings" = "Settings";
+"Billing Address" = "Billing Address";
+"Shipping Info" = "Shipping Info";
+"SELECT AT LEAST 2!" = "SELECT AT LEAST 2!";
+"SELECT 1 MORE!" = "SELECT 1 MORE!";
+"Allow Li5 Access your Camera" = "Allow Li5 Access your Camera";
+"Li5 uses your camera to scan your credit card to fill the numbers for you. Go to Settings->Camera and Enable it." = "Li5 uses your camera to scan your credit card to fill the numbers for you. Go to Settings->Camera and Enable it.";
+"O.PRICE: " = "O.PRICE: ";
+" READ MORE" = " READ MORE";
+"BUY NOW AT %@" = "BUY NOW AT %@";
+"SOLD OUT" = "SOLD OUT";
+"See Details" = "See Details";
+"SWIPE DOWN TO EXPLORE MORE" = "SWIPE DOWN TO EXPLORE MORE";
+"Turn On Notifications" = "Turn On Notifications";
+"We will only send you push notifications when your new show is ready. Go to Settings->Notifications and Enable it." = "We will only send you push notifications when your new show is ready. Go to Settings->Notifications and Enable it.";
+"Something went wrong" = "Something went wrong";
+"You were logged out by the server. Log-in again please." = "You were logged out by the server. Log-in again please.";
+"Terms & Privacy Policy" = "Terms & Privacy Policy";
+"There was an error with your request. Please try again later. (%@)" = "There was an error with your request. Please try again later. (%@)";
+"Payments" = "Payments";
+"Edit" = "Edit";
+"Card ending With" = "Card ending With";
+"Done" = "Done";
+"Next" = "Next";
+"Delete" = "Delete";
+"Select a Default Location" = "Select a Default Location";
+"Record a private message to your friends and pass it along your share!" = "Record a private message to your friends and pass it along your share!";
+"Success" = "Success";
+"Now when a friend of yours signs up and buys this product, you will get it for FREE!" = "Now when a friend of yours signs up and buys this product, you will get it for FREE!";
+"😻 Great!" = "😻 Great!";
+"Failed to load video, please try again later." = "Failed to load video, please try again later.";
+"Network slow" = "Network slow";
+"Buffer is empty, waiting for resources to finish downloading" = "Buffer is empty, waiting for resources to finish downloading";
+"Network failed, please try again later." = "Network failed, please try again later.";
+"Chromecast" = "Chromecast";
+"Apple TV" = "Apple TV";
+"Amazon Fire" = "Amazon Fire";
+"New Version" = "New Version";
+"A better newer version is available for download. Check it out!" = "A better newer version is available for download. Check it out!";
+"You haven't [heart] loved any products yet!" = "You haven't [heart] loved any products yet!";
+"You haven't made any orders yet!" = "You haven't made any orders yet!";
+"About" = "About";
+"Rate our App" = "Rate our App";
+"Support" = "Support";
+"Shipping and Billing" = "Shipping and Billing";
+"Shipping Information" = "Shipping Information";
+"Credit Cards" = "Credit Cards";
+"User" = "User";
+"Logout" = "Logout";
+"Standard Defaults cleared." = "Standard Defaults cleared.";
+"Cache cleared ok." = "Cache cleared ok.";
+"CTA_OFFER" = "MORE";
+"Pronto" = "Pronto";

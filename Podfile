@@ -5,9 +5,9 @@ use_frameworks!
 
 abstract_target 'Li5Base' do
   pod 'CocoaLumberjack'
-  pod 'Li5Api', :path => '../li5-api-ios'
+  pod 'Li5Api', :path => '../api'
   pod 'GCDWebServer', :git => 'git@github.com:lifive/GCDWebServer.git', :branch => 'master'
-  pod 'BCVideoPlayer', :path => '../BCPlayerView'
+  pod 'BCVideoPlayer', :path => '../player'
   pod 'SDWebImage', '~>3.7'
   pod 'Masonry'
   pod 'SMPageControl'
@@ -20,9 +20,14 @@ abstract_target 'Li5Base' do
   pod 'YYImage/WebP'
   pod 'VMaskTextField'
   pod 'MBProgressHUD'
-  pod 'Branch', :git => 'git@github.com:BranchMetrics/ios-branch-deep-linking.git', :branch => 'revert-lifecyle-change'
-  pod 'Instabug', :git => 'git@github.com:Instabug/Instabug-iOS.git'
+  pod 'Branch'
+  pod 'Instabug'
   pod 'FBNotifications'
+  pod 'SCRecorder', '~> 2.7'
+  pod 'AMPopTip'
+  pod 'Applanga'
+  pod 'OneSignal'
+  pod 'SnapKit', '0.22.0'
   
   target 'li5' do
     pod 'Fabric'
@@ -47,9 +52,36 @@ abstract_target 'Li5Base' do
   end
   
   target 'li5Tests' do
+    pod 'Fabric'
+    pod 'Digits'
+    pod 'TwitterCore'
+    pod 'Crashlytics'
+    pod 'CardIO'
+    pod 'Stripe'
+    pod 'Intercom'
+    pod 'JSBadgeView'
   end
   
   target 'li5UITests' do
+    pod 'Fabric'
+    pod 'Digits'
+    pod 'TwitterCore'
+    pod 'Crashlytics'
+    pod 'CardIO'
+    pod 'Stripe'
+    pod 'Intercom'
+    pod 'JSBadgeView'
+  end
+
+  target 'Embed' do
+    pod 'Fabric'
+    pod 'Digits'
+    pod 'TwitterCore'
+    pod 'Crashlytics'
+    pod 'CardIO'
+    pod 'Stripe'
+    pod 'Intercom'
+    pod 'JSBadgeView'
   end
 
 end

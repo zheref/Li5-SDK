@@ -14,9 +14,14 @@
 {
     AVPlayerLayer *loadingLayer;
     id playEndObserver;
+    
+    NSString *_originalMessage;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *spinnerView;
+@property (weak, nonatomic) IBOutlet UILabel *message;
+@property (weak, nonatomic) IBOutlet UIButton *tryAgainButton;
+@property (weak, nonatomic) IBOutlet UIImageView *backView;
 
 @end
 
@@ -48,10 +53,15 @@
 {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
-            [notificationCenter addObserver:self
-                                   selector:@selector(hideMovie)
-                                       name:kPrimeTimeFailedToLoad
-                                     object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(displayErrorAndHideMovie:)
+                               name:kPrimeTimeFailedToLoad
+                             object:nil];
+    
+    [notificationCenter addObserver:self
+                           selector:@selector(viewDidAppear:)
+                               name:UIApplicationDidBecomeActiveNotification
+                             object:nil];
 }
 
 #pragma mark - UI Setup
@@ -65,6 +75,8 @@
     DDLogVerbose(@"");
     [super viewDidLoad];
     
+#ifndef EMBED
+    _originalMessage = self.message.text;
     NSString *loadingPath = [[NSBundle mainBundle] pathForResource:@"logo_loading" ofType:@"mp4"];
     AVPlayer *player = [[AVPlayer alloc] initWithURL:[NSURL fileURLWithPath:loadingPath]];
     loadingLayer = [AVPlayerLayer playerLayerWithPlayer:player];
@@ -72,13 +84,20 @@
     loadingLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
     [self.spinnerView.layer addSublayer:loadingLayer];
+#else
+    _originalMessage = NSLocalizedString(@"Pronto", nil);
+    [self.backView setImage:nil];
+    [self.backView setBackgroundColor:[UIColor li5_blackish]];
+    self.message.text = NSLocalizedString(@"Pronto", nil);
+#endif
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     DDLogVerbose(@"");
     [super viewDidAppear:animated];
-    [loadingLayer.player play];
+    
+    [self fetchPrimeTime:nil];
     
     [self setupVideoEndObservers];
 }
@@ -108,6 +127,27 @@
     _spinnerView.hidden = TRUE;
 }
 
+- (void)displayErrorAndHideMovie:(NSNotification*)notification {
+    DDLogVerbose(@"");
+    
+    [self hideMovie];
+    
+    self.message.text = ((NSError*)[notification object]).localizedDescription;
+    self.tryAgainButton.hidden = NO;
+}
+
+- (IBAction)fetchPrimeTime:(id)sender {
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter postNotificationName:kFetchPrimeTime object:nil];
+    
+    _spinnerView.hidden = NO;
+    self.tryAgainButton.hidden = YES;
+    
+    self.message.text = _originalMessage;
+    
+    [self replayMovie:nil];
+}
+
 #pragma mark - Observers
 
 - (void)setupVideoEndObservers
@@ -128,6 +168,12 @@
     playEndObserver = nil;
 }
 
+- (void)removeObservers {
+    [self removeVideoEndObservers];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - OS Actions
 
 - (void)dealloc
@@ -136,7 +182,7 @@
     [loadingLayer.player replaceCurrentItemWithPlayerItem:nil];
     loadingLayer = nil;
     
-    [self removeVideoEndObservers];
+    [self removeObservers];
 }
 
 - (void)didReceiveMemoryWarning {

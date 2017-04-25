@@ -35,6 +35,9 @@
                               NSCalendarUnitHour |
                               NSCalendarUnitMinute |
                               NSCalendarUnitSecond);
+        _threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
+        [_threadUnsafeDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4]; // 10.4+ style
+        [_threadUnsafeDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss:SSS"];
     }
 
     return self;
@@ -44,9 +47,7 @@
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage
 {
-    char ts[24] = "";
-
-    NSString *dateAndTime = [NSString stringWithCString:ts encoding:NSUTF8StringEncoding];
+    NSString *dateAndTime = [_threadUnsafeDateFormatter stringFromDate:(logMessage->_timestamp)];
     NSString *logMsg = logMessage->_message;
 
     return [NSString stringWithFormat:@"%@ %@[p:%d/t:%@] %@[l:%lu] %@",

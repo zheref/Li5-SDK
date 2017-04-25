@@ -104,6 +104,7 @@
 - (void)failToLoadItem:(NSError*)error
 {
     DDLogError(@"failed to load item %@",error.description);
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
 }
 
 - (void)bufferEmpty
@@ -119,6 +120,7 @@
 - (void)networkFail:(NSError *)error
 {
     DDLogError(@"");
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
 }
 
 #pragma mark - Observers

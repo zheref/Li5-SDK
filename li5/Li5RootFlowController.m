@@ -10,6 +10,8 @@
 @import Intercom;
 @import TSMessages;
 @import DigitsKit;
+@import Crashlytics;
+@import OneSignal;
 
 #import "CategoriesViewController.h"
 #import "Li5RootFlowController.h"
@@ -22,12 +24,14 @@
 #import "Li5Constants.h"
 #import "ImageCardViewController.h"
 #import "Heap.h"
+#import "UpdateAvailableFeature.h"
 
 @interface Li5RootFlowController ()
 
 @property (nonatomic, weak) UINavigationController *navigationController;
 @property (nonatomic, strong) Li5ApiHandler *service;
 @property (nonatomic, strong) PrimeTimeViewControllerDataSource *primeTimeDataSource;
+@property (nonatomic, strong) UpdateAvailableFeature *updateFeature;
 
 @end
 
@@ -43,6 +47,7 @@
     {
         _navigationController = navController;
         _service = [Li5ApiHandler sharedInstance];
+        _updateFeature = [[UpdateAvailableFeature alloc] initWithRootViewController:self.navigationController];
 
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self
@@ -74,7 +79,7 @@
                                selector:@selector(showInitialScreen)
                                    name:kPrimeTimeExpired
                                  object:nil];
-
+        
     }
     return self;
 }
@@ -84,6 +89,7 @@
 - (void)showInitialScreen
 {
     DDLogVerbose(@"");
+#ifndef EMBED
     // Do any additional setup after loading the view.
     if (!FBSDKAccessToken.currentAccessToken && ![[Digits sharedInstance] session])
     {
@@ -91,6 +97,11 @@
     }
     else
     {
+        //Register for Remote Push Notifications
+        if (![[UIApplication sharedApplication] isRegisteredForRemoteNotifications]) {
+            [[UIApplication sharedApplication] registerForRemoteNotifications];
+        }
+        
         [self updateUserProfile];
         
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -103,6 +114,9 @@
             [self showPrimeTimeScreen];
         }
     }
+#else
+    [self showPrimeTimeScreen];
+#endif
 }
 
 - (void)updateUserProfile
@@ -117,6 +131,7 @@
             if (profileError != nil)
             {
                 DDLogError(@"Error while requesting Profile %@", profileError.description);
+                [[CrashlyticsLogger sharedInstance] logError:profileError userInfo:nil];
                 [swelf logoutAndShowOnboardingScreen];
             }
             else
@@ -124,14 +139,20 @@
                 DDLogInfo(@"Profile requested successfully");
                 swelf.userProfile = profile;
                 
+                [[Crashlytics sharedInstance] setUserIdentifier:profile.id];
+                [[Crashlytics sharedInstance] setUserEmail:profile.email];
                 [Intercom registerUserWithUserId:profile.id email:profile.email];
+                [Intercom updateUserWithAttributes:@{
+                                                     @"name" : [NSString stringWithFormat:@"%@ %@",profile.first_name, profile.last_name]
+                                                    }];
                 [Heap identify:profile.email];
                 [Heap addUserProperties:@{@"email":profile.email, @"id":profile.id}];
+//                [OneSignal syncHashedEmail:profile.email];
                 
                 NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                 [notificationCenter postNotificationName:kProfileUpdated object:nil];
                 
-                if(!profile.preferences || profile.preferences.count < 3)
+                if(!profile.preferences || profile.preferences.count < 2)
                 {
                     [swelf showCategoriesSelectionScreen];
                 }
@@ -153,6 +174,7 @@
             if (profileError != nil)
             {
                 DDLogError(@"Error while requesting Profile %@", profileError.description);
+                [[CrashlyticsLogger sharedInstance] logError:profileError userInfo:nil];
                 [swelf logoutAndShowOnboardingScreen];
                 completion(NO, profileError);
             }
@@ -188,12 +210,23 @@
     if (wasLoggedIn) {
         [[Li5ApiHandler sharedInstance] logout];
         
+        //Removing categories check because the server logged out the user
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults removeObjectForKey:kLi5CategoriesSelectionViewPresented];
+        
         [self showOnboardingScreen];
         
-        [TSMessage showNotificationWithTitle:@"Something went wrong"
-                                    subtitle:@"You were logged out by the server. Log-in again please."
+        [TSMessage showNotificationWithTitle:NSLocalizedString(@"Something went wrong",nil)
+                                    subtitle:NSLocalizedString(@"You were logged out by the server. Log-in again please.",nil)
                                         type:TSMessageNotificationTypeError];
     }
+    
+#ifdef EMBED
+    Li5ApiHandler *handler = [Li5ApiHandler sharedInstance];
+    [handler revokeRefreshAccessTokenWithCompletion:^void (NSError *error){
+        [[Li5ApiHandler sharedInstance] logout];
+    }];
+#endif
 }
 
 - (void)__dismissPresentedViewController:(BOOL)animated completion:(void (^)())completion
@@ -210,26 +243,30 @@
 - (void)showOnboardingScreen
 {
     DDLogVerbose(@"");
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
-    OnboardingViewController *onboardingScreen = [storyboard instantiateInitialViewController];
-    [self __dismissPresentedViewController:YES completion:^{
-        [self.navigationController setViewControllers:@[onboardingScreen]];
-    }];
+    if (![self.navigationController.topViewController isKindOfClass:[OnboardingViewController class]]) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
+        OnboardingViewController *onboardingScreen = [storyboard instantiateInitialViewController];
+        [self __dismissPresentedViewController:YES completion:^{
+            [self.navigationController setViewControllers:@[onboardingScreen]];
+        }];
+    }
 }
 
 - (void)showCategoriesSelectionScreen
 {
     DDLogVerbose(@"");
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
-    CategoriesViewController *categoriesSelectionScreen = [storyboard instantiateViewControllerWithIdentifier:@"OnboardingCategoriesView"];
-    [categoriesSelectionScreen setUserProfile:self.userProfile];
-    [self.navigationController setViewControllers:@[categoriesSelectionScreen]];
+    if (![self.navigationController.topViewController isKindOfClass:[CategoriesViewController class]]) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"OnboardingViews" bundle:[NSBundle mainBundle]];
+        CategoriesViewController *categoriesSelectionScreen = [storyboard instantiateViewControllerWithIdentifier:@"OnboardingCategoriesView"];
+        [categoriesSelectionScreen setUserProfile:self.userProfile];
+        [self.navigationController setViewControllers:@[categoriesSelectionScreen]];
+    }
 }
 
 - (void)showPrimeTimeScreen
 {
     DDLogVerbose(@"");
-    if ([self isPrimeTimeExpired])
+    if (![self hasPrimeTime] || [self isPrimeTimeExpired])
     {
         _primeTimeDataSource = [PrimeTimeViewControllerDataSource new];
     }
@@ -254,7 +291,11 @@
 }
 
 - (BOOL)isPrimeTimeExpired {
-    return !_primeTimeDataSource || [_primeTimeDataSource isExpired];
+    return [_primeTimeDataSource isExpired];
+}
+
+- (BOOL)hasPrimeTime {
+    return _primeTimeDataSource != nil;
 }
 
 #pragma mark - OS Actions

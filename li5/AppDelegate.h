@@ -9,12 +9,13 @@
 #import "Li5RootFlowController.h"
 #import "LoginViewController.h"
 #import "ProductPageViewController.h"
+#import "Li5UINavigationController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property(nonatomic, retain) UINavigationController *navController;
+@property(nonatomic, retain) Li5UINavigationController *navController;
 
 @property (nonatomic, strong) DDFileLogger *logger;
 

@@ -41,7 +41,7 @@
     DDLogVerbose(@"");
     [super viewDidLoad];
     
-    self.title = [@"Payments" uppercaseString];
+    self.title = [NSLocalizedString(@"Payments",nil) uppercaseString];
     self.navigationController.navigationBar.topItem.title = @"";
     
     Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
@@ -56,7 +56,7 @@
         self.ccCvv.enabled = false;
         self.alias.enabled = false;
         
-        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
+        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit",nil) style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
         self.navigationItem.rightBarButtonItem = edit;
         
         [self defaultCard];
@@ -69,7 +69,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    self.title = [@"Payments" uppercaseString];
+    self.navigationItem.title = [NSLocalizedString(@"Payments",nil) uppercaseString];
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
@@ -86,7 +86,7 @@
         self.ccCvv.enabled = false;
         self.alias.enabled = false;
         
-        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
+        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit",nil) style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
         self.navigationItem.rightBarButtonItem = edit;
     }
     else {
@@ -101,10 +101,10 @@
         
         if (error)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                             message:error.localizedDescription
                                                            delegate:self
-                                                  cancelButtonTitle:@"OK"
+                                                  cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
             [alert show];
         }
@@ -188,7 +188,7 @@
 - (IBAction)selectPaymentMethod:(id)sender {
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
-                                                                   message:@"Card ending With"
+                                                                   message:NSLocalizedString(@"Card ending With",nil)
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
     
     for (Card *card in self.cards) {
@@ -209,7 +209,7 @@
         [alert addAction:action];
     }
     
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"Cancel"
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle: NSLocalizedString(@"Cancel",nil)
                                                      style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
                                                          
                                                          [alert dismissViewControllerAnimated:YES completion:nil];

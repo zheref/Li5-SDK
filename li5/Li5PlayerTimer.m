@@ -234,8 +234,9 @@
 
 - (void)setPlayer:(AVPlayer *)player
 {
-    if (_player != player)
-    {
+    if (_player != player) {
+        [self removeObservers];
+        
         _player = player;
         
         [self setupObservers];

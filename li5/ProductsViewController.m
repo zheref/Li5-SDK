@@ -127,6 +127,7 @@
             if (error != nil)
             {
                 DDLogError(@"Error searching products: %@", error);
+                [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
             }
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [_spinnerView stopAnimating];
@@ -216,6 +217,7 @@ DDLogVerbose(@"");
             if (error != nil)
             {
                 DDLogError(@"Error fetching more products: %@", error);
+                [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
             }
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{

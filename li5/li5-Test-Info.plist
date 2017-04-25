@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.1</string>
+	<string>1.0.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -31,7 +31,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>119</string>
+	<string>157</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -74,6 +74,8 @@
 	<string>447934008</string>
 	<key>InstaBugToken</key>
 	<string>7e935d0c724a44a76f266a6cc1fe6f9f</string>
+	<key>OneSignalAppID</key>
+	<string>a9d9d964-de47-403f-bae2-43ecac096492</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -88,9 +90,9 @@
 	<key>Li5AppId</key>
 	<string>1187286036</string>
 	<key>Li5IntercomApiKey</key>
-	<string>ios_sdk-2a1ce3d84b0841739310c444d2e43c93a0223b3f</string>
+	<string>ios_sdk-72fccf2eab742ff777ea571c773c7e06051bc4ed</string>
 	<key>Li5IntercomAppId</key>
-	<string>eran0t3m</string>
+	<string>m15fjkwh</string>
 	<key>Li5StripePublicKey</key>
 	<string>pk_test_RwxpEAjuWtwZdcUhT6vFRNpa</string>
 	<key>Li5TOSUrl</key>
@@ -125,13 +127,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Li5 uses your camera upon your request to scan your credit card to fill the numbers for you.</string>
+	<string>Li5 uses your camera for recording a video to attach on your shares or upon your request to scan your credit card to fill the numbers for you.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Li5 uses your location to populate the shipping or billing address for you.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Li5 does not use your microphone on any way.</string>
+	<string>Li5 uses your microphone for recording a video to attach on your shares.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Li5 does not require permission to access your library.</string>
+	<string>Li5 uses your library only to submit files through the chat.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Regular.ttf</string>

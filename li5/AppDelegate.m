@@ -18,7 +18,9 @@
 @import Intercom;
 @import Instabug;
 @import DigitsKit;
+@import OneSignal;
 
+#import <Applanga/Applanga.h>
 #import "AppDelegate.h"
 #import "CategoriesViewController.h"
 #import "PrimeTimeViewController.h"
@@ -28,6 +30,7 @@
 #import "Li5Constants.h"
 #import "UIViewController+Indexed.h"
 #import <FBNotifications/FBNotifications.h>
+#import "Li5UINavigationController.h"
 
 @interface AppDelegate () {
     BOOL __comesFromULink;
@@ -85,6 +88,20 @@
     //Heap Analytics
     [Heap setAppId:[infoDictionary objectForKey:@"HeapAppId"]];
     
+    [OneSignal IdsAvailable:^(NSString* userId, NSString* pushToken) {
+        DDLogVerbose(@"UserId:%@", userId);
+        [[Li5ApiHandler sharedInstance] updateUserWithDevice:userId completion:^(NSError* err){
+            if (err) {
+                DDLogVerbose(@"%@",err.localizedDescription);
+            }
+        }];
+        if (pushToken != nil) {
+            DDLogVerbose(@"pushToken:%@", pushToken);
+        }
+    }];
+    
+    [OneSignal initWithLaunchOptions:launchOptions appId:[infoDictionary objectForKey:@"OneSignalAppID"] handleNotificationAction:nil settings:@{kOSSettingsKeyAutoPrompt : @FALSE}];
+    
 #if DEBUG
 //    [Heap enableVisualizer];
     [Instabug startWithToken:[infoDictionary objectForKey:@"InstaBugToken"] invocationEvent:IBGInvocationEventShake];
@@ -98,13 +115,14 @@
 
     // Li5ApiHandler
     [[Li5ApiHandler sharedInstance] setBaseURL:serverUrl];
-    
-    self.navController = [[UINavigationController alloc] init];
+        
+    self.navController = [[Li5UINavigationController alloc] init];
     self.navController.navigationBarHidden = YES;
     
     // LoginViewController
     _flowController = [[Li5RootFlowController alloc] initWithNavigationController:self.navController];
     
+    [[Branch getInstance] registerFacebookDeepLinkingClass:[FBSDKAppLinkUtility class]];
     [[Branch getInstance] initSessionWithLaunchOptions:launchOptions];
 
     NSDictionary *activityDictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsUserActivityDictionaryKey];
@@ -112,12 +130,11 @@
         NSUserActivity *userActivity = [activityDictionary valueForKey:@"UIApplicationLaunchOptionsUserActivityKey"];
         if (userActivity) {
             __comesFromULink = YES;
+            [Heap track:@"Open URL" withProperties:@{@"url":userActivity.webpageURL}];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:[userActivity.webpageURL lastPathComponent] forKey:@"Li5LaunchUserActivity"];
+            [userDefaults setObject:[userActivity.webpageURL lastPathComponent] forKey:kLi5Product];
         }
     }
-    
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     [self.window setRootViewController:self.navController];
     [self.window makeKeyAndVisible];
@@ -129,7 +146,24 @@
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     DDLogVerbose(@"");
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:YES forKey:kUserSettingsUpdated];
     [[NSNotificationCenter defaultCenter] postNotificationName:kUserSettingsUpdated object:nil];
+    
+    UIUserNotificationSettings *currentUserNotificationsSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+    
+    BOOL disabled = (currentUserNotificationsSettings.types == UIUserNotificationTypeNone);
+    
+    NSString *eventName = disabled ? @"No Push Notifications":@"Allowed Push Notifications";
+    
+    [Heap track:eventName withProperties:@{@"types":@(currentUserNotificationsSettings.types)}];
+    
+    [[Li5ApiHandler sharedInstance] updateUserProfileWithEnabledNotifications:!disabled withCompletion:^(NSError *error) {
+        DDLogVerbose(@"updated notifications settings");
+        if (error) {
+            DDLogError(@"error, %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -137,16 +171,20 @@
     DDLogVerbose(@"%@",token);
     [[NSNotificationCenter defaultCenter] postNotificationName:kUserSettingsUpdated object:nil];
     [FBSDKAppEvents setPushNotificationsDeviceToken:deviceToken];
+    [Intercom setDeviceToken:deviceToken];
+    [Heap track:@"Device Token Registered" withProperties:@{@"token":deviceToken}];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     DDLogVerbose(@"");
     [FBSDKAppEvents logPushNotificationOpen:userInfo];
+    [Heap track:@"Remote Notification Received"];
 }
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completionHandler {
     DDLogVerbose(@"");
     [FBSDKAppEvents logPushNotificationOpen:userInfo action:identifier];
+    [Heap track:@"Remote Notification Received, Action Taken"];
 }
 
 /// Present In-App Notification from remote notification (if present).
@@ -162,6 +200,7 @@
                                                                    completionHandler(UIBackgroundFetchResultNewData);
                                                                }
                                                            }];
+    [Heap track:@"Remote Notification Received w/Handler"];
 }
 
 #pragma mark - URL Deep/Smart linking
@@ -170,7 +209,11 @@
     DDLogVerbose(@"");
     __comesFromULink = YES;
     // For Branch to detect when a URI scheme is clicked
-    [[Branch getInstance] handleDeepLink:url];
+    if (![[Branch getInstance] handleDeepLink:url]) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:[url lastPathComponent] forKey:kLi5Product];
+    }
+    [Heap track:@"Open URL" withProperties:@{@"url":url}];
     // do other deep link routing for the Facebook SDK, Pinterest SDK, etc
     return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
@@ -179,8 +222,12 @@
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
     DDLogVerbose(@"");
     __comesFromULink = YES;
+    [Heap track:@"Open URL" withProperties:@{@"url":userActivity.webpageURL}];
     // For Branch to detect when a Universal Link is clicked
-    [[Branch getInstance] continueUserActivity:userActivity];
+    if(![[Branch getInstance] continueUserActivity:userActivity]){
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:[userActivity.webpageURL lastPathComponent] forKey:kLi5Product];
+    };
     return YES;
 }
 
@@ -203,26 +250,31 @@
     }
     
     [[AVAudioSession sharedInstance] setActive:FALSE error:nil];
+    __comesFromULink = NO;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     DDLogDebug(@"");
     
+    //Clear Notifications Badges
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    
     [FBSDKAppEvents activateApp];
     
-    if ([_flowController isPrimeTimeExpired] || __comesFromULink) {
+    if (![_flowController hasPrimeTime] || [_flowController isPrimeTimeExpired] || __comesFromULink) {
         [_flowController showInitialScreen];
-    } else {
-        UIViewController *topController = [self.navController.topViewController topMostViewController];
-        if ([self.navController.topViewController isViewLoaded])
-        {
-            if (!topController.shouldAutomaticallyForwardAppearanceMethods) {
-                [topController beginAppearanceTransition:YES animated:NO];
-                [topController endAppearanceTransition];
-            }
+    }
+    
+    UIViewController *topController = [self.navController.topViewController topMostViewController];
+    if ([self.navController.topViewController isViewLoaded])
+    {
+        if (!topController.shouldAutomaticallyForwardAppearanceMethods) {
+            [topController beginAppearanceTransition:YES animated:NO];
+            [topController endAppearanceTransition];
         }
     }
+    
     [[AVAudioSession sharedInstance] setActive:TRUE error:nil];
     __comesFromULink = NO;
 }
@@ -235,11 +287,18 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [[[BCFileHelper alloc] init] removeCacheFromDays:1];
+    
+    __comesFromULink = NO;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     DDLogDebug(@"");
+    
+    [Applanga updateWithCompletionHandler:^(BOOL success) {
+        //called if update is complete
+        [self.navController.view setNeedsDisplay];
+    }];
     
 }
 

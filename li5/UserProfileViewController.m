@@ -174,24 +174,3 @@
 
 @end
 
-@implementation UserProfileNavigationViewController
-
-- (BOOL)prefersStatusBarHidden {
-    return [self.topViewController prefersStatusBarHidden];
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return [self.topViewController preferredStatusBarStyle];
-}
-
-- (UIViewController *)childViewControllerForStatusBarHidden {
-    DDLogVerbose(@"");
-    return self.topViewController;
-}
-
-- (UIViewController *)childViewControllerForStatusBarStyle {
-    DDLogVerbose(@"");
-    return self.topViewController;
-}
-
-@end

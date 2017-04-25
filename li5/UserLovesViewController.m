@@ -35,7 +35,7 @@
     [_noLovesView setHidden:YES];
     [_productsListView setHidden:NO];
     
-    NSString *message = @"You haven't [heart] loved any products yet!";
+    NSString *message = NSLocalizedString(@"You haven't [heart] loved any products yet!",nil);
     NSString *redWords = @"loved";
     NSString *heartImage = @"[heart]";
     NSTextAttachment *loveImageAttachment = [NSTextAttachment new];
@@ -87,6 +87,7 @@
             if (error != nil)
             {
                 DDLogError(@"Error fetching more products: %@", error);
+                [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
             }
             
             [_productsListView.collectionView reloadData];

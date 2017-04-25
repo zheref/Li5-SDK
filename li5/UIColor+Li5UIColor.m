@@ -41,4 +41,9 @@
     return [UIColor colorWithRed:24 / 255.0 green:24 / 255.0 blue:24 / 255.0 alpha:1.0];
 }
 
++ (UIColor *)li5_blackish {
+    return [UIColor colorWithRed:0.04 green:0.04 blue:0.10 alpha:1.0];
+}
+
+
 @end

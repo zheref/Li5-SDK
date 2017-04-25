@@ -24,6 +24,8 @@ extern NSString * const kPrimeTimeExpired;
 extern NSString * const kProfileUpdated;
 extern NSString * const kLoggedOutFromServer;
 extern NSString * const kUserSettingsUpdated;
+extern NSString * const kFetchPrimeTime;
+extern NSString * const kPrimeTimeReset;
 
 //User Defaults Keys
 extern NSString * const kLi5UserID;

@@ -9,6 +9,7 @@
 @import pop;
 @import TSMessages;
 @import FBSDKCoreKit;
+@import Intercom;
 
 #import "ShapesHelper.h"
 #import "TeaserViewController.h"
@@ -21,6 +22,7 @@
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
 #import "Li5-Swift.h"
+#import "Heap.h"
 
 #import "PrimeTimeViewController.h"
 #pragma mark - Class Definitions
@@ -28,6 +30,7 @@
 @interface TeaserViewController ()
 {
     id playEndObserver;
+    id teaserActionsViewTimer;
     
     UIPanGestureRecognizer *profilePanGestureRecognizer;
     UIPanGestureRecognizer *searchPanGestureRecognizer;
@@ -38,6 +41,9 @@
     
     BOOL __hasUnlockedVideo;
     BOOL __hasAppeared;
+    BOOL __actionsViewAppeared;
+    BOOL __hasRetriedFailedItem;
+    BOOL __hasDetails;
     
     double __startPositionX;
     double __endPositionX;
@@ -59,9 +65,16 @@
 //@property (strong, nonatomic) UIImageView *posterImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageLeadingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelLeadingConstraint;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UILabel *moreView;
 
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (strong, nonatomic) Wave *waveView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *arrowLeadingMoreTrailing;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *arrowVerticalCenter;
+@property (weak, nonatomic) IBOutlet ThinPlayerProgressView *playerProgressLine;
+@property (weak, nonatomic) IBOutlet UIButton *muteButton;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 
 @end
 
@@ -90,11 +103,12 @@
 {
     DDLogVerbose(@"");
     __hasUnlockedVideo = (self.product.videoURL != nil && ![self.product.videoURL isEqualToString:@""]);
+    __hasDetails = [self.product.type caseInsensitiveCompare:@"product"] == NSOrderedSame || ([self.product.type caseInsensitiveCompare:@"url"] == NSOrderedSame && self.product.contentUrl != nil);
+    
+    __hasRetriedFailedItem = NO;
     
     NSURL *playerUrl = [NSURL URLWithString:self.product.trailerURL];
     _teaserPlayer = [[BCPlayer alloc] initWithUrl:playerUrl bufferInSeconds:10.0 priority:BCPriorityBuffer delegate:self];
-    //AVPlayer *player = [[AVPlayer alloc] initWithURL:playerUrl];
-    
     
     self.playerLayer = [[BCPlayerLayer alloc] initWithPlayer:_teaserPlayer andFrame:[UIScreen mainScreen].bounds previewImageRequired:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -173,7 +187,42 @@
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
     
-    [self setupGestureRecognizers];
+    if (self.product.isAd) {
+        self.contentView.hidden = YES;
+    } else {
+        if (!__hasDetails) {
+            self.moreView.hidden = YES;
+            self.arrow.hidden = YES;
+        }
+        
+        [self setupGestureRecognizers];
+    }
+    
+    if (self.product.hasOffer) {
+        self.moreView.text = NSLocalizedString(@"CTA_OFFER", nil);
+        self.arrow.image = [UIImage imageNamed:@"fire"];
+        self.arrowLeadingMoreTrailing.constant = 2.0;
+        self.arrowVerticalCenter.constant = -3.0;
+        [self.arrow setNeedsLayout];
+    }
+    
+    if (__hasUnlockedVideo) {
+        [self.playerProgressLine setBackgroundColor:[[UIColor li5_redColor] colorWithAlphaComponent:0.6]];
+    }
+    
+    [self setupEmbedMode];
+}
+
+- (void)setupEmbedMode {
+#ifdef EMBED
+    self.logoView.hidden = TRUE;
+    self.playerTimer.hidden = TRUE;
+    self.muteButton.hidden = TRUE;
+#else
+    self.categoryImage.hidden = TRUE;
+    self.muteButton.hidden = TRUE;
+    self.shareButton.hidden = TRUE;
+#endif
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -232,6 +281,9 @@
     __endPositionX = self.categoryImage.layer.position.x; //endPositionX
     __space = (__endPositionX - __startPositionX);
     
+    if (!__actionsViewAppeared) {
+        [self toggleActionsView:NO animated:NO];
+    }
 }
 
 #pragma mark - Players
@@ -255,20 +307,36 @@
 - (void)failToLoadItem:(NSError*)error
 {
     DDLogError(@"%@",error.description);
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:self.teaserPlayer];
     
+    if (!__hasRetriedFailedItem) {
+        [self removeObservers];
+        [self.teaserPlayer pauseAndDestroy];
+        
+        NSURL *playerUrl = [NSURL URLWithString:self.product.trailerURL];
+        _teaserPlayer = [[BCPlayer alloc] initWithUrl:playerUrl bufferInSeconds:10.0 priority:BCPriorityBuffer delegate:self];
+        [self.playerLayer setPlayer:_teaserPlayer];
+        
+        [self.teaserPlayer play];
+        [self setupObservers];
+    } else {
+        [TSMessage showNotificationWithTitle:NSLocalizedString(@"Error",nil)
+                                    subtitle:NSLocalizedString(@"Failed to load video, please try again later.",nil)
+                                        type:TSMessageNotificationTypeError];
+    }
+
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
-    
-    [TSMessage showNotificationWithTitle:@"Error"
-                                subtitle:@"Failed to load item, please try again later."
-                                    type:TSMessageNotificationTypeError];
-    
+
+    __hasRetriedFailedItem = YES;
 }
 
 - (void)bufferReady
 {
     DDLogVerbose(@"");
     [_waveView stopAnimating];
+    
+    [self.teaserPlayer play];
 }
 
 - (void)bufferEmpty
@@ -276,9 +344,10 @@
     DDLogVerbose(@"");
     [_waveView startAnimating];
 
+    [self.teaserPlayer pause];
 #if DEBUG
-    [TSMessage showNotificationWithTitle:@"Network slow"
-                                subtitle:@"Buffer is empty, waiting for resources to finish downloading"
+    [TSMessage showNotificationWithTitle:NSLocalizedString(@"Network slow",nil)
+                                subtitle:NSLocalizedString(@"Buffer is empty, waiting for resources to finish downloading",nil)
                                     type:TSMessageNotificationTypeWarning];
 #endif
     
@@ -287,9 +356,10 @@
 - (void)networkFail:(NSError *)error
 {
     DDLogError(@"");
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:self.teaserPlayer];
     
-    [TSMessage showNotificationWithTitle:@"Error"
-                                subtitle:@"Network failed, please try again later."
+    [TSMessage showNotificationWithTitle:NSLocalizedString(@"Error",nil)
+                                subtitle:NSLocalizedString(@"Network failed, please try again later.",nil)
                                     type:TSMessageNotificationTypeError];
     
 }
@@ -311,6 +381,7 @@
         [_waveView stopAnimating];
         
         [self.playerTimer setPlayer:self.teaserPlayer];
+        [self.playerProgressLine setPlayer:self.teaserPlayer];
         
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         if(__hasAppeared && [userDefaults boolForKey:kLi5SwipeLeftExplainerViewPresented])
@@ -339,17 +410,26 @@
         [[NSNotificationCenter defaultCenter] removeObserver:playEndObserver];
         playEndObserver = nil;
     }
+    if (teaserActionsViewTimer) {
+        [teaserActionsViewTimer invalidate];
+        teaserActionsViewTimer = nil;
+    }
+    if (self.playerTimer || self.playerProgressLine) {
+        [self.playerTimer setPlayer:nil];
+        [self.playerProgressLine setPlayer:nil];
+    }
 }
 
 - (void)setupObservers
 {
+    DDLogVerbose(@"");
     if (!playEndObserver)
     {
-        DDLogVerbose(@"");
         __weak typeof(id) welf = self;
         playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.teaserPlayer.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
             [welf replayMovie:note];
             
+#ifndef EMBED
             if (__hasAppeared && __hasUnlockedVideo)
             {
                 if (!_modalView) {
@@ -359,8 +439,21 @@
                 
                 [self.view addSubview:_modalView.view];
             }
+#endif
         }];
     }
+    
+    if (!teaserActionsViewTimer) {
+        teaserActionsViewTimer = [NSTimer scheduledTimerWithTimeInterval:3.5
+                                                                  target:self
+                                                                selector:@selector(doShowActionsView:)
+                                                                userInfo:nil
+                                                                 repeats:NO];
+    }
+}
+
+- (void)doShowActionsView:(NSTimer *)timer {
+    [self toggleActionsView:YES animated:YES];
 }
 
 - (void)updateSecondsWatched
@@ -377,15 +470,33 @@
         if (error)
         {
             DDLogError(@"%@", error.localizedDescription);
+            [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
         }
     }];
+    
+    NSDictionary *params = @{@"product":self.product.id,@"seconds":@(secondsWatched)};
+    [Heap track:@"Teaser Viewed" withProperties:params];
+    [Intercom logEventWithName:@"Product Viewed" metaData:params];
 }
 
 #pragma mark - User Actions
 
+- (IBAction)muteAction:(id)sender {
+    BOOL currentState = self.muteButton.isSelected;
+    
+    self.teaserPlayer.muted = !currentState;
+    
+    [self.muteButton setSelected:!currentState];
+}
+
+- (IBAction)shareAction:(id)sender {
+}
+
+
 - (IBAction)userDidTap:(UITapGestureRecognizer*)sender
 {
     DDLogVerbose(@"");
+#ifndef EMBED
     if (self.teaserPlayer.status == AVPlayerStatusReadyToPlay && __hasUnlockedVideo)
     {
         if (!_modalView) {
@@ -395,6 +506,7 @@
         
         [self.view addSubview:_modalView.view];
     }
+#endif
 }
 
 - (void)handleLongTap:(UITapGestureRecognizer *)sender
@@ -529,6 +641,22 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 }
 
 #pragma mark - Animations
+
+- (void)toggleActionsView:(BOOL)on animated:(BOOL)animated {
+    //int hideOrShow = CGRectContainsPoint(self.view.frame, self.actionsView.center)?100:-100;
+    int hideOrShow = on?0:100;
+    if (animated) {
+        [UIView animateWithDuration:0.5 animations:^{
+            //self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(hideOrShow, 0));
+            self.actionsView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, hideOrShow, 0);
+        } completion:^(BOOL finished) {
+            __actionsViewAppeared = finished && on;
+        }];
+    } else {
+//        self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(hideOrShow, 0));
+        self.actionsView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, hideOrShow, 0);
+    }
+}
 
 - (void)removeAnimations
 {
@@ -719,7 +847,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
     DDLogDebug(@"%p",self);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self removeObservers];
-//    [_teaserPlayer pauseAndDestroy];
+    [_teaserPlayer pauseAndDestroy];
 }
 
 @end

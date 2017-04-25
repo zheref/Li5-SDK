@@ -28,6 +28,7 @@ OBJC_EXTERN void CLSLog(NSString *format, ...) NS_FORMAT_FUNCTION(1, 2);
         CLSLog(@"%@", logMsg);
     }
 }
+
 + (CrashlyticsLogger *)sharedInstance
 {
     static dispatch_once_t pred = 0;
@@ -39,4 +40,15 @@ OBJC_EXTERN void CLSLog(NSString *format, ...) NS_FORMAT_FUNCTION(1, 2);
 
     return _sharedInstance;
 }
+
+- (void)logError:(NSError*)err userInfo:(id)userObj {
+    NSDictionary *userInfo = @{};
+    if (userObj) {
+        userInfo = @{@"Info":userObj};
+        [[Crashlytics sharedInstance] recordError:err withAdditionalUserInfo:userInfo];
+    } else {
+        [[Crashlytics sharedInstance] recordError:err];
+    }
+}
+
 @end

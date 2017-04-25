@@ -43,6 +43,7 @@
     [li5 requestProductsWithQuery:query andCursor:nil withCompletion:^(NSError *error, NSArray<Product *> *products, Cursor *cursor) {
         if (error != nil) {
             DDLogError(@"%@",error.description);
+            [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
         }
         DDLogVerbose(@"total products: %lu", (unsigned long)products.count);
         welf.products = [NSMutableArray arrayWithArray:products];
@@ -59,6 +60,7 @@
     [li5 requestProductsWithQuery:self.lastSearch andCursor:self.cursor withCompletion:^(NSError *error, NSArray<Product *> *products, Cursor *cursor) {
         if (error != nil) {
             DDLogError(@"%@",error.description);
+            [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
         }
         DDLogVerbose(@"total new products: %lu", (unsigned long)products.count);
         [welf.products addObjectsFromArray:products];

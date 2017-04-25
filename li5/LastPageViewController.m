@@ -7,6 +7,7 @@
 //
 
 @import FBSDKCoreKit;
+@import Intercom;
 
 #import "ExploreDynamicInteractor.h"
 #import "LastPageViewController.h"
@@ -24,6 +25,7 @@
     
     id __playerEndObserver;
     BOOL __hasAppeared;
+    id __showPlayerEndObserver;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *staticView;
@@ -42,6 +44,11 @@
 @property (nonatomic, strong) BCPlayer *player;
 @property (nonatomic, strong) BCPlayerLayer *playerLayer;
 @property (nonatomic, strong) AVAudioPlayer* audioPlayer;
+
+@property (weak, nonatomic) IBOutlet UIView *endOfShowView;
+@property (nonatomic, strong) AVPlayer *showPlayer;
+@property (weak, nonatomic) IBOutlet UIView *endOfShowVideoView;
+@property (weak, nonatomic) IBOutlet UIImageView *showLogo;
 
 @end
 
@@ -123,10 +130,31 @@
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
     
 #if FULL_VERSION
-    self.closeMessage.text = @"SWIPE DOWN TO EXPLORE MORE";
+    self.closeMessage.text = NSLocalizedString(@"SWIPE DOWN TO EXPLORE MORE",nil);
 #endif
     
     [self updateNotificationsViews];
+    
+#ifdef EMBED
+    self.showLogo.image = [self.showLogo.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.showLogo.tintColor = [UIColor li5_whiteColor];
+    
+    NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"end_of_show" withExtension:@".mp4"];
+    self.showPlayer = [[AVPlayer alloc] initWithURL:videoURL];
+    self.showPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    self.showPlayer.muted = TRUE;
+    
+    AVPlayerLayer *videoLayer = [AVPlayerLayer playerLayerWithPlayer:self.showPlayer];
+    videoLayer.frame = self.view.bounds;
+    videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    
+    [self.endOfShowVideoView.layer addSublayer:videoLayer];
+    
+    self.staticView.hidden = YES;
+    self.swipeDownView.hidden = YES;
+#else
+    self.endOfShowView.hidden = YES;
+#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -192,6 +220,7 @@
     DDLogVerbose(@"");
     [self removeObservers];
     
+#ifndef EMBED
 #if FULL_VERSION
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:kLi5SwipeDownExplainerViewPresented])
@@ -209,6 +238,13 @@
 #else
     [_audioPlayer play];
     [self hideVideo];
+    [self.view bringSubviewToFront:self.staticView];
+#endif
+#else
+    [_audioPlayer play];
+    [self hideVideo];
+    [self.showPlayer play];
+    [self setupObservers];
 #endif
 }
 
@@ -242,33 +278,41 @@
 
 - (IBAction)doTurnOnNotifications:(id)sender {
     DDLogVerbose(@"");
-    if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications]) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Turn On Notifications"
-                                                                       message:@"We will only send you push notifications when your new show is ready. Go to Settings->Notifications and Enable it."
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
-        
-        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-                                                               handler:^(UIAlertAction * action) {
-                                                                   
-                                                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                                                               }];
-        
-        [alert addAction:settingsAction];
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
+    
+    UIUserNotificationSettings *currentUserNotificationsSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
 
+    if ( [[NSUserDefaults standardUserDefaults] boolForKey:kUserSettingsUpdated] ) {
+        if (currentUserNotificationsSettings.types == UIUserNotificationTypeNone) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Turn On Notifications",nil)
+                                                                           message:NSLocalizedString(@"We will only send you push notifications when your new show is ready. Go to Settings->Notifications and Enable it.",nil)
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil) style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Settings",nil) style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       
+                                                                       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                                   }];
+            
+            [alert addAction:settingsAction];
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     } else {
         UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
                                                         UIUserNotificationTypeBadge |
                                                         UIUserNotificationTypeSound);
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
-                                                                                 categories:nil];
+
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
     }
+}
+
+- (void)replayEndOfShow {
+    [self.showPlayer seekToTime:kCMTimeZero];
+    [self.showPlayer play];
 }
 
 #pragma mark - Observers
@@ -284,6 +328,13 @@
         }];
     }
     
+    if (!__showPlayerEndObserver && _showPlayer) {
+        __weak typeof(self) welf = self;
+        __showPlayerEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.showPlayer.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
+            [welf replayEndOfShow];
+        }];
+    }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNotificationsViews) name:kUserSettingsUpdated object:nil];
 }
 
@@ -294,6 +345,11 @@
     {
         [[NSNotificationCenter defaultCenter] removeObserver:__playerEndObserver];
         __playerEndObserver = nil;
+    }
+    
+    if (__showPlayerEndObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:__showPlayerEndObserver];
+        __showPlayerEndObserver = nil;
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -310,8 +366,10 @@
         {
             [self.player play];
             
+            NSDictionary *params = @{@"closing":self.lastVideoURL.url.lastPathComponent};
             [FBSDKAppEvents logEvent:@"EndOfPrimeTimeReached"];
-            [Heap track:@"Li5.EndOfPrimeTimeReached" withProperties:@{}];
+            [Heap track:@"Li5.EndOfPrimeTimeReached" withProperties:params];
+            [Intercom logEventWithName:@"End of Prime Time" metaData:params];
         }
         else
         {
@@ -334,11 +392,13 @@
 - (void)failToLoadItem:(NSError *)error
 {
     DDLogError(@"%@",error.description);
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
 }
 
 - (void)networkFail:(NSError *)error
 {
     DDLogError(@"%@",error.description);
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
 }
 
 #pragma mark - Gesture Recognizers

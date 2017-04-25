@@ -6,7 +6,8 @@
   "data" : [
     {
       "idiom" : "universal",
-      "filename" : "onboarding_3.mp4"
+      "filename" : "onboarding_3.mp4",
+      "universal-type-identifier" : "public.mpeg-4"
     }
   ]
 }

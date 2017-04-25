@@ -17,5 +17,6 @@
 + (UIBezierPath *)hexagonWithWidth:(NSUInteger)width andHeight:(NSUInteger)height;
 + (UIBezierPath *)rectangleWithWidth:(NSUInteger)width andHeight:(NSUInteger)height;
 + (UIBezierPath *)lineWithWidth:(NSUInteger)width;
++ (UIBezierPath *)drawRightArrowWithFrame: (CGRect)frame;
 
 @end

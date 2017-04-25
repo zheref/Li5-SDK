@@ -52,7 +52,7 @@
     
     if(userProfile.defaultAddress != nil) {
         
-        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
+        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit",nil) style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
         
         self.navigationItem.rightBarButtonItem = edit;
         
@@ -135,14 +135,14 @@
             [_locationManager requestWhenInUseAuthorization];
         
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Allow Li5 Access your Location"
-                                                                           message:@"Li5 uses your location to populate the address for you. Go to Settings->Location and Enable it."
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Allow Li5 Access your Location",nil)
+                                                                           message:NSLocalizedString(@"Li5 uses your location to populate the address for you. Go to Settings->Location and Enable it.",nil)
                                                                     preferredStyle:UIAlertControllerStyleAlert];
             
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil) style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {}];
             
-            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Settings",nil) style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action) {
                                                                        
                                                                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
@@ -159,7 +159,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.title = [@"Shipping Info" uppercaseString];
+    self.navigationItem.title = [NSLocalizedString(@"Shipping Info",nil) uppercaseString];
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
@@ -170,7 +170,7 @@
     
     if(userProfile.defaultAddress != nil) {
         
-        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
+        UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit",nil) style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
         
         self.navigationItem.rightBarButtonItem = edit;
     }
@@ -184,10 +184,10 @@
         [hud hideAnimated:YES];
         if (error)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                             message:error.localizedDescription
                                                            delegate:self
-                                                  cancelButtonTitle:@"OK"
+                                                  cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
             [alert show];
         }
@@ -245,7 +245,7 @@
 - (IBAction)changeLocation:(id)sender {
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
-                                                                   message:@"Select a Default Location"
+                                                                   message:NSLocalizedString(@"Select a Default Location",nil)
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
     
     for (Address *address in self.addresses) {
@@ -266,7 +266,7 @@
         [alert addAction:action];
     }
     
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"Cancel"
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
                                                      style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
                                                          
                                                          [alert dismissViewControllerAnimated:YES completion:nil];

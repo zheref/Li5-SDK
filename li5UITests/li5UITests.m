@@ -34,6 +34,12 @@
 
 - (void)testExample {
     // Use recording to get started writing UI tests.
+    
+    XCUIElementQuery *scrollViewsQuery = [[XCUIApplication alloc] init].scrollViews;
+    XCUIElement *element = [[[scrollViewsQuery childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther] elementBoundByIndex:1];
+    [element swipeLeft];
+    [element swipeLeft];
+    [scrollViewsQuery.otherElements.buttons[@"CONTINUE WITH FACEBOOK"] tap];
     // Use XCTAssert and related functions to verify your tests produce the correct results.
 }
 

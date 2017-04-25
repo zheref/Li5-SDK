@@ -1,8 +1,17 @@
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
+#else
+#ifndef FOUNDATION_EXPORT
+#if defined(__cplusplus)
+#define FOUNDATION_EXPORT extern "C"
+#else
+#define FOUNDATION_EXPORT extern
+#endif
+#endif
 #endif
 
 #import "BNCCallbacks.h"
+#import "BNCCommerceEvent.h"
 #import "BNCConfig.h"
 #import "BNCContentDiscoveryManager.h"
 #import "BNCDeviceInfo.h"
@@ -46,6 +55,7 @@
 #import "BranchUserCompletedActionRequest.h"
 #import "PromoViewHandler.h"
 #import "BNCCallbacks.h"
+#import "BNCCommerceEvent.h"
 #import "BNCConfig.h"
 #import "BNCContentDiscoveryManager.h"
 #import "BNCDeviceInfo.h"

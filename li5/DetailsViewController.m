@@ -114,7 +114,7 @@
     {
         self.offerDisclaimer.hidden = NO;
         
-        NSString *orPriceWord = @"O.PRICE: ";
+        NSString *orPriceWord = NSLocalizedString(@"O.PRICE: ",nil);
         NSString *orPrice = [NSString stringWithFormat:@"$%.00f",[self.product.originalPrice doubleValue] / 100];
         NSString *originalPrice = [NSString stringWithFormat:@"%@ %@",orPriceWord, orPrice];
         NSMutableAttributedString *originalPriceText = [[NSMutableAttributedString alloc] initWithString:originalPrice
@@ -141,7 +141,7 @@
                                                                               options:NSRegularExpressionSearch
                                                                                 range:NSMakeRange(0, self.product.body.length)];
         
-        NSString *readMoreText = @" READ MORE";
+        NSString *readMoreText = NSLocalizedString(@" READ MORE",nil);
         NSString *productDescription = [cleanBody stringByAppendingString:readMoreText];
         
         NSMutableAttributedString *bodyText = [[NSMutableAttributedString alloc] initWithString:productDescription
@@ -161,14 +161,14 @@
     }
     
     NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
-    NSString *buttonCTA = [NSString stringWithFormat:@"BUY NOW AT %@", price];
+    NSString *buttonCTA = [NSString stringWithFormat:NSLocalizedString(@"BUY NOW AT %@",nil), price];
     if ([self.product.stock isEqualToNumber:@(0)]) {
-        buttonCTA = @"SOLD OUT";
+        buttonCTA = NSLocalizedString(@"SOLD OUT",nil);
         self.buyNowBtn.enabled = NO;
     }
     if (self.order != nil)
     {
-        buttonCTA = @"See Details";
+        buttonCTA = NSLocalizedString(@"See Details",nil);
     }
     
     NSMutableAttributedString *buyNowText = [[NSMutableAttributedString alloc] initWithString:buttonCTA

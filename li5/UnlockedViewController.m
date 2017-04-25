@@ -8,6 +8,7 @@
 
 @import Li5Api;
 @import FBSDKCoreKit;
+@import Intercom;
 
 #import "Li5PlayerUISlider.h"
 #import "UnlockedViewController.h"
@@ -15,6 +16,7 @@
 #import "ProductPageActionsView.h"
 #import "Li5VolumeView.h"
 #import "Li5-Swift.h"
+#import <Heap.h>
 
 static const CGFloat sliderHeight = 50.0;
 static const CGFloat kCAHideControls = 3.5;
@@ -30,6 +32,7 @@ static const CGFloat kCAHideControls = 3.5;
     BOOL __hasAppeared;
     BOOL __renderingAnimations;
     BOOL __locked;
+    BOOL __hasDetails;
 }
 
 @property (assign, nonatomic) ProductContext pContext;
@@ -43,6 +46,12 @@ static const CGFloat kCAHideControls = 3.5;
 @property (weak, nonatomic) IBOutlet UIButton *muteButton;
 @property (weak, nonatomic) IBOutlet UIImageView *arrow;
 @property (weak, nonatomic) IBOutlet UIButton *castButton;
+@property (weak, nonatomic) IBOutlet UILabel *moreLabel;
+
+@property (weak, nonatomic) IBOutlet UIView *embedSliderView;
+@property (weak, nonatomic) IBOutlet ThinSliderView *embedSlider;
+@property (weak, nonatomic) IBOutlet UIButton *embedShareButton;
+@property (weak, nonatomic) IBOutlet UIButton *embedPlayButton;
 
 @property (strong, nonatomic) Wave *waveView;
 
@@ -96,6 +105,7 @@ static const CGFloat kCAHideControls = 3.5;
     _dismissThreshold = 0.05; // 0.0 < dismissThreashold <= 1.1
     _presentAnimationDuration = 0.35;
     __locked = YES;
+    __hasDetails = [self.product.type caseInsensitiveCompare:@"product"] == NSOrderedSame || ([self.product.type caseInsensitiveCompare:@"url"] == NSOrderedSame && self.product.contentUrl != nil);
 }
 
 + (id)unlockedWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
@@ -177,6 +187,22 @@ static const CGFloat kCAHideControls = 3.5;
     [_waveView startAnimating];
     
     [self.view addSubview:[[Li5VolumeView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5.0)]];
+    
+#ifdef EMBED
+    self.seekSlider.hidden = YES;
+    self.castButton.hidden = YES;
+    self.embedShareButton.hidden = NO;
+    [self.muteButton setImage:[UIImage imageNamed:@"muted"] forState:UIControlStateNormal];
+    [self.muteButton setImage:[UIImage imageNamed:@"unmuted"] forState:UIControlStateSelected];
+    self.moreLabel.hidden = YES;
+#else
+    self.embedSliderView.hidden = YES;
+#endif
+    
+    if (!__hasDetails) {
+        self.moreLabel.hidden = YES;
+        self.arrow.hidden = YES;
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -245,11 +271,16 @@ static const CGFloat kCAHideControls = 3.5;
     } else {
         [self show];
     }
+    
+    NSDictionary *params = @{@"product":self.product.id};
+    [Intercom logEventWithName:@"Unlocked" metaData:params];
+    [Heap track:@"Unlocked Appeared" withProperties:params];
 }
 
 - (void)renderAnimations
 {
     DDLogVerbose(@"");
+#ifndef EMBED
     if (!__renderingAnimations)
     {
         if ([self.seekSlider isHidden] || [self.actionsView isHidden])
@@ -275,11 +306,34 @@ static const CGFloat kCAHideControls = 3.5;
             [self setupTimers];
         }
     }
+#else
+    if (!__renderingAnimations) {
+        if ([self.embedSliderView isHidden]) {
+            self.embedSliderView.hidden = NO;
+            self.muteButton.hidden = NO;
+            self.embedShareButton.hidden = NO;
+            self.embedPlayButton.hidden = NO;
+            __renderingAnimations = YES;
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                self.embedSliderView.center = CGPointApplyAffineTransform(self.embedSliderView.center, CGAffineTransformMakeTranslation(0,2*sliderHeight));
+                self.muteButton.center = CGPointApplyAffineTransform(self.muteButton.center, CGAffineTransformMakeTranslation(100, 0));
+                self.embedShareButton.center = CGPointApplyAffineTransform(self.embedShareButton.center, CGAffineTransformMakeTranslation(-100, 0));
+                self.self.embedPlayButton.center =CGPointApplyAffineTransform(self.embedPlayButton.center, CGAffineTransformMakeTranslation(0, -100));
+            } completion:^(BOOL finished) {
+                __renderingAnimations = NO;
+            }];
+            
+            [self setupTimers];
+        }
+    }
+#endif
 }
 
 - (void)removeAnimations
 {
     DDLogDebug(@"");
+#ifndef EMBED
     if (!__renderingAnimations)
     {
         if (![self.seekSlider isHidden] || ![self.actionsView isHidden])
@@ -305,6 +359,29 @@ static const CGFloat kCAHideControls = 3.5;
             [self removeTimers];
         }
     }
+#else
+    if (!__renderingAnimations)
+    {
+        if (![self.embedSliderView isHidden])
+        {
+            __renderingAnimations = YES;
+            [UIView animateWithDuration:0.5 animations:^{
+                self.embedSliderView.center = CGPointApplyAffineTransform(self.embedSliderView.center, CGAffineTransformMakeTranslation(0,-2*sliderHeight));
+                self.muteButton.center = CGPointApplyAffineTransform(self.muteButton.center, CGAffineTransformMakeTranslation(-100, 0));
+                self.embedShareButton.center = CGPointApplyAffineTransform(self.castButton.center, CGAffineTransformMakeTranslation(100, 0));
+                self.self.embedPlayButton.center =CGPointApplyAffineTransform(self.embedPlayButton.center, CGAffineTransformMakeTranslation(0, 100));
+            } completion:^(BOOL finished) {
+                self.embedSliderView.hidden = finished;
+                self.muteButton.hidden = finished;
+                self.embedSliderView.hidden = finished;
+                self.embedPlayButton.hidden = finished;
+                __renderingAnimations = NO;
+            }];
+            
+            [self removeTimers];
+        }
+    }
+#endif
 }
 
 - (void)__renderMore
@@ -336,10 +413,28 @@ static const CGFloat kCAHideControls = 3.5;
 - (IBAction)handleCastAction:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
-                                                    cancelButtonTitle:@"Cancel"
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel",nil)
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Chromecast",@"Apple TV", @"Amazon Fire", nil];
+                                                    otherButtonTitles:NSLocalizedString(@"Chromecast",nil),NSLocalizedString(@"Apple TV",nil), NSLocalizedString(@"Amazon Fire",nil), nil];
     [actionSheet showInView:self.view];
+}
+
+- (IBAction)handleVideoRateAction:(id)sender {
+    [self removeTimers];
+    BOOL currentState = self.embedPlayButton.isSelected;
+    
+    if (self.embedPlayButton.isSelected) {
+        [self.extendedVideo play];
+    } else {
+        [self.extendedVideo pause];
+    }
+    
+    [self.embedPlayButton setSelected:!currentState];
+    [self setupTimers];
+}
+
+- (IBAction)handleShare:(id)sender {
+    
 }
 
 - (void)actionSheetCancel:(UIActionSheet *)actionSheet
@@ -384,6 +479,7 @@ static const CGFloat kCAHideControls = 3.5;
 - (void)failToLoadItem:(NSError*)error
 {
     DDLogError(@"%@",error.description);
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:self.extendedVideo];
     [_waveView stopAnimating];
 }
 
@@ -391,17 +487,22 @@ static const CGFloat kCAHideControls = 3.5;
 {
     DDLogVerbose(@"");
     [_waveView startAnimating];
+    
+    [self.extendedVideo pause];
 }
 
 - (void)bufferReady
 {
     DDLogVerbose(@"");
     [_waveView stopAnimating];
+    
+    [self.extendedVideo play];
 }
 
 - (void)networkFail:(NSError *)error
 {
     DDLogError(@"");
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:self.extendedVideo];
     [_waveView stopAnimating];
 }
 
@@ -413,8 +514,12 @@ static const CGFloat kCAHideControls = 3.5;
     {
         DDLogVerbose(@"");
         [_waveView stopAnimating];
-        
+
+#ifndef EMBED
         [self.seekSlider setPlayer:self.extendedVideo];
+#else
+        [self.embedSlider setPlayer:self.extendedVideo];
+#endif
         
         if (__hasAppeared)
         {
@@ -494,8 +599,13 @@ static const CGFloat kCAHideControls = 3.5;
         if (error)
         {
             DDLogError(@"%@", error.localizedDescription);
+            [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
         }
     }];
+    
+    NSDictionary *params = @{@"product":self.product.id, @"seconds":@(secondsWatched)};
+    [Intercom logEventWithName:@"Unlocked Viewed" metaData:params];
+    [Heap track:@"Unlocked Viewed" withProperties:params];
 }
 
 #pragma mark - Gesture Recognizers
@@ -523,14 +633,7 @@ static const CGFloat kCAHideControls = 3.5;
                 
                 if (current.y > [self threshold])
                 {
-                    [_waveView stopAnimating];
-                    [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:gr waitUntilDone:NO];
-                    [self.extendedVideo changePriority:BCPriorityUnLock];
-                    [self.extendedVideo seekToTime:kCMTimeZero];
-                    [self.muteButton setSelected:NO];
-                    self.extendedVideo.muted = NO;
-                    __locked = YES;
-                    
+                    [self exitView:gr];
                 }
                 else
                 {
@@ -568,12 +671,29 @@ static const CGFloat kCAHideControls = 3.5;
     }
 }
 
+- (void)exitView:(UIPanGestureRecognizer *)gr {
+    [_waveView stopAnimating];
+    [self.parentViewController performSelectorOnMainThread:@selector(handleLockTap:) withObject:gr waitUntilDone:NO];
+    [self.extendedVideo changePriority:BCPriorityUnLock];
+    [self.extendedVideo seekToTime:kCMTimeZero];
+    [self.muteButton setSelected:NO];
+#ifdef EMBED
+    [self.embedPlayButton setSelected:NO];
+#endif
+    self.extendedVideo.muted = NO;
+    __locked = YES;
+}
+
 - (void)handleSimpleTap:(UIGestureRecognizer *)sender
 {
     DDLogVerbose(@"");
     if (sender.state == UIGestureRecognizerStateEnded)
     {
+#ifndef EMBED
         if (self.actionsView.hidden)
+#else
+        if (self.embedSliderView.hidden)
+#endif
         {
             [self renderAnimations];
         }

@@ -134,14 +134,14 @@
 - (IBAction)scanCreditCard:(id)sender
 {
     if (![CardIOUtilities canReadCardWithCamera]) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Allow Li5 Access your Camera"
-                                                                       message:@"Li5 uses your camera to scan your credit card to fill the numbers for you. Go to Settings->Camera and Enable it."
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Allow Li5 Access your Camera",nil)
+                                                                       message:NSLocalizedString(@"Li5 uses your camera to scan your credit card to fill the numbers for you. Go to Settings->Camera and Enable it.",nil)
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil) style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {}];
         
-        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Settings",nil) style:UIAlertActionStyleDefault
                                                                handler:^(UIAlertAction * action) {
                                                                    
                                                                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
@@ -197,10 +197,10 @@
         if (error)
         {
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
                                                             message:error.localizedDescription
                                                            delegate:self
-                                                  cancelButtonTitle:@"OK"
+                                                  cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
             [alert show];
         }
@@ -312,6 +312,7 @@
         if (error) {
             // show the error, maybe by presenting an alert to the user
             DDLogError(@"error while validating card: %@", error.localizedDescription);
+            [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
             completion(error);
         } else {
             swelf.token = token;

@@ -11,9 +11,11 @@
 @import FXBlurView;
 @import AVFoundation;
 @import DigitsKit;
+@import Crashlytics;
 
 #import "LoginViewController.h"
 #import "Li5Constants.h"
+#import <Heap/Heap.h>
 
 @interface LoginViewController ()
 {
@@ -28,6 +30,9 @@
 @property (nonatomic, strong) AVPlayerLayer *videoLayer;
 @property (nonatomic, assign) BOOL viewAppeared;
 @property (weak, nonatomic) IBOutlet UIButton *loginWithPhoneNumber;
+
+@property (nonatomic, assign) CGPoint originalLogoPosition;
+@property (nonatomic, assign) BOOL animationsSetupAlready;
 
 @property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;
 
@@ -79,6 +84,20 @@
     [self removeObservers];
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    if (!_animationsSetupAlready)
+    {
+        _originalLogoPosition = self.logoView.layer.position;
+        _animationsSetupAlready = true;
+    }
+    
+    self.logoView.layer.position = _originalLogoPosition;
+}
+
+
 - (CGPoint)logoPosition
 {
     return self.logoView.layer.position;
@@ -114,6 +133,7 @@
 - (void)networkFail:(NSError *)error
 {
     DDLogError(@"");
+    [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
 }
 
 - (void)replay
@@ -155,7 +175,6 @@
             // TODO: associate the session userID with your user model
             DDLogVerbose(@"Mail: %@ - Phone Number: %@", session.emailAddress, session.phoneNumber);
             
-            
             DGTOAuthSigning *oauthSigning = [[DGTOAuthSigning alloc] initWithAuthConfig:[Digits sharedInstance].authConfig authSession:session];
             
             NSDictionary *authHeaders = [oauthSigning OAuthEchoHeadersToVerifyCredentials];
@@ -165,45 +184,74 @@
             if (!(authProvider.length > 0 && verificationCredential.length > 0)) {
                 DDLogError(@"Error pulling oAuth Echo tokens");
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:@"There was an error with your request. Please try again later."
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
+                [self logAndDisplayError:error userInfo:session];
             }
-            Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
             
-            [li5 login:session.emailAddress withDigitsAuthServiceProvider:authProvider andCredentialsAuthorization:verificationCredential withCompletion:^(NSError *error) {
-                if (error == nil)
-                {
-                    DDLogInfo(@"Successfully logged in into Li5");
-                    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                    [notificationCenter postNotificationName:kLoginSuccessful object:nil];
-                }
-                else
-                {
-                    DDLogError(@"Couldn't login into Li5 with Digits: %@", error.localizedDescription);
-                    
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                    message:@"There was an error with your request. Please try again later."
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil];
-                    [alert show];
-                }
-            }];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
+                
+                [li5 login:session.emailAddress withDigitsAuthServiceProvider:authProvider andCredentialsAuthorization:verificationCredential withCompletion:^(NSError *error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (error == nil)
+                        {
+                            DDLogInfo(@"Successfully logged in into Li5");
+                                NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                                [notificationCenter postNotificationName:kLoginSuccessful object:nil];
+                            
+                        }
+                        else
+                        {
+                            DDLogError(@"Couldn't login into Li5 with Digits: %@", error.localizedDescription);
+                            
+                            [self logAndDisplayError:error userInfo:session];
+                        }
+                    });
+                }];
+            });
+            
         } else if (error && error.code != 1) {
             DDLogError(@"Error when fetching phone + email: %@", error.localizedDescription);
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:@"There was an error with your request. Please try again later."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
+            [self logAndDisplayError:error userInfo:error];
         }
     }];
+}
+
+- (void)logAndDisplayError:(NSError*)err userInfo:(id)userObj {
+    [self logAndDisplayError:err userInfo:userObj showSettingsActions:NO];
+}
+
+- (void)logAndDisplayError:(NSError*)err userInfo:(id)userObj showSettingsActions:(BOOL)showSettingsAction {
+    
+    [[CrashlyticsLogger sharedInstance] logError:err userInfo:userObj];
+    
+    NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+    if (err!=nil) [properties setObject:err forKey:@"error"];
+    if (userObj!=nil) [properties setObject:userObj forKey:@"userInfo"];
+    [Heap track:@"Error while Login" withProperties:properties];
+    
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"There was an error with your request. Please try again later. (%@)",nil),err.localizedDescription];
+    
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error",nil)
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil) style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    if (showSettingsAction) {
+        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Settings",nil) style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {
+                                                                   
+                                                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                               }];
+        
+        [alert addAction:settingsAction];
+    }
+    
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (DGTAppearance *)makeTheme {
@@ -263,20 +311,17 @@
                     DDLogInfo(@"Successfully logged in into Li5");
                     
                     [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration];
+                    
                     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                     [notificationCenter postNotificationName:kLoginSuccessful object:nil];
                 }
                 else
                 {
                     DDLogError(@"Couldn't login into Li5 with Facebook: %@", error.localizedDescription);
+                    
                     [welf.loginFacebookButton setHidden:NO];
                     
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                    message:@"There was an error with your request. Please try again later."
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil];
-                    [alert show];
+                    [self logAndDisplayError:error userInfo:result];
                 }
               }];
           }
@@ -284,15 +329,10 @@
           {
               DDLogError(@"Error when fetching email: %@", error.localizedDescription);
               
-              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                              message:@"There was an error with your request. Please try again later."
-                                                             delegate:self
-                                                    cancelButtonTitle:@"OK"
-                                                    otherButtonTitles:nil];
-              [alert show];
-              
               [welf.spinnerView stopAnimating];
               [welf.loginFacebookButton setHidden:NO];
+              
+              [self logAndDisplayError:error userInfo:result];
           }
         }];
     }
@@ -300,22 +340,7 @@
     {
         DDLogError(@"Couldn't login: %@", error);
         
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                       message:error.localizedDescription
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
-        
-        UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {
-                                                                  
-                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                                                              }];
-        
-        [alert addAction:settingsAction];
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
+        [self logAndDisplayError:error userInfo:result showSettingsActions:YES];
         
         [welf.spinnerView stopAnimating];
         [welf.loginFacebookButton setHidden:NO];

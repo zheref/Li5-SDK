@@ -15,6 +15,8 @@
 
 +(CrashlyticsLogger*) sharedInstance;
 
+- (void)logError:(NSError*)err userInfo:(id)userObj;
+
 @end
 
 #endif /* CrashlyticsLogger_h */

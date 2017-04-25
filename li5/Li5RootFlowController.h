@@ -33,4 +33,6 @@
 
 - (BOOL)isPrimeTimeExpired;
 
+- (BOOL)hasPrimeTime;
+
 @end

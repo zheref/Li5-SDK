@@ -65,7 +65,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.title = [@"Terms & Privacy Policy" uppercaseString];
+    self.navigationItem.title = [NSLocalizedString(@"Terms & Privacy Policy",nil) uppercaseString];
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor li5_redColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];

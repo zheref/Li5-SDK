@@ -83,7 +83,7 @@
             }];
         }];
         
-        NSString *price = [NSString stringWithFormat:@"$%.00f",[self.product.price doubleValue] / 100];
+        NSString *price = [NSString stringWithFormat:@"$%.00f",(self.order != nil ?[self.order.total doubleValue]:[self.product.price doubleValue]) / 100];
         
         self.productTitle.text = self.product.title;
         self.productPrice.text = price;

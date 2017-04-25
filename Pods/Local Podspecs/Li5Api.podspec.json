@@ -4,19 +4,18 @@
   "summary": "api-ios is a private API to be used in Li5 apps.",
   "description": "li5-api-ios is a private API to be used in Li5 apps in order to connect with the internal API.",
   "homepage": "http://www.li5.tv",
-  "license": {
-    "type": "Apache 2.0",
-    "file": "LICENSE"
-  },
   "authors": {
-    "Li5 Team": "tech@li5.tv"
+    "Li5 Team": "got@li5.tv"
   },
   "platforms": {
     "ios": "8.0"
   },
+  "license": {
+    "type": "Proprietary"
+  },
   "source": {
     "git": "https://github.com/lifive/api-ios.git",
-    "tag": "0.0.1"
+    "branch": "master"
   },
   "source_files": [
     "Api",
@@ -24,7 +23,7 @@
   ],
   "requires_arc": true,
   "dependencies": {
-    "SSKeychain": [
+    "SAMKeychain": [
 
     ],
     "JSONModel": [

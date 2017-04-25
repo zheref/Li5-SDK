@@ -51,6 +51,7 @@
             if (error)
             {
                 DDLogError(@"%@", error);
+                [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
                 completion(error,nil);
             }
             else

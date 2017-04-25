@@ -24,4 +24,6 @@
 
 + (UIColor*)li5_charcoalColor;
 
++ (UIColor *)li5_blackish;
+
 @end

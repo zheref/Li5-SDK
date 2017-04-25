@@ -24,8 +24,3 @@
 + (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget andViewController:(UIViewController *)viewController;
 
 @end
-
-
-@interface UserProfileNavigationViewController : UINavigationController
-
-@end

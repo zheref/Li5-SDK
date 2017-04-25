@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.1</string>
+	<string>1.0.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -31,7 +31,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>119</string>
+	<string>157</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -81,6 +81,8 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
+	<key>OneSignalAppID</key>
+	<string>1f191b5a-edc3-408d-8067-a29923a492ef</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>Li5ApiEndpoint</key>
@@ -129,9 +131,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Li5 uses your location to populate the shipping or billing address for you.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Li5 does not use your microphone on any way.</string>
+	<string>Li5 uses your microphone only to submit bugs internally.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Li5 does not require permission to access your library.</string>
+	<string>Li5 uses your library only to submit files through the chat.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Regular.ttf</string>
@@ -165,5 +167,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

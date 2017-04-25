@@ -12,6 +12,7 @@
 #import "LastPageViewController.h"
 #import "PrimeTimeViewControllerDataSource.h"
 #import "Li5Constants.h"
+#import "Li5-Swift.h"
 
 @interface PrimeTimeViewControllerDataSource () {
     NSTimer *_expirationTimer;
@@ -36,9 +37,21 @@
                                                  selector:@selector(enableExpirationTimer:)
                                                      name:UIApplicationDidBecomeActiveNotification
                                                    object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(resetPrimeTime:)
+                                                     name:kPrimeTimeReset
+                                                   object:nil];
 
     }
     return self;
+}
+
+- (void)resetPrimeTime:(NSNotification *)notification {
+    DDLogVerbose(@"");
+    [self disableExpirationTimer:nil];
+    self.expiresAt = [NSDate date];
+    [self primeTimeExpired:nil];
 }
 
 - (void)disableExpirationTimer:(NSNotification *)notification {
@@ -74,27 +87,18 @@
             DDLogVerbose(@"share link token: %@", shareToken);
             [userDefaults setObject:shareToken forKey:kLi5ShareToken];
         } else {
-            NSString *nonBranchLink = [params objectForKey:@"+non_branch_link"];
-            NSString *launchProduct = [userDefaults objectForKey:@"Li5LaunchUserActivity"];
-            if (nonBranchLink.length > 0 || launchProduct) {
-                NSString *product = [[NSURL URLWithString:nonBranchLink] lastPathComponent];
-                
-                if (![product isEqualToString:launchProduct] && launchProduct.length > 0) {
-                    product = launchProduct;
-                }
-                
-                if (product) {
-                    DDLogVerbose(@"product: %@", product);
-                    [userDefaults removeObjectForKey:@"Li5LaunchUserActivity"];
-                    [userDefaults setObject:product forKey:kLi5Product];
-                }
+            NSString *branchProduct = [params objectForKey:@"product"];
+            if (branchProduct && ![userDefaults objectForKey:kLi5Product]) {
+                DDLogVerbose(@"product: %@", branchProduct);
+                [userDefaults setObject:branchProduct forKey:kLi5Product];
             }
         }
         
-        [li5 requestDiscoverProductsWithCompletion:^(NSError *error, Products *products) {
+        void (^apiCompletion)(NSError *error, Products *products) = ^void(NSError *error, Products *products) {
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
             DDLogVerbose(@"Total products: %lu expiring:%@", (unsigned long)products.data.count, [dateFormatter stringFromDate:products.expiresAt]);
+            DDLogVerbose(@"HTTP Response: %@",products);
             if (error == nil)
             {
                 if (products.data.count > 0)
@@ -108,6 +112,7 @@
             else
             {
                 DDLogError(@"Error retrieving products: %@ %@", error, [error userInfo]);
+                [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
                 self.products = nil;
                 self.expiresAt = nil;
                 self.endOfPrimeTime = nil;
@@ -117,7 +122,18 @@
             }
             
             completion(error);
+        };
+        
+#ifndef EMBED
+        [li5 requestDiscoverProductsWithCompletion:apiCompletion];
+#else
+        [li5 login:DeviceManager.sharedInstance.deviceId withApiKey:@"test_key_li5_producer" withCompletion:^(NSError *error) {
+            if (error) {
+                DDLogError(@"%@",error.localizedDescription);
+            }
+            [li5 requestDiscoverLatestWithCompletion:apiCompletion];
         }];
+#endif
     });
 }
 
