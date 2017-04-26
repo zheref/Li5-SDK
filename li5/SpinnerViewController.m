@@ -85,10 +85,13 @@
     
     [self.spinnerView.layer addSublayer:loadingLayer];
 #else
-    _originalMessage = NSLocalizedString(@"Pronto", nil);
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSDictionary *info = [bundle infoDictionary];
+    NSString *prodName = [info objectForKey:@"CFBundleDisplayName"];
+    _originalMessage = prodName;
     [self.backView setImage:nil];
     [self.backView setBackgroundColor:[UIColor li5_blackish]];
-    self.message.text = NSLocalizedString(@"Pronto", nil);
+    self.message.text = prodName;
 #endif
 }
 

@@ -97,6 +97,7 @@ platform :ios do
   lane :refresh_profiles do
     match(app_identifier: "com.li5.buy", type:"development",force: true,force_for_new_devices: true)
     match(app_identifier: "com.li5.buy.test", type:"development",force: true,force_for_new_devices: true)
+    match(app_identifier: "com.li5.embed", type:"development",force: true,force_for_new_devices: true)
   end
 
   desc "Runs all the tests"
