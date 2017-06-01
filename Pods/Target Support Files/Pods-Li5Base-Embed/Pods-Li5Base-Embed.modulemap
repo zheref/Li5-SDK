@@ -1,6 +1,0 @@
-framework module Pods_Li5Base_Embed {
-  umbrella header "Pods-Li5Base-Embed-umbrella.h"
-
-  export *
-  module * { export * }
-}

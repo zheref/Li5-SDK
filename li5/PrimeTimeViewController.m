@@ -9,14 +9,12 @@
 @import TSMessages;
 @import AVFoundation;
 @import BCVideoPlayer;
-@import Branch;
 
 #import "PrimeTimeViewController.h"
 #import "PrimeTimeViewControllerDataSource.h"
 #import "ProductPageProtocol.h"
 #import "SpinnerViewController.h"
 #import "Li5Constants.h"
-#import "Li5-Swift.h"
 
 @interface PrimeTimeViewController ()
 {
@@ -74,7 +72,7 @@
     // Do any additional setup after loading the view.
     DDLogVerbose(@"Loading");
     
-    self.view.backgroundColor = [UIColor clearColor];
+    [self.view setBackgroundColor: [UIColor clearColor]];
     self.view.opaque = false;
     
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -92,7 +90,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DDLogVerbose(@"");
+    NSLog(@"PrimeTime did appear");
     [super viewDidAppear:animated];    
 }
 
@@ -115,9 +113,6 @@
     DDLogVerbose(@"");
     if (!__primeTimeLoaded && !__spinnerOn)
     {
-        UIStoryboard *discoverStoryboard = [UIStoryboard storyboardWithName:@"DiscoverViews" bundle:[NSBundle mainBundle]];
-        SpinnerViewController *spinnerScreen = [discoverStoryboard instantiateViewControllerWithIdentifier:@"SpinnerView"];
-        [self.navigationController pushViewController:spinnerScreen animated:NO];
         __spinnerOn = YES;
     }
 }
@@ -128,25 +123,7 @@
     __primeTimeLoaded = YES;
     if (__spinnerOn)
     {
-        [self.navigationController popViewControllerAnimated:NO];
         __spinnerOn = NO;
-        
-        [self presentExplainerViewsIfNeeded];
-    }
-}
-
-- (void)presentExplainerViewsIfNeeded
-{
-    DDLogVerbose(@"");
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if (![userDefaults boolForKey:kLi5SwipeLeftExplainerViewPresented])
-    {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"DiscoverViews" bundle:[NSBundle mainBundle]];
-        UIViewController *explainerView = [storyboard instantiateViewControllerWithIdentifier:@"SwipeLeftExplainerView"];
-        
-        [self presentViewController:explainerView animated:NO completion:^{
-            
-        }];
     }
 }
 
@@ -161,7 +138,7 @@
 
 - (void)renderPrimeTime
 {
-    DDLogInfo(@"Rendering Prime Time Today's Episode");
+    NSLog(@"Rendering Prime Time Today's Episode");
     
     __weak typeof(self) welf = self;
     if (!__primeTimeLoading) {
@@ -189,9 +166,9 @@
         }
         else
         {
-//        [__queue addOperationWithBlock:^{
+            //        [__queue addOperationWithBlock:^{
             [welf __startPrimeTime];
-//        }];
+            //        }];
         }
     }
 }
@@ -202,6 +179,10 @@
     UIViewController *viewController = [(PrimeTimeViewControllerDataSource *)self.dataSource productPageViewControllerAtIndex:startIndex withPriority:BCPriorityBuffer];
     [viewController setScrollPageIndex:startIndex];
     [self setViewControllers:@[viewController]];
+    [self viewDidLayoutSubviews];
+    
+    [viewController beginAppearanceTransition:YES animated:NO];
+    [viewController endAppearanceTransition];
 }
 
 #pragma mark - OS Actions

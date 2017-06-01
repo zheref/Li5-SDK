@@ -9,15 +9,15 @@
 import Foundation
 import AdSupport
 
-class DeviceManager : NSObject {
+public class DeviceManager : NSObject {
     
-    static let sharedInstance = DeviceManager()
+    public static let sharedInstance = DeviceManager()
     
     override private init() { }
     
     private var __deviceId: String?
     
-    var deviceId: String? {
+    public var deviceId: String? {
         get {
             if (__deviceId == nil) {
                 __deviceId = (self.idfa() ?? (self.idfv() ?? self.udid()))
@@ -37,7 +37,7 @@ class DeviceManager : NSObject {
         return UIDevice.currentDevice().identifierForVendor!.UUIDString
     }
     
-    private func udid() -> String {
+    public func udid() -> String {
         return NSUUID().UUIDString
     }
 }

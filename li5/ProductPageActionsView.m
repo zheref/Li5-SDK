@@ -7,19 +7,12 @@
 //
 @import Li5Api;
 @import AudioToolbox;
-@import Branch;
-@import Intercom;
-@import JSBadgeView;
-@import FBSDKCoreKit;
 
 #import "ProductPageActionsView.h"
-#import "Li5-Swift.h"
-#import "Heap.h"
+#import <Li5SDK/Li5SDK-Swift.h>
 #import "Li5Constants.h"
 #import "CardUIView.h"
 #import "ShareExplainerUIViewController.h"
-#import <Heap.h>
-#import "RecordShareUIViewController.h"
 #import "Li5UINavigationController.h"
 
 @interface ProductPageActionsView () <CardUIViewDelegate>
@@ -34,15 +27,11 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *loveCounter;
 @property (weak, nonatomic) IBOutlet UILabel *reviewsCounter;
-@property (strong, nonatomic) JSBadgeView *badgeView;
 
 @property (weak, nonatomic) IBOutlet UIView *shareView;
 @property (weak, nonatomic) IBOutlet UIView *unlockedMultilevelCallout;
 
 @property (nonatomic,weak) Product *product;
-@property (nonatomic, strong) ShareFeature *shareFeature;
-
-@property BranchUniversalObject *branchUniversalObject;
 
 @end
 
@@ -86,14 +75,6 @@
     
     [self.loveButton setDelegate:self];
     
-    self.badgeView = [[JSBadgeView alloc] initWithParentView:self.commentsButton alignment:JSBadgeViewAlignmentTopRight];
-    
-    self.shareFeature = [ShareFeature new];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateUnreadCount:)
-                                                 name:IntercomUnreadConversationCountDidChangeNotification
-                                               object:nil];
 #ifdef EMBED
     self.loveButton.hidden = YES;
     self.commentsButton.hidden = YES;
@@ -127,19 +108,6 @@
             self.unlockedMultilevelCallout.hidden = NO;
         }
     }
-    
-    [self updateUnreadCount:nil];
-    
-    [self.shareFeature setProduct:self.product];
-}
-
-- (void)updateUnreadCount:(NSNotification*)notification {
-    NSUInteger unreadCount = [Intercom unreadConversationCount];
-    if (unreadCount) {
-        self.badgeView.badgeText = [[NSNumber numberWithUnsignedInteger:unreadCount] stringValue];
-    } else {
-        self.badgeView.hidden = YES;
-    }
 }
 
 - (void)animate
@@ -157,24 +125,6 @@
     
     [[self parentViewController] beginAppearanceTransition:NO animated:NO];
     [[self parentViewController] endAppearanceTransition];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(intercomViewHidden:) name:IntercomWindowDidHideNotification object:nil];
-
-    [Intercom updateUserWithAttributes:@{
-                                         @"custom_attributes": @{
-                                         @"last_product_view": self.product.title
-                                                 }
-                                         }];
-    [Intercom presentMessenger];
-    
-    [Heap track:@"Chat Presented" withProperties:@{@"product":self.product.id}];
-}
-
-- (void)intercomViewHidden:(NSNotification*)notif {
-    [[self parentViewController] beginAppearanceTransition:YES animated:NO];
-    [[self parentViewController] endAppearanceTransition];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IntercomWindowDidHideNotification object:nil];
 }
 
 - (void)cardDismissed
@@ -191,7 +141,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:kLi5ShareExplainerViewPresented])
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle bundleForClass:[self class]]];
         ShareExplainerUIViewController *explainerView = (ShareExplainerUIViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ShareExplainerView"];
         explainerView.delegate = self;
         
@@ -210,8 +160,6 @@
     DDLogVerbose(@"Share Button Pressed");
     
     NSDictionary *params = @{@"product":self.product.id};
-    [Intercom logEventWithName:@"Started Sharing" metaData:params];
-    [Heap track:@"Share Pressed" withProperties:params];
     
     if (![self presentShareExplainerViewIfNeeded]) {
         
@@ -229,22 +177,10 @@
     [[self parentViewController] endAppearanceTransition];
     
     __weak typeof(self) welf = self;
-    [self.shareFeature present:[self parentViewController] completion:^(NSError *error, BOOL cancelled) {
-        [[welf parentViewController] beginAppearanceTransition:YES animated:NO];
-        [[welf parentViewController] endAppearanceTransition];
-    }];
 }
 
 - (BOOL)presentRecordShareUIView {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
-    RecordShareUIViewController *recordingViewController = [storyboard instantiateViewControllerWithIdentifier:@"RecordShareView"];
-    recordingViewController.share = self.shareFeature;
-    
-    Li5UINavigationController *recordView = [[Li5UINavigationController alloc] initWithRootViewController:recordingViewController];
-    recordView.navigationBarHidden = YES;
-    
-    [[self parentViewController] presentViewController:recordView animated:NO completion:^{
-    }];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle bundleForClass:[self class]]];
     
     return TRUE;
 }
@@ -278,8 +214,6 @@
         self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
         
         NSDictionary *params = @{@"product":self.product.id};
-        [Intercom logEventWithName:@"Unloved" metaData:params];
-        [Heap track:@"Li5.UnLoveProduct" withProperties:params];
         
         [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil)
@@ -302,9 +236,6 @@
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         
         NSDictionary *params = @{@"product":self.product.id};
-        [Intercom logEventWithName:@"Loved" metaData:params];
-        [FBSDKAppEvents logEvent:@"LoveProduct"];
-        [Heap track:@"Li5.LoveProduct" withProperties:params];
         
         [[Li5ApiHandler sharedInstance] postLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil)

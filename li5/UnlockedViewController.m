@@ -7,16 +7,13 @@
 //
 
 @import Li5Api;
-@import FBSDKCoreKit;
-@import Intercom;
 
 #import "Li5PlayerUISlider.h"
 #import "UnlockedViewController.h"
 #import "ProductPageViewController.h"
 #import "ProductPageActionsView.h"
 #import "Li5VolumeView.h"
-#import "Li5-Swift.h"
-#import <Heap.h>
+#import <Li5SDK/Li5SDK-Swift.h>
 
 static const CGFloat sliderHeight = 50.0;
 static const CGFloat kCAHideControls = 3.5;
@@ -110,7 +107,7 @@ static const CGFloat kCAHideControls = 3.5;
 
 + (id)unlockedWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
 {
-    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle bundleForClass:[self class]]];
     UnlockedViewController *newSelf = [productPageStoryboard instantiateViewControllerWithIdentifier:@"UnlockedView"];
     if (newSelf)
     {
@@ -271,10 +268,6 @@ static const CGFloat kCAHideControls = 3.5;
     } else {
         [self show];
     }
-    
-    NSDictionary *params = @{@"product":self.product.id};
-    [Intercom logEventWithName:@"Unlocked" metaData:params];
-    [Heap track:@"Unlocked Appeared" withProperties:params];
 }
 
 - (void)renderAnimations
@@ -590,10 +583,7 @@ static const CGFloat kCAHideControls = 3.5;
 {
     int secondsWatched = (int) (CMTimeGetSeconds(self.extendedVideo.currentTime)*1000);
     DDLogVerbose(@"User saw %@ during %i", self.product.id, secondsWatched);
-    [FBSDKAppEvents logEvent:FBSDKAppEventNameViewedContent parameters:@{
-                                                                         FBSDKAppEventParameterNameContentType: @"video",
-                                                                         FBSDKAppEventParameterNameContentID: self.product.id
-                                                                         }];
+    
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeFull during:[NSNumber numberWithFloat:secondsWatched] inContext:(self.pContext == kProductContextDiscover?Li5ContextDiscover:Li5ContextSearch) withCompletion:^(NSError *error) {
         if (error)
@@ -602,10 +592,6 @@ static const CGFloat kCAHideControls = 3.5;
             [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
         }
     }];
-    
-    NSDictionary *params = @{@"product":self.product.id, @"seconds":@(secondsWatched)};
-    [Intercom logEventWithName:@"Unlocked Viewed" metaData:params];
-    [Heap track:@"Unlocked Viewed" withProperties:params];
 }
 
 #pragma mark - Gesture Recognizers

@@ -10,6 +10,8 @@
 #endif
 #endif
 
+#import "AVPlayerBC.h"
+#import "AVPlayerItemBC.h"
 #import "BCVideoPlayer.h"
 
 FOUNDATION_EXPORT double BCVideoPlayerVersionNumber;

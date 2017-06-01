@@ -7,11 +7,12 @@
 //
 
 #import "Li5Constants.h"
-#import "ProductPageViewController.h"
-#import "VideoViewController.h"
-#import "Li5-Swift.h"
+#import "Li5SDK/ProductPageViewController.h"
 
-@interface ProductPageViewController ()
+#import "VideoViewController.h"
+#import <Li5SDK/Li5SDK-Swift.h>
+
+@interface ProductPageViewController()
 
 @end
 
@@ -19,46 +20,57 @@
 
 @synthesize product;
 
+
 - (id)initWithProduct:(Product *)thisProduct forContext:(ProductContext)context
 {
-    DDLogVerbose(@"%@", thisProduct.title);
+    NSLog(@"ProductPageViewController >>> %@", thisProduct.title);
+    
     self = [super initWithDirection:Li5UIPageViewControllerDirectionVertical];
+    
     if (self)
     {
         self.product = thisProduct;
-        BOOL noMore = self.product.isAd || ([self.product.type caseInsensitiveCompare:@"url"] == NSOrderedSame && self.product.contentUrl == nil);
-        if (!noMore) {
-            self.viewControllers = @[ [[VideoViewController alloc] initWithProduct:self.product andContext:context], ([self.product.type caseInsensitiveCompare:@"url"] == NSOrderedSame ? [[DetailsHTMLViewController alloc] initWithProduct:self.product andContext:context] : [DetailsViewController detailsWithProduct:self.product andContext:context] ) ];
-        } else {
+        BOOL noMore = self.product.isAd ||
+                            ([self.product.type caseInsensitiveCompare:@"url"] == NSOrderedSame &&
+                                self.product.contentUrl == nil);
+        
+        if (noMore) {
             self.viewControllers = @[ [[VideoViewController alloc] initWithProduct:self.product andContext:context]];
+        } else {
+            self.viewControllers = @[[[VideoViewController alloc] initWithProduct:self.product andContext:context],
+                                     
+                                        ([self.product.type caseInsensitiveCompare:@"url"] == NSOrderedSame ?
+                                         [[DetailsHTMLViewController alloc] initWithProduct:self.product andContext:context]
+                                       : [DetailsViewController detailsWithProduct:self.product andContext:context])
+                                     ];
+            
         }
     }
+    
     return self;
 }
 
-- (id)initWithOrder:(Order *)order forContext:(ProductContext)context
-{
-    DDLogVerbose(@"%@", order.product.title);
-    self = [super initWithDirection:Li5UIPageViewControllerDirectionVertical];
-    if (self)
-    {
-        self.product = order.product;
-        self.viewControllers = @[ [[VideoViewController alloc] initWithProduct:self.product andContext:context], [DetailsViewController detailsWithOrder:order andContext:context] ];
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
-    DDLogVerbose(@"");
+    NSLog(@"ProductPageVC did load");
+    [self.view setBackgroundColor: [UIColor yellowColor]];
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    NSLog(@"ProductPageVC did appear");
+    [super viewDidAppear:animated];
+}
+
 
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
 }
+
 
 - (void)setPriority:(BCPriority)priority
 {

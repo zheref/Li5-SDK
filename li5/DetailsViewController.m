@@ -7,19 +7,14 @@
 //
 @import Li5Api;
 @import SDWebImage;
-@import MMMaterialDesignSpinner;
 
-#import "AppDelegate.h"
-#import "CheckoutViewController.h"
 #import "DetailsDescriptionViewController.h"
 #import "DetailsViewController.h"
 #import "ImageCardViewController.h"
 #import "ImageUICollectionViewCell.h"
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
-#import "OrderProcessedViewController.h"
 #import "UILabel+Li5.h"
-#import "ShippingInfoViewController.h"
 
 @interface DetailsViewController () {
     BOOL __hasAppeared;
@@ -75,7 +70,7 @@
 
 + (id)detailsWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
-    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle bundleForClass:[self class]]];
     DetailsViewController *newSelf = [productPageStoryboard instantiateViewControllerWithIdentifier:@"DetailsView"];
     if (newSelf)
     {
@@ -87,7 +82,7 @@
 
 + (id)detailsWithOrder:(Order*)thisOrder andContext:(ProductContext)ctx
 {
-    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle bundleForClass:[self class]]];
     DetailsViewController *newSelf = [productPageStoryboard instantiateViewControllerWithIdentifier:@"DetailsView"];
     if (newSelf)
     {
@@ -200,7 +195,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:kLi5SwipeUpExplainerViewPresented] && self.pContext == kProductContextDiscover)
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle bundleForClass:[self class]]];
         UIViewController *explainerView = [storyboard instantiateViewControllerWithIdentifier:@"SwipeUpExplainerView"];
         
         [self presentViewController:explainerView animated:NO completion:^{
@@ -240,20 +235,11 @@
 {
     ImageUICollectionViewCell *imageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageView" forIndexPath:indexPath];
     
-    imageCell.spinnerView = [[MMMaterialDesignSpinner alloc] initWithFrame:CGRectMake(imageCell.frame.size.width/2,imageCell.frame.size.height/2,15.0,15.0)];
-    imageCell.spinnerView.lineWidth = 1.5f;
-    imageCell.spinnerView.tintColor = [UIColor whiteColor];
-    imageCell.spinnerView.hidesWhenStopped = YES;
-    [imageCell addSubview:imageCell.spinnerView];
-    
-    [imageCell.spinnerView startAnimating];
-    
     // Here we use the new provided sd_setImageWithURL: method to load the web image
     [imageCell.imageView sd_setImageWithURL:[NSURL URLWithString:self.product.images[indexPath.row].url]
                            placeholderImage:nil
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
                                       //DDLogVerbose(@"completed");
-                                      [imageCell.spinnerView stopAnimating];
                                   }];
     
     return imageCell;
@@ -271,65 +257,7 @@
 #pragma mark - User Actions
 
 - (IBAction)buyAction:(UIButton *)btn
-{
-    DDLogVerbose(@"Buy Button tapped");
-    
-    OrderProcessedViewController *nextVC;
-    
-    
-    if(self.order == nil) {
-        
-        nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"processOrderView"];
-        nextVC.parent = self;
-        
-        [nextVC setOrder:self.order];
-        [nextVC setProduct:self.product];
-        
-        Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-        Profile *userProfile = [flowController userProfile];
-        
-        if (userProfile)
-        {
-            if (!userProfile.defaultAddress)
-            {
-                nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"shippingView"];
-                
-                [(ShippingInfoViewController *) nextVC setShowSameAsBillingAddress:!userProfile.defaultCard];
-                
-            }
-            if (!userProfile.defaultCard)
-            {
-                nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutView"];
-            }
-        }
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        if ([userDefaults boolForKey:@"Li5DiscoverModeCustom"])
-        {
-            nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutView"];
-        }
-        
-        if([nextVC isKindOfClass:[OrderProcessedViewController class]]) {
-            
-            [self presentViewController:nextVC animated:NO completion:nil];
-        }else {
-            CATransition *transition = [CATransition animation];
-            transition.duration = 0.3;
-            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-            transition.type = kCATransitionPush;
-            transition.subtype = kCATransitionFromTop;
-            [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-            
-            [nextVC setProduct:self.product];
-            [self.navigationController pushViewController:nextVC animated:NO];
-        }
-    }
-    else {
-        nextVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderDetailVC"];
-        [nextVC setOrder:self.order];
-         [self presentViewController:nextVC animated:NO completion:nil];
-    
-    }
-    
+{    
    
 }
 

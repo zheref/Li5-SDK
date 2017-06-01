@@ -1,0 +1,341 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/docs
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "1.81.0"
+
+default_platform :ios
+
+platform :ios do
+  before_all do
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+    
+  end
+
+  desc "Installs XCode plugin to disable fix it!"
+  lane :xcode_plugin do
+    install_xcode_plugin(
+      url: "https://github.com/fastlane/FixCode/releases/download/0.5.0/FixCode.xcplugin.zip"
+    )
+  end
+
+  desc "Installs all required provisionin profiles and certificates"
+  lane :match_dev do
+
+    project = UI.select("Select your project: ", ["com.li5.sdk.demo", "com.li5.buy", "com.li5.embed"])
+
+    case project
+    when "com.li5.sdk.demo"
+      produce(
+        app_identifier: 'com.li5.sdk.demo',
+        app_name: 'DemoSDK',
+        language: 'English',
+        app_version: '1.0',
+        company_name: 'Li5, Inc.',
+        skip_itc: true
+      )
+
+      match(app_identifier: "com.li5.sdk.demo", type:"development")
+
+    when "com.li5.buy"
+      produce(
+        app_identifier: 'com.li5.buy',
+        app_name: 'Li5 Buy',
+        language: 'English',
+        app_version: '1.0',
+        company_name: 'Li5, Inc.',
+        skip_itc: true
+      )
+
+      produce(
+        app_identifier: 'com.li5.buy.test',
+        app_name: 'Li5 Buy TEST',
+        language: 'English',
+        app_version: '1.0',
+        company_name: 'Li5, Inc.',
+        skip_itc: true
+      )
+
+      match(app_identifier: "com.li5.buy", type:"development")
+      match(app_identifier: "com.li5.buy.test", type:"development")
+    when "com.li5.embed"
+      produce(
+        app_identifier: 'com.li5.embed',
+        app_name: 'Embed',
+        language: 'English',
+        app_version: '1.0',
+        company_name: 'Li5, Inc.',
+        skip_itc: true
+      )
+
+      match(app_identifier: "com.li5.embed", type:"development")
+    end
+  end
+
+  desc "Installs all required provisionin profiles and certificates"
+  lane :match_prod do
+    produce(
+      app_identifier: 'com.li5.buy',
+      app_name: 'Li5',
+      language: 'English',
+      app_version: '1.0',
+      company_name: 'Li5, Inc.'
+    )
+
+    match(app_identifier: "com.li5.buy", type:"appstore")
+  end
+
+  lane :add_device do
+      device_name = prompt(text: "Enter the device name: ")
+      device_udid = prompt(text: "Enter the device UDID: ")
+      device_hash = {}
+      device_hash[device_name] = device_udid
+      register_devices(
+        devices: device_hash
+      )
+    refresh_profiles
+  end
+
+  # A helper lane for refreshing provisioning profiles.
+  lane :refresh_profiles do
+    match(app_identifier: "com.li5.buy", type:"development",force: true,force_for_new_devices: true)
+    match(app_identifier: "com.li5.buy.test", type:"development",force: true,force_for_new_devices: true)
+    match(app_identifier: "com.li5.embed", type:"development",force: true,force_for_new_devices: true)
+    match(app_identifier: "com.li5.sdk.demo", type:"development",force: true,force_for_new_devices: true)
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    scan(
+      clean: true,
+      scheme: "li5"
+    )
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "This will also make sure the profile is up to date"
+  lane :beta do |options|
+
+    build(options)
+
+    deliver_beta(options)
+
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "This will also make sure the profile is up to date"
+  lane :build do |options|
+
+    cocoapods
+
+    increment_build_number # version bump
+
+    case options[:app]
+    when "com.li5.sdk.demo"
+      match(
+        app_identifier: "com.li5.sdk.demo", 
+        type:"development"
+      )
+
+      gym(
+        scheme: "DemoSDK",
+        toolchain: :swift_2_3,
+        configuration: "Debug"
+      )
+    when "com.li5.buy"
+      match(
+        app_identifier: "com.li5.buy", 
+        type:"development"
+      )
+
+      gym(
+        scheme: "li5",
+        use_legacy_build_api: true,
+        configuration: "Debug"
+      )
+
+      match(
+        app_identifier: "com.li5.buy.test", 
+        type:"development"
+      )
+
+      gym(
+        scheme: "li5-Test",
+        use_legacy_build_api: true,
+        configuration: "Debug"
+      )
+    when "com.li5.embed"
+      match(
+        app_identifier: "com.li5.embed", 
+        type:"development"
+      )
+
+      gym(
+        scheme: "Embed",
+        toolchain: :swift_2_3,
+        configuration: "Debug"
+      )
+    end
+    puts "Version: #{get_version_number} (#{get_build_number})"
+
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "This will also make sure the profile is up to date"
+  lane :deliver_beta do |options|
+    
+    puts "Version: #{get_version_number} (#{get_build_number})"
+
+    case options[:app]
+    when "com.li5.sdk.demo"
+      crashlytics(
+        crashlytics_path: "./Pods/Crashlytics",
+        api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
+        build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
+        groups: [“internal”],
+        notifications: true,
+        ipa_path: "li5sdk-demo.ipa"
+      )
+
+    when "com.li5.buy"
+      crashlytics(
+        crashlytics_path: "./Pods/Crashlytics",
+        api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
+        build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
+        groups: [“internal”],
+        notifications: true,
+        ipa_path: "li5.ipa"
+      )
+
+      crashlytics(
+        crashlytics_path: "./Pods/Crashlytics",
+        api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
+        build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
+        groups: [“internal”],
+        notifications: true,
+        ipa_path: "li5-Test.ipa"
+      )
+    when "com.li5.embed"
+      crashlytics(
+        crashlytics_path: "./Pods/Crashlytics",
+        api_token: "5fc65ced6ab2d25990ed5d5ce0fc5902cadfde38",
+        build_secret: "ed55027d5b51ac3a58762ae2626bc46e2f1eef77e6e84d9922c2fbe7e9c3c5e8",
+        groups: [“internal”],
+        notifications: true,
+        ipa_path: "Embed.ipa"
+      )
+    end
+
+    # sh "your_script.sh"
+    # You can also use other beta testing services here (run `fastlane actions`)
+  end
+
+  desc "Deploy a new version to the App Store"
+  lane :build_appstore do
+
+    cocoapods
+
+    #increment_build_number
+
+    match(
+      app_identifier: "com.li5.buy", 
+      type:"appstore"
+    )
+
+    gym(
+      scheme: "li5",
+      use_legacy_build_api: true,
+      configuration: "Release",
+      toolchain: "com.apple.dt.toolchain.Swift_2_3" #Fix for fastlane error of Swift version
+    ) # Build your app - more options available
+
+    puts "Version: #{get_version_number} (#{get_build_number})"
+
+    # frameit
+  end
+
+  desc "Deploy a new version to the App Store"
+  lane :deliver_appstore do
+
+    puts "Version: #{get_version_number} (#{get_build_number})"
+
+    deliver(
+      ipa: "li5.ipa",
+      app_version: "#{get_version_number}"
+    )
+    
+    # frameit
+  end
+
+  desc "Build & Deploy a new version to the App Store"
+  lane :new_version_appstore do
+
+    build_appstore
+
+    deliver_appstore
+    
+  end
+
+  desc "Increase Version Number"
+  lane :set_version  do
+    
+    ver = prompt(
+      text: "Enter new version number"
+    )
+
+    increment_version_number(
+      version_number: ver
+    )
+
+  end
+
+  lane :refresh_dsyms do
+    
+    # Download dSYM files from iTC
+    download_dsyms(version: "#{get_version_number}", build_number: "#{get_build_number}")
+
+    # Upload them to Crashlytics
+    upload_symbols_to_crashlytics
+    #(dsym_path: "./App.dSYM.zip")
+
+    # Delete the local dSYM files
+    clean_build_artifacts
+
+  end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+
+    slack(
+      message: "Successfully deployed new App Update.",
+      channel: "dev"
+     )
+  end
+
+  error do |lane, exception|
+
+    slack(
+       message: exception.message,
+       channel: "dev",
+       success: false
+     )
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/docs/Platforms.md
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+
+# fastlane reports which actions are used
+# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer

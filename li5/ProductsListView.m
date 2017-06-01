@@ -8,7 +8,6 @@
 
 #import "HorizontalUICollectionViewFlowLayout.h"
 #import "ProductsListView.h"
-#import "UserProductsCollectionViewDataSource.h"
 #import "ProductsCollectionViewCell.h"
 
 static const CGFloat lineSpacing = 5.0;

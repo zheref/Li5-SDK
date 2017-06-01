@@ -3,87 +3,26 @@ platform :ios, '8.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
 
-abstract_target 'Li5Base' do
-  pod 'CocoaLumberjack'
-  pod 'Li5Api', :path => '../api'
-  pod 'GCDWebServer', :git => 'git@github.com:lifive/GCDWebServer.git', :branch => 'master'
-  pod 'BCVideoPlayer', :path => '../player'
-  pod 'SDWebImage', '~>3.7'
-  pod 'Masonry'
-  pod 'SMPageControl'
-  pod 'TSMessages', :git => 'git@github.com:KrauseFx/TSMessages.git'
-  pod 'MMMaterialDesignSpinner'
-  pod 'FXBlurView'
-  pod 'Heap'
-  pod 'pop', '~> 1.0'
-  pod 'YYImage'
-  pod 'YYImage/WebP'
-  pod 'VMaskTextField'
-  pod 'MBProgressHUD'
-  pod 'Branch'
-  pod 'Instabug'
-  pod 'FBNotifications'
-  pod 'SCRecorder', '~> 2.7'
-  pod 'AMPopTip'
-  pod 'Applanga'
-  pod 'OneSignal'
-  pod 'SnapKit', '0.22.0'
-  
-  target 'li5' do
+target 'Li5SDK' do
+    pod 'CocoaLumberjack'
+    pod 'Li5Api', :path => '../api'
+    pod 'GCDWebServer', :git => 'https://github.com/lifive/GCDWebServer.git', :branch => 'master'
+    pod 'BCVideoPlayer', :path => '../player'
+    pod 'SDWebImage', '~>3.7'
+    pod 'Masonry'
+    pod 'TSMessages', :git => 'https://github.com/KrauseFx/TSMessages.git'
+    pod 'FXBlurView'
+    pod 'YYImage'
+    pod 'YYImage/WebP'
+    pod 'Applanga'
+    pod 'SnapKit', '0.22.0'
+    
     pod 'Fabric'
-    pod 'Digits'
-    pod 'TwitterCore'
     pod 'Crashlytics'
-    pod 'CardIO'
-    pod 'Stripe'
-    pod 'Intercom'
-    pod 'JSBadgeView'
-  end
-  
-  target 'li5-Test' do
-    pod 'Fabric'
-    pod 'Digits'
-    pod 'TwitterCore'
-    pod 'Crashlytics'
-    pod 'CardIO'
-    pod 'Stripe'
-    pod 'Intercom'
-    pod 'JSBadgeView'
-  end
-  
-  target 'li5Tests' do
-    pod 'Fabric'
-    pod 'Digits'
-    pod 'TwitterCore'
-    pod 'Crashlytics'
-    pod 'CardIO'
-    pod 'Stripe'
-    pod 'Intercom'
-    pod 'JSBadgeView'
-  end
-  
-  target 'li5UITests' do
-    pod 'Fabric'
-    pod 'Digits'
-    pod 'TwitterCore'
-    pod 'Crashlytics'
-    pod 'CardIO'
-    pod 'Stripe'
-    pod 'Intercom'
-    pod 'JSBadgeView'
-  end
+end
 
-  target 'Embed' do
-    pod 'Fabric'
-    pod 'Digits'
-    pod 'TwitterCore'
-    pod 'Crashlytics'
-    pod 'CardIO'
-    pod 'Stripe'
-    pod 'Intercom'
-    pod 'JSBadgeView'
-  end
-
+target 'DemoSDK' do
+    
 end
 
 # post install

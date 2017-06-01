@@ -7,12 +7,10 @@
 //
 
 @import Li5Api;
-@import Branch;
 
 #import "LastPageViewController.h"
 #import "PrimeTimeViewControllerDataSource.h"
 #import "Li5Constants.h"
-#import "Li5-Swift.h"
 
 @interface PrimeTimeViewControllerDataSource () {
     NSTimer *_expirationTimer;
@@ -42,7 +40,7 @@
                                                  selector:@selector(resetPrimeTime:)
                                                      name:kPrimeTimeReset
                                                    object:nil];
-
+        
     }
     return self;
 }
@@ -79,20 +77,6 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
         //Background Thread
         Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
-        
-        NSDictionary *params = [[Branch getInstance] getLatestReferringParams];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *shareToken = [params objectForKey:@"share_token"];
-        if (shareToken) {
-            DDLogVerbose(@"share link token: %@", shareToken);
-            [userDefaults setObject:shareToken forKey:kLi5ShareToken];
-        } else {
-            NSString *branchProduct = [params objectForKey:@"product"];
-            if (branchProduct && ![userDefaults objectForKey:kLi5Product]) {
-                DDLogVerbose(@"product: %@", branchProduct);
-                [userDefaults setObject:branchProduct forKey:kLi5Product];
-            }
-        }
         
         void (^apiCompletion)(NSError *error, Products *products) = ^void(NSError *error, Products *products) {
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -153,7 +137,7 @@
 {
     if ((index >= [self numberOfProducts]) || (index == NSNotFound))
     {
-        UIStoryboard *discoverStoryboard = [UIStoryboard storyboardWithName:@"DiscoverViews" bundle:[NSBundle mainBundle]];
+        UIStoryboard *discoverStoryboard = [UIStoryboard storyboardWithName:@"DiscoverViews" bundle:[NSBundle bundleForClass:[self class]]];
         LastPageViewController *lastVC = [discoverStoryboard instantiateViewControllerWithIdentifier:@"LastPageView"];
         [lastVC setScrollPageIndex:index];
         [lastVC setLastVideoURL:self.endOfPrimeTime];

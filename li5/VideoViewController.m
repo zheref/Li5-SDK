@@ -49,6 +49,7 @@
     // Do any additional setup after loading the view.
     
     self.automaticallyAdjustsScrollViewInsets = NO;
+    [self.view setBackgroundColor: [UIColor redColor]];
     
     [self showViewController:teaserViewController withAppearanceTransition:NO];
 }
@@ -88,7 +89,7 @@
 // From the container view controller
 - (BOOL) shouldAutomaticallyForwardAppearanceMethods
 {
-    return NO;
+    return YES;
 }
 
 - (void)hideViewController:(UIViewController<DisplayableProtocol> *)vc withAppearanceTransition:(BOOL)appear force:(BOOL)force

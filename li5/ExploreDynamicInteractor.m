@@ -38,7 +38,7 @@
     DDLogVerbose(@"");
     if (!(self = [super init])) return nil;
     
-    UIStoryboard *searchStoryboard = [UIStoryboard storyboardWithName:@"ExploreViews" bundle:[NSBundle mainBundle]];
+    UIStoryboard *searchStoryboard = [UIStoryboard storyboardWithName:@"ExploreViews" bundle:[NSBundle bundleForClass:[self class]]];
     self.exploreProductsViewController = [searchStoryboard instantiateInitialViewController];
     [self.exploreProductsViewController setPanTarget:self];
     

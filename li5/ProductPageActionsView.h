@@ -8,7 +8,7 @@
 @import Li5Api;
 
 #import "Li5View.h"
-#import "Li5-Swift.h"
+#import <Li5SDK/Li5SDK-Swift.h>
 
 //IB_DESIGNABLE
 @interface ProductPageActionsView : Li5View<HeartAnimationViewDelegate>

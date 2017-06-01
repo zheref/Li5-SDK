@@ -10,7 +10,7 @@ import UIKit
 import CoreMedia
 
 //@IBDesignable
-class ThinPlayerProgressView: UIView {
+public class ThinPlayerProgressView: UIView {
 
     private let timeInterval = 0.01
     
@@ -18,7 +18,7 @@ class ThinPlayerProgressView: UIView {
     
     private var timeObserver : AnyObject?
     
-    weak var player: BCPlayer? {
+    public weak var player: BCPlayer? {
         willSet {
             self.removeObservers()
         }
@@ -39,12 +39,12 @@ class ThinPlayerProgressView: UIView {
         }
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame:frame)
         initialize()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         initialize()
     }
@@ -54,7 +54,7 @@ class ThinPlayerProgressView: UIView {
         self.addSubview(overlay)
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         
         overlay.frame = CGRectMake(0, 0, self.frame.size.width * CGFloat(percentage), self.frame.size.height)

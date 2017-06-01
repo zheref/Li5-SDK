@@ -6,10 +6,7 @@
 //  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 @import BCVideoPlayer;
-@import pop;
 @import TSMessages;
-@import FBSDKCoreKit;
-@import Intercom;
 
 #import "ShapesHelper.h"
 #import "TeaserViewController.h"
@@ -21,8 +18,6 @@
 #import "ProductPageActionsView.h"
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
-#import "Li5-Swift.h"
-#import "Heap.h"
 
 #import "PrimeTimeViewController.h"
 #pragma mark - Class Definitions
@@ -49,7 +44,7 @@
     double __endPositionX;
     double __space;
     
-    TapAndHoldViewController *_modalView;
+    //TapAndHoldViewController *_modalView;
 }
 
 @property (assign, nonatomic) ProductContext pContext;
@@ -86,7 +81,7 @@
 
 + (id)teaserWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {
-    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle mainBundle]];
+    UIStoryboard *productPageStoryboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle bundleForClass:[self class]]];
     TeaserViewController *newSelf = [productPageStoryboard instantiateViewControllerWithIdentifier:@"TeaserView"];
     if (newSelf)
     {
@@ -115,11 +110,6 @@
                                              selector:@selector(show)
                                                  name:kPrimeTimeReadyToStart
                                                object:nil];
-    
-    // self.interactor = [[Interactor alloc] init];
-    
-    //self.modalPresentationStyle = UIModalPresentationCustom;
-    // destinationViewController.interactor = interactor
 }
 
 #pragma mark - UI View
@@ -246,12 +236,12 @@
     
     __hasAppeared = NO;
     
-    //TODO: Fix real cause - #245 
-//    if (CMTimeGetSeconds(CMTimeSubtract(self.teaserPlayer.currentItem.duration, self.teaserPlayer.currentItem.currentTime)) < 1) {
-//        [self.teaserPlayer pauseAndDestroy];
-//    } else {
-//        [self.teaserPlayer pause];
-//    }
+    //TODO: Fix real cause - #245
+    //    if (CMTimeGetSeconds(CMTimeSubtract(self.teaserPlayer.currentItem.duration, self.teaserPlayer.currentItem.currentTime)) < 1) {
+    //        [self.teaserPlayer pauseAndDestroy];
+    //    } else {
+    //        [self.teaserPlayer pause];
+    //    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -324,10 +314,10 @@
                                     subtitle:NSLocalizedString(@"Failed to load video, please try again later.",nil)
                                         type:TSMessageNotificationTypeError];
     }
-
+    
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter postNotificationName:kPrimeTimeFailedToLoad object:nil];
-
+    
     __hasRetriedFailedItem = YES;
 }
 
@@ -343,7 +333,7 @@
 {
     DDLogVerbose(@"");
     [_waveView startAnimating];
-
+    
     [self.teaserPlayer pause];
 #if DEBUG
     [TSMessage showNotificationWithTitle:NSLocalizedString(@"Network slow",nil)
@@ -383,10 +373,9 @@
         [self.playerTimer setPlayer:self.teaserPlayer];
         [self.playerProgressLine setPlayer:self.teaserPlayer];
         
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        if(__hasAppeared && [userDefaults boolForKey:kLi5SwipeLeftExplainerViewPresented])
+        if(__hasAppeared)
         {
-            DDLogVerbose(@"%p",self);
+            NSLog(@">>> Playing video...");
             [self.teaserPlayer play];
             
             [self renderAnimations];
@@ -428,18 +417,6 @@
         __weak typeof(id) welf = self;
         playEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.teaserPlayer.currentItem queue:NSOperationQueuePriorityNormal usingBlock:^(NSNotification *_Nonnull note) {
             [welf replayMovie:note];
-            
-#ifndef EMBED
-            if (__hasAppeared && __hasUnlockedVideo)
-            {
-                if (!_modalView) {
-                    _modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
-                    _modalView.gestureDelegate = self;
-                }
-                
-                [self.view addSubview:_modalView.view];
-            }
-#endif
         }];
     }
     
@@ -461,10 +438,6 @@
     int secondsWatched = (int) (CMTimeGetSeconds(self.teaserPlayer.currentTime)*1000);
     DDLogVerbose(@"%@:%i", self.product.id, secondsWatched);
     
-    [FBSDKAppEvents logEvent:FBSDKAppEventNameViewedContent parameters:@{
-                                                                         FBSDKAppEventParameterNameContentType: @"video",
-                                                                         FBSDKAppEventParameterNameContentID: self.product.id
-                                                                         }];
     Li5ApiHandler *li5 = [Li5ApiHandler sharedInstance];
     [li5 postUserWatchedVideoWithID:self.product.id withType:Li5VideoTypeTrailer during:[NSNumber numberWithFloat:secondsWatched] inContext:(self.pContext == kProductContextDiscover? Li5ContextDiscover:Li5ContextSearch) withCompletion:^(NSError *error) {
         if (error)
@@ -473,10 +446,6 @@
             [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
         }
     }];
-    
-    NSDictionary *params = @{@"product":self.product.id,@"seconds":@(secondsWatched)};
-    [Heap track:@"Teaser Viewed" withProperties:params];
-    [Intercom logEventWithName:@"Product Viewed" metaData:params];
 }
 
 #pragma mark - User Actions
@@ -496,17 +465,6 @@
 - (IBAction)userDidTap:(UITapGestureRecognizer*)sender
 {
     DDLogVerbose(@"");
-#ifndef EMBED
-    if (self.teaserPlayer.status == AVPlayerStatusReadyToPlay && __hasUnlockedVideo)
-    {
-        if (!_modalView) {
-            _modalView = [self.storyboard instantiateViewControllerWithIdentifier:@"TapAndHoldToUnlockView"];
-            _modalView.gestureDelegate = self;
-        }
-        
-        [self.view addSubview:_modalView.view];
-    }
-#endif
 }
 
 - (void)handleLongTap:(UITapGestureRecognizer *)sender
@@ -528,7 +486,7 @@
 }
 
 - (void)handleDismiss {
-    [_modalView.view removeFromSuperview];
+//    [_modalView.view removeFromSuperview];
 }
 
 - (void)goBackToSearch:(UIPanGestureRecognizer *)recognizer
@@ -576,8 +534,8 @@
     {
         //User Profile Gesture Recognizer - Swipe Down from 0-100px
         profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
-        searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
-
+        //searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
+        
         //Profile Gesture Recognizer - Swipe Down from 0-100px
         profilePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:profileInteractor action:@selector(userDidPan:)];
         [profilePanGestureRecognizer setDelegate:self];
@@ -653,7 +611,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
             __actionsViewAppeared = finished && on;
         }];
     } else {
-//        self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(hideOrShow, 0));
+        //        self.actionsView.center = CGPointApplyAffineTransform(self.actionsView.center, CGAffineTransformMakeTranslation(hideOrShow, 0));
         self.actionsView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, hideOrShow, 0);
     }
 }
@@ -823,7 +781,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 }
 
 -(BCPlayer *)getPlayer{
-
+    
     return self.teaserPlayer;
 }
 

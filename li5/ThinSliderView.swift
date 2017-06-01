@@ -11,7 +11,7 @@ import SnapKit
 import CoreMedia
 
 //@IBDesignable
-class ThinSliderView: UIView {
+@objc public class ThinSliderView: UIView {
     
     var progress: UISlider!
     var time: UILabel!
@@ -42,7 +42,7 @@ class ThinSliderView: UIView {
         initialize()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()
     }
@@ -66,7 +66,7 @@ class ThinSliderView: UIView {
         self.addSubview(time)
     }
     
-    override func updateConstraints() {
+    override public func updateConstraints() {
         progress.snp_makeConstraints {(make) -> Void in
             make.leading.equalTo(self).offset(20)
             make.centerY.equalTo(self)
@@ -80,7 +80,7 @@ class ThinSliderView: UIView {
         super.updateConstraints()
     }
     
-    override func prepareForInterfaceBuilder() {
+    override public func prepareForInterfaceBuilder() {
         progress.setValue(0.1, animated: false)
         self.updateConstraints()
     }

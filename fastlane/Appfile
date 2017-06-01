@@ -1,7 +1,8 @@
-app_identifier "com.li5.buy" # The bundle identifier of your app
-apple_id "likeiam5@gmail.com" # Your Apple email address
+# The Appfile can be used to specify information that's used across all fastlane
+# tools, like your username or the app's bundle identifier.
+#
+# For more details, check out the documentation at:
+# https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Appfile.md
 
-team_id "B64365EYZ4"  # Developer Portal Team ID
-
-# you can even provide different app identifiers, Apple IDs and team names per lane:
-# More information: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Appfile.md
+# app_identifier "com.your.app" # the bundle identifier of your app
+# apple_id "apple@fastlane.tools" # Your Apple ID

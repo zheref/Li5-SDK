@@ -6,15 +6,11 @@
 //  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
-@import FBSDKCoreKit;
-@import Intercom;
-
 #import "ExploreDynamicInteractor.h"
 #import "LastPageViewController.h"
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
 #import "UserProfileDynamicInteractor.h"
-#import "Heap.h"
 
 @interface LastPageViewController ()
 {
@@ -117,10 +113,10 @@
     
     [self.videoView.layer addSublayer:_playerLayer];
 
-    NSString *goToExploreSoundURL = [[NSBundle mainBundle] pathForResource:@"go_to_explore" ofType:@"mp3"];
-    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:goToExploreSoundURL] error:nil];
-    [_audioPlayer setNumberOfLoops:0];
-    [_audioPlayer prepareToPlay];
+//    NSString *goToExploreSoundURL = [[NSBundle mainBundle] pathForResource:@"go_to_explore" ofType:@"mp3"];
+//    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:goToExploreSoundURL] error:nil];
+//    [_audioPlayer setNumberOfLoops:0];
+//    [_audioPlayer prepareToPlay];
 
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter postNotificationName:kPrimeTimeLoaded object:nil];
@@ -367,9 +363,6 @@
             [self.player play];
             
             NSDictionary *params = @{@"closing":self.lastVideoURL.url.lastPathComponent};
-            [FBSDKAppEvents logEvent:@"EndOfPrimeTimeReached"];
-            [Heap track:@"Li5.EndOfPrimeTimeReached" withProperties:params];
-            [Intercom logEventWithName:@"End of Prime Time" metaData:params];
         }
         else
         {
@@ -429,7 +422,6 @@
     
 #if FULL_VERSION
     //Search Products Gesture Recognizer - Swipe Down from below 100px
-    searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
     searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userDidPan:)];
     [searchPanGestureRecognizer setDelegate:self];
     [self.view addGestureRecognizer:searchPanGestureRecognizer];

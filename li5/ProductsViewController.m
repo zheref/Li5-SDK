@@ -7,7 +7,6 @@
 //
 
 @import Li5Api;
-@import MMMaterialDesignSpinner;
 
 #import "PrimeTimeViewController.h"
 #import "ProductsCollectionViewDataSource.h"
@@ -19,7 +18,6 @@
 }
 
 @property (nonatomic, strong) ProductsCollectionViewDataSource *source;
-@property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;
 @property (weak, nonatomic) IBOutlet UILabel *noResultsView;
 
 @property (nonatomic, assign, getter = isPresenting) BOOL presenting;
@@ -68,13 +66,6 @@
     _noResultsView.font = [UIFont fontWithName:@"Rubik-Bold" size:32.0];
     _noResultsView.hidden = YES;
     
-    _spinnerView = [[MMMaterialDesignSpinner alloc] initWithFrame:CGRectMake(0,0,45,45)];
-    _spinnerView.lineWidth = 2.0f;
-    _spinnerView.tintColor = [UIColor lightGrayColor];
-    _spinnerView.hidesWhenStopped = YES;
-    [self.view addSubview:_spinnerView];
-    
-    //Data Sources
     _source = [ProductsCollectionViewDataSource new];
     [_productListView setDelegate:self];
     [_productListView.collectionView setDataSource:_source];
@@ -94,8 +85,6 @@
 {
     DDLogVerbose(@"");
     [super viewDidLayoutSubviews];
-    
-    _spinnerView.center = self.view.center;
 }
 
 #pragma mark - User Actions
@@ -117,7 +106,6 @@
     DDLogVerbose(@"");
     //    [_productListView.collectionView reloadData];
     self.noResultsView.hidden = YES;
-    [_spinnerView startAnimating];
     [__queue addOperationWithBlock:^{
         [_source getProductsWithQuery:(searchText.length > 0 ? searchText: nil) progress:^(){
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -130,7 +118,6 @@
                 [[CrashlyticsLogger sharedInstance] logError:error userInfo:nil];
             }
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [_spinnerView stopAnimating];
                 [_productListView.collectionView reloadData];
                 self.noResultsView.hidden = [self.source totalProducts] != 0;
             }];
@@ -165,10 +152,10 @@
         PrimeTimeNavigationViewController *navVc = [[PrimeTimeNavigationViewController alloc] initWithRootViewController:vc];
         navVc.navigationBarHidden = YES;
         
-        vc.interactor = [[ExploreProductInteractor alloc] initWithParentViewController:self
-                                                               andChildController:navVc
-                                                                  andInitialFrame:frame
-                                                                          andCell:cell];
+//        vc.interactor = [[ExploreProductInteractor alloc] initWithParentViewController:self
+//                                                               andChildController:navVc
+//                                                                  andInitialFrame:frame
+//                                                                          andCell:cell];
         
         UIImageView *image = [[UIImageView alloc] initWithImage:cell.imageView.image];
         
@@ -187,18 +174,18 @@
             
         } completion:^(BOOL finished) {
             
-            [vc.interactor presentViewWithCompletion:^{
-                
-                [UIView animateWithDuration:0.4 animations:^{
-                    
-                    image.alpha = 0;
-                    cell.hidden = true;
-                    
-                } completion:^(BOOL finished) {
-                    
-                    self.presenting = NO;
-                }];
-            }];
+//            [vc.interactor presentViewWithCompletion:^{
+//                
+//                [UIView animateWithDuration:0.4 animations:^{
+//                    
+//                    image.alpha = 0;
+//                    cell.hidden = true;
+//                    
+//                } completion:^(BOOL finished) {
+//                    
+//                    self.presenting = NO;
+//                }];
+//            }];
         }];
     }
 }

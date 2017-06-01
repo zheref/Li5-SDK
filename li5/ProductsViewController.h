@@ -8,7 +8,7 @@
 
 #import "ProductsListView.h"
 #import "ExploreViewController.h"
-#import "Li5-Swift.h"
+//#import "Li5-Swift.h"
 
 @interface ProductsViewController : UIViewController <ProductsListViewDelegate, Li5SearchBarUIViewDelegate, UIViewControllerTransitioningDelegate>
 

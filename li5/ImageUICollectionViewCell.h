@@ -6,11 +6,8 @@
 //  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
-@import MMMaterialDesignSpinner;
-
 @interface ImageUICollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;
 
 @end

@@ -6,8 +6,6 @@
 //  Copyright © 2016 Li5, Inc. All rights reserved.
 //
 
-@import MMMaterialDesignSpinner;
-
 #import "ProductsCollectionViewCell.h"
 #import "ImageHelper.h"
 
@@ -20,8 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIView *videoView;
 
 @property (strong, nonatomic) ImageHelper *imageHelper;
-
-@property (strong, nonatomic) MMMaterialDesignSpinner *spinnerView;
 
 @end
 
@@ -48,13 +44,6 @@
     // Initialize the progress view
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.spinnerView = [[MMMaterialDesignSpinner alloc] initWithFrame:CGRectMake(self.frame.size.width/2,self.frame.size.height/2,15.0,15.0)];
-        self.spinnerView.lineWidth = 1.5f;
-        self.spinnerView.tintColor = [UIColor lightGrayColor];
-        self.spinnerView.hidesWhenStopped = YES;
-        [self.videoView addSubview:self.spinnerView];
-        [self.spinnerView startAnimating];
-        
         self.orderDetails.hidden = (self.order == nil);
         self.orderStatus.text = self.order.status;
         
@@ -76,7 +65,6 @@
                             welf.imageView.frame = welf.bounds;
                             
                             [welf.videoView addSubview:welf.imageView];
-                            [welf.spinnerView stopAnimating];
                         });
                     });
                 }
@@ -138,7 +126,6 @@
     [self cleanup];
     self.imageView = nil;
     self.imageHelper = nil;
-    self.spinnerView = nil;
 }
 
 @end

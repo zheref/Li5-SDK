@@ -9,36 +9,35 @@
 import UIKit
 import WebKit
 
-class DetailsHTMLViewController: UIViewController {
+@objc public class DetailsHTMLViewController: UIViewController {
 
     private var webView: WKWebView?
     
     var product : Product!
     var context : ProductContext!
     
-    convenience init(withProduct product: Product, andContext context:ProductContext) {
+    public convenience init(withProduct product: Product, andContext context:ProductContext) {
         self.init()
         
         self.product = product
         self.context = context
     }
     
-    override func loadView() {
+    public override func loadView() {
         webView = WKWebView()
         
         view = webView
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         let url = (self.product.contentUrl != nil) ? NSURL(string:self.product.contentUrl) : NSURL(string: "https://www.li5.tv")
-//        let url = NSURL(string: "https://www.li5.tv")
         let req = NSURLRequest(URL: url!)
         webView?.loadRequest(req)
     }
 
-    override func didReceiveMemoryWarning() {
+    public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

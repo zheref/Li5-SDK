@@ -11,10 +11,8 @@
 
 //#import "UserProfileDismissDynamicInteractor.h"
 #import "UserProfileViewController.h"
-#import "Li5RootFlowController.h"
-#import "AppDelegate.h"
 #import "Li5VolumeView.h"
-#import "Li5-Swift.h"
+#import <Li5SDK/Li5SDK-Swift.h>
 
 @interface UserProfileViewController ()
 
@@ -37,7 +35,7 @@
 
 + (id)initWithPanTarget:(id<UserProfileViewControllerPanTargetDelegate>)panTarget andViewController:(UIViewController *)viewController
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"UserProfile" bundle:[NSBundle mainBundle]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"UserProfile" bundle:[NSBundle bundleForClass:[self class]]];
     UserProfileViewController *newSelf = [storyboard instantiateInitialViewController];
     if (newSelf)
     {
@@ -79,7 +77,6 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    [self refreshProfile];
 }
 
 - (void)viewDidLayoutSubviews
@@ -88,21 +85,6 @@
     
     self.userImage.layer.cornerRadius = self.userImage.bounds.size.width / 2;
     self.userImage.clipsToBounds = YES;
-}
-
-- (void)refreshProfile
-{
-    Li5RootFlowController *flowController = (Li5RootFlowController*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] flowController];
-    Profile *userProfile = [flowController userProfile];
-    if (userProfile)
-    {
-        if (userProfile.first_name && userProfile.last_name) {
-            [self.userNameLabel setText:[NSString stringWithFormat:@"%@ %@",userProfile.first_name,userProfile.last_name]];
-        } else {
-            self.userNameLabel.hidden = YES;
-        }
-        [self.userImage sd_setImageWithURL:[NSURL URLWithString:userProfile.picture]];
-    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

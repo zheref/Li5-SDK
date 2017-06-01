@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-@objc protocol HeartAnimationViewDelegate : NSObjectProtocol {
+@objc public protocol HeartAnimationViewDelegate : NSObjectProtocol {
     optional func didTapButton()
 }
 
-class HeartAnimationView : UIView {
-    @IBOutlet var delegate : HeartAnimationViewDelegate?
+@objc public class HeartAnimationView : UIView {
+    @IBOutlet public var delegate : HeartAnimationViewDelegate?
     
     var speed : Double = 0.1
     private let button = FwdButton(type: .Custom)
@@ -104,7 +104,7 @@ class HeartAnimationView : UIView {
     }
     
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         let hearts = [self.emptyHeart, self.barelyFullHeart, self.almostFullHeart, self.fullHeart]
         
         if self.fullHeart.superlayer == nil {
@@ -322,26 +322,24 @@ class HeartAnimationView : UIView {
         }
         self.delegate?.didTapButton?()
     }
-
-    func setSelected(selected: Bool) {
-        self.button.selected = selected
-        
-        if (!self.button.selected) {
-            self.stop()
-            self.fullHeart.opacity = 0
-            self.emptyHeart.opacity = 1
+    
+    public var selected: Bool = false {
+        didSet {
+            self.button.selected = selected
+            
+            if (!self.button.selected) {
+                self.stop()
+                self.fullHeart.opacity = 0
+                self.emptyHeart.opacity = 1
+            }
         }
     }
     
-    func selected() -> Bool {
-        return self.button.selected
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
     }
     
