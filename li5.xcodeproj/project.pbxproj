@@ -24,127 +24,75 @@
 		2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613D851E43F459006C3A9F /* DiscoverViews.storyboard */; };
 		2BA593481EB4258E0065FDD9 /* Li5SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA5933A1EB4258D0065FDD9 /* Li5SDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA5934F1EB426220065FDD9 /* Li5SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA593321EB425190065FDD9 /* Li5SDK.swift */; };
-		2BA593651EB4275D0065FDD9 /* SpinnerViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BE00A1A1D108CFA00C8E72F /* SpinnerViewController.h */; };
 		2BA593661EB4275D0065FDD9 /* SpinnerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE00A1B1D108CFA00C8E72F /* SpinnerViewController.m */; };
 		2BA593681EB4275D0065FDD9 /* PrimeTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB1F9FD1CCC233100FA03F6 /* PrimeTimeViewController.m */; };
 		2BA5936A1EB4275D0065FDD9 /* PrimeTimeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFC2591CC6EBE6005AC8DC /* PrimeTimeViewControllerDataSource.m */; };
 		2BA5936C1EB4275D0065FDD9 /* IndexedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8625CE1C763CE4006869DE /* IndexedViewController.m */; };
-		2BA5936D1EB4275D0065FDD9 /* LastPageViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8221CD10F9400F3DE08 /* LastPageViewController.h */; };
 		2BA5936E1EB4275D0065FDD9 /* LastPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8231CD10F9400F3DE08 /* LastPageViewController.m */; };
-		2BA5936F1EB4275D0065FDD9 /* SwipeLeftToBeginViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E991D086389004B3691 /* SwipeLeftToBeginViewController.h */; };
 		2BA593701EB4275D0065FDD9 /* SwipeLeftToBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360E9A1D086389004B3691 /* SwipeLeftToBeginViewController.m */; };
 		2BA593711EB4275D0065FDD9 /* SinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6B53A01E85BEDE00CE9FD9 /* SinnerView.swift */; };
-		2BA593721EB4275D0065FDD9 /* ExploreViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BC1F2FA1CF37DFC0095AB47 /* ExploreViewController.h */; };
 		2BA593731EB4275D0065FDD9 /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BC1F2FB1CF37DFC0095AB47 /* ExploreViewController.m */; };
-		2BA593741EB4275D0065FDD9 /* UIImageEffects.h in Sources */ = {isa = PBXBuildFile; fileRef = EFD3098D1D89A9F50084EF30 /* UIImageEffects.h */; };
 		2BA593751EB4275D0065FDD9 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD3098E1D89A9F50084EF30 /* UIImageEffects.m */; };
-		2BA593761EB4275D0065FDD9 /* Li5SearchBarUIView.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EAE1D09BBD5004B3691 /* Li5SearchBarUIView.h */; };
 		2BA593771EB4275D0065FDD9 /* Li5SearchBarUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EAF1D09BBD5004B3691 /* Li5SearchBarUIView.m */; };
-		2BA593781EB4275D0065FDD9 /* Li5SearchBarUICollectionViewCell.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B224B1A1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.h */; };
 		2BA593791EB4275D0065FDD9 /* Li5SearchBarUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B224B1B1D09D48A00F7FC86 /* Li5SearchBarUICollectionViewCell.m */; };
-		2BA5937A1EB4275D0065FDD9 /* TagsViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693581CF3959500445439 /* TagsViewController.h */; };
 		2BA5937B1EB4275D0065FDD9 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693591CF3959500445439 /* TagsViewController.m */; };
-		2BA5937C1EB4275D0065FDD9 /* TagsCollectionViewCell.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617641CEA5E1800B51593 /* TagsCollectionViewCell.h */; };
 		2BA5937D1EB4275D0065FDD9 /* TagsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617651CEA5E1800B51593 /* TagsCollectionViewCell.m */; };
-		2BA5937E1EB4275D0065FDD9 /* TagsViewDataSource.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B26176F1CEA72A900B51593 /* TagsViewDataSource.h */; };
 		2BA5937F1EB4275D0065FDD9 /* TagsViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617701CEA72A900B51593 /* TagsViewDataSource.m */; };
-		2BA593801EB4275D0065FDD9 /* ProductsViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8131CD02E7100F3DE08 /* ProductsViewController.h */; };
 		2BA593811EB4275D0065FDD9 /* ProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8141CD02E7100F3DE08 /* ProductsViewController.m */; };
-		2BA593821EB4275D0065FDD9 /* ProductsCollectionViewDataSource.h in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB88321CD38CD200F8DF57 /* ProductsCollectionViewDataSource.h */; };
 		2BA593831EB4275D0065FDD9 /* ProductsCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB88331CD38CD300F8DF57 /* ProductsCollectionViewDataSource.m */; };
-		2BA593841EB4275D0065FDD9 /* SuggestionsViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6936C1CF4C15B00445439 /* SuggestionsViewController.h */; };
 		2BA593851EB4275D0065FDD9 /* SuggestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6936D1CF4C15B00445439 /* SuggestionsViewController.m */; };
-		2BA593861EB4275D0065FDD9 /* SuggestionsCollectionViewCell.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693B61CF4D66B00445439 /* SuggestionsCollectionViewCell.h */; };
 		2BA593871EB4275D0065FDD9 /* SuggestionsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693B71CF4D66B00445439 /* SuggestionsCollectionViewCell.m */; };
-		2BA593881EB4275D0065FDD9 /* SuggestionsDataSource.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693C21CF4F04D00445439 /* SuggestionsDataSource.h */; };
 		2BA593891EB4275D0065FDD9 /* SuggestionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693C31CF4F04D00445439 /* SuggestionsDataSource.m */; };
 		2BA5938B1EB4275D0065FDD9 /* ExploreProductInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4C68341DD1FD9C00FE8361 /* ExploreProductInteractor.m */; };
-		2BA5938C1EB4275D0065FDD9 /* ExploreDynamicInteractor.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B48F2841CE0E21F00EBE566 /* ExploreDynamicInteractor.h */; };
 		2BA5938D1EB4275D0065FDD9 /* ExploreDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B48F2851CE0E21F00EBE566 /* ExploreDynamicInteractor.m */; };
-		2BA5938E1EB4275D0065FDD9 /* ProductsListView.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB34F91CF105F100AE74DC /* ProductsListView.h */; };
 		2BA5938F1EB4275D0065FDD9 /* ProductsListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB34FA1CF105F100AE74DC /* ProductsListView.m */; };
-		2BA593901EB4275D0065FDD9 /* ProductsCollectionViewCell.h in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8101CD02E7100F3DE08 /* ProductsCollectionViewCell.h */; };
 		2BA593911EB4275D0065FDD9 /* ProductsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8111CD02E7100F3DE08 /* ProductsCollectionViewCell.m */; };
-		2BA593921EB4275D0065FDD9 /* HorizontalUICollectionViewFlowLayout.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E101CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.h */; };
 		2BA593931EB4275D0065FDD9 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
 		2BA593951EB4275D0065FDD9 /* ProductPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B79755A1C6D03A800F78C9F /* ProductPageViewController.m */; };
 		2BA593981EB4275D0065FDD9 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */; };
-		2BA593991EB4275D0065FDD9 /* ProductPageActionsView.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC61E01D047508006B4C68 /* ProductPageActionsView.h */; };
 		2BA5939A1EB4275D0065FDD9 /* ProductPageActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC61E11D047508006B4C68 /* ProductPageActionsView.m */; };
 		2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CD71D356B9C00D0A3C0 /* Heart.m */; };
 		2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CD81D356B9C00D0A3C0 /* HeartAnimationView.swift */; };
-		2BA593A21EB4275D0065FDD9 /* ShareExplainerUIViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6009D1E1564DB007553B8 /* ShareExplainerUIViewController.h */; };
 		2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6009E1E1564DB007553B8 /* ShareExplainerUIViewController.m */; };
-		2BA593AA1EB4275D0065FDD9 /* TeaserViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC61C4D60B9002C22C8 /* TeaserViewController.h */; };
 		2BA593AB1EB4275D0065FDD9 /* TeaserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */; };
-		2BA593AD1EB4275D0065FDD9 /* UnlockedViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */; };
 		2BA593AE1EB4275D0065FDD9 /* UnlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */; };
-		2BA593AF1EB4275D0065FDD9 /* SliderFluidView.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CCE1D3418B100D0A3C0 /* SliderFluidView.h */; };
 		2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CCF1D3418B100D0A3C0 /* SliderFluidView.m */; };
-		2BA593B11EB4275D0065FDD9 /* BAFluidView.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CBE1D33E97E00D0A3C0 /* BAFluidView.h */; };
 		2BA593B21EB4275D0065FDD9 /* BAFluidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CBF1D33E97E00D0A3C0 /* BAFluidView.m */; };
-		2BA593B31EB4275D0065FDD9 /* Constants.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CC01D33E97E00D0A3C0 /* Constants.h */; };
-		2BA593B41EB4275D0065FDD9 /* UIColor+ColorWithHex.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CC11D33E97E00D0A3C0 /* UIColor+ColorWithHex.h */; };
 		2BA593B51EB4275D0065FDD9 /* UIColor+ColorWithHex.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CC21D33E97E00D0A3C0 /* UIColor+ColorWithHex.m */; };
-		2BA593B61EB4275D0065FDD9 /* Li5PlayerUISlider.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551931CCE7433007FAF67 /* Li5PlayerUISlider.h */; };
 		2BA593B71EB4275D0065FDD9 /* Li5PlayerUISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */; };
-		2BA593B81EB4275D0065FDD9 /* Li5PlayerTimer.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E71D00A777001BE4BB /* Li5PlayerTimer.h */; };
 		2BA593B91EB4275D0065FDD9 /* Li5PlayerTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E81D00A777001BE4BB /* Li5PlayerTimer.m */; };
 		2BA593BA1EB4275D0065FDD9 /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5C79401D25CBAA009CF5D7 /* Wave.swift */; };
 		2BA593BB1EB4275D0065FDD9 /* ThinPlayerProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7383391E81B5B10038840A /* ThinPlayerProgressView.swift */; };
 		2BA593BC1EB4275D0065FDD9 /* ThinSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B23E8531E8D4AEC0015A14A /* ThinSliderView.swift */; };
-		2BA593BD1EB4275D0065FDD9 /* ImageUICollectionViewCell.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C691D05D602001CA076 /* ImageUICollectionViewCell.h */; };
 		2BA593BE1EB4275D0065FDD9 /* ImageUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C6A1D05D602001CA076 /* ImageUICollectionViewCell.m */; };
 		2BA593C01EB4275D0065FDD9 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB161C4FC631002C22C8 /* DetailsViewController.m */; };
-		2BA593C11EB4275D0065FDD9 /* ImageCardViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B08C4491D1478710090FFCC /* ImageCardViewController.h */; };
 		2BA593C21EB4275D0065FDD9 /* ImageCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B08C44A1D1478710090FFCC /* ImageCardViewController.m */; };
-		2BA593C31EB4275D0065FDD9 /* DetailsDescriptionViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF17A51D18659700680738 /* DetailsDescriptionViewController.h */; };
 		2BA593C41EB4275D0065FDD9 /* DetailsDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF17A61D18659700680738 /* DetailsDescriptionViewController.m */; };
-		2BA593C51EB4275D0065FDD9 /* SwipeUpExplainerUIViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B2A24FF1D492F5900DCA209 /* SwipeUpExplainerUIViewController.h */; };
 		2BA593C61EB4275D0065FDD9 /* SwipeUpExplainerUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2A25001D492F5900DCA209 /* SwipeUpExplainerUIViewController.m */; };
-		2BA593D21EB4275D0065FDD9 /* UserProfileViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551CF1CD178A0007FAF67 /* UserProfileViewController.h */; };
 		2BA593D31EB4275D0065FDD9 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551D01CD178A0007FAF67 /* UserProfileViewController.m */; };
-		2BA593E81EB4275D0065FDD9 /* UserProfileDynamicInteractor.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551C81CD17725007FAF67 /* UserProfileDynamicInteractor.h */; };
 		2BA593E91EB4275D0065FDD9 /* UserProfileDynamicInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551C91CD17725007FAF67 /* UserProfileDynamicInteractor.m */; };
 		2BA593EB1EB4275D0065FDD9 /* ShapesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B602C851C5A6A9F00F0D362 /* ShapesHelper.m */; };
-		2BA593EC1EB4275D0065FDD9 /* ImageHelper.h in Sources */ = {isa = PBXBuildFile; fileRef = EF188E471D3EAB45002E173E /* ImageHelper.h */; };
 		2BA593ED1EB4275D0065FDD9 /* ImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF188E481D3EAB45002E173E /* ImageHelper.m */; };
 		2BA593EE1EB4275D0065FDD9 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBDBA071E9680E800F8CA81 /* DeviceManager.swift */; };
 		2BA593F01EB4275D0065FDD9 /* Li5UIPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1EA30D1D1D7DBE00EA8519 /* Li5UIPageViewController.m */; };
 		2BA593F21EB4275D0065FDD9 /* Li5UINavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA0CA581E2929CA00F42ED2 /* Li5UINavigationController.m */; };
-		2BA593F31EB4275D0065FDD9 /* NSObject+Li5.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3C21CFA410A007FA3AB /* NSObject+Li5.h */; };
 		2BA593F41EB4275D0065FDD9 /* NSObject+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */; };
 		2BA593F61EB4275D0065FDD9 /* UIColor+Li5UIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE693731CF4C39800445439 /* UIColor+Li5UIColor.m */; };
-		2BA593F71EB4275D0065FDD9 /* UIImage+Li5.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3C91CFA44AA007FA3AB /* UIImage+Li5.h */; };
 		2BA593F81EB4275D0065FDD9 /* UIImage+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B06F3CA1CFA44AA007FA3AB /* UIImage+Li5.m */; };
-		2BA593F91EB4275D0065FDD9 /* UILabel+Li5.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C701D05F26D001CA076 /* UILabel+Li5.h */; };
 		2BA593FA1EB4275D0065FDD9 /* UILabel+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B625C711D05F26D001CA076 /* UILabel+Li5.m */; };
-		2BA593FB1EB4275D0065FDD9 /* UIView+Li5.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B1EA3041D1C832300EA8519 /* UIView+Li5.h */; };
 		2BA593FC1EB4275D0065FDD9 /* UIView+Li5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1EA3051D1C832300EA8519 /* UIView+Li5.m */; };
 		2BA593FE1EB4275D0065FDD9 /* UIViewController+Indexed.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE177171D1F079000CF30BF /* UIViewController+Indexed.m */; };
-		2BA593FF1EB4275D0065FDD9 /* UIBezierPath+UIImage.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B5C79391D25C120009CF5D7 /* UIBezierPath+UIImage.h */; };
 		2BA594001EB4275D0065FDD9 /* UIBezierPath+UIImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5C793A1D25C120009CF5D7 /* UIBezierPath+UIImage.m */; };
 		2BA594011EB4275D0065FDD9 /* CardStackUICollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08C4431D1476C40090FFCC /* CardStackUICollectionViewLayout.swift */; };
-		2BA594021EB4275D0065FDD9 /* CardUICollectionViewCell.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B08C4511D1479800090FFCC /* CardUICollectionViewCell.h */; };
 		2BA594031EB4275D0065FDD9 /* CardUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B08C4521D1479800090FFCC /* CardUICollectionViewCell.m */; };
-		2BA594041EB4275D0065FDD9 /* CardUIView.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF179D1D1848FA00680738 /* CardUIView.h */; };
 		2BA594051EB4275D0065FDD9 /* CardUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF179E1D1848FA00680738 /* CardUIView.m */; };
-		2BA594061EB4275D0065FDD9 /* Li5View.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB34EC1CF1015C00AE74DC /* Li5View.h */; };
 		2BA594071EB4275D0065FDD9 /* Li5View.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB34ED1CF1015C00AE74DC /* Li5View.m */; };
-		2BA594081EB4275D0065FDD9 /* Li5GradientView.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66D71CFF2D39001BE4BB /* Li5GradientView.h */; };
 		2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66D81CFF2D39001BE4BB /* Li5GradientView.m */; };
-		2BA5940A1EB4275D0065FDD9 /* Li5BlurredView.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E21CFF64F6001BE4BB /* Li5BlurredView.h */; };
 		2BA5940B1EB4275D0065FDD9 /* Li5BlurredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E31CFF64F6001BE4BB /* Li5BlurredView.m */; };
-		2BA5940C1EB4275D0065FDD9 /* Li5VolumeView.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B5134F81D1304C300EE374C /* Li5VolumeView.h */; };
 		2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5134F91D1304C300EE374C /* Li5VolumeView.m */; };
-		2BA5940E1EB4275D0065FDD9 /* Logger.h in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AB011C4E7D52002C22C8 /* Logger.h */; };
-		2BA5940F1EB4275D0065FDD9 /* Li5LoggerFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551B91CCFED36007FAF67 /* Li5LoggerFormatter.h */; };
 		2BA594101EB4275D0065FDD9 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
-		2BA594111EB4275D0065FDD9 /* CrashlyticsLogger.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617561CEA12C500B51593 /* CrashlyticsLogger.h */; };
 		2BA594121EB4275D0065FDD9 /* CrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */; };
-		2BA594131EB4275D0065FDD9 /* Li5BCLoggerDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B5134D91D12FCE900EE374C /* Li5BCLoggerDelegate.h */; };
 		2BA594141EB4275D0065FDD9 /* Li5BCLoggerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5134DA1D12FCE900EE374C /* Li5BCLoggerDelegate.m */; };
-		2BA594151EB4275D0065FDD9 /* Li5Constants.h in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA71D087524004B3691 /* Li5Constants.h */; };
 		2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
 		2BA594201EB42C370065FDD9 /* Heart.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B983CD61D356B9C00D0A3C0 /* Heart.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA594211EB42C5A0065FDD9 /* PrimeTimeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB1F9FC1CCC233100FA03F6 /* PrimeTimeViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1220,129 +1168,77 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BA593651EB4275D0065FDD9 /* SpinnerViewController.h in Sources */,
 				2BA593661EB4275D0065FDD9 /* SpinnerViewController.m in Sources */,
 				2BA593681EB4275D0065FDD9 /* PrimeTimeViewController.m in Sources */,
 				2BA5936A1EB4275D0065FDD9 /* PrimeTimeViewControllerDataSource.m in Sources */,
 				2BA5936C1EB4275D0065FDD9 /* IndexedViewController.m in Sources */,
-				2BA5936D1EB4275D0065FDD9 /* LastPageViewController.h in Sources */,
 				2BA5936E1EB4275D0065FDD9 /* LastPageViewController.m in Sources */,
-				2BA5936F1EB4275D0065FDD9 /* SwipeLeftToBeginViewController.h in Sources */,
 				2BA593701EB4275D0065FDD9 /* SwipeLeftToBeginViewController.m in Sources */,
 				2BA593711EB4275D0065FDD9 /* SinnerView.swift in Sources */,
-				2BA593721EB4275D0065FDD9 /* ExploreViewController.h in Sources */,
 				2BA593731EB4275D0065FDD9 /* ExploreViewController.m in Sources */,
-				2BA593741EB4275D0065FDD9 /* UIImageEffects.h in Sources */,
 				2BA593751EB4275D0065FDD9 /* UIImageEffects.m in Sources */,
-				2BA593761EB4275D0065FDD9 /* Li5SearchBarUIView.h in Sources */,
 				2BA593771EB4275D0065FDD9 /* Li5SearchBarUIView.m in Sources */,
-				2BA593781EB4275D0065FDD9 /* Li5SearchBarUICollectionViewCell.h in Sources */,
 				2BA593791EB4275D0065FDD9 /* Li5SearchBarUICollectionViewCell.m in Sources */,
-				2BA5937A1EB4275D0065FDD9 /* TagsViewController.h in Sources */,
 				2BA5937B1EB4275D0065FDD9 /* TagsViewController.m in Sources */,
-				2BA5937C1EB4275D0065FDD9 /* TagsCollectionViewCell.h in Sources */,
 				2BA5937D1EB4275D0065FDD9 /* TagsCollectionViewCell.m in Sources */,
-				2BA5937E1EB4275D0065FDD9 /* TagsViewDataSource.h in Sources */,
 				2BA5937F1EB4275D0065FDD9 /* TagsViewDataSource.m in Sources */,
-				2BA593801EB4275D0065FDD9 /* ProductsViewController.h in Sources */,
 				2BA593811EB4275D0065FDD9 /* ProductsViewController.m in Sources */,
-				2BA593821EB4275D0065FDD9 /* ProductsCollectionViewDataSource.h in Sources */,
 				2BA593831EB4275D0065FDD9 /* ProductsCollectionViewDataSource.m in Sources */,
-				2BA593841EB4275D0065FDD9 /* SuggestionsViewController.h in Sources */,
 				2BA593851EB4275D0065FDD9 /* SuggestionsViewController.m in Sources */,
-				2BA593861EB4275D0065FDD9 /* SuggestionsCollectionViewCell.h in Sources */,
 				2BA593871EB4275D0065FDD9 /* SuggestionsCollectionViewCell.m in Sources */,
-				2BA593881EB4275D0065FDD9 /* SuggestionsDataSource.h in Sources */,
 				2BA593891EB4275D0065FDD9 /* SuggestionsDataSource.m in Sources */,
 				2BA5938B1EB4275D0065FDD9 /* ExploreProductInteractor.m in Sources */,
-				2BA5938C1EB4275D0065FDD9 /* ExploreDynamicInteractor.h in Sources */,
 				2BA5938D1EB4275D0065FDD9 /* ExploreDynamicInteractor.m in Sources */,
-				2BA5938E1EB4275D0065FDD9 /* ProductsListView.h in Sources */,
 				2BA5938F1EB4275D0065FDD9 /* ProductsListView.m in Sources */,
-				2BA593901EB4275D0065FDD9 /* ProductsCollectionViewCell.h in Sources */,
 				2BA593911EB4275D0065FDD9 /* ProductsCollectionViewCell.m in Sources */,
-				2BA593921EB4275D0065FDD9 /* HorizontalUICollectionViewFlowLayout.h in Sources */,
 				2BA593931EB4275D0065FDD9 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				2BA593951EB4275D0065FDD9 /* ProductPageViewController.m in Sources */,
 				2BA593981EB4275D0065FDD9 /* VideoViewController.m in Sources */,
-				2BA593991EB4275D0065FDD9 /* ProductPageActionsView.h in Sources */,
 				2BA5939A1EB4275D0065FDD9 /* ProductPageActionsView.m in Sources */,
 				2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */,
 				2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */,
-				2BA593A21EB4275D0065FDD9 /* ShareExplainerUIViewController.h in Sources */,
 				2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */,
-				2BA593AA1EB4275D0065FDD9 /* TeaserViewController.h in Sources */,
 				2BA593AB1EB4275D0065FDD9 /* TeaserViewController.m in Sources */,
-				2BA593AD1EB4275D0065FDD9 /* UnlockedViewController.h in Sources */,
 				2BA593AE1EB4275D0065FDD9 /* UnlockedViewController.m in Sources */,
-				2BA593AF1EB4275D0065FDD9 /* SliderFluidView.h in Sources */,
 				2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */,
-				2BA593B11EB4275D0065FDD9 /* BAFluidView.h in Sources */,
 				2BA593B21EB4275D0065FDD9 /* BAFluidView.m in Sources */,
-				2BA593B31EB4275D0065FDD9 /* Constants.h in Sources */,
-				2BA593B41EB4275D0065FDD9 /* UIColor+ColorWithHex.h in Sources */,
 				2BA593B51EB4275D0065FDD9 /* UIColor+ColorWithHex.m in Sources */,
-				2BA593B61EB4275D0065FDD9 /* Li5PlayerUISlider.h in Sources */,
 				2BA593B71EB4275D0065FDD9 /* Li5PlayerUISlider.m in Sources */,
-				2BA593B81EB4275D0065FDD9 /* Li5PlayerTimer.h in Sources */,
 				2BA593B91EB4275D0065FDD9 /* Li5PlayerTimer.m in Sources */,
 				2BA593BA1EB4275D0065FDD9 /* Wave.swift in Sources */,
 				2BA593BB1EB4275D0065FDD9 /* ThinPlayerProgressView.swift in Sources */,
 				2BA593BC1EB4275D0065FDD9 /* ThinSliderView.swift in Sources */,
-				2BA593BD1EB4275D0065FDD9 /* ImageUICollectionViewCell.h in Sources */,
 				2BA593BE1EB4275D0065FDD9 /* ImageUICollectionViewCell.m in Sources */,
 				2BA593C01EB4275D0065FDD9 /* DetailsViewController.m in Sources */,
-				2BA593C11EB4275D0065FDD9 /* ImageCardViewController.h in Sources */,
 				2BA593C21EB4275D0065FDD9 /* ImageCardViewController.m in Sources */,
-				2BA593C31EB4275D0065FDD9 /* DetailsDescriptionViewController.h in Sources */,
 				2BA593C41EB4275D0065FDD9 /* DetailsDescriptionViewController.m in Sources */,
-				2BA593C51EB4275D0065FDD9 /* SwipeUpExplainerUIViewController.h in Sources */,
 				2BA789381EE470F0009385BA /* SDKLogger.swift in Sources */,
 				2BA593C61EB4275D0065FDD9 /* SwipeUpExplainerUIViewController.m in Sources */,
-				2BA593D21EB4275D0065FDD9 /* UserProfileViewController.h in Sources */,
 				2BA593D31EB4275D0065FDD9 /* UserProfileViewController.m in Sources */,
 				2B4D4F891EB9899A00B23EA8 /* DetailsHTMLViewController.swift in Sources */,
-				2BA593E81EB4275D0065FDD9 /* UserProfileDynamicInteractor.h in Sources */,
 				2BA593E91EB4275D0065FDD9 /* UserProfileDynamicInteractor.m in Sources */,
 				2BA593EB1EB4275D0065FDD9 /* ShapesHelper.m in Sources */,
-				2BA593EC1EB4275D0065FDD9 /* ImageHelper.h in Sources */,
 				2BA593ED1EB4275D0065FDD9 /* ImageHelper.m in Sources */,
 				2BA593EE1EB4275D0065FDD9 /* DeviceManager.swift in Sources */,
 				2BA593F01EB4275D0065FDD9 /* Li5UIPageViewController.m in Sources */,
 				2BA593F21EB4275D0065FDD9 /* Li5UINavigationController.m in Sources */,
-				2BA593F31EB4275D0065FDD9 /* NSObject+Li5.h in Sources */,
 				2BA593F41EB4275D0065FDD9 /* NSObject+Li5.m in Sources */,
 				2BA593F61EB4275D0065FDD9 /* UIColor+Li5UIColor.m in Sources */,
-				2BA593F71EB4275D0065FDD9 /* UIImage+Li5.h in Sources */,
 				2BA593F81EB4275D0065FDD9 /* UIImage+Li5.m in Sources */,
-				2BA593F91EB4275D0065FDD9 /* UILabel+Li5.h in Sources */,
 				2BA593FA1EB4275D0065FDD9 /* UILabel+Li5.m in Sources */,
-				2BA593FB1EB4275D0065FDD9 /* UIView+Li5.h in Sources */,
 				2BA593FC1EB4275D0065FDD9 /* UIView+Li5.m in Sources */,
 				2BA593FE1EB4275D0065FDD9 /* UIViewController+Indexed.m in Sources */,
-				2BA593FF1EB4275D0065FDD9 /* UIBezierPath+UIImage.h in Sources */,
 				2BA594001EB4275D0065FDD9 /* UIBezierPath+UIImage.m in Sources */,
 				2BA594011EB4275D0065FDD9 /* CardStackUICollectionViewLayout.swift in Sources */,
-				2BA594021EB4275D0065FDD9 /* CardUICollectionViewCell.h in Sources */,
 				2BA594031EB4275D0065FDD9 /* CardUICollectionViewCell.m in Sources */,
-				2BA594041EB4275D0065FDD9 /* CardUIView.h in Sources */,
 				2BA594051EB4275D0065FDD9 /* CardUIView.m in Sources */,
-				2BA594061EB4275D0065FDD9 /* Li5View.h in Sources */,
 				2BA594071EB4275D0065FDD9 /* Li5View.m in Sources */,
-				2BA594081EB4275D0065FDD9 /* Li5GradientView.h in Sources */,
 				2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */,
-				2BA5940A1EB4275D0065FDD9 /* Li5BlurredView.h in Sources */,
 				2BA5940B1EB4275D0065FDD9 /* Li5BlurredView.m in Sources */,
-				2BA5940C1EB4275D0065FDD9 /* Li5VolumeView.h in Sources */,
 				2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */,
-				2BA5940E1EB4275D0065FDD9 /* Logger.h in Sources */,
-				2BA5940F1EB4275D0065FDD9 /* Li5LoggerFormatter.h in Sources */,
 				2BA594101EB4275D0065FDD9 /* Li5LoggerFormatter.m in Sources */,
-				2BA594111EB4275D0065FDD9 /* CrashlyticsLogger.h in Sources */,
 				2BA594121EB4275D0065FDD9 /* CrashlyticsLogger.m in Sources */,
-				2BA594131EB4275D0065FDD9 /* Li5BCLoggerDelegate.h in Sources */,
 				2BA594141EB4275D0065FDD9 /* Li5BCLoggerDelegate.m in Sources */,
-				2BA594151EB4275D0065FDD9 /* Li5Constants.h in Sources */,
 				2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */,
 				2BA5934F1EB426220065FDD9 /* Li5SDK.swift in Sources */,
 			);
