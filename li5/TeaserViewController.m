@@ -20,6 +20,8 @@
 #import "Li5VolumeView.h"
 
 #import "PrimeTimeViewController.h"
+
+#import "Li5SDK/Li5SDK-Swift.h"
 #pragma mark - Class Definitions
 
 @interface TeaserViewController ()
@@ -48,26 +50,26 @@
 }
 
 @property (assign, nonatomic) ProductContext pContext;
-@property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (nonatomic, strong) BCPlayer *teaserPlayer;
 @property (nonatomic, strong) BCPlayerLayer *playerLayer;
+@property (strong, nonatomic) Wave *waveView;
+    
+#pragma mark - IBOutlets
 @property (weak, nonatomic) IBOutlet Li5PlayerTimer *playerTimer;
+@property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
+@property (weak, nonatomic) IBOutlet ThinPlayerProgressView *playerProgressLine;
+@property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *categoryImage;
-@property (weak, nonatomic) IBOutlet ProductPageActionsView *actionsView;
 @property (weak, nonatomic) IBOutlet UIButton *logoView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrow;
-//@property (strong, nonatomic) UIImageView *posterImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageLeadingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelLeadingConstraint;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *moreView;
-
 @property (weak, nonatomic) IBOutlet UIView *headerView;
-@property (strong, nonatomic) Wave *waveView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *arrowLeadingMoreTrailing;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *arrowVerticalCenter;
-@property (weak, nonatomic) IBOutlet ThinPlayerProgressView *playerProgressLine;
 @property (weak, nonatomic) IBOutlet UIButton *muteButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 
@@ -86,6 +88,7 @@
     if (newSelf)
     {
         DDLogVerbose(@"%p %@", newSelf, thisProduct.id);
+        
         newSelf.product = thisProduct;
         newSelf.pContext = ctx;
         
@@ -122,6 +125,8 @@
 - (void)viewDidLoad
 {
     DDLogVerbose(@"%@", self.product.id);
+    [[SDKLogger shared] info:@"TeaserVM did load"];
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
@@ -366,6 +371,7 @@
     if(__hasAppeared) {
         [self.teaserPlayer changePriority:BCPriorityPlay];
     }
+    
     if (self.teaserPlayer.status == AVPlayerStatusReadyToPlay)
     {
         [_waveView stopAnimating];
