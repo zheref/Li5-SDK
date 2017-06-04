@@ -9,7 +9,7 @@
 
 #import "ProductPageProtocol.h"
 
-@interface VideoViewController : UIViewController <LinkedViewControllerProtocol, DisplayableProtocol, UIGestureRecognizerDelegate>
+@interface VideoViewController : UIViewController <DisplayableProtocol, UIGestureRecognizerDelegate>
 
 - (void)setPriority:(BCPriority)priority;
 

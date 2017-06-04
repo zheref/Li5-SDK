@@ -75,7 +75,7 @@
 
 @implementation TeaserViewController
 
-@synthesize product, previousViewController, nextViewController;
+@synthesize product;
 
 #pragma mark - Init
 

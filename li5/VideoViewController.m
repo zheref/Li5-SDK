@@ -11,6 +11,7 @@
 #import "TeaserViewController.h"
 #import "UnlockedViewController.h"
 #import "VideoViewController.h"
+#import "Li5SDK/Li5SDK-Swift.h"
 
 @interface VideoViewController ()
 {
@@ -23,7 +24,7 @@
 
 @implementation VideoViewController
 
-@synthesize product, previousViewController, nextViewController;
+@synthesize product;
 
 - (id)initWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx
 {

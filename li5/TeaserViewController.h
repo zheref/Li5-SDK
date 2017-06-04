@@ -14,9 +14,6 @@
 
 @interface TeaserViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate, UIViewControllerTransitioningDelegate>
 
-@property (nonatomic, strong) UIViewController *previousViewController;
-@property (nonatomic, strong) UIViewController *nextViewController;
-
 + (id)teaserWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
 
 - (void)setPriority:(BCPriority)priority;
