@@ -11,6 +11,9 @@ import Fabric
 import Crashlytics
 import AVFoundation
 
+import SwiftyBeaver
+let log = SwiftyBeaver.self
+
 open class Li5SDK {
     
     fileprivate var primetimeViewController: PrimeTimeViewController!
@@ -41,6 +44,18 @@ open class Li5SDK {
                 print("Logged in with result: \(errorString)")
             }
         }
+        
+        configLogger()
+    }
+    
+    
+    private func configLogger() {
+        // add log destinations. at least one is needed!
+        let console = ConsoleDestination()
+        let cloud = SBPlatformDestination(appID: "v6gkMX", appSecret: "mOuyxsvl8bm8eVlLghd5NljmmOvuvope", encryptionKey: "3DcwczruKlfLmyK10dKiT3ctz0x9wjOr")
+        
+        log.addDestination(console)
+        log.addDestination(cloud)
     }
     
     

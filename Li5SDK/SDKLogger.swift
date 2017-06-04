@@ -15,23 +15,19 @@ import Foundation
     override init() {}
     
     open func warning(_ text: String) {
-        log(withPrefix: ">>>>>>/! [WARNING]", text: text, andSuffix: "")
+        log.warning(">>>>>>/! \(text)")
     }
     
     open func debug(_ text: String) {
-        log(withPrefix: ">>>>>>/@ [DEBUG]", text: text, andSuffix: "")
+        log.debug(">>>>>>/@ \(text)")
     }
     
     open func error(_ text: String) {
-        log(withPrefix: ">>>>>>/* [ERROR]", text: text, andSuffix: "")
+        log.error(">>>>>>/* \(text)")
     }
     
     open func info(_ text: String) {
-        log(withPrefix: ">>>>>>// [INFO]", text: text, andSuffix: "")
-    }
-    
-    fileprivate func log(withPrefix prefix: String, text: String, andSuffix suffix: String) {
-        print("\(prefix) \(text) \(suffix)")
+        log.info(">>>>>>// \(text)")
     }
     
 }
