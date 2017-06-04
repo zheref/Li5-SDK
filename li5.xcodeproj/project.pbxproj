@@ -159,7 +159,7 @@
 		2BA594341EB42DD10065FDD9 /* UIViewController+Indexed.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BE177161D1F079000CF30BF /* UIViewController+Indexed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA594351EB42DDC0065FDD9 /* VideoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B7551A41CCFBEBC007FAF67 /* VideoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA594361EB42DE70065FDD9 /* ExploreProductInteractor.h in Headers */ = {isa = PBXBuildFile; fileRef = EF4C68331DD1FD9C00FE8361 /* ExploreProductInteractor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2BAFA03C1EDFA1F800282964 /* SDKLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */; };
+		2BA789381EE470F0009385BA /* SDKLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -1061,7 +1061,7 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = B64365EYZ4;
 						LastSwiftMigration = 0830;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					2BA593371EB4258D0065FDD9 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1297,7 +1297,7 @@
 				2BA593C31EB4275D0065FDD9 /* DetailsDescriptionViewController.h in Sources */,
 				2BA593C41EB4275D0065FDD9 /* DetailsDescriptionViewController.m in Sources */,
 				2BA593C51EB4275D0065FDD9 /* SwipeUpExplainerUIViewController.h in Sources */,
-				2BAFA03C1EDFA1F800282964 /* SDKLogger.swift in Sources */,
+				2BA789381EE470F0009385BA /* SDKLogger.swift in Sources */,
 				2BA593C61EB4275D0065FDD9 /* SwipeUpExplainerUIViewController.m in Sources */,
 				2BA593D21EB4275D0065FDD9 /* UserProfileViewController.h in Sources */,
 				2BA593D31EB4275D0065FDD9 /* UserProfileViewController.m in Sources */,
@@ -1476,7 +1476,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = B64365EYZ4;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DerivedData/li5/Build/Products/Debug-iphonesimulator/Li5Api",
@@ -1492,8 +1492,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.li5.sdk.demoone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "76db6333-9194-4b6c-94a9-eb260a8c6765";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.li5.sdk.demoone";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1510,7 +1510,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = B64365EYZ4;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DerivedData/li5/Build/Products/Debug-iphonesimulator/Li5Api",
@@ -1522,8 +1522,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.li5.sdk.demoone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "76db6333-9194-4b6c-94a9-eb260a8c6765";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.li5.sdk.demoone";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
