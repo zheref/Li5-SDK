@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func userDidTapTriggerSDKButton(sender: AnyObject) {
+    @IBAction func userDidTapTriggerSDKButton(_ sender: AnyObject) {
         Li5SDK.shared.present()
     }
 

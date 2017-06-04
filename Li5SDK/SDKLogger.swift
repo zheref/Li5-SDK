@@ -8,29 +8,29 @@
 
 import Foundation
 
-public class SDKLogger {
+open class SDKLogger {
     
-    public static let shared = SDKLogger()
+    open static let shared = SDKLogger()
     
-    private init() {}
+    fileprivate init() {}
     
-    public func warning(text: String) {
+    open func warning(_ text: String) {
         log(withPrefix: ">>>>>>/! [WARNING]", text: text, andSuffix: "")
     }
     
-    public func debug(text: String) {
+    open func debug(_ text: String) {
         log(withPrefix: ">>>>>>/@ [DEBUG]", text: text, andSuffix: "")
     }
     
-    public func error(text: String) {
+    open func error(_ text: String) {
         log(withPrefix: ">>>>>>/*", text: text, andSuffix: "")
     }
     
-    public func info(text: String) {
+    open func info(_ text: String) {
         log(withPrefix: ">>>>>>//", text: text, andSuffix: "")
     }
     
-    private func log(withPrefix prefix: String, text: String, andSuffix suffix: String) {
+    fileprivate func log(withPrefix prefix: String, text: String, andSuffix suffix: String) {
         print("\(prefix) \(text) \(suffix)")
     }
     
