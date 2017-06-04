@@ -35,10 +35,11 @@ open class Li5SDK {
         Li5ApiHandler.sharedInstance().baseURL = serverUrl
         
         Li5ApiHandler.sharedInstance().login(DeviceManager.sharedInstance.deviceId,
-                                             withApiKey: apiKey) {
-                                                nserror in
-                                                
-            print("Logged in with result: \(nserror != nil ? nserror?.localizedDescription : "0")")
+                                             withApiKey: apiKey) { nserror in
+            
+            if let errorString = nserror != nil ? nserror?.localizedDescription : "0" {
+                print("Logged in with result: \(errorString)")
+            }
         }
     }
     

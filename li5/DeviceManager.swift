@@ -20,7 +20,7 @@ open class DeviceManager : NSObject {
     open var deviceId: String? {
         get {
             if (__deviceId == nil) {
-                __deviceId = (self.idfa() ?? (self.idfv() ?? self.udid()))
+                __deviceId = self.idfa()
             }
             return __deviceId
         }

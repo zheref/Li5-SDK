@@ -194,7 +194,7 @@ open class Wave : UIView {
             }, completion: { (t) in      
         })
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             let x = self.frame.origin.x;
             let max = (self.frame.width * CGFloat(2)) - CGFloat(2);
             

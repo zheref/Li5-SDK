@@ -159,8 +159,6 @@
 {
     DDLogVerbose(@"Share Button Pressed");
     
-    NSDictionary *params = @{@"product":self.product.id};
-    
     if (![self presentShareExplainerViewIfNeeded]) {
         
 #if FULL_VERSION
@@ -172,17 +170,8 @@
 }
 
 - (void)presentShareView {
-    
     [[self parentViewController] beginAppearanceTransition:NO animated:NO];
     [[self parentViewController] endAppearanceTransition];
-    
-    __weak typeof(self) welf = self;
-}
-
-- (BOOL)presentRecordShareUIView {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProductPageViews" bundle:[NSBundle bundleForClass:[self class]]];
-    
-    return TRUE;
 }
 
 -(NSString *)friendlyNumber:(long long)num{
@@ -213,8 +202,6 @@
         self.product.loves = @([self.product.loves integerValue] - 1);
         self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
         
-        NSDictionary *params = @{@"product":self.product.id};
-        
         [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil)
             {
@@ -234,8 +221,6 @@
         
         //Vibrate sound
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-        
-        NSDictionary *params = @{@"product":self.product.id};
         
         [[Li5ApiHandler sharedInstance] postLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
             if (error != nil)

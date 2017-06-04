@@ -207,8 +207,7 @@
 }
 
 - (BOOL)notificationsEnabled {
-    UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-    return settings.types != UIUserNotificationTypeNone;
+    return YES;
 }
 
 - (void)presentSwipeDownViewIfNeeded
@@ -273,37 +272,7 @@
 }
 
 - (IBAction)doTurnOnNotifications:(id)sender {
-    DDLogVerbose(@"");
     
-    UIUserNotificationSettings *currentUserNotificationsSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-
-    if ( [[NSUserDefaults standardUserDefaults] boolForKey:kUserSettingsUpdated] ) {
-        if (currentUserNotificationsSettings.types == UIUserNotificationTypeNone) {
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Turn On Notifications",nil)
-                                                                           message:NSLocalizedString(@"We will only send you push notifications when your new show is ready. Go to Settings->Notifications and Enable it.",nil)
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil) style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {}];
-            
-            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Settings",nil) style:UIAlertActionStyleDefault
-                                                                   handler:^(UIAlertAction * action) {
-                                                                       
-                                                                       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                                                                   }];
-            
-            [alert addAction:settingsAction];
-            [alert addAction:defaultAction];
-            [self presentViewController:alert animated:YES completion:nil];
-        }
-    } else {
-        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                        UIUserNotificationTypeBadge |
-                                                        UIUserNotificationTypeSound);
-
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-    }
 }
 
 - (void)replayEndOfShow {
@@ -361,8 +330,6 @@
         if (__hasAppeared && self.player != nil)
         {
             [self.player play];
-            
-            NSDictionary *params = @{@"closing":self.lastVideoURL.url.lastPathComponent};
         }
         else
         {

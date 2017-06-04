@@ -350,7 +350,7 @@ open class CardStackUICollectionViewLayout: UICollectionViewLayout, UIGestureRec
             collectionView!.reloadItems(at: [self.draggedCellPath!])
             UIView.setAnimationsEnabled(true)
         } else {
-            storeAngleOfRotation()
+            _ = storeAngleOfRotation()
             if draggedCellPath?.item == index {
                 index += 1
             } else {

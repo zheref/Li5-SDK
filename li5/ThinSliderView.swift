@@ -67,12 +67,13 @@ import CoreMedia
     }
     
     override open func updateConstraints() {
-        progress.snp_makeConstraints {(make) -> Void in
+        progress.snp.makeConstraints { (make) in
             make.leading.equalTo(self).offset(20)
             make.centerY.equalTo(self)
-            make.trailing.equalTo(time.snp_leadingMargin).offset(-30)
+            make.trailing.equalTo(time.snp.leadingMargin).offset(-30)
         }
-        time.snp_makeConstraints { (make) -> Void in
+        
+        time.snp.makeConstraints { (make) -> Void in
             make.trailing.equalTo(self).offset(-20)
             make.centerY.equalTo(self)
             make.width.equalTo(50)
