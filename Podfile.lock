@@ -43,6 +43,7 @@ PODS:
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
   - SnapKit (3.0.0)
+  - SwiftyBeaver (1.2.2)
   - TSMessages (0.9.13):
     - HexColors (~> 2.3.0)
   - YYImage (1.0.4):
@@ -62,6 +63,7 @@ DEPENDENCIES:
   - Masonry
   - SDWebImage (~> 3.7)
   - SnapKit (= 3.0.0)
+  - SwiftyBeaver
   - TSMessages (from `https://github.com/KrauseFx/TSMessages.git`)
   - YYImage
   - YYImage/WebP
@@ -94,9 +96,10 @@ SPEC CHECKSUMS:
   SAMKeychain: 1865333198217411f35327e8da61b43de79b635b
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SnapKit: 98af0a4e9369d3c58f758967518081dbdc7eb1d9
+  SwiftyBeaver: 90a39e3dc5136b7285f2e4c870b107e3933b8b84
   TSMessages: eb3cf27b6900684a21bad4fe9ea426e287b8c839
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: abba83490e8ed137f7cac5a64859d0f415a23f85
+PODFILE CHECKSUM: c211cb0f5f68c281c04e6b0232b6639720ad87be
 
 COCOAPODS: 1.2.1

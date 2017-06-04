@@ -19,6 +19,8 @@ target 'Li5SDK' do
     
     pod 'Fabric'
     pod 'Crashlytics'
+    
+    pod 'SwiftyBeaver'
 end
 
 target 'DemoSDK' do
