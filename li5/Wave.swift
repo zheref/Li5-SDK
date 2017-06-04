@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class Wave : UIView {
+open class Wave : UIView {
     
     let heightProportion : CGFloat = 0.2
     let numberOfLines = 28;
@@ -27,10 +27,10 @@ public class Wave : UIView {
         self.alpha = 0;
         
         view.addSubview(self)
-        view.bringSubviewToFront(self)
+        view.bringSubview(toFront: self)
     }
     
-    public func createCurvePath(x: CGFloat,
+    open func createCurvePath(_ x: CGFloat,
                                 y: CGFloat ,
                                 height: CGFloat,
                                 lineWidth: CGFloat,
@@ -45,7 +45,7 @@ public class Wave : UIView {
         
         let endX = x + (height * 0.8);
         
-        path.moveToPoint(CGPointMake(x, y))
+        path.move(to: CGPoint(x: x, y: y))
         
         addCurve(path,
                  p1X: checkpoint1DeltaX + x,
@@ -55,7 +55,7 @@ public class Wave : UIView {
                  enX: endX,
                  enY: height);
         
-        path.moveToPoint(CGPointMake(x, y))
+        path.move(to: CGPoint(x: x, y: y))
         
         addCurve(path,
                  p1X: checkpoint1DeltaX + x ,
@@ -65,14 +65,14 @@ public class Wave : UIView {
                  enX: endX + 8,
                  enY: height - 3);
         
-        path.moveToPoint(CGPointMake(x + 5, y))
+        path.move(to: CGPoint(x: x + 5, y: y))
         
-        path.closePath()
+        path.close()
         
         return path
     }
     
-    func addCurve(path: UIBezierPath,
+    func addCurve(_ path: UIBezierPath,
                   p1X: CGFloat,
                   p1Y: CGFloat,
                   p2X: CGFloat,
@@ -80,22 +80,22 @@ public class Wave : UIView {
                   enX: CGFloat,
                   enY: CGFloat) {
         
-        let controlPoint1 = CGPointMake(p1X, p1Y)
+        let controlPoint1 = CGPoint(x: p1X, y: p1Y)
         
-        let controlPoint2 = CGPointMake(p2X, p2Y)
+        let controlPoint2 = CGPoint(x: p2X, y: p2Y)
         
-        let endPoint = CGPointMake(enX, enY)
+        let endPoint = CGPoint(x: enX, y: enY)
         
-        path.addCurveToPoint(endPoint, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
+        path.addCurve(to: endPoint, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
     }
     
     var isAnimating = false;
     
-    public func stopAnimating() {
+    open func stopAnimating() {
         
         if (self.isAnimating)
         {
-            UIView.animateWithDuration(1, delay: 0, options: .AllowUserInteraction, animations: {
+            UIView.animate(withDuration: 1, delay: 0, options: .allowUserInteraction, animations: {
                 self.blurEffectView?.alpha = 0
                 self.alpha = 0
                 }, completion: { (t) in
@@ -113,7 +113,7 @@ public class Wave : UIView {
     
     var  blurEffectView : UIVisualEffectView?
     
-    public func startAnimating() {
+    open func startAnimating() {
         
         if(self.isAnimating) {
         
@@ -121,16 +121,16 @@ public class Wave : UIView {
         }
         
         self.isAnimating = true;
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light);
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light);
         
         blurEffectView = UIVisualEffectView(effect: blurEffect);
         blurEffectView!.frame = parenView!.bounds;
         
         blurEffectView!.alpha = 0
-        blurEffectView!.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         parenView!.addSubview(blurEffectView!);
-        parenView!.bringSubviewToFront(self)
+        parenView!.bringSubview(toFront: self)
         
         let height = self.frame.height;
         
@@ -146,12 +146,12 @@ public class Wave : UIView {
             
             shapeLayer = CAShapeLayer()
             
-            shapeLayer.strokeColor = i % 2 == 0 ?  color.CGColor : UIColor.clearColor().CGColor
+            shapeLayer.strokeColor = i % 2 == 0 ?  color.cgColor : UIColor.clear.cgColor
             
             start = start + colorLineWidth;
             
-            shapeLayer.path = createCurvePath(start, y: -5.00, height: height, lineWidth: emptyLineWidth, delta: delta).CGPath
-            shapeLayer.fillColor = UIColor.clearColor().CGColor
+            shapeLayer.path = createCurvePath(start, y: -5.00, height: height, lineWidth: emptyLineWidth, delta: delta).cgPath
+            shapeLayer.fillColor = UIColor.clear.cgColor
             shapeLayer.lineWidth = emptyLineWidth
             
             /* Gradient*/
@@ -161,19 +161,19 @@ public class Wave : UIView {
             
             
             var colors = [AnyObject]();
-            colors.append(UIColor(red:0.85, green:0.05, blue:0.14, alpha:1).CGColor)
+            colors.append(UIColor(red:0.85, green:0.05, blue:0.14, alpha:1).cgColor)
             
-            colors.append(UIColor(red:0.85, green:0.05, blue:0.14, alpha:1).CGColor)
+            colors.append(UIColor(red:0.85, green:0.05, blue:0.14, alpha:1).cgColor)
             
-            colors.append(UIColor(red:0.85, green:0.05, blue:0.14, alpha:1).CGColor)
+            colors.append(UIColor(red:0.85, green:0.05, blue:0.14, alpha:1).cgColor)
             
-            colors.append(UIColor(red:0.85, green:0.05, blue:0.14, alpha:0).CGColor)
+            colors.append(UIColor(red:0.85, green:0.05, blue:0.14, alpha:0).cgColor)
             
-            colors.append(UIColor.clearColor())
+            colors.append(UIColor.clear)
             
             gradientLayer.colors = colors;
-            gradientLayer.startPoint = CGPointMake(0,0.5);
-            gradientLayer.endPoint = CGPointMake(1,0.5);
+            gradientLayer.startPoint = CGPoint(x: 0,y: 0.5);
+            gradientLayer.endPoint = CGPoint(x: 1,y: 0.5);
             
             self.layer.addSublayer(shapeLayer)
             //gradientLayer.mask = shapeLayer
@@ -187,21 +187,21 @@ public class Wave : UIView {
             }
         }
         
-        UIView.animateWithDuration(1, delay: 0, options: .AllowUserInteraction, animations: {
+        UIView.animate(withDuration: 1, delay: 0, options: .allowUserInteraction, animations: {
             self.blurEffectView!.alpha = 0.70
             self.alpha = 1;
             
             }, completion: { (t) in      
         })
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
             let x = self.frame.origin.x;
             let max = (self.frame.width * CGFloat(2)) - CGFloat(2);
             
             while(self.isAnimating){
                
                 //dispatch_after(delayTime, dispatch_get_main_queue()) {
-                    dispatch_sync(dispatch_get_main_queue()) {
+                    DispatchQueue.main.sync {
 
                     if(self.frame.origin.x <= max) {
                         self.frame.origin.x += 1.5;

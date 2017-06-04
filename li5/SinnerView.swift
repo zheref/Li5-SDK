@@ -24,9 +24,9 @@ class SpinnerView : UIView {
         initialize()
     }
     
-    private func initialize() {
-        outerCircle = SpinnerCircleView(frame:self.bounds, conf: SpinnerConf(direction: 1, lineWidth: 3, lineColor: UIColor.li5_whiteColor()))
-        innerCircle = SpinnerCircleView(frame:self.bounds.insetBy(dx: 10, dy: 10), conf: SpinnerConf(direction: -1, lineWidth:  3, lineColor: UIColor.li5_whiteColor()))
+    fileprivate func initialize() {
+        outerCircle = SpinnerCircleView(frame:self.bounds, conf: SpinnerConf(direction: 1, lineWidth: 3, lineColor: UIColor.li5_white()))
+        innerCircle = SpinnerCircleView(frame:self.bounds.insetBy(dx: 10, dy: 10), conf: SpinnerConf(direction: -1, lineWidth:  3, lineColor: UIColor.li5_white()))
         self.addSubview(outerCircle)
         self.addSubview(innerCircle)
     }
@@ -41,7 +41,7 @@ struct SpinnerConf {
     
     var direction: Int = 1
     var lineWidth: CGFloat = 3.0
-    var lineColor: UIColor = UIColor.blackColor()
+    var lineColor: UIColor = UIColor.black
     
 }
 
@@ -60,14 +60,14 @@ class SpinnerCircleView: UIView {
         conf = c
     }
     
-    override class func layerClass() -> AnyClass {
+    override class var layerClass : AnyClass {
         return CAShapeLayer.self
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.fillColor = nil
-        layer.strokeColor = self.conf.lineColor.CGColor
+        layer.strokeColor = self.conf.lineColor.cgColor
         layer.lineWidth = self.conf.lineWidth
         setPath()
     }
@@ -76,8 +76,8 @@ class SpinnerCircleView: UIView {
         animate()
     }
     
-    private func setPath() {
-        layer.path = UIBezierPath(ovalInRect: bounds.insetBy(dx: layer.lineWidth / 2, dy: layer.lineWidth / 2)).CGPath
+    fileprivate func setPath() {
+        layer.path = UIBezierPath(ovalIn: bounds.insetBy(dx: layer.lineWidth / 2, dy: layer.lineWidth / 2)).cgPath
     }
     
     struct Pose {
@@ -129,27 +129,27 @@ class SpinnerCircleView: UIView {
         //        animateStrokeHueWithDuration(duration: totalSeconds * 5)
     }
     
-    func animateKeyPath(keyPath keyPath: String, duration: CFTimeInterval, times: [CFTimeInterval], values: [CGFloat]) {
+    func animateKeyPath(keyPath: String, duration: CFTimeInterval, times: [CFTimeInterval], values: [CGFloat]) {
         let animation = CAKeyframeAnimation(keyPath: keyPath)
         animation.keyTimes = times as [NSNumber]?
         animation.values = values
         animation.calculationMode = kCAAnimationLinear
         animation.duration = duration
         animation.repeatCount = Float.infinity
-        layer.addAnimation(animation, forKey: animation.keyPath)
+        layer.add(animation, forKey: animation.keyPath)
     }
     
-    func animateStrokeHueWithDuration(duration duration: CFTimeInterval) {
+    func animateStrokeHueWithDuration(duration: CFTimeInterval) {
         let count = 36
         let animation = CAKeyframeAnimation(keyPath: "strokeColor")
-        animation.keyTimes = (0 ... count).map { NSNumber(double: CFTimeInterval($0) / CFTimeInterval(count)) }
+        animation.keyTimes = (0 ... count).map { NSNumber(value: CFTimeInterval($0) / CFTimeInterval(count) as Double) }
         animation.values = (0 ... count).map {
-            UIColor(hue: CGFloat($0) / CGFloat(count), saturation: 1, brightness: 1, alpha: 1).CGColor
+            UIColor(hue: CGFloat($0) / CGFloat(count), saturation: 1, brightness: 1, alpha: 1).cgColor
         }
         animation.duration = duration
         animation.calculationMode = kCAAnimationLinear
         animation.repeatCount = Float.infinity
-        layer.addAnimation(animation, forKey: animation.keyPath)
+        layer.add(animation, forKey: animation.keyPath)
     }
     
 }

@@ -10,43 +10,43 @@ import Foundation
 import UIKit
 
 @objc public protocol HeartAnimationViewDelegate : NSObjectProtocol {
-    optional func didTapButton()
+    @objc optional func didTapButton()
 }
 
-@objc public class HeartAnimationView : UIView {
-    @IBOutlet public var delegate : HeartAnimationViewDelegate?
+@objc open class HeartAnimationView : UIView {
+    @IBOutlet open var delegate : HeartAnimationViewDelegate?
     
     var speed : Double = 0.1
-    private let button = FwdButton(type: .Custom)
+    fileprivate let button = FwdButton(type: .custom)
 
-    private var emptyHeart : CALayer = {
+    fileprivate var emptyHeart : CALayer = {
         let heart = EmptyHeart()
         heart.anchorPoint = CGPoint(x: 0.5, y: 1)
         heart.opacity = 0
         return heart
     }()
 
-    private var barelyFullHeart : CALayer = {
+    fileprivate var barelyFullHeart : CALayer = {
         let heart = BarelyFullHeart()
         heart.anchorPoint = CGPoint(x: 0.5, y: 1)
         heart.opacity = 0
         return heart
     }()
     
-    private var almostFullHeart : CALayer = {
+    fileprivate var almostFullHeart : CALayer = {
         let heart = AlmostFullHeart()
         heart.anchorPoint = CGPoint(x: 0.5, y: 1)
         heart.opacity = 0
         return heart
     }()
-    private var fullHeart : CALayer = {
+    fileprivate var fullHeart : CALayer = {
         let heart = FullHeart()
         heart.anchorPoint = CGPoint(x: 0.5, y: 1)
         heart.opacity = 0
         return heart
     }()
 
-    private var loveLayers : [LoveLayer] = {
+    fileprivate var loveLayers : [LoveLayer] = {
         let layers = [
             LoveLayer(),
             LoveLayer(),
@@ -61,7 +61,7 @@ import UIKit
         return layers
     }()
     
-    private var topBalls : [Ball] = {
+    fileprivate var topBalls : [Ball] = {
         let balls = [
             Ball(radius: 4),
             Ball(radius: 8),
@@ -74,7 +74,7 @@ import UIKit
         return balls
     }()
 
-    private var leftBalls : [Ball] = {
+    fileprivate var leftBalls : [Ball] = {
         let balls = [
             Ball(radius: 3),
             Ball(radius: 5),
@@ -87,7 +87,7 @@ import UIKit
         return balls
     }()
 
-    private var rightBalls : [Ball] = {
+    fileprivate var rightBalls : [Ball] = {
         let balls = [
             Ball(radius: 3),
             ]
@@ -99,19 +99,19 @@ import UIKit
         return balls
     }()
 
-    private var allBalls : [Ball] {
+    fileprivate var allBalls : [Ball] {
         return self.topBalls + self.leftBalls + rightBalls
     }
     
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         let hearts = [self.emptyHeart, self.barelyFullHeart, self.almostFullHeart, self.fullHeart]
         
         if self.fullHeart.superlayer == nil {
             self.addSubview(self.button)
-            self.button.backgroundColor = UIColor.clearColor()
-            self.button.setBackgroundImage(UIImage(named:"bGbutton"), forState: .Normal)
-            self.button.addTarget(self, action: #selector(self.didTapButton), forControlEvents: .TouchUpInside)
+            self.button.backgroundColor = UIColor.clear
+            self.button.setBackgroundImage(UIImage(named:"bGbutton"), for: UIControlState())
+            self.button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
             
             for layer in self.loveLayers {
                 layer.radius = self.scale(5)
@@ -129,7 +129,7 @@ import UIKit
                 heart.setNeedsDisplay()
             }
             
-            if (self.button.selected) {
+            if (self.button.isSelected) {
                 self.fullHeart.opacity = 1
                 self.emptyHeart.opacity = 0
             } else {
@@ -156,112 +156,112 @@ import UIKit
     
     func start() {
         let heartSequence = ATAnimationSequence(animations: [
-            CABasicAnimation(keyPath: "transform.rotation", toValue: -0.3, duration: self.duration(2)),
-            CABasicAnimation(keyPath: "transform.rotation", toValue: 0.3, duration: self.duration(2)),
+            CABasicAnimation(keyPath: "transform.rotation", toValue: -0.3 as AnyObject, duration: self.duration(2)),
+            CABasicAnimation(keyPath: "transform.rotation", toValue: 0.3 as AnyObject, duration: self.duration(2)),
             CAAnimationGroup(animations: [
-                CABasicAnimation(keyPath: "transform", toValue: NSValue(CATransform3D: CATransform3DMakeScale(1.0, 0.65, 0.0)), duration: self.duration(2)),
-                CABasicAnimation(keyPath: "transform.rotation", toValue: -0.3, duration: self.duration(2)),
+                CABasicAnimation(keyPath: "transform", toValue: NSValue(caTransform3D: CATransform3DMakeScale(1.0, 0.65, 0.0)), duration: self.duration(2)),
+                CABasicAnimation(keyPath: "transform.rotation", toValue: -0.3 as AnyObject, duration: self.duration(2)),
                 ]),
-            CABasicAnimation(keyPath: "transform", toValue: NSValue(CATransform3D: CATransform3DMakeScale(0.9, 1.1, 0.0)), duration: self.duration(2)),
-            CABasicAnimation(keyPath: "transform", toValue: NSValue(CATransform3D: CATransform3DMakeScale(1.0, 1.0, 0.0)), duration: self.duration(2)),
-            CABasicAnimation(keyPath: "transform.rotation", toValue: 0, duration: self.duration(2)),
+            CABasicAnimation(keyPath: "transform", toValue: NSValue(caTransform3D: CATransform3DMakeScale(0.9, 1.1, 0.0)), duration: self.duration(2)),
+            CABasicAnimation(keyPath: "transform", toValue: NSValue(caTransform3D: CATransform3DMakeScale(1.0, 1.0, 0.0)), duration: self.duration(2)),
+            CABasicAnimation(keyPath: "transform.rotation", toValue: 0 as AnyObject, duration: self.duration(2)),
             ])
 
         
-        let reveal1 = CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: self.duration(1))
+        let reveal1 = CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: self.duration(1))
         reveal1.beginTime = self.duration(2)
         let group1 = CAAnimationGroup(animations: [heartSequence,
             reveal1,
             ])
 
-        let reveal2 = CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: self.duration(1))
+        let reveal2 = CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: self.duration(1))
         reveal2.beginTime = self.duration(4)
         let group2 = CAAnimationGroup(animations: [heartSequence,
             reveal2,
             ])
         
-        let reveal3 = CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: self.duration(1))
+        let reveal3 = CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: self.duration(1))
         reveal3.beginTime = self.duration(6)
         let group3 = CAAnimationGroup(animations: [heartSequence,
             reveal3,
             ])
         
-        self.emptyHeart.addAnimation(heartSequence, forKey: nil)
-        self.barelyFullHeart.addAnimation(group1, forKey: nil)
-        self.almostFullHeart.addAnimation(group2, forKey: nil)
-        self.fullHeart.addAnimation(group3, forKey: nil)
+        self.emptyHeart.add(heartSequence, forKey: nil)
+        self.barelyFullHeart.add(group1, forKey: nil)
+        self.almostFullHeart.add(group2, forKey: nil)
+        self.fullHeart.add(group3, forKey: nil)
         
-        let start = heartSequence.animations!.prefix(4).reduce(0, combine: {$0 + $1.duration})
+        let start = heartSequence.animations!.prefix(4).reduce(0, {$0 + $1.duration})
         let love0Sequence = ATAnimationSequence(animations: [
             HideAnimation(duration: self.duration(0.0001)),
-            CABasicAnimation(keyPath: "transform.rotation", toValue: -0.1, duration: self.duration(2)),
-            CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: start), // also works as a delay
-            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(CATransform3D: CATransform3DIdentity), duration: self.duration(0.0001)),
-            CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: self.scale(CGPoint(x: 40, y: 40))), duration: self.duration(2)),
+            CABasicAnimation(keyPath: "transform.rotation", toValue: -0.1 as AnyObject, duration: self.duration(2)),
+            CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: start), // also works as a delay
+            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(caTransform3D: CATransform3DIdentity), duration: self.duration(0.0001)),
+            CABasicAnimation(keyPath: "position", toValue: NSValue(cgPoint: self.scale(CGPoint(x: 40, y: 40))), duration: self.duration(2)),
             HideAnimation(duration: self.duration(2)),
             
             ])
-        love0Sequence.removedOnCompletion = true
-        self.loveLayers[0].addAnimation(love0Sequence, forKey: nil)
+        love0Sequence.isRemovedOnCompletion = true
+        self.loveLayers[0].add(love0Sequence, forKey: nil)
         
         
         let love1Sequence = ATAnimationSequence(animations: [
             HideAnimation(duration: self.duration(0.0001)),
-            CABasicAnimation(keyPath: "transform.rotation", toValue: -0.3, duration: self.duration(2)),
-            CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: start), // also works as a delay
-            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(CATransform3D: CATransform3DIdentity), duration: self.duration(0.0001)),
-            CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: self.scale(CGPoint(x: 140, y: 60))), duration: self.duration(2.2)),
+            CABasicAnimation(keyPath: "transform.rotation", toValue: -0.3 as AnyObject, duration: self.duration(2)),
+            CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: start), // also works as a delay
+            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(caTransform3D: CATransform3DIdentity), duration: self.duration(0.0001)),
+            CABasicAnimation(keyPath: "position", toValue: NSValue(cgPoint: self.scale(CGPoint(x: 140, y: 60))), duration: self.duration(2.2)),
             HideAnimation(duration: self.duration(2)),
             
             ])
-        love1Sequence.removedOnCompletion = true
-        self.loveLayers[1].addAnimation(love1Sequence, forKey: nil)
+        love1Sequence.isRemovedOnCompletion = true
+        self.loveLayers[1].add(love1Sequence, forKey: nil)
         
         
         let love2Sequence = ATAnimationSequence(animations: [
             HideAnimation(duration: self.duration(0.0001)),
-            CABasicAnimation(keyPath: "transform.rotation", toValue: 0.3, duration: self.duration(2)),
-            CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: start), // also works as a delay
-            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(CATransform3D: CATransform3DIdentity), duration: self.duration(0.0001)),
-            CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: self.scale(CGPoint(x: 120, y: 160))), duration: self.duration(1.4)),
-            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(CATransform3D: CATransform3DMakeScale(1.2, 1.2, 0.0)), duration: self.duration(0.5)),
+            CABasicAnimation(keyPath: "transform.rotation", toValue: 0.3 as AnyObject, duration: self.duration(2)),
+            CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: start), // also works as a delay
+            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(caTransform3D: CATransform3DIdentity), duration: self.duration(0.0001)),
+            CABasicAnimation(keyPath: "position", toValue: NSValue(cgPoint: self.scale(CGPoint(x: 120, y: 160))), duration: self.duration(1.4)),
+            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(caTransform3D: CATransform3DMakeScale(1.2, 1.2, 0.0)), duration: self.duration(0.5)),
             HideAnimation(duration: self.duration(0.5)),
             
             ])
-        love2Sequence.removedOnCompletion = true
-        self.loveLayers[2].addAnimation(love2Sequence, forKey: nil)
+        love2Sequence.isRemovedOnCompletion = true
+        self.loveLayers[2].add(love2Sequence, forKey: nil)
         
         let path = UIBezierPath()
-        path.moveToPoint(self.scale(CGPoint(x: 100, y: 80)))
-        path.addCurveToPoint(self.scale(CGPoint(x: 40, y: 80)), controlPoint1: self.scale(CGPoint(x: 100, y: 40)), controlPoint2: self.scale(CGPoint(x: 120, y: 200)))
+        path.move(to: self.scale(CGPoint(x: 100, y: 80)))
+        path.addCurve(to: self.scale(CGPoint(x: 40, y: 80)), controlPoint1: self.scale(CGPoint(x: 100, y: 40)), controlPoint2: self.scale(CGPoint(x: 120, y: 200)))
         
         let love3Sequence = ATAnimationSequence(animations: [
             HideAnimation(duration: self.duration(0.0001)),
-            CABasicAnimation(keyPath: "transform.rotation", toValue: -0.3, duration: self.duration(2)),
-            CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: start), // also works as a delay
-            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(CATransform3D: CATransform3DIdentity), duration: self.duration(0.0001)),
-            CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: self.scale(CGPoint(x: 100, y: 80))), duration: self.duration(0.5)),
-            CAKeyframeAnimation(keyPath: "position", path: path.CGPath, duration: self.duration(2)),
+            CABasicAnimation(keyPath: "transform.rotation", toValue: -0.3 as AnyObject, duration: self.duration(2)),
+            CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: start), // also works as a delay
+            CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(caTransform3D: CATransform3DIdentity), duration: self.duration(0.0001)),
+            CABasicAnimation(keyPath: "position", toValue: NSValue(cgPoint: self.scale(CGPoint(x: 100, y: 80))), duration: self.duration(0.5)),
+            CAKeyframeAnimation(keyPath: "position", path: path.cgPath, duration: self.duration(2)),
             HideAnimation(duration: self.duration(1)),
             
             ])
-        love3Sequence.removedOnCompletion = true
-        self.loveLayers[3].addAnimation(love3Sequence, forKey: nil)
+        love3Sequence.isRemovedOnCompletion = true
+        self.loveLayers[3].add(love3Sequence, forKey: nil)
 
     
         var offset = 0.1
         for ball in self.topBalls {
             let animation = ATAnimationSequence(animations: [
                 HideAnimation(duration: self.duration(0.0001)),
-                CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: start + offset), // also works as a delay
+                CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: start + offset), // also works as a delay
                 CAAnimationGroup(animations: [
-                    CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(CATransform3D: CATransform3DIdentity), duration: self.duration(1.5)),
-                    CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: self.scale(CGPoint(x: 100, y: 60))), duration: self.duration(1.5)),
+                    CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(caTransform3D: CATransform3DIdentity), duration: self.duration(1.5)),
+                    CABasicAnimation(keyPath: "position", toValue: NSValue(cgPoint: self.scale(CGPoint(x: 100, y: 60))), duration: self.duration(1.5)),
                     ]),
                 HideAnimation(duration: self.duration(1)),
                 ])
-            animation.removedOnCompletion = true
-            ball.addAnimation(animation, forKey: nil)
+            animation.isRemovedOnCompletion = true
+            ball.add(animation, forKey: nil)
             offset += 0.3
         }
         
@@ -269,15 +269,15 @@ import UIKit
         for ball in self.leftBalls {
             let animation = ATAnimationSequence(animations: [
                 HideAnimation(duration: self.duration(0.0001)),
-                CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: start + offset), // also works as a delay
+                CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: start + offset), // also works as a delay
                 CAAnimationGroup(animations: [
-                    CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(CATransform3D: CATransform3DIdentity), duration: self.duration(1.5)),
-                    CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: self.scale(CGPoint(x: 60, y: 140))), duration: self.duration(1.5)),
+                    CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(caTransform3D: CATransform3DIdentity), duration: self.duration(1.5)),
+                    CABasicAnimation(keyPath: "position", toValue: NSValue(cgPoint: self.scale(CGPoint(x: 60, y: 140))), duration: self.duration(1.5)),
                     ]),
                 HideAnimation(duration: self.duration(1)),
                 ])
-            animation.removedOnCompletion = true
-            ball.addAnimation(animation, forKey: nil)
+            animation.isRemovedOnCompletion = true
+            ball.add(animation, forKey: nil)
             offset += 0.2
         }
 
@@ -285,30 +285,30 @@ import UIKit
         for ball in self.rightBalls {
             let animation = ATAnimationSequence(animations: [
                 HideAnimation(duration: self.duration(0.0001)),
-                CABasicAnimation(keyPath: "opacity", toValue: 1.0, duration: start + offset), // also works as a delay
+                CABasicAnimation(keyPath: "opacity", toValue: 1.0 as AnyObject, duration: start + offset), // also works as a delay
                 CAAnimationGroup(animations: [
-                    CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(CATransform3D: CATransform3DIdentity), duration: self.duration(1.5)),
-                    CABasicAnimation(keyPath: "position", toValue: NSValue(CGPoint: self.scale(CGPoint(x: 130, y: 130))), duration: self.duration(1.5)),
+                    CABasicAnimation(keyPath: "transform.scale", toValue: NSValue(caTransform3D: CATransform3DIdentity), duration: self.duration(1.5)),
+                    CABasicAnimation(keyPath: "position", toValue: NSValue(cgPoint: self.scale(CGPoint(x: 130, y: 130))), duration: self.duration(1.5)),
                     ]),
                 HideAnimation(duration: self.duration(1)),
                 ])
-            animation.removedOnCompletion = true
-            ball.addAnimation(animation, forKey: nil)
+            animation.isRemovedOnCompletion = true
+            ball.add(animation, forKey: nil)
             offset += 0.2
         }
         offset = 0
     }
     
-    private func scale(point: CGPoint) -> CGPoint {
+    fileprivate func scale(_ point: CGPoint) -> CGPoint {
         // based on a 200x200 "default" size, return a scaled point
         return CGPoint(x: point.x * self.bounds.width / 200, y: point.y * self.bounds.height / 200)
     }
     
-    private func scale(value: CGFloat) -> CGFloat {
+    fileprivate func scale(_ value: CGFloat) -> CGFloat {
         return value * self.bounds.width / 200
     }
     
-    func duration(duration: CFTimeInterval) -> CFTimeInterval {
+    func duration(_ duration: CFTimeInterval) -> CFTimeInterval {
         return duration * self.speed
     }
     
@@ -316,18 +316,18 @@ import UIKit
         self.layer.sublayers?.forEach({$0.removeAllAnimations()})
     }
     
-    func didTapButton(sender: UIButton) {
-        if (!self.button.selected) {
+    func didTapButton(_ sender: UIButton) {
+        if (!self.button.isSelected) {
             self.start()
         }
         self.delegate?.didTapButton?()
     }
     
-    public var selected: Bool = false {
+    open var selected: Bool = false {
         didSet {
-            self.button.selected = selected
+            self.button.isSelected = selected
             
-            if (!self.button.selected) {
+            if (!self.button.isSelected) {
                 self.stop()
                 self.fullHeart.opacity = 0
                 self.emptyHeart.opacity = 1
@@ -335,26 +335,26 @@ import UIKit
         }
     }
     
-    override public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
     }
     
-    override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
     }
     
 }
 
 class FwdButton : UIButton {
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        self.nextResponder()!.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.next!.touchesBegan(touches, with: event)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
-        self.nextResponder()!.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        self.next!.touchesEnded(touches, with: event)
     }
     
 }
@@ -373,7 +373,7 @@ class ATAnimationSequence : CAAnimationGroup {
             }
             self.duration = beginTime
             self.fillMode = kCAFillModeForwards
-            self.removedOnCompletion = false
+            self.isRemovedOnCompletion = false
         }
     }
     
@@ -381,7 +381,7 @@ class ATAnimationSequence : CAAnimationGroup {
         self.init()
         self.animations = animations
         self.fillMode = kCAFillModeForwards
-        self.removedOnCompletion = false
+        self.isRemovedOnCompletion = false
     }
 }
 
@@ -391,7 +391,7 @@ extension CAKeyframeAnimation {
         self.path = path
         self.duration = duration
         self.fillMode = kCAFillModeForwards
-        self.removedOnCompletion = false
+        self.isRemovedOnCompletion = false
     }
 }
 
@@ -399,9 +399,9 @@ extension CAAnimationGroup {
     convenience init(animations: [CAAnimation]) {
         self.init()
         self.animations = animations
-        self.duration = animations.reduce(0, combine: {max($0, $1.duration)})
+        self.duration = animations.reduce(0, {max($0, $1.duration)})
         self.fillMode = kCAFillModeForwards
-        self.removedOnCompletion = false
+        self.isRemovedOnCompletion = false
     }
 }
 
@@ -412,7 +412,7 @@ extension CABasicAnimation {
         self.toValue = toValue
         self.duration = duration
         self.fillMode = kCAFillModeForwards
-        self.removedOnCompletion = false
+        self.isRemovedOnCompletion = false
     }
 }
 
@@ -420,10 +420,10 @@ class HideAnimation : CABasicAnimation {
     init(duration: CFTimeInterval) {
         super.init()
         self.keyPath = "transform.scale"
-        self.toValue = NSValue(CATransform3D: CATransform3DMakeScale(0.000001, 0.000001, 0.0))
+        self.toValue = NSValue(caTransform3D: CATransform3DMakeScale(0.000001, 0.000001, 0.0))
         self.duration = duration
         self.fillMode = kCAFillModeForwards
-        self.removedOnCompletion = false
+        self.isRemovedOnCompletion = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -435,7 +435,7 @@ class HideAnimation : CABasicAnimation {
 class LoveLayer : CALayer {
     var radius : CGFloat = 5
     
-    override func drawInContext(context: CGContext) {
+    override func draw(in context: CGContext) {
         UIGraphicsPushContext(context);
         let string : NSString = "LOVE"
         var fontSize : CGFloat = 64
@@ -444,23 +444,23 @@ class LoveLayer : CALayer {
         repeat {
             fontSize -= 1
             let attributes = [
-                NSFontAttributeName : UIFont.systemFontOfSize(fontSize),
-                NSForegroundColorAttributeName : UIColor.yellowColor(),
+                NSFontAttributeName : UIFont.systemFont(ofSize: fontSize),
+                NSForegroundColorAttributeName : UIColor.yellow,
                 ]
-            width = string.sizeWithAttributes(attributes).width
+            width = string.size(attributes: attributes).width
         } while width > self.bounds.width
         
         let attributes = [
-            NSFontAttributeName : UIFont.systemFontOfSize(fontSize),
-            NSForegroundColorAttributeName : UIColor.yellowColor(),
+            NSFontAttributeName : UIFont.systemFont(ofSize: fontSize),
+            NSForegroundColorAttributeName : UIColor.yellow,
             ]
         
-        string.drawAtPoint(CGPoint.zero, withAttributes: attributes)
+        string.draw(at: CGPoint.zero, withAttributes: attributes)
         
         let rect = CGRect(origin: CGPoint(x: (self.bounds.width / 2) - self.radius, y: self.bounds.height - self.radius * 2), size: CGSize(width: self.radius * 2, height: self.radius * 2))
-        CGContextAddEllipseInRect(context, rect)
-        UIColor.yellowColor().setFill()
-        CGContextFillPath(context)
+        context.addEllipse(in: rect)
+        UIColor.yellow.setFill()
+        context.fillPath()
         
         UIGraphicsPopContext()
     }
@@ -475,20 +475,20 @@ class LoveLayer : CALayer {
         self.commonInit()
     }
     
-    override init(layer: AnyObject) {
+    override init(layer: Any) {
         super.init(layer: layer)
     }
-    private func commonInit() {
+    fileprivate func commonInit() {
         self.contentsScale = 10 // draw in hi res, will scale later
     }
 }
 
 class Ball : CALayer {
-    override func drawInContext(context: CGContext) {
+    override func draw(in context: CGContext) {
         UIGraphicsPushContext(context);
-        CGContextAddEllipseInRect(context, self.bounds)
+        context.addEllipse(in: self.bounds)
         UIColor(red: 0.894, green: 0, blue: 0.185, alpha: 1).setFill()
-        CGContextFillPath(context)
+        context.fillPath()
         UIGraphicsPopContext()
     }
     
@@ -500,7 +500,7 @@ class Ball : CALayer {
 }
 
 extension CGRect {
-    func centeredIn(rect: CGRect) -> CGRect {
+    func centeredIn(_ rect: CGRect) -> CGRect {
         var this = self
         this.center = rect.center
         return this
@@ -517,7 +517,7 @@ extension CGRect {
 }
 
 extension CGPoint {
-    static func midPoint(p1: CGPoint, _ p2: CGPoint) -> CGPoint
+    static func midPoint(_ p1: CGPoint, _ p2: CGPoint) -> CGPoint
     {
         return CGPoint(x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2)
     }

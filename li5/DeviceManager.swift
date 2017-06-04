@@ -9,15 +9,15 @@
 import Foundation
 import AdSupport
 
-public class DeviceManager : NSObject {
+open class DeviceManager : NSObject {
     
-    public static let sharedInstance = DeviceManager()
+    open static let sharedInstance = DeviceManager()
     
-    override private init() { }
+    override fileprivate init() { }
     
-    private var __deviceId: String?
+    fileprivate var __deviceId: String?
     
-    public var deviceId: String? {
+    open var deviceId: String? {
         get {
             if (__deviceId == nil) {
                 __deviceId = (self.idfa() ?? (self.idfv() ?? self.udid()))
@@ -29,15 +29,15 @@ public class DeviceManager : NSObject {
         }
     }
     
-    private func idfa() -> String {
-        return ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString
+    fileprivate func idfa() -> String {
+        return ASIdentifierManager.shared().advertisingIdentifier.uuidString
     }
     
-    private func idfv() -> String {
-        return UIDevice.currentDevice().identifierForVendor!.UUIDString
+    fileprivate func idfv() -> String {
+        return UIDevice.current.identifierForVendor!.uuidString
     }
     
-    public func udid() -> String {
-        return NSUUID().UUIDString
+    open func udid() -> String {
+        return UUID().uuidString
     }
 }

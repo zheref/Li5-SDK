@@ -10,30 +10,30 @@ import UIKit
 import CoreMedia
 
 //@IBDesignable
-public class ThinPlayerProgressView: UIView {
+open class ThinPlayerProgressView: UIView {
 
-    private let timeInterval = 0.01
+    fileprivate let timeInterval = 0.01
     
-    private var overlay: UIView = UIView()
+    fileprivate var overlay: UIView = UIView()
     
-    private var timeObserver : AnyObject?
+    fileprivate var timeObserver : AnyObject?
     
-    public weak var player: BCPlayer? {
+    open weak var player: BCPlayer? {
         willSet {
             self.removeObservers()
         }
         didSet {
-            self.timeObserver = self.player?.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(timeInterval, CMTimeScale(NSEC_PER_SEC)), queue: nil) { (time) in
+            self.timeObserver = self.player?.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(timeInterval, CMTimeScale(NSEC_PER_SEC)), queue: nil) { (time) in
                 if (self.player != nil && self.player?.currentItem != nil ) {
                     self.percentage = CMTimeGetSeconds(time) / CMTimeGetSeconds(self.player!.currentItem!.asset.duration);
                 }
-            }
+            } as AnyObject
         }
     }
     
     var percentage = 0.0 {
         didSet {
-            UIView.animateWithDuration(timeInterval, delay: 0, options: .CurveLinear, animations: {
+            UIView.animate(withDuration: timeInterval, delay: 0, options: .curveLinear, animations: {
                 self.layoutSubviews()
             }, completion: nil)
         }
@@ -50,14 +50,14 @@ public class ThinPlayerProgressView: UIView {
     }
     
     func initialize() {
-        overlay.backgroundColor = UIColor.whiteColor()
+        overlay.backgroundColor = UIColor.white
         self.addSubview(overlay)
     }
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         
-        overlay.frame = CGRectMake(0, 0, self.frame.size.width * CGFloat(percentage), self.frame.size.height)
+        overlay.frame = CGRect(x: 0, y: 0, width: self.frame.size.width * CGFloat(percentage), height: self.frame.size.height)
     }
     
     func removeObservers() {

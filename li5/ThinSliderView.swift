@@ -11,29 +11,29 @@ import SnapKit
 import CoreMedia
 
 //@IBDesignable
-@objc public class ThinSliderView: UIView {
+@objc open class ThinSliderView: UIView {
     
     var progress: UISlider!
     var time: UILabel!
     
-    private let timeInterval = 0.01
+    fileprivate let timeInterval = 0.01
     
-    private var timeObserver : AnyObject?
+    fileprivate var timeObserver : AnyObject?
     
     weak var player: BCPlayer? {
         willSet {
             self.removeObservers()
         }
         didSet {
-            self.timeObserver = self.player?.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(timeInterval, CMTimeScale(NSEC_PER_SEC)), queue: nil) { [weak self] (time) in
+            self.timeObserver = self.player?.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(timeInterval, CMTimeScale(NSEC_PER_SEC)), queue: nil) { [weak self] (time) in
                 if (self!.player != nil && self!.player?.currentItem != nil ) {
                     self!.progress.value = Float(CMTimeGetSeconds(time) / CMTimeGetSeconds(self!.player!.currentItem!.asset.duration));
                     let secondsPlayed = max(0,CMTimeGetSeconds(time))
                     let minutes = Int(secondsPlayed / 60)
-                    let seconds = Int(secondsPlayed % 60)
+                    let seconds = Int(secondsPlayed.truncatingRemainder(dividingBy: 60))
                     self!.time.text = String(format:"%01d:%02d",minutes,seconds)
                 }
-            }
+            } as AnyObject
         }
     }
     
@@ -47,26 +47,26 @@ import CoreMedia
         initialize()
     }
     
-    private func initialize() {
+    fileprivate func initialize() {
         progress = CustomSlider(frame: self.bounds)
-        progress.minimumTrackTintColor = UIColor.whiteColor()
-        progress.maximumTrackTintColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.6)
-        progress.thumbTintColor = UIColor.whiteColor()
+        progress.minimumTrackTintColor = UIColor.white
+        progress.maximumTrackTintColor = UIColor.lightGray.withAlphaComponent(0.6)
+        progress.thumbTintColor = UIColor.white
         let thumbImage = UIImage(named: "thumbImage")
-        progress.setThumbImage(thumbImage, forState: .Normal)
-        progress.setThumbImage(thumbImage, forState: .Highlighted)
+        progress.setThumbImage(thumbImage, for: UIControlState())
+        progress.setThumbImage(thumbImage, for: .highlighted)
         progress.minimumValue = 0.0
         progress.maximumValue = 1.0
         
         time = UILabel(frame: self.bounds)
         time.text = "0:00"
-        time.textColor = UIColor.li5_whiteColor()
+        time.textColor = UIColor.li5_white()
         
         self.addSubview(progress)
         self.addSubview(time)
     }
     
-    override public func updateConstraints() {
+    override open func updateConstraints() {
         progress.snp_makeConstraints {(make) -> Void in
             make.leading.equalTo(self).offset(20)
             make.centerY.equalTo(self)
@@ -80,7 +80,7 @@ import CoreMedia
         super.updateConstraints()
     }
     
-    override public func prepareForInterfaceBuilder() {
+    override open func prepareForInterfaceBuilder() {
         progress.setValue(0.1, animated: false)
         self.updateConstraints()
     }
@@ -101,8 +101,8 @@ import CoreMedia
 //@IBDesignable
 class CustomSlider: UISlider {
     
-    override func trackRectForBounds(bounds: CGRect) -> CGRect {
-        var rect = super.trackRectForBounds(bounds)
+    override func trackRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.trackRect(forBounds: bounds)
         rect.size.height = 3
         return rect
     }

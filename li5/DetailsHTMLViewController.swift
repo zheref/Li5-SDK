@@ -9,9 +9,9 @@
 import UIKit
 import WebKit
 
-@objc public class DetailsHTMLViewController: UIViewController {
+@objc open class DetailsHTMLViewController: UIViewController {
 
-    private var webView: WKWebView?
+    fileprivate var webView: WKWebView?
     
     var product : Product!
     var context : ProductContext!
@@ -23,21 +23,21 @@ import WebKit
         self.context = context
     }
     
-    public override func loadView() {
+    open override func loadView() {
         webView = WKWebView()
         
         view = webView
     }
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = (self.product.contentUrl != nil) ? NSURL(string:self.product.contentUrl) : NSURL(string: "https://www.li5.tv")
-        let req = NSURLRequest(URL: url!)
-        webView?.loadRequest(req)
+        let url = (self.product.contentUrl != nil) ? URL(string:self.product.contentUrl) : URL(string: "https://www.li5.tv")
+        let req = URLRequest(url: url!)
+        webView?.load(req)
     }
 
-    public override func didReceiveMemoryWarning() {
+    open override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
