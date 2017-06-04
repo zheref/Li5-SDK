@@ -804,8 +804,8 @@
 		5BB4AAB41C4D60B9002C22C8 = {
 			isa = PBXGroup;
 			children = (
-				5BB4AABF1C4D60B9002C22C8 /* li5 */,
 				2BA593391EB4258D0065FDD9 /* Li5SDK */,
+				5BB4AABF1C4D60B9002C22C8 /* li5 */,
 				2BA593441EB4258E0065FDD9 /* Li5SDKTests */,
 				2B44F4EE1EBAC4CF00AB18A0 /* DemoSDK */,
 				5BB4AABE1C4D60B9002C22C8 /* Products */,
@@ -1054,7 +1054,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Li5, Inc.";
 				TargetAttributes = {
 					2B44F4EC1EBAC4CF00AB18A0 = {
@@ -1537,7 +1537,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -1587,7 +1587,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = B64365EYZ4;
