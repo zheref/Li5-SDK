@@ -8,11 +8,11 @@
 
 import Foundation
 
-open class SDKLogger {
+@objc open class SDKLogger : NSObject {
     
     open static let shared = SDKLogger()
     
-    fileprivate init() {}
+    override init() {}
     
     open func warning(_ text: String) {
         log(withPrefix: ">>>>>>/! [WARNING]", text: text, andSuffix: "")
@@ -23,11 +23,11 @@ open class SDKLogger {
     }
     
     open func error(_ text: String) {
-        log(withPrefix: ">>>>>>/*", text: text, andSuffix: "")
+        log(withPrefix: ">>>>>>/* [ERROR]", text: text, andSuffix: "")
     }
     
     open func info(_ text: String) {
-        log(withPrefix: ">>>>>>//", text: text, andSuffix: "")
+        log(withPrefix: ">>>>>>// [INFO]", text: text, andSuffix: "")
     }
     
     fileprivate func log(withPrefix prefix: String, text: String, andSuffix suffix: String) {

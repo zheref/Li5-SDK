@@ -16,18 +16,20 @@ open class ThinPlayerProgressView: UIView {
     
     fileprivate var overlay: UIView = UIView()
     
-    fileprivate var timeObserver : AnyObject?
+    fileprivate var timeObserver : Any?
     
     open weak var player: BCPlayer? {
         willSet {
             self.removeObservers()
         }
         didSet {
-            self.timeObserver = self.player?.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(timeInterval, CMTimeScale(NSEC_PER_SEC)), queue: nil) { (time) in
-                if (self.player != nil && self.player?.currentItem != nil ) {
-                    self.percentage = CMTimeGetSeconds(time) / CMTimeGetSeconds(self.player!.currentItem!.asset.duration);
+            let interval = CMTimeMakeWithSeconds(timeInterval, CMTimeScale(NSEC_PER_SEC))
+            
+            timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: nil) { time in
+                if let player = self.player, let currentItem = player.currentItem {
+                    self.percentage = CMTimeGetSeconds(time) / CMTimeGetSeconds(currentItem.asset.duration)
                 }
-            } as AnyObject
+            }
         }
     }
     
