@@ -14,7 +14,6 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - Applanga (1.0.60)
   - BCVideoPlayer (0.1.0):
     - GCDWebServer
   - CocoaLumberjack (3.0.0):
@@ -29,9 +28,9 @@ PODS:
     - Fabric (~> 1.6.3)
   - Fabric (1.6.11)
   - FXBlurView (1.6.4)
-  - GCDWebServer (3.3.4):
-    - GCDWebServer/Core (= 3.3.4)
-  - GCDWebServer/Core (3.3.4)
+  - GCDWebServer (3.2.7):
+    - GCDWebServer/Core (= 3.2.7)
+  - GCDWebServer/Core (3.2.7)
   - HexColors (2.3.0)
   - JSONModel (1.7.0)
   - Li5Api (0.0.1):
@@ -53,13 +52,12 @@ PODS:
     - YYImage/Core
 
 DEPENDENCIES:
-  - Applanga
   - BCVideoPlayer (from `../player`)
   - CocoaLumberjack
   - Crashlytics
   - Fabric
   - FXBlurView
-  - GCDWebServer (from `https://github.com/lifive/GCDWebServer.git`, branch `master`)
+  - GCDWebServer (~> 3.2.5)
   - Li5Api (from `../api`)
   - Masonry
   - SDWebImage (~> 3.7)
@@ -71,31 +69,24 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   BCVideoPlayer:
     :path: ../player
-  GCDWebServer:
-    :branch: master
-    :git: https://github.com/lifive/GCDWebServer.git
   Li5Api:
     :path: ../api
   TSMessages:
     :git: https://github.com/KrauseFx/TSMessages.git
 
 CHECKOUT OPTIONS:
-  GCDWebServer:
-    :commit: 7bd729545f8f0c4073bedba7b1ad0b70dd37bb47
-    :git: https://github.com/lifive/GCDWebServer.git
   TSMessages:
     :commit: dd843df9a04a756210b2ed51caf1f2b9aafee508
     :git: https://github.com/KrauseFx/TSMessages.git
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  Applanga: c25226c18b51ccf469eed7ed871a3cc12341f228
   BCVideoPlayer: 0ecf461bc284eca553fc2df91d07c4f843dd6082
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  GCDWebServer: 0bd712acb4f246ce04d2ac321d33278fb1f72e63
+  GCDWebServer: 76a9540371d5f12f850b32ec7f555dd2d266e543
   HexColors: 6ad3947c3447a055a3aa8efa859def096351fe5f
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
   Li5Api: 0d884a2f2d2f1d63adb48b7e3a43d06901b0f597
@@ -106,6 +97,6 @@ SPEC CHECKSUMS:
   TSMessages: eb3cf27b6900684a21bad4fe9ea426e287b8c839
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: 8ac4f2eb3fac4cace0cf9096e75694ca4263258e
+PODFILE CHECKSUM: abba83490e8ed137f7cac5a64859d0f415a23f85
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1

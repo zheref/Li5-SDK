@@ -94,7 +94,7 @@ NSString* const GCDWebServerRequestAttribute_RegexCaptures = @"GCDWebServerReque
     return NO;
   }
   if (![super open:error]) {
-    inflateEnd(&_stream);
+    deflateEnd(&_stream);
     return NO;
   }
   return YES;

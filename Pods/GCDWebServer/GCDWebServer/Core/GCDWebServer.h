@@ -52,7 +52,7 @@ typedef GCDWebServerRequest* (^GCDWebServerMatchBlock)(NSString* requestMethod, 
  *  recommended to return a GCDWebServerErrorResponse on error so more useful
  *  information can be returned to the client.
  */
-typedef GCDWebServerResponse* (^GCDWebServerProcessBlock)(__kindof GCDWebServerRequest* request);
+typedef GCDWebServerResponse* (^GCDWebServerProcessBlock)(GCDWebServerRequest* request);
 
 /**
  *  The GCDWebServerAsynchronousProcessBlock works like the GCDWebServerProcessBlock
@@ -65,7 +65,7 @@ typedef GCDWebServerResponse* (^GCDWebServerProcessBlock)(__kindof GCDWebServerR
  *  useful information can be returned to the client.
  */
 typedef void (^GCDWebServerCompletionBlock)(GCDWebServerResponse* response);
-typedef void (^GCDWebServerAsyncProcessBlock)(__kindof GCDWebServerRequest* request, GCDWebServerCompletionBlock completionBlock);
+typedef void (^GCDWebServerAsyncProcessBlock)(GCDWebServerRequest* request, GCDWebServerCompletionBlock completionBlock);
 
 /**
  *  The port used by the GCDWebServer (NSNumber / NSUInteger).
@@ -91,25 +91,13 @@ extern NSString* const GCDWebServerOption_BonjourName;
 extern NSString* const GCDWebServerOption_BonjourType;
 
 /**
- *  Request a port mapping in the NAT gateway (NSNumber / BOOL).
- *
- *  This uses the DNSService API under the hood which supports IPv4 mappings only.
- *
- *  The default value is NO.
- *
- *  @warning The external port set up by the NAT gateway may be different than
- *  the one used by the GCDWebServer.
- */
-extern NSString* const GCDWebServerOption_RequestNATPortMapping;
-
-/**
  *  Only accept HTTP requests coming from localhost i.e. not from the outside
  *  network (NSNumber / BOOL).
  *
  *  The default value is NO.
  *
- *  @warning Bonjour and NAT port mapping should be disabled if using this option
- *  since the server will not be reachable from the outside network anyway.
+ *  @warning Bonjour should be disabled if using this option since the server
+ *  will not be reachable from the outside network anyway.
  */
 extern NSString* const GCDWebServerOption_BindToLocalhost;
 
@@ -176,15 +164,6 @@ extern NSString* const GCDWebServerOption_AutomaticallyMapHEADToGET;
  */
 extern NSString* const GCDWebServerOption_ConnectedStateCoalescingInterval;
 
-/**
- *  Set the dispatch queue priority on which server connection will be 
- *  run (NSNumber / long).
- *
- *
- *  The default value is DISPATCH_QUEUE_PRIORITY_DEFAULT.
- */
-extern NSString* const GCDWebServerOption_DispatchQueuePriority;
-
 #if TARGET_OS_IPHONE
 
 /**
@@ -234,20 +213,8 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
 /**
  *  This method is called after the Bonjour registration for the server has
  *  successfully completed.
- *
- *  Use the "bonjourServerURL" property to retrieve the Bonjour address of the
- *  server.
  */
 - (void)webServerDidCompleteBonjourRegistration:(GCDWebServer*)server;
-
-/**
- *  This method is called after the NAT port mapping for the server has been
- *  updated.
- *
- *  Use the "publicServerURL" property to retrieve the public address of the
- *  server.
- */
-- (void)webServerDidUpdateNATPortMapping:(GCDWebServer*)server;
 
 /**
  *  This method is called when the first GCDWebServerConnection is opened by the
@@ -396,14 +363,6 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
 @property(nonatomic, readonly) NSURL* bonjourServerURL;
 
 /**
- *  Returns the server's public URL.
- *
- *  @warning This property is only valid if the server is running and NAT port
- *  mapping is active.
- */
-@property(nonatomic, readonly) NSURL* publicServerURL;
-
-/**
  *  Starts the server on port 8080 (OS X & iOS Simulator) or port 80 (iOS)
  *  using the default Bonjour name.
  *
@@ -546,10 +505,12 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  *    GWS_LOG_INFO(...)
  *    GWS_LOG_WARNING(...)
  *    GWS_LOG_ERROR(...)
+ *    GWS_LOG_EXCEPTION(__EXCEPTION__)
  *
- *  IMPORTANT: These macros must behave like NSLog(). Furthermore the GWS_LOG_DEBUG()
- *  macro should not do anything unless the preprocessor constant "DEBUG" evaluates
- *  to non-zero.
+ *  IMPORTANT: Except for GWS_LOG_EXCEPTION() which gets passed an NSException,
+ *  these macros must behave like NSLog(). Furthermore the GWS_LOG_DEBUG() macro
+ *  should not do anything unless the preprocessor constant "DEBUG" evaluates to
+ *  non-zero.
  *
  *  The logging methods below send log messages to the same logging facility
  *  used by GCDWebServer. They can be used for consistency wherever you interact
@@ -569,6 +530,7 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  *  INFO = 2
  *  WARNING = 3
  *  ERROR = 4
+ *  EXCEPTION = 5
  */
 + (void)setLogLevel:(int)level;
 
@@ -591,6 +553,11 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  *  Logs a message to the logging facility at the ERROR level.
  */
 - (void)logError:(NSString*)format, ... NS_FORMAT_FUNCTION(1,2);
+
+/**
+ *  Logs an exception to the logging facility at the EXCEPTION level.
+ */
+- (void)logException:(NSException*)exception;
 
 @end
 

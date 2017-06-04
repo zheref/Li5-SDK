@@ -182,17 +182,11 @@ NSString* GCDWebServerGetMimeTypeForExtension(NSString* extension) {
 }
 
 NSString* GCDWebServerEscapeURLString(NSString* string) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, CFSTR(":@/?&=+"), kCFStringEncodingUTF8));
-#pragma clang diagnostic pop
 }
 
 NSString* GCDWebServerUnescapeURLString(NSString* string) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   return CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)string, CFSTR(""), kCFStringEncodingUTF8));
-#pragma clang diagnostic pop
 }
 
 NSDictionary* GCDWebServerParseURLEncodedForm(NSString* form) {
@@ -246,7 +240,7 @@ NSString* GCDWebServerStringFromSockAddr(const struct sockaddr* addr, BOOL inclu
 NSString* GCDWebServerGetPrimaryIPAddress(BOOL useIPv6) {
   NSString* address = nil;
 #if TARGET_OS_IPHONE
-#if !TARGET_IPHONE_SIMULATOR && !TARGET_OS_TV
+#if !TARGET_IPHONE_SIMULATOR
   const char* primaryInterface = "en0";  // WiFi interface on iOS
 #endif
 #else
@@ -267,10 +261,8 @@ NSString* GCDWebServerGetPrimaryIPAddress(BOOL useIPv6) {
   struct ifaddrs* list;
   if (getifaddrs(&list) >= 0) {
     for (struct ifaddrs* ifap = list; ifap; ifap = ifap->ifa_next) {
-#if TARGET_IPHONE_SIMULATOR  || TARGET_OS_TV
-        // Assume en0 is Ethernet and en1 is WiFi since there is no way to use SystemConfiguration framework in iOS Simulator
-        // Assumption holds for Apple TV running tvOS
-      if (strcmp(ifap->ifa_name, "en0") && strcmp(ifap->ifa_name, "en1"))
+#if TARGET_IPHONE_SIMULATOR
+      if (strcmp(ifap->ifa_name, "en0") && strcmp(ifap->ifa_name, "en1"))  // Assume en0 is Ethernet and en1 is WiFi since there is no way to use SystemConfiguration framework in iOS Simulator
 #else
       if (strcmp(ifap->ifa_name, primaryInterface))
 #endif

@@ -43,16 +43,6 @@ THE SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>© 2015 Mbaas Development GmbH. All rights reserved.</string>
-			<key>License</key>
-			<string>Commercial</string>
-			<key>Title</key>
-			<string>Applanga</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
 			<string>The MIT License (MIT)
 
 Copyright (c) 2016 Hansen, Gustavo

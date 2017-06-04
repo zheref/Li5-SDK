@@ -24,10 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-## Applanga
-
-© 2015 Mbaas Development GmbH. All rights reserved.
-
 ## BCVideoPlayer
 
 The MIT License (MIT)
