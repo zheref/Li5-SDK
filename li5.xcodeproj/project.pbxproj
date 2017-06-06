@@ -23,6 +23,7 @@
 		2B87AE3D1EC3470100C1B4C9 /* Li5UINavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA0CA571E2929CA00F42ED2 /* Li5UINavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B96A1451EE6CD0A00093EA3 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1441EE6CD0A00093EA3 /* ProductViewController.swift */; };
 		2B96A1471EE6E01400093EA3 /* PrimeTimeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1461EE6E01400093EA3 /* PrimeTimeDataSource.swift */; };
+		2B96A1491EE6F2A500093EA3 /* PrimeTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */; };
 		2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613D851E43F459006C3A9F /* DiscoverViews.storyboard */; };
 		2BA593481EB4258E0065FDD9 /* Li5SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA5933A1EB4258D0065FDD9 /* Li5SDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA5934F1EB426220065FDD9 /* Li5SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA593321EB425190065FDD9 /* Li5SDK.swift */; };
@@ -159,6 +160,7 @@
 		2B44F53B1EBB539200AB18A0 /* AMPopTip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AMPopTip.framework; path = "DerivedData/li5/Build/Products/Debug-iphonesimulator/AMPopTip/AMPopTip.framework"; sourceTree = "<group>"; };
 		2B96A1441EE6CD0A00093EA3 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		2B96A1461EE6E01400093EA3 /* PrimeTimeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimeTimeDataSource.swift; sourceTree = "<group>"; };
+		2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimeTimeViewController.swift; sourceTree = "<group>"; };
 		2BA593321EB425190065FDD9 /* Li5SDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Li5SDK.swift; path = ../li5/SDK/Li5SDK.swift; sourceTree = "<group>"; };
 		2BA593381EB4258D0065FDD9 /* Li5SDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Li5SDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BA5933A1EB4258D0065FDD9 /* Li5SDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Li5SDK.h; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 				2BA5933B1EB4258D0065FDD9 /* Info.plist */,
 				2B96A1441EE6CD0A00093EA3 /* ProductViewController.swift */,
 				2B96A1461EE6E01400093EA3 /* PrimeTimeDataSource.swift */,
+				2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */,
 			);
 			path = Li5SDK;
 			sourceTree = "<group>";
@@ -1201,6 +1204,7 @@
 				2BA593951EB4275D0065FDD9 /* ProductPageViewController.m in Sources */,
 				2BA593981EB4275D0065FDD9 /* VideoViewController.m in Sources */,
 				2BA5939A1EB4275D0065FDD9 /* ProductPageActionsView.m in Sources */,
+				2B96A1491EE6F2A500093EA3 /* PrimeTimeViewController.swift in Sources */,
 				2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */,
 				2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */,
 				2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */,
