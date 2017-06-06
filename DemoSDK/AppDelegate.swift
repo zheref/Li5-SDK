@@ -17,10 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        Li5SDK.shared.config(apiKey: "test_key_li5_producer", forApp: "DemoSDK")
+        setupFabric()
+        return true
+    }
+    
+    func setupFabric() {
+        SDKLogger.shared.info("Setting up Fabric/Crashlytics")
         Crashlytics().debugMode = true
         Fabric.with([Crashlytics.self])
-        Li5SDK.shared.config(apiKey: "test_key_li5_producer", forApp: "DemoSDK")
-        return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

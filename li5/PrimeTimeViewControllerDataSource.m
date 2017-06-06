@@ -81,8 +81,8 @@
         void (^apiCompletion)(NSError *error, Products *products) = ^void(NSError *error, Products *products) {
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
-            DDLogVerbose(@"Total products: %lu expiring:%@", (unsigned long)products.data.count, [dateFormatter stringFromDate:products.expiresAt]);
-            DDLogVerbose(@"HTTP Response: %@",products);
+            NSLog(@"Total products: %lu expiring:%@", (unsigned long)products.data.count, [dateFormatter stringFromDate:products.expiresAt]);
+            NSLog(@"HTTP Response: %@",products);
             if (error == nil)
             {
                 if (products.data.count > 0)
@@ -108,16 +108,7 @@
             completion(error);
         };
         
-#ifndef EMBED
         [li5 requestDiscoverProductsWithCompletion:apiCompletion];
-#else
-        [li5 login:DeviceManager.sharedInstance.deviceId withApiKey:@"test_key_li5_producer" withCompletion:^(NSError *error) {
-            if (error) {
-                DDLogError(@"%@",error.localizedDescription);
-            }
-            [li5 requestDiscoverLatestWithCompletion:apiCompletion];
-        }];
-#endif
     });
 }
 
@@ -144,6 +135,8 @@
         return lastVC;
     }
     
+    Product* product = [self.products objectAtIndex:index];
+    NSLog(@"%@", product.trailerURL);
     return [[ProductPageViewController alloc] initWithProduct:[self.products objectAtIndex:index] forContext:kProductContextDiscover];
 }
 

@@ -29,6 +29,10 @@ open class Li5SDK {
     
     
     open func config(apiKey: String, forApp appId: String) {
+        configLogger()
+        
+        SDKLogger.shared.info("Setting up Li5 SDK")
+        
         // Override point for customization after application launch.
         
         //let serverUrl = "http://api-testing.li5.tv/v1"
@@ -41,11 +45,9 @@ open class Li5SDK {
                                              withApiKey: apiKey) { nserror in
             
             if let errorString = nserror != nil ? nserror?.localizedDescription : "0" {
-                print("Logged in with result: \(errorString)")
+                SDKLogger.shared.debug("Logged in with result: \(errorString)")
             }
         }
-        
-        configLogger()
     }
     
     
