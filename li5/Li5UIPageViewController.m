@@ -213,7 +213,7 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
     }
 }
 
-- (BOOL)isLeftDown {
+- (BOOL)isLeftDown { // TODO
     
     return __scrollDirection & ScrollDirectionLeft || __scrollDirection & ScrollDirectionDown;
 }

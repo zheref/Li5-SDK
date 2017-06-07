@@ -148,7 +148,7 @@ class PageViewController : UIViewController {
             return
         }
         
-        log.verbose("Updating scroll view content...")
+        log.verbose("Updating scroll view content (?)...")
         
         containerScrollView.delegate = nil
         
@@ -163,6 +163,61 @@ class PageViewController : UIViewController {
         containerScrollView.delegate = self
     }
     
+    
+    func setFullySwitchedPage(pageIndex: Int) {
+        guard let datasource = datasource else {
+            log.warning("DataSource is nil for PageViewController")
+            return
+        }
+        
+        log.debug("Running setFullySwitchedPage...")
+        
+        if fullySwitchedPageIndex != pageIndex {
+            
+            if fullySwitchedPageIndex < datasource.pagesCount {
+                
+                let fromPageIndex = currentPageIndex
+                
+                // This method is super confusing
+            }
+            
+        }
+    }
+    
+    
+    func preloadViewController(withIndex index: Int) {
+        guard let datasource = datasource, preloading else {
+            if preloading {
+                log.warning("Preloading is already in process")
+            } else {
+                log.warning("DataSource is nil for PageViewController")
+            }
+            return
+        }
+        
+        if isViewControllerPreloaded(forIndex: index) {
+            log.verbose("Not preloading since vc for index: \(index) is already in memory")
+        }
+        
+        preloading = true
+        
+        if let preloadingViewController = datasource.viewControllerViewController(at: index) {
+            preloadingViewController.scrollPageIndex = index
+            
+            
+        }
+    }
+    
+    
+    func isViewControllerPreloaded(forIndex index: Int) -> Bool {
+        for vc in viewControllers {
+            if vc.scrollPageIndex == index {
+                return true
+            }
+        }
+        
+        return false
+    }
     
     // MARK: LIFECYCLE
     
