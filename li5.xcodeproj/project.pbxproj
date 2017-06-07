@@ -20,6 +20,11 @@
 		2B477EC11EC6C38200C9F10D /* ProductPageActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA51E43F4B2006C3A9F /* ProductPageActionsView.xib */; };
 		2B477EC21EC6C3F700C9F10D /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA91E43F4CF006C3A9F /* UserProfile.storyboard */; };
 		2B4D4F891EB9899A00B23EA8 /* DetailsHTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B22CB7D1E84327B00DC8399 /* DetailsHTMLViewController.swift */; };
+		2B84CD0D1EE835BE0011F061 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD0C1EE835BE0011F061 /* PageViewController.swift */; };
+		2B84CD141EE837DC0011F061 /* PageViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD131EE837DC0011F061 /* PageViewControllerDataSource.swift */; };
+		2B84CD161EE838680011F061 /* PageViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD151EE838680011F061 /* PageViewControllerDelegate.swift */; };
+		2B84CD181EE838800011F061 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B84CD171EE838800011F061 /* UIKit.framework */; };
+		2B84CD1A1EE842A90011F061 /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B84CD191EE842A90011F061 /* PageViewController.xib */; };
 		2B87AE3D1EC3470100C1B4C9 /* Li5UINavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA0CA571E2929CA00F42ED2 /* Li5UINavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B96A1451EE6CD0A00093EA3 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1441EE6CD0A00093EA3 /* ProductViewController.swift */; };
 		2B96A1471EE6E01400093EA3 /* PrimeTimeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1461EE6E01400093EA3 /* PrimeTimeDataSource.swift */; };
@@ -158,6 +163,11 @@
 		2B44F4F91EBAC4CF00AB18A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B44F4FB1EBAC4CF00AB18A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B44F53B1EBB539200AB18A0 /* AMPopTip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AMPopTip.framework; path = "DerivedData/li5/Build/Products/Debug-iphonesimulator/AMPopTip/AMPopTip.framework"; sourceTree = "<group>"; };
+		2B84CD0C1EE835BE0011F061 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		2B84CD131EE837DC0011F061 /* PageViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewControllerDataSource.swift; sourceTree = "<group>"; };
+		2B84CD151EE838680011F061 /* PageViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewControllerDelegate.swift; sourceTree = "<group>"; };
+		2B84CD171EE838800011F061 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2B84CD191EE842A90011F061 /* PageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageViewController.xib; sourceTree = "<group>"; };
 		2B96A1441EE6CD0A00093EA3 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		2B96A1461EE6E01400093EA3 /* PrimeTimeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimeTimeDataSource.swift; sourceTree = "<group>"; };
 		2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimeTimeViewController.swift; sourceTree = "<group>"; };
@@ -369,6 +379,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B84CD181EE838800011F061 /* UIKit.framework in Frameworks */,
 				28544A62245B9F3093B0C879 /* Pods_Li5SDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,6 +400,34 @@
 			path = DemoSDK;
 			sourceTree = "<group>";
 		};
+		2B84CD0E1EE8362C0011F061 /* UIKit Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "UIKit Extensions";
+			sourceTree = "<group>";
+		};
+		2B84CD111EE837880011F061 /* Abstraction */ = {
+			isa = PBXGroup;
+			children = (
+				2B84CD191EE842A90011F061 /* PageViewController.xib */,
+				2B84CD0C1EE835BE0011F061 /* PageViewController.swift */,
+				2B84CD131EE837DC0011F061 /* PageViewControllerDataSource.swift */,
+				2B84CD151EE838680011F061 /* PageViewControllerDelegate.swift */,
+			);
+			name = Abstraction;
+			sourceTree = "<group>";
+		};
+		2B84CD121EE837940011F061 /* PrimeTime */ = {
+			isa = PBXGroup;
+			children = (
+				2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */,
+				2B96A1461EE6E01400093EA3 /* PrimeTimeDataSource.swift */,
+				2B96A1441EE6CD0A00093EA3 /* ProductViewController.swift */,
+			);
+			name = PrimeTime;
+			sourceTree = "<group>";
+		};
 		2B9CEDC41EC7D73500B6BA73 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -399,6 +438,8 @@
 		2B9CEDC51EC7D73F00B6BA73 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				2B84CD111EE837880011F061 /* Abstraction */,
+				2B84CD121EE837940011F061 /* PrimeTime */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -410,11 +451,9 @@
 				2BA5933A1EB4258D0065FDD9 /* Li5SDK.h */,
 				2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */,
 				2B9CEDC51EC7D73F00B6BA73 /* UI */,
+				2B84CD0E1EE8362C0011F061 /* UIKit Extensions */,
 				2B9CEDC41EC7D73500B6BA73 /* Core */,
 				2BA5933B1EB4258D0065FDD9 /* Info.plist */,
-				2B96A1441EE6CD0A00093EA3 /* ProductViewController.swift */,
-				2B96A1461EE6E01400093EA3 /* PrimeTimeDataSource.swift */,
-				2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */,
 			);
 			path = Li5SDK;
 			sourceTree = "<group>";
@@ -431,6 +470,7 @@
 		3F42F740CE8663DBD2D0DCE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B84CD171EE838800011F061 /* UIKit.framework */,
 				2B44F53B1EBB539200AB18A0 /* AMPopTip.framework */,
 				2BA594371EB42DFF0065FDD9 /* CocoaLumberjack.framework */,
 				2BA5942C1EB42D260065FDD9 /* BCVideoPlayer.framework */,
@@ -1063,6 +1103,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B84CD1A1EE842A90011F061 /* PageViewController.xib in Resources */,
 				2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */,
 				2B477EC21EC6C3F700C9F10D /* UserProfile.storyboard in Resources */,
 				2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */,
@@ -1207,6 +1248,7 @@
 				2B96A1491EE6F2A500093EA3 /* PrimeTimeViewController.swift in Sources */,
 				2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */,
 				2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */,
+				2B84CD161EE838680011F061 /* PageViewControllerDelegate.swift in Sources */,
 				2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */,
 				2BA593AB1EB4275D0065FDD9 /* TeaserViewController.m in Sources */,
 				2BA593AE1EB4275D0065FDD9 /* UnlockedViewController.m in Sources */,
@@ -1231,9 +1273,11 @@
 				2BA593EB1EB4275D0065FDD9 /* ShapesHelper.m in Sources */,
 				2BA593ED1EB4275D0065FDD9 /* ImageHelper.m in Sources */,
 				2BA593EE1EB4275D0065FDD9 /* DeviceManager.swift in Sources */,
+				2B84CD141EE837DC0011F061 /* PageViewControllerDataSource.swift in Sources */,
 				2BA593F01EB4275D0065FDD9 /* Li5UIPageViewController.m in Sources */,
 				2BA593F21EB4275D0065FDD9 /* Li5UINavigationController.m in Sources */,
 				2BA593F41EB4275D0065FDD9 /* NSObject+Li5.m in Sources */,
+				2B84CD0D1EE835BE0011F061 /* PageViewController.swift in Sources */,
 				2BA593F61EB4275D0065FDD9 /* UIColor+Li5UIColor.m in Sources */,
 				2B96A1451EE6CD0A00093EA3 /* ProductViewController.swift in Sources */,
 				2BA593F81EB4275D0065FDD9 /* UIImage+Li5.m in Sources */,

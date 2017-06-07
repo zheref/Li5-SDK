@@ -12,30 +12,32 @@ import Foundation
     
     public var product: Product!
     
-    required public init(product: Product, andContext context: ProductContext) {
-        log.info("Creating ProductVC for product with title \(product.title)")
+    
+    public required init!(product thisProduct: Product!, andContext ctx: ProductContext) {
+        log.info("Creating ProductVC for product with title \(thisProduct.title)")
         
         super.init(direction: Li5UIPageViewControllerDirectionVertical)
         
-        self.product = product
+        self.product = thisProduct
         
         let lastProduct = self.product.isAd ||
             (self.product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame && self.product.contentUrl == nil)
         
         if lastProduct {
             viewControllers = [
-                VideoViewController(product: self.product, andContext: context)
+                VideoViewController(product: self.product, andContext: ctx)
             ]
         } else {
             viewControllers = [
-                VideoViewController(product: self.product, andContext: context),
+                VideoViewController(product: self.product, andContext: ctx),
                 
                 self.product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame ?
-                DetailsHTMLViewController(withProduct: self.product, andContext: context) :
-                DetailsViewController(product: self.product, andContext: context)
+                    DetailsHTMLViewController(withProduct: self.product, andContext: ctx) :
+                    DetailsViewController(product: self.product, andContext: ctx)
             ]
         }
     }
+    
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

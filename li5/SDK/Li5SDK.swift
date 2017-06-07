@@ -14,6 +14,8 @@ import AVFoundation
 import SwiftyBeaver
 let log = SwiftyBeaver.self
 
+typealias ErrorReturner = (Error) -> Void
+
 open class Li5SDK {
     
     fileprivate var primetimeViewController: PrimeTimeViewController!

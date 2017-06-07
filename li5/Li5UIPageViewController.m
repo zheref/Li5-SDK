@@ -154,6 +154,8 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
     _fullySwitchedPage = _currentPage;
 }
 
+// Hasta aqui
+
 - (void)__updateScrollViewContents
 {
     DDLogVerbose(@"");
@@ -208,15 +210,6 @@ typedef NS_OPTIONS(NSUInteger, ScrollDirection) {
             [_currentViewController viewDidAppear:false];
             [_currentViewController didMoveToParentViewController:self];
         }
-    }
-}
-
-- (void)setVisiblePage:(NSInteger)page
-{
-    [self preloadViewController:page];
-    [self setFullySwitchedPage:page];
-    if (self.delegate) {
-        [self.delegate didFinishSwitchingPage:YES];
     }
 }
 
