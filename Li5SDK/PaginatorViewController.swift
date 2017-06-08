@@ -398,6 +398,54 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     }
     
     
+    func preloadPreviousViewController(to vcs: [UIViewController]) -> [UIViewController] {
+        guard let datasource = datasource else {
+            log.warning("Datasource not available. Skipping preloading previous vcs.")
+            return vcs
+        }
+        
+        if let firstVC = vcs.first {
+            var controllers = [UIViewController]()
+            
+            if let previousVC = datasource.viewController(before: firstVC) {
+                previousVC.scrollPageIndex = firstVC.scrollPageIndex - 1
+                
+                controllers.append(previousVC)
+            }
+            
+            controllers.append(contentsOf: vcs)
+            
+            return controllers
+        } else {
+            return vcs
+        }
+    }
+    
+    
+    func preloadNextViewController(to vcs: [UIViewController]) -> [UIViewController] {
+        guard let datasource = datasource else {
+            log.warning("Datasource not available. Skipping preloading next vcs.")
+            return vcs
+        }
+        
+        if let lastVC = vcs.last {
+            var controllers = [UIViewController]()
+            
+            controllers.append(contentsOf: vcs)
+            
+            if let nextVC = datasource.viewController(after: lastVC) {
+                nextVC.scrollPageIndex = lastVC.scrollPageIndex + 1
+                
+                controllers.append(nextVC)
+            }
+            
+            return controllers
+        } else {
+            return vcs
+        }
+    }
+    
+    
     // MARK: LIFECYCLE
     
     
