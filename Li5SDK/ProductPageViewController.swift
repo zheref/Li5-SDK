@@ -10,7 +10,7 @@ import Foundation
 
 import BCVideoPlayer
 
-@objc public class ProductPageViewController : PaginatorViewController, Displayable {
+@objc class ProductPageViewController : PaginatorViewController, Displayable {
     
     public var product: Product!
     

@@ -24,7 +24,7 @@ enum ScrollDirection {
 }
 
 
-public protocol PaginatorViewControllerProtocol {
+internal protocol PaginatorViewControllerProtocol {
     
     var datasource: PaginatorViewControllerDataSource? { get set }
     var delegate: PaginatorViewControllerDelegate? { get set }
@@ -41,25 +41,25 @@ public protocol PaginatorViewControllerProtocol {
 }
 
 
-public class PaginatorViewController : UIViewController, PaginatorViewControllerProtocol {
+internal class PaginatorViewController : UIViewController, PaginatorViewControllerProtocol {
     
     // MARK: - PUBLIC INTERFACE
     
     // MARK: Stored Properties
     
-    public var datasource: PaginatorViewControllerDataSource?
-    public var delegate: PaginatorViewControllerDelegate?
+    var datasource: PaginatorViewControllerDataSource?
+    var delegate: PaginatorViewControllerDelegate?
     
-    public var previousViewController: UIViewController?
-    public var currentViewController: UIViewController?
-    public var nextViewController: UIViewController?
-    
-    
-    public var direction = PaginationDirection.Horizontal
-    public var bounces = true
+    var previousViewController: UIViewController?
+    var currentViewController: UIViewController?
+    var nextViewController: UIViewController?
     
     
-    public var preloadedViewControllers: [UIViewController] {
+    var direction = PaginationDirection.Horizontal
+    var bounces = true
+    
+    
+    var preloadedViewControllers: [UIViewController] {
         get { return _preloadedViewControllers }
         set {
             log.debug("Setting preloaded view controllers")
@@ -86,7 +86,7 @@ public class PaginatorViewController : UIViewController, PaginatorViewController
     
     // MARK: Initializers
     
-    public init(withDirection direction: PaginationDirection) {
+    init(withDirection direction: PaginationDirection) {
         operationQueue = OperationQueue()
         super.init(nibName: "PageViewController", bundle: Bundle(for: PaginatorViewController.self))
         self.direction = direction
@@ -95,7 +95,7 @@ public class PaginatorViewController : UIViewController, PaginatorViewController
     }
     
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         operationQueue = OperationQueue()
         super.init(coder: aDecoder)
         self.reset()
@@ -240,6 +240,8 @@ public class PaginatorViewController : UIViewController, PaginatorViewController
     }
     
     
+    /// Nest the given actual view controller view to actual parent UI (ScrollView) to present it
+    /// - Parameter viewController: The view controller to present
     func present(viewController: UIViewController) {
         log.verbose("Presenting page view controller with product index: \(viewController.scrollPageIndex)")
         
