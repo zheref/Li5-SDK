@@ -124,7 +124,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     // MARK: Thread related
     
     var operationQueue: OperationQueue
-    var preloading = false
+    fileprivate var preloading = false
     
     // MARK: Behavior
     
@@ -146,8 +146,9 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     }
     
     var fullySwitchedPageIndex: Int = 0 // ???
-    var pageLength: CGFloat? // No idea
-    var lastContentOffset: CGFloat? // No idea
+    
+    var pageLength: CGFloat = 0.0
+    var lastContentOffset: CGFloat = 0.0
     
     // MARK: UI Elements
     
@@ -155,13 +156,18 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     // MARK: - COMPUTED PROPERTIES
     
-    private var pagesCount: Int {
+    fileprivate var pagesCount: Int {
         if let _ = datasource,
             let last = _preloadedViewControllers.last {
             return max(last.scrollPageIndex + 1, _preloadedViewControllers.count)
         } else {
             return _preloadedViewControllers.count
         }
+    }
+    
+    
+    fileprivate var directedToLeftOrDown: Bool {
+        return scrollDirection == .left || scrollDirection == .down
     }
     
     
@@ -227,7 +233,36 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
                 
                 let fromPageIndex = currentPageIndex
                 
-                // This method is super confusing
+                previousViewController = getOrCreateViewController(forIndex: fromPageIndex)
+                currentViewController = getOrCreateViewController(forIndex: pageIndex)
+                
+                if let currentVC = currentViewController {
+                    if currentVC.parent == nil {
+                        present(viewController: currentVC)
+                    }
+                }
+                
+                if let previousVC = previousViewController {
+                    if previousVC.parent == nil {
+                        present(viewController: previousVC)
+                    }
+                }
+                
+                // Perform the "disappear" sequence of methods manually when the view of
+                // the controller is not visible at all.
+                
+                previousViewController?.willMove(toParentViewController: self)
+                previousViewController?.viewWillDisappear(false)
+                previousViewController?.viewDidDisappear(false)
+                previousViewController?.didMove(toParentViewController: self)
+                
+                //Change to current page
+                currentPageIndex = pageIndex
+                
+                currentViewController?.willMove(toParentViewController: self)
+                currentViewController?.viewWillAppear(false)
+                currentViewController?.viewDidAppear(false)
+                currentViewController?.didMove(toParentViewController: self)
             }
             
         }
@@ -268,7 +303,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     }
     
     
-    func preloadViewController(withIndex productIndex: Int) {
+    fileprivate func preloadViewController(withIndex productIndex: Int) {
         guard let datasource = datasource, preloading else {
             if preloading {
                 log.warning("Preloading is already in process")
@@ -289,7 +324,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
             
             var vcs = [UIViewController]()
             
-            if scrollDirection == .left || scrollDirection == .down {
+            if directedToLeftOrDown {
                 if let previousVC = previousViewController {
                     vcs.append(previousVC)
                 }
@@ -504,6 +539,113 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
 extension PaginatorViewController : UIScrollViewDelegate {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        log.verbose("Scrolling")
+        
+        recognizeScrollDirection(for: scrollView)
+        
+        // Update the page when more than 50% of the previous/next page is visible
+        
+        let pageIndex = Int(floor(((direction == .Vertical ? containerScrollView.contentOffset.y : containerScrollView.contentOffset.x) - pageLength / 2) / pageLength) + 1)
+        containerScrollView.bounces = bounces && pageIndex == pagesCount - 1
+        
+        var scrollingProgress = direction == .Vertical ? containerScrollView.contentOffset.y : containerScrollView.contentOffset.x / pageLength
+        
+        let previousPageIndex = Int(floor(scrollingProgress))
+        let nextPageIndex = Int(ceil(scrollingProgress))
+        
+        if let delegate = delegate {
+            let percentage = fmod(scrollingProgress, 1.0)
+            
+            var previousViewController: UIViewController?
+            var nextViewController: UIViewController?
+            
+            if directedToLeftOrDown {
+                previousViewController = getOrCreateViewController(forIndex: previousPageIndex)
+                nextViewController = getOrCreateViewController(forIndex: nextPageIndex)
+                
+                scrollingProgress = percentage
+            } else {
+                previousViewController = getOrCreateViewController(forIndex: nextPageIndex)
+                nextViewController = getOrCreateViewController(forIndex: previousPageIndex)
+                
+                scrollingProgress = 1 - percentage
+            }
+            
+            if percentage == 0 {
+                scrollingProgress = 1.0
+            }
+            
+            if let nextVC = nextViewController,
+                let previousVC = previousViewController {
+                
+                delegate.isSwitching(toPage: nextVC, fromPage: previousVC, progress: scrollingProgress)
+            }
+        } else if preloading == false {
+            var pageIndexForPreload = currentPageIndex
+            
+            if directedToLeftOrDown {
+                pageIndexForPreload = nextPageIndex
+            } else {
+                pageIndexForPreload = previousPageIndex
+            }
+            
+            preloadViewController(withIndex: pageIndexForPreload)
+        }
+        
+        // Check whether the current view controller is fully presented.
+        
+        if Int(direction == .Vertical ? containerScrollView.contentOffset.y : containerScrollView.contentOffset.x) % Int(pageLength) == 0 {
+            if currentPageIndex != pageIndex {
+                
+                // Check the page to avoid "index out of bounds" exception.
+                if pageIndex >= 0 && pageIndex < pagesCount {
+                    setFullySwitchedPage(pageIndex: pageIndex)
+                    
+                    if let delegate = delegate {
+                        if directedToLeftOrDown {
+                            preloadViewController(withIndex: pageIndex + 1)
+                        } else {
+                            preloadViewController(withIndex: pageIndex - 1)
+                        }
+                        
+                        delegate.didFinishSwitchingPage(true)
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    /// Update direction and last content offset
+    /// - Parameter scrollView: scrollView for which the scroll direction should be recognized
+    private func recognizeScrollDirection(for scrollView: UIScrollView) {
+        log.verbose("Recognizing motion direction")
+        
+        scrollDirection = .none
+        
+        if direction == .Horizontal {
+            if lastContentOffset > scrollView.contentOffset.x {
+                scrollDirection = .right
+            } else if lastContentOffset < scrollView.contentOffset.x {
+                scrollDirection = .left
+            }
+            
+            lastContentOffset = scrollView.contentOffset.x
+        } else {
+            if lastContentOffset > scrollView.contentOffset.y {
+                scrollDirection = .down
+            } else if lastContentOffset < scrollView.contentOffset.y {
+                scrollDirection = .up
+            }
+            
+            lastContentOffset = scrollView.contentOffset.y
+        }
+        
+        log.debug("Scroll direction recognized: \(String(describing: scrollDirection))")
+    }
+    
+    
+    private func managePagingScrollingPercentage() {
         
     }
     
