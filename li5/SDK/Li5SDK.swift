@@ -18,8 +18,8 @@ typealias ErrorReturner = (Error) -> Void
 
 open class Li5SDK {
     
-    fileprivate var primetimeViewController: PrimeTimeViewController!
-    fileprivate var primetimeDataSource: PrimeTimeViewControllerDataSource!
+    var primetimeViewController: PrimeTimeViewController!
+    var primetimeDataSource: PrimeTimeViewControllerDataSource!
     
     
     fileprivate init() {}
@@ -33,13 +33,9 @@ open class Li5SDK {
     open func config(apiKey: String, forApp appId: String) {
         configLogger()
         
-        SDKLogger.shared.info("Setting up Li5 SDK")
+        log.info("Setting up Li5 SDK")
         
-        // Override point for customization after application launch.
-        
-        //let serverUrl = "http://api-testing.li5.tv/v1"
         let serverUrl = "https://api-testing.li5.tv/v1"
-        //let serverUrl = "https://api.li5.tv/v1"
         
         Li5ApiHandler.sharedInstance().baseURL = serverUrl
         
@@ -47,7 +43,7 @@ open class Li5SDK {
                                              withApiKey: apiKey) { nserror in
             
             if let errorString = nserror != nil ? nserror?.localizedDescription : "0" {
-                SDKLogger.shared.debug("Logged in with result: \(errorString)")
+                log.debug("Logged in with result: \(errorString)")
             }
         }
     }
@@ -56,7 +52,9 @@ open class Li5SDK {
     private func configLogger() {
         // add log destinations. at least one is needed!
         let console = ConsoleDestination()
-        let cloud = SBPlatformDestination(appID: "v6gkMX", appSecret: "mOuyxsvl8bm8eVlLghd5NljmmOvuvope", encryptionKey: "3DcwczruKlfLmyK10dKiT3ctz0x9wjOr")
+        let cloud = SBPlatformDestination(appID: "v6gkMX",
+                                          appSecret: "mOuyxsvl8bm8eVlLghd5NljmmOvuvope",
+                                          encryptionKey: "3DcwczruKlfLmyK10dKiT3ctz0x9wjOr")
         
         log.addDestination(console)
         log.addDestination(cloud)
@@ -69,7 +67,7 @@ open class Li5SDK {
         if primetimeDataSource == nil { primetimeDataSource = PrimeTimeViewControllerDataSource() }
         
         if primetimeViewController == nil {
-            primetimeViewController = PrimeTimeViewController(dataSource: primetimeDataSource)
+            primetimeViewController = PrimeTimeViewController(withDataSource: primetimeDataSource)
         }
         
         guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {

@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import BCVideoPlayer
 
 typealias ProductsReturner = ([Product]) -> Void
 
-enum PContext : UInt {
+public enum PContext : UInt {
     case Discover
     case Search
     
@@ -25,7 +26,7 @@ enum PContext : UInt {
 }
 
 
-@objc class PrimeTimeDataSource : NSObject, PageViewControllerDataSource {
+@objc class PrimeTimeViewControllerDataSource : NSObject, PaginatorViewControllerDataSource {
     
     // MARK: - PUBLIC INTERFACE
     
@@ -70,14 +71,14 @@ enum PContext : UInt {
     }
     
     
-    func productPageViewController(atIndex index: Int) -> ProductViewController {
+    func productPageViewController(atIndex index: Int) -> ProductPageViewController {
         let product = products[index]
         log.debug("Delivering new instance of ProductViewController for product with id \(product.id)")
-        return ProductViewController(product: product, andContext: PContext.Discover.legacyVersion)
+        return ProductPageViewController(withProduct: product, andContext: PContext.Discover)
     }
     
     
-    func productPageViewController(atIndex index: Int, withPriority priority: BCPriority) -> ProductViewController {
+    func productPageViewController(atIndex index: Int, withPriority priority: BCPriority) -> ProductPageViewController {
         let productViewController = productPageViewController(atIndex: index)
         productViewController.setPriority(priority)
         return productViewController
@@ -132,7 +133,7 @@ enum PContext : UInt {
     
     
     func viewController(after viewController: UIViewController!) -> UIViewController? {
-        if let viewController = viewController as? ProductViewController {
+        if let viewController = viewController as? ProductPageViewController {
             let index = viewController.scrollPageIndex
             
             if index >= products.count || index == NSNotFound {

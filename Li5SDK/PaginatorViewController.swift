@@ -24,14 +24,14 @@ enum ScrollDirection {
 }
 
 
-class PageViewController : UIViewController {
+public class PaginatorViewController : UIViewController {
     
     // MARK: - PUBLIC INTERFACE
     
     // MARK: Stored Properties
     
-    var datasource: PageViewControllerDataSource?
-    var delegate: PageViewControllerDelegate?
+    var datasource: PaginatorViewControllerDataSource?
+    var delegate: PaginatorViewControllerDelegate?
     var viewControllers = [UIViewController]()
     var currentViewController: UIViewController?
     
@@ -44,14 +44,14 @@ class PageViewController : UIViewController {
     
     init(withDirection direction: PaginationDirection) {
         operationQueue = OperationQueue()
-        super.init(nibName: "PageViewController", bundle: Bundle(for: PageViewController.self))
+        super.init(nibName: "PageViewController", bundle: Bundle(for: PaginatorViewController.self))
         self.direction = direction
         
         self.reset()
     }
     
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         operationQueue = OperationQueue()
         super.init(coder: aDecoder)
         self.reset()
@@ -60,7 +60,7 @@ class PageViewController : UIViewController {
     
     init() {
         operationQueue = OperationQueue()
-        super.init(nibName: "PageViewController", bundle: Bundle(for: PageViewController.self))
+        super.init(nibName: "PageViewController", bundle: Bundle(for: PaginatorViewController.self))
         self.reset()
     }
     
@@ -222,7 +222,7 @@ class PageViewController : UIViewController {
     // MARK: LIFECYCLE
     
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         log.debug("PageViewController did load :)")
         super.viewDidLoad()
         
@@ -230,14 +230,14 @@ class PageViewController : UIViewController {
     }
     
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         currentViewController?.beginAppearanceTransition(true, animated: animated)
     }
     
     
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         log.debug("PageViewController did appear")
         super.viewDidAppear(animated)
         
@@ -245,21 +245,21 @@ class PageViewController : UIViewController {
     }
     
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         currentViewController?.beginAppearanceTransition(false, animated: animated)
     }
     
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override public func viewDidDisappear(_ animated: Bool) {
         log.debug("PageViewController did disappear")
         
         currentViewController?.endAppearanceTransition()
     }
     
     
-    override var shouldAutomaticallyForwardAppearanceMethods: Bool {
+    override public var shouldAutomaticallyForwardAppearanceMethods: Bool {
         return false
     }
     
@@ -267,6 +267,6 @@ class PageViewController : UIViewController {
 }
 
 
-extension PageViewController : UIScrollViewDelegate {
+extension PaginatorViewController : UIScrollViewDelegate {
     
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 
-public protocol PageViewControllerDataSource : NSObjectProtocol {
+public protocol PaginatorViewControllerDataSource : NSObjectProtocol {
     var pagesCount: Int { get }
     
     func viewController(before viewController: UIViewController!) -> UIViewController?

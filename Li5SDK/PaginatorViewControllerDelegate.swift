@@ -9,7 +9,7 @@
 import UIKit
 
 
-public protocol PageViewControllerDelegate {
+public protocol PaginatorViewControllerDelegate {
     func isSwitching(toPage newPage: UIViewController!, fromPage oldPage: UIViewController!, progress: CGFloat)
     
     func didFinishSwitchingPage(_ finished: Bool)

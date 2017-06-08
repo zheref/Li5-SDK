@@ -9,6 +9,8 @@
 import UIKit
 import CoreMedia
 
+import BCVideoPlayer
+
 //@IBDesignable
 open class ThinPlayerProgressView: UIView {
 

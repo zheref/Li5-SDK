@@ -17,8 +17,12 @@ FOUNDATION_EXPORT const unsigned char Li5SDKVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <Li5SDK/PublicHeader.h>
 
 #import "Heart.h"
-#import "PrimeTimeViewController.h"
 #import "Li5UINavigationController.h"
 #import "UIColor+Li5UIColor.h"
 
 #import <Li5Api/Product.h>
+
+#import "VideoViewController.h"
+#import "DetailsViewController.h"
+
+#import "UIViewController+Indexed.h"

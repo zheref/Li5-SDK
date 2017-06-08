@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 import CoreMedia
 
+import BCVideoPlayer
+
 //@IBDesignable
 @objc open class ThinSliderView: UIView {
     

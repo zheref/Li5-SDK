@@ -10,7 +10,6 @@
 
 #import "Li5PlayerUISlider.h"
 #import "UnlockedViewController.h"
-#import "ProductPageViewController.h"
 #import "ProductPageActionsView.h"
 #import "Li5VolumeView.h"
 #import <Li5SDK/Li5SDK-Swift.h>

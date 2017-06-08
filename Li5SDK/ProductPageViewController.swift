@@ -8,32 +8,34 @@
 
 import Foundation
 
-@objc public class ProductViewController : Li5UIPageViewController, DisplayableProtocol {
+import BCVideoPlayer
+
+@objc public class ProductPageViewController : PaginatorViewController, Displayable {
     
     public var product: Product!
     
     
-    public required init!(product thisProduct: Product!, andContext ctx: ProductContext) {
-        log.info("Creating ProductVC for product with title \(thisProduct.title)")
+    public required init(withProduct product: Product, andContext context: PContext) {
+        log.info("Creating ProductVC for product with title \(product.title)")
         
-        super.init(direction: Li5UIPageViewControllerDirectionVertical)
+        super.init(withDirection: .Vertical)
         
-        self.product = thisProduct
+        self.product = product
         
         let lastProduct = self.product.isAd ||
             (self.product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame && self.product.contentUrl == nil)
         
         if lastProduct {
             viewControllers = [
-                VideoViewController(product: self.product, andContext: ctx)
+                VideoViewController(product: self.product, andContext: context.legacyVersion)
             ]
         } else {
             viewControllers = [
-                VideoViewController(product: self.product, andContext: ctx),
+                VideoViewController(product: self.product, andContext: context.legacyVersion),
                 
                 self.product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame ?
-                    DetailsHTMLViewController(withProduct: self.product, andContext: ctx) :
-                    DetailsViewController(product: self.product, andContext: ctx)
+                    DetailsHTMLViewController(withProduct: self.product, andContext: context.legacyVersion) :
+                    DetailsViewController(product: self.product, andContext: context.legacyVersion)
             ]
         }
     }
@@ -80,7 +82,7 @@ import Foundation
     
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        currentViewController.view.frame = view.bounds
+        currentViewController?.view.frame = view.bounds
     }
     
     

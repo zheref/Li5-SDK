@@ -10,16 +10,11 @@
 
 #import "ShapesHelper.h"
 #import "TeaserViewController.h"
-#import "ProductPageViewController.h"
-#import "ProductsViewController.h"
 #import "UserProfileDynamicInteractor.h"
-#import "ExploreDynamicInteractor.h"
 #import "Li5PlayerTimer.h"
 #import "ProductPageActionsView.h"
 #import "Li5Constants.h"
 #import "Li5VolumeView.h"
-
-#import "PrimeTimeViewController.h"
 
 #import "Li5SDK/Li5SDK-Swift.h"
 #pragma mark - Class Definitions
@@ -34,7 +29,6 @@
     UIPanGestureRecognizer *backToSearchPanGestureRecognzier;
     UILongPressGestureRecognizer *longTapGestureRecognizer;
     id<UserProfileViewControllerPanTargetDelegate> profileInteractor;
-    id<ExploreViewControllerPanTargetDelegate> searchInteractor;
     
     BOOL __hasUnlockedVideo;
     BOOL __hasAppeared;
@@ -493,28 +487,6 @@
 
 - (void)handleDismiss {
 //    [_modalView.view removeFromSuperview];
-}
-
-- (void)goBackToSearch:(UIPanGestureRecognizer *)recognizer
-{
-    //TODO use Search interactor
-    
-    ExploreProductInteractor *interactor = ((PrimeTimeViewController*)self.parentViewController.parentViewController.parentViewController).interactor;
-    
-    if(interactor) {
-        [interactor userDidPan: recognizer];
-    }
-    else {
-        CATransition *outTransition = [CATransition animation];
-        outTransition.duration = 1.0;
-        outTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-        outTransition.type = kCATransitionFade;
-        [self.navigationController.view.layer addAnimation:outTransition forKey:kCATransition];
-        
-        // [self.parentViewController.navigationController pushViewController:vc animated:NO];
-        
-        [self.navigationController popViewControllerAnimated:NO];
-    }
 }
 
 - (IBAction)showProfile:(UIButton*)sender

@@ -9,7 +9,8 @@
 @import AVFoundation;
 
 #import "ProductPageProtocol.h"
-#import "ProductPageViewController.h"
+
+@class ProductPageViewController;
 
 @interface LastPageViewController : ProductPageViewController <UIGestureRecognizerDelegate,DisplayableProtocol, BCPlayerDelegate>
 
