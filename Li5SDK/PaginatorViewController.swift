@@ -75,7 +75,9 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
                 if let _ = datasource {
                     log.debug("PT: Datasource present. Will set preloaded view controllers by also preloading the next ones.")
                     
-                    _preloadedViewControllers = newValue
+                    let preloadedViewControllersPlusNextOne = preloadNextViewController(to: newValue)
+                    let preloadedViewControllersPlusSurroundings = preloadPreviousViewController(to: preloadedViewControllersPlusNextOne)
+                    _preloadedViewControllers = preloadedViewControllersPlusSurroundings
                 } else {
                     log.debug("Datasource not present. Will set preloaded view controllers just as they were passed.")
                     _preloadedViewControllers = newValue
