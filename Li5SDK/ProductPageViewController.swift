@@ -16,7 +16,7 @@ import BCVideoPlayer
     
     
     public required init(withProduct product: Product, andContext context: PContext) {
-        log.info("Creating ProductVC for product with title \(product.title)")
+        log.info("Creating ProductVC for product with id \(product.id ?? "nil")")
         
         super.init(withDirection: .Vertical)
         
@@ -48,14 +48,15 @@ import BCVideoPlayer
     // MARK: - LIFECYCLE
     
     public override func viewDidLoad() {
-        log.debug("Product page vc did load: \(product.title)")
+        log.debug("Product page vc did load: \(product.id ?? "nil")")
+        view.backgroundColor = UIColor.yellow
         super.viewDidLoad()
     }
     
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        log.debug("Product page vc did appear: \(product.title)")
+        log.debug("Product page vc did appear: \(product.id ?? "nil")")
     }
     
     
@@ -86,13 +87,19 @@ import BCVideoPlayer
     }
     
     
+    override func viewDidLayoutSubviews() {
+        log.debug("viewDidLayoutSubviews")
+        super.viewDidLayoutSubviews()
+    }
+    
+    
     deinit {
-        log.debug("Deinitializing ProductVC for: \(product.title)")
+        log.debug("Deinitializing ProductVC for: \(product.id ?? "nil")")
     }
     
     
     public override func didReceiveMemoryWarning() {
-        log.warning("Received memory warning in ProductVC for: \(product.title)")
+        log.warning("Received memory warning in ProductVC for: \(product.id ?? "nil")")
         super.didReceiveMemoryWarning()
     }
     

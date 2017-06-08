@@ -103,6 +103,12 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
     }
     
     
+    override func viewDidLayoutSubviews() {
+        log.debug("viewDidLayoutSubviews")
+        super.viewDidLayoutSubviews()
+    }
+    
+    
     deinit {
         log.debug("Deallocating instance of PrimeTimeViewController")
     }
@@ -111,7 +117,7 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
     
     
     func setupPrimeTime() {
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.green
         view.isOpaque = false
         
         automaticallyAdjustsScrollViewInsets = false
@@ -162,8 +168,9 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
         let firstPageViewController = primeTimeDataSource.productPageViewController(atIndex: startIndex,
                                                                                     withPriority: BCPriority.buffer)
         firstPageViewController.scrollPageIndex = startIndex
-        firstPageViewController.preloadedViewControllers = [firstPageViewController]
+        preloadedViewControllers = [firstPageViewController]
         
+        log.debug("Calling relayout manually...")
         relayout()
         
         firstPageViewController.beginAppearanceTransition(true, animated: false)

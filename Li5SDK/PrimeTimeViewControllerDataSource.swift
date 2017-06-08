@@ -73,7 +73,7 @@ public enum PContext : UInt {
     
     func productPageViewController(atIndex index: Int) -> ProductPageViewController {
         let product = products[index]
-        log.debug("Delivering new instance of ProductViewController for product with id \(product.id)")
+        log.debug("Delivering new instance of ProductViewController for product with id \(product.id ?? "nil")")
         return ProductPageViewController(withProduct: product, andContext: PContext.Discover)
     }
     

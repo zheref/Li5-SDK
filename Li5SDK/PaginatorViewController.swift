@@ -65,14 +65,19 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
             log.debug("Setting preloaded view controllers")
             
             if let firstVC = newValue.first {
-                currentPageIndex = firstVC.scrollPageIndex
+                if currentPageIndex != firstVC.scrollPageIndex {
+                    currentPageIndex = firstVC.scrollPageIndex
+                }
+                
                 fullySwitchedPageIndex = currentPageIndex
                 currentViewController = firstVC
                 
-                if let datasource = datasource {
+                if let _ = datasource {
                     log.debug("PT: Datasource present. Will set preloaded view controllers by also preloading the next ones.")
-                    //preloadedViewControllers =
+                    
+                    _preloadedViewControllers = newValue
                 } else {
+                    log.debug("Datasource not present. Will set preloaded view controllers just as they were passed.")
                     _preloadedViewControllers = newValue
                     
                     for index in currentPageIndex...(_preloadedViewControllers.count - 1) {
@@ -167,7 +172,6 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
         bounces = true
         
         fullySwitchedPageIndex = 0
-        currentPageIndex = 0
         
         operationQueue = OperationQueue()
         operationQueue.name = "PageVC Queue"
@@ -231,6 +235,10 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     /// Relayout views to make actual UI nest already preloaded view controllers
     func relayout() {
         log.verbose("Running relayout...")
+        
+        if _preloadedViewControllers.isEmpty {
+            log.warning("No preloaded view controllers when running relayout. Won't present anything.")
+        }
         
         for vc in _preloadedViewControllers {
             present(viewController: vc)
