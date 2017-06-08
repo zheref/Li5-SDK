@@ -38,7 +38,6 @@
 		2BA5938F1EB4275D0065FDD9 /* ProductsListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB34FA1CF105F100AE74DC /* ProductsListView.m */; };
 		2BA593911EB4275D0065FDD9 /* ProductsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5AA8111CD02E7100F3DE08 /* ProductsCollectionViewCell.m */; };
 		2BA593931EB4275D0065FDD9 /* HorizontalUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B427E111CECB954000EF9E5 /* HorizontalUICollectionViewFlowLayout.m */; };
-		2BA593981EB4275D0065FDD9 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */; };
 		2BA5939A1EB4275D0065FDD9 /* ProductPageActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC61E11D047508006B4C68 /* ProductPageActionsView.m */; };
 		2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CD71D356B9C00D0A3C0 /* Heart.m */; };
 		2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CD81D356B9C00D0A3C0 /* HeartAnimationView.swift */; };
@@ -86,7 +85,6 @@
 		2BA594311EB42DA70065FDD9 /* IndexedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8625CD1C763CE4006869DE /* IndexedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA594321EB42DB50065FDD9 /* UIColor+Li5UIColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BE693721CF4C39800445439 /* UIColor+Li5UIColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA594341EB42DD10065FDD9 /* UIViewController+Indexed.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BE177161D1F079000CF30BF /* UIViewController+Indexed.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2BA594351EB42DDC0065FDD9 /* VideoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B7551A41CCFBEBC007FAF67 /* VideoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA789381EE470F0009385BA /* SDKLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
 		7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818510B1EE9F12300F124EC /* VideoViewController.swift */; };
@@ -215,8 +213,6 @@
 		5B7551941CCE7433007FAF67 /* Li5PlayerUISlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5PlayerUISlider.m; sourceTree = "<group>"; };
 		5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlockedViewController.h; sourceTree = "<group>"; };
 		5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlockedViewController.m; sourceTree = "<group>"; };
-		5B7551A41CCFBEBC007FAF67 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
-		5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
 		5B7551B91CCFED36007FAF67 /* Li5LoggerFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Li5LoggerFormatter.h; sourceTree = "<group>"; };
 		5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Li5LoggerFormatter.m; sourceTree = "<group>"; };
 		5B8625CD1C763CE4006869DE /* IndexedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexedViewController.h; sourceTree = "<group>"; };
@@ -611,8 +607,6 @@
 		5B7551A31CCFBE9F007FAF67 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				5B7551A41CCFBEBC007FAF67 /* VideoViewController.h */,
-				5B7551A51CCFBEBC007FAF67 /* VideoViewController.m */,
 				5B983CD51D356B9000D0A3C0 /* Actions */,
 				5B6204431CCA5DC5003C9390 /* Teaser */,
 				5B75519A1CCFAE88007FAF67 /* Unlock */,
@@ -809,7 +803,6 @@
 				2BA5942E1EB42D4F0065FDD9 /* DetailsViewController.h in Headers */,
 				2BA594341EB42DD10065FDD9 /* UIViewController+Indexed.h in Headers */,
 				2BA593481EB4258E0065FDD9 /* Li5SDK.h in Headers */,
-				2BA594351EB42DDC0065FDD9 /* VideoViewController.h in Headers */,
 				2BA594321EB42DB50065FDD9 /* UIColor+Li5UIColor.h in Headers */,
 				2BA594201EB42C370065FDD9 /* Heart.h in Headers */,
 				7818510D1EE9F4D300F124EC /* TeaserViewController.h in Headers */,
@@ -1044,7 +1037,6 @@
 				2BA5938F1EB4275D0065FDD9 /* ProductsListView.m in Sources */,
 				2BA593911EB4275D0065FDD9 /* ProductsCollectionViewCell.m in Sources */,
 				2BA593931EB4275D0065FDD9 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
-				2BA593981EB4275D0065FDD9 /* VideoViewController.m in Sources */,
 				2BA5939A1EB4275D0065FDD9 /* ProductPageActionsView.m in Sources */,
 				2B96A1491EE6F2A500093EA3 /* PrimeTimeViewController.swift in Sources */,
 				2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */,

@@ -27,11 +27,11 @@ import BCVideoPlayer
         
         if lastProduct {
             preloadedViewControllers = [
-                VideoViewController(product: self.product, andContext: context.legacyVersion)
+                VideoViewController(withProduct: self.product, andContext: context)
             ]
         } else {
             preloadedViewControllers = [
-                VideoViewController(product: self.product, andContext: context.legacyVersion),
+                VideoViewController(withProduct: self.product, andContext: context),
                 
                 self.product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame ?
                     DetailsHTMLViewController(withProduct: self.product, andContext: context.legacyVersion) :
@@ -74,7 +74,7 @@ import BCVideoPlayer
     
     public var player: BCPlayer? {
         if let videoVC = currentViewController as? VideoViewController {
-            return videoVC.getPlayer()
+            return videoVC.player
         } else {
             return nil
         }

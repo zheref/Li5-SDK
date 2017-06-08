@@ -21,7 +21,6 @@ FOUNDATION_EXPORT const unsigned char Li5SDKVersionString[];
 
 #import <Li5Api/Product.h>
 
-#import "VideoViewController.h"
 #import "TeaserViewController.h"
 #import "UnlockedViewController.h"
 #import "DetailsViewController.h"

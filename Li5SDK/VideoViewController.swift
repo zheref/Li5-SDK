@@ -20,7 +20,7 @@ protocol VideoViewControllerProtocol : Displayable {
 }
 
 
-class VideoVC : UIViewController, VideoViewControllerProtocol, UIGestureRecognizerDelegate {
+class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGestureRecognizerDelegate {
     
     // MARK: - PUBLIC INTERFACE
     
