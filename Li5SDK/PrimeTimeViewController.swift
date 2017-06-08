@@ -157,12 +157,14 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
     
     
     func startPrimeTime() {
+        log.verbose("Starting prime time...")
+        
         let firstPageViewController = primeTimeDataSource.productPageViewController(atIndex: startIndex,
                                                                                     withPriority: BCPriority.buffer)
         firstPageViewController.scrollPageIndex = startIndex
-        firstPageViewController.viewControllers = [firstPageViewController]
+        firstPageViewController.preloadedViewControllers = [firstPageViewController]
         
-        viewDidLayoutSubviews() // TODO: Replace for relayout
+        relayout()
         
         firstPageViewController.beginAppearanceTransition(true, animated: false)
         firstPageViewController.endAppearanceTransition()

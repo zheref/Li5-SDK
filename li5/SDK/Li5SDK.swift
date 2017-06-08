@@ -74,13 +74,7 @@ open class Li5SDK {
             return
         }
         
-        rootVC.present(primetimeViewController, animated: false) { [unowned self] in
-            self.ready()
-        }
-    }
-    
-    open func ready() {
-        
+        rootVC.present(primetimeViewController, animated: false, completion: nil)
     }
     
     

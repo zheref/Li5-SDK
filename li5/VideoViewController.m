@@ -34,10 +34,10 @@
         DDLogVerbose(@"");
         self.product = thisProduct;
         teaserViewController = [TeaserViewController teaserWithProduct:self.product andContext:ctx];
-        if (self.product.videoURL != nil && self.product.videoURL.length > 0)
-        {
-            unlockedViewController = [UnlockedViewController unlockedWithProduct:self.product andContext:ctx];
-        }
+//        if (self.product.videoURL != nil && self.product.videoURL.length > 0)
+//        {
+//            unlockedViewController = [UnlockedViewController unlockedWithProduct:self.product andContext:ctx];
+//        }
         currentViewController = nil;
     }
     return self;

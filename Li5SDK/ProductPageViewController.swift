@@ -26,11 +26,11 @@ import BCVideoPlayer
             (self.product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame && self.product.contentUrl == nil)
         
         if lastProduct {
-            viewControllers = [
+            preloadedViewControllers = [
                 VideoViewController(product: self.product, andContext: context.legacyVersion)
             ]
         } else {
-            viewControllers = [
+            preloadedViewControllers = [
                 VideoViewController(product: self.product, andContext: context.legacyVersion),
                 
                 self.product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame ?
@@ -48,14 +48,14 @@ import BCVideoPlayer
     // MARK: - LIFECYCLE
     
     public override func viewDidLoad() {
-        SDKLogger.shared.debug("ProductVC did load: \(product.title)")
+        log.debug("Product page vc did load: \(product.title)")
         super.viewDidLoad()
     }
     
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        SDKLogger.shared.debug("ProductVC did appear: \(product.title)")
+        log.debug("Product page vc did appear: \(product.title)")
     }
     
     
@@ -65,7 +65,7 @@ import BCVideoPlayer
     
     
     public func setPriority(_ priority: BCPriority) {
-        if let videoVC = viewControllers.first as? VideoViewController {
+        if let videoVC = preloadedViewControllers.first as? VideoViewController {
             videoVC.setPriority(priority)
         }
     }
@@ -87,12 +87,12 @@ import BCVideoPlayer
     
     
     deinit {
-        SDKLogger.shared.debug("Deinitializing ProductVC for: \(product.title)")
+        log.debug("Deinitializing ProductVC for: \(product.title)")
     }
     
     
     public override func didReceiveMemoryWarning() {
-        SDKLogger.shared.warning("Received memory warning in ProductVC for: \(product.title)")
+        log.warning("Received memory warning in ProductVC for: \(product.title)")
         super.didReceiveMemoryWarning()
     }
     
