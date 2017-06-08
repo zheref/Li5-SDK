@@ -13,7 +13,6 @@
 #import "Li5Constants.h"
 #import "CardUIView.h"
 #import "ShareExplainerUIViewController.h"
-#import "Li5UINavigationController.h"
 
 @interface ProductPageActionsView () <CardUIViewDelegate>
 {

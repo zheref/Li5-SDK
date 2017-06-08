@@ -10,7 +10,6 @@
 
 #import "ShapesHelper.h"
 #import "TeaserViewController.h"
-#import "UserProfileDynamicInteractor.h"
 #import "Li5PlayerTimer.h"
 #import "ProductPageActionsView.h"
 #import "Li5Constants.h"
@@ -28,7 +27,6 @@
     UIPanGestureRecognizer *searchPanGestureRecognizer;
     UIPanGestureRecognizer *backToSearchPanGestureRecognzier;
     UILongPressGestureRecognizer *longTapGestureRecognizer;
-    id<UserProfileViewControllerPanTargetDelegate> profileInteractor;
     
     BOOL __hasUnlockedVideo;
     BOOL __hasAppeared;
@@ -491,7 +489,7 @@
 
 - (IBAction)showProfile:(UIButton*)sender
 {
-    [profileInteractor presentViewWithCompletion:nil];
+    //[profileInteractor presentViewWithCompletion:nil];
 }
 
 #pragma mark - Gesture Recognizers
@@ -511,11 +509,10 @@
     if (self.pContext == kProductContextDiscover)
     {
         //User Profile Gesture Recognizer - Swipe Down from 0-100px
-        profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
+        //profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
         //searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
         
         //Profile Gesture Recognizer - Swipe Down from 0-100px
-        profilePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:profileInteractor action:@selector(userDidPan:)];
         [profilePanGestureRecognizer setDelegate:self];
         [self.view addGestureRecognizer:profilePanGestureRecognizer];
 #if FULL_VERSION
