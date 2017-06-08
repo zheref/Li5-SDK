@@ -10,7 +10,6 @@
 @import BCVideoPlayer;
 
 #import "ProductPageProtocol.h"
-#import <Li5SDK/Li5SDK-Swift.h>
 
 @interface TeaserViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate, UIViewControllerTransitioningDelegate>
 

@@ -89,6 +89,9 @@
 		2BA594351EB42DDC0065FDD9 /* VideoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B7551A41CCFBEBC007FAF67 /* VideoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA789381EE470F0009385BA /* SDKLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
+		7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818510B1EE9F12300F124EC /* VideoViewController.swift */; };
+		7818510D1EE9F4D300F124EC /* TeaserViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB4AAC61C4D60B9002C22C8 /* TeaserViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7818510E1EE9F7D400F124EC /* UnlockedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -282,6 +285,7 @@
 		5BED28A71D46927C00C05A01 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		63442170E3DFD55EC89DB9FD /* Pods-DemoSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoSDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoSDK/Pods-DemoSDK.release.xcconfig"; sourceTree = "<group>"; };
 		6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7818510B1EE9F12300F124EC /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		80DBD9F80C310DAD4C901CAD /* Pods-Li5SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Li5SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Li5SDK/Pods-Li5SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		9C5AA8101CD02E7100F3DE08 /* ProductsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsCollectionViewCell.h; sourceTree = "<group>"; };
 		9C5AA8111CD02E7100F3DE08 /* ProductsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsCollectionViewCell.m; sourceTree = "<group>"; };
@@ -369,6 +373,7 @@
 			children = (
 				2B84CD111EE837880011F061 /* Abstraction */,
 				2B84CD121EE837940011F061 /* PrimeTime */,
+				7818510A1EE9F0C500F124EC /* Video */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -771,6 +776,14 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		7818510A1EE9F0C500F124EC /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				7818510B1EE9F12300F124EC /* VideoViewController.swift */,
+			);
+			name = Video;
+			sourceTree = "<group>";
+		};
 		FB0AFBF8E94E01415951E979 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -791,6 +804,7 @@
 			files = (
 				2BA594311EB42DA70065FDD9 /* IndexedViewController.h in Headers */,
 				2BA594301EB42D920065FDD9 /* ShapesHelper.h in Headers */,
+				7818510E1EE9F7D400F124EC /* UnlockedViewController.h in Headers */,
 				2BA5942F1EB42D820065FDD9 /* ProductPageProtocol.h in Headers */,
 				2BA5942E1EB42D4F0065FDD9 /* DetailsViewController.h in Headers */,
 				2BA594341EB42DD10065FDD9 /* UIViewController+Indexed.h in Headers */,
@@ -798,6 +812,7 @@
 				2BA594351EB42DDC0065FDD9 /* VideoViewController.h in Headers */,
 				2BA594321EB42DB50065FDD9 /* UIColor+Li5UIColor.h in Headers */,
 				2BA594201EB42C370065FDD9 /* Heart.h in Headers */,
+				7818510D1EE9F4D300F124EC /* TeaserViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1075,6 +1090,7 @@
 				2BA5940B1EB4275D0065FDD9 /* Li5BlurredView.m in Sources */,
 				2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */,
 				2BA594101EB4275D0065FDD9 /* Li5LoggerFormatter.m in Sources */,
+				7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */,
 				2BA594121EB4275D0065FDD9 /* CrashlyticsLogger.m in Sources */,
 				2BA594141EB4275D0065FDD9 /* Li5BCLoggerDelegate.m in Sources */,
 				2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */,
