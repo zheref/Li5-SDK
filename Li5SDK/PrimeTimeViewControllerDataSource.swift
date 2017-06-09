@@ -150,7 +150,7 @@ public enum PContext : UInt {
     
     
     func viewControllerViewController(at index: Int) -> UIViewController? {
-        if index < 0 || index > products.count || index == NSNotFound {
+        if index < 0 || index >= products.count || index == NSNotFound {
             log.debug("No more viewcontrollers to deliver. Index below 0.")
             return nil
         } else {

@@ -23,7 +23,7 @@
 		2B84CD141EE837DC0011F061 /* PaginatorViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD131EE837DC0011F061 /* PaginatorViewControllerDataSource.swift */; };
 		2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD151EE838680011F061 /* PaginatorViewControllerDelegate.swift */; };
 		2B84CD181EE838800011F061 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B84CD171EE838800011F061 /* UIKit.framework */; };
-		2B84CD1A1EE842A90011F061 /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B84CD191EE842A90011F061 /* PageViewController.xib */; };
+		2B84CD1A1EE842A90011F061 /* PaginatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B84CD191EE842A90011F061 /* PaginatorViewController.xib */; };
 		2B84CD1C1EE8C6C70011F061 /* Displayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD1B1EE8C6C70011F061 /* Displayable.swift */; };
 		2B96A1451EE6CD0A00093EA3 /* ProductPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1441EE6CD0A00093EA3 /* ProductPageViewController.swift */; };
 		2B96A1471EE6E01400093EA3 /* PrimeTimeViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1461EE6E01400093EA3 /* PrimeTimeViewControllerDataSource.swift */; };
@@ -140,7 +140,7 @@
 		2B84CD131EE837DC0011F061 /* PaginatorViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatorViewControllerDataSource.swift; sourceTree = "<group>"; };
 		2B84CD151EE838680011F061 /* PaginatorViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatorViewControllerDelegate.swift; sourceTree = "<group>"; };
 		2B84CD171EE838800011F061 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		2B84CD191EE842A90011F061 /* PageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageViewController.xib; sourceTree = "<group>"; };
+		2B84CD191EE842A90011F061 /* PaginatorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaginatorViewController.xib; sourceTree = "<group>"; };
 		2B84CD1B1EE8C6C70011F061 /* Displayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Displayable.swift; sourceTree = "<group>"; };
 		2B96A1441EE6CD0A00093EA3 /* ProductPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPageViewController.swift; sourceTree = "<group>"; };
 		2B96A1461EE6E01400093EA3 /* PrimeTimeViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimeTimeViewControllerDataSource.swift; sourceTree = "<group>"; };
@@ -337,7 +337,7 @@
 		2B84CD111EE837880011F061 /* Abstraction */ = {
 			isa = PBXGroup;
 			children = (
-				2B84CD191EE842A90011F061 /* PageViewController.xib */,
+				2B84CD191EE842A90011F061 /* PaginatorViewController.xib */,
 				2B84CD0C1EE835BE0011F061 /* PaginatorViewController.swift */,
 				2B84CD131EE837DC0011F061 /* PaginatorViewControllerDataSource.swift */,
 				2B84CD151EE838680011F061 /* PaginatorViewControllerDelegate.swift */,
@@ -915,7 +915,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B84CD1A1EE842A90011F061 /* PageViewController.xib in Resources */,
+				2B84CD1A1EE842A90011F061 /* PaginatorViewController.xib in Resources */,
 				2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */,
 				2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */,
 				2B477EC11EC6C38200C9F10D /* ProductPageActionsView.xib in Resources */,

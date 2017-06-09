@@ -506,28 +506,22 @@
         [self.view addGestureRecognizer:longTapGestureRecognizer];
     }
     
-    if (self.pContext == kProductContextDiscover)
-    {
-        //User Profile Gesture Recognizer - Swipe Down from 0-100px
-        //profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
-        //searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
-        
-        //Profile Gesture Recognizer - Swipe Down from 0-100px
-        [profilePanGestureRecognizer setDelegate:self];
-        [self.view addGestureRecognizer:profilePanGestureRecognizer];
-#if FULL_VERSION
-        //Search Products Gesture Recognizer - Swipe Down from below 100px
-        searchPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:searchInteractor action:@selector(userDidPan:)];
-        [searchPanGestureRecognizer setDelegate:self];
-        [self.view addGestureRecognizer:searchPanGestureRecognizer];
-#endif
-    }
-    else
-    {
-        backToSearchPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(goBackToSearch:)];
-        backToSearchPanGestureRecognzier.delegate = self;
-        [self.view addGestureRecognizer:backToSearchPanGestureRecognzier];
-    }
+//    if (self.pContext == kProductContextDiscover)
+//    {
+//        //User Profile Gesture Recognizer - Swipe Down from 0-100px
+//        //profileInteractor = [[UserProfileDynamicInteractor alloc] initWithParentViewController:self];
+//        //searchInteractor = [[ExploreDynamicInteractor alloc] initWithParentViewController:self];
+//        
+//        //Profile Gesture Recognizer - Swipe Down from 0-100px
+//        [profilePanGestureRecognizer setDelegate:self];
+//        [self.view addGestureRecognizer:profilePanGestureRecognizer];
+//    }
+//    else
+//    {
+//        backToSearchPanGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(goBackToSearch:)];
+//        backToSearchPanGestureRecognzier.delegate = self;
+//        [self.view addGestureRecognizer:backToSearchPanGestureRecognzier];
+//    }
     
 }
 

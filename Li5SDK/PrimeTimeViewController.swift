@@ -117,7 +117,6 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
     
     
     func setupPrimeTime() {
-        view.backgroundColor = UIColor.green
         view.isOpaque = false
         
         automaticallyAdjustsScrollViewInsets = false

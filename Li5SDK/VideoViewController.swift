@@ -47,8 +47,8 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     required init(withProduct product: Product, andContext context: PContext) {
         self.product = product
         
-        teaserViewController = TeaserViewController(product: self.product,
-                                                    andContext: context.legacyVersion)
+        teaserViewController = TeaserViewController.teaser(with: self.product,
+                                                           andContext: context.legacyVersion) as? TeaserViewController
         
         if product.videoURL != nil && !product.videoURL.isEmpty {
             //  unlockedViewController = [UnlockedViewController unlockedWithProduct:self.product andContext:ctx];
