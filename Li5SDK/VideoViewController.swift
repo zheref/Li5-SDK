@@ -36,19 +36,14 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     // MARK: - Computed Properties
     
     
-    var player: BCPlayer {
-        return teaserViewController.getPlayer()
-    }
-    
-    
     // MARK: - Initializers
     
     
     required init(withProduct product: Product, andContext context: PContext) {
         self.product = product
         
-        teaserViewController = TeaserViewController.teaser(with: self.product,
-                                                           andContext: context.legacyVersion) as? TeaserViewController
+        teaserViewController = TeaserViewController.instance(withProduct: self.product,
+                                                             andContext: context)
         
         if product.videoURL != nil && !product.videoURL.isEmpty {
             //  unlockedViewController = [UnlockedViewController unlockedWithProduct:self.product andContext:ctx];

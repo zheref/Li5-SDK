@@ -45,7 +45,7 @@ public enum PContext : UInt {
             
             li5.requestDiscoverProducts() { [weak self] (error, products) in
                 if let error = error {
-                    log.error("Error while fetching products: \(error.localizedDescription)")
+                    log.error("Error while fetching products: \(error)")
                     handler(error)
                 } else if let products = products {
                     log.debug("\(products.data.count) fetched products")

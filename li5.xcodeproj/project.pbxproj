@@ -19,6 +19,11 @@
 		2B44F5411EBB569800AB18A0 /* Li5SDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA593381EB4258D0065FDD9 /* Li5SDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2B477EC11EC6C38200C9F10D /* ProductPageActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA51E43F4B2006C3A9F /* ProductPageActionsView.xib */; };
 		2B4D4F891EB9899A00B23EA8 /* DetailsHTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B22CB7D1E84327B00DC8399 /* DetailsHTMLViewController.swift */; };
+		2B5A00201EEB5B65000E4F71 /* TeaserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5A001F1EEB5B65000E4F71 /* TeaserViewController.swift */; };
+		2B5A00211EEB7E0C000E4F71 /* Li5PlayerTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBC66E71D00A777001BE4BB /* Li5PlayerTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B5A00221EEB805F000E4F71 /* ProductPageActionsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBC61E01D047508006B4C68 /* ProductPageActionsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B5A00231EEB80B6000E4F71 /* Li5View.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BAB34EC1CF1015C00AE74DC /* Li5View.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B5A00241EEB8401000E4F71 /* Li5VolumeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B5134F81D1304C300EE374C /* Li5VolumeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B84CD0D1EE835BE0011F061 /* PaginatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD0C1EE835BE0011F061 /* PaginatorViewController.swift */; };
 		2B84CD141EE837DC0011F061 /* PaginatorViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD131EE837DC0011F061 /* PaginatorViewControllerDataSource.swift */; };
 		2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD151EE838680011F061 /* PaginatorViewControllerDelegate.swift */; };
@@ -42,7 +47,6 @@
 		2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CD71D356B9C00D0A3C0 /* Heart.m */; };
 		2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CD81D356B9C00D0A3C0 /* HeartAnimationView.swift */; };
 		2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6009E1E1564DB007553B8 /* ShareExplainerUIViewController.m */; };
-		2BA593AB1EB4275D0065FDD9 /* TeaserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4AAC71C4D60B9002C22C8 /* TeaserViewController.m */; };
 		2BA593AE1EB4275D0065FDD9 /* UnlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */; };
 		2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CCF1D3418B100D0A3C0 /* SliderFluidView.m */; };
 		2BA593B21EB4275D0065FDD9 /* BAFluidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CBF1D33E97E00D0A3C0 /* BAFluidView.m */; };
@@ -88,7 +92,6 @@
 		2BA789381EE470F0009385BA /* SDKLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
 		7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818510B1EE9F12300F124EC /* VideoViewController.swift */; };
-		7818510D1EE9F4D300F124EC /* TeaserViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB4AAC61C4D60B9002C22C8 /* TeaserViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7818510E1EE9F7D400F124EC /* UnlockedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -136,6 +139,7 @@
 		2B44F4F91EBAC4CF00AB18A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B44F4FB1EBAC4CF00AB18A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B44F53B1EBB539200AB18A0 /* AMPopTip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AMPopTip.framework; path = "DerivedData/li5/Build/Products/Debug-iphonesimulator/AMPopTip/AMPopTip.framework"; sourceTree = "<group>"; };
+		2B5A001F1EEB5B65000E4F71 /* TeaserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeaserViewController.swift; sourceTree = "<group>"; };
 		2B84CD0C1EE835BE0011F061 /* PaginatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatorViewController.swift; sourceTree = "<group>"; };
 		2B84CD131EE837DC0011F061 /* PaginatorViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatorViewControllerDataSource.swift; sourceTree = "<group>"; };
 		2B84CD151EE838680011F061 /* PaginatorViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatorViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -774,6 +778,7 @@
 			isa = PBXGroup;
 			children = (
 				7818510B1EE9F12300F124EC /* VideoViewController.swift */,
+				2B5A001F1EEB5B65000E4F71 /* TeaserViewController.swift */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -796,16 +801,19 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B5A00231EEB80B6000E4F71 /* Li5View.h in Headers */,
 				2BA594311EB42DA70065FDD9 /* IndexedViewController.h in Headers */,
+				2B5A00241EEB8401000E4F71 /* Li5VolumeView.h in Headers */,
 				2BA594301EB42D920065FDD9 /* ShapesHelper.h in Headers */,
 				7818510E1EE9F7D400F124EC /* UnlockedViewController.h in Headers */,
 				2BA5942F1EB42D820065FDD9 /* ProductPageProtocol.h in Headers */,
+				2B5A00211EEB7E0C000E4F71 /* Li5PlayerTimer.h in Headers */,
+				2B5A00221EEB805F000E4F71 /* ProductPageActionsView.h in Headers */,
 				2BA5942E1EB42D4F0065FDD9 /* DetailsViewController.h in Headers */,
 				2BA594341EB42DD10065FDD9 /* UIViewController+Indexed.h in Headers */,
 				2BA593481EB4258E0065FDD9 /* Li5SDK.h in Headers */,
 				2BA594321EB42DB50065FDD9 /* UIColor+Li5UIColor.h in Headers */,
 				2BA594201EB42C370065FDD9 /* Heart.h in Headers */,
-				7818510D1EE9F4D300F124EC /* TeaserViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1043,7 +1051,6 @@
 				2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */,
 				2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */,
 				2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */,
-				2BA593AB1EB4275D0065FDD9 /* TeaserViewController.m in Sources */,
 				2BA593AE1EB4275D0065FDD9 /* UnlockedViewController.m in Sources */,
 				2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */,
 				2BA593B21EB4275D0065FDD9 /* BAFluidView.m in Sources */,
@@ -1076,6 +1083,7 @@
 				2BA594001EB4275D0065FDD9 /* UIBezierPath+UIImage.m in Sources */,
 				2BA594011EB4275D0065FDD9 /* CardStackUICollectionViewLayout.swift in Sources */,
 				2BA594031EB4275D0065FDD9 /* CardUICollectionViewCell.m in Sources */,
+				2B5A00201EEB5B65000E4F71 /* TeaserViewController.swift in Sources */,
 				2BA594051EB4275D0065FDD9 /* CardUIView.m in Sources */,
 				2BA594071EB4275D0065FDD9 /* Li5View.m in Sources */,
 				2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */,

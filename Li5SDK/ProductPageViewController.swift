@@ -72,15 +72,6 @@ import BCVideoPlayer
     }
     
     
-    public var player: BCPlayer? {
-        if let videoVC = currentViewController as? VideoViewController {
-            return videoVC.player
-        } else {
-            return nil
-        }
-    }
-    
-    
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         currentViewController?.view.frame = view.bounds

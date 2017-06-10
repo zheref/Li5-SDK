@@ -21,7 +21,6 @@ open class Li5SDK {
     var primetimeViewController: PrimeTimeViewController!
     var primetimeDataSource: PrimeTimeViewControllerDataSource!
     
-    
     fileprivate init() {}
     
     

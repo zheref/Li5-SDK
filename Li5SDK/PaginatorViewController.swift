@@ -46,7 +46,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     // MARK: Stored Properties
     
-    var datasource: PaginatorViewControllerDataSource?
+    weak var datasource: PaginatorViewControllerDataSource?
     
     var previousViewController: UIViewController?
     var currentViewController: UIViewController?
