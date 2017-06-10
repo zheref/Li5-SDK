@@ -90,6 +90,8 @@
 		2BA594321EB42DB50065FDD9 /* UIColor+Li5UIColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BE693721CF4C39800445439 /* UIColor+Li5UIColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA594341EB42DD10065FDD9 /* UIViewController+Indexed.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BE177161D1F079000CF30BF /* UIViewController+Indexed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA789381EE470F0009385BA /* SDKLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */; };
+		2BC4EF231EECB3CA00ACAC26 /* LastPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */; };
+		2BC4EF251EECB78200ACAC26 /* KUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF241EECB78200ACAC26 /* KUI.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
 		7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818510B1EE9F12300F124EC /* VideoViewController.swift */; };
 		7818510E1EE9F7D400F124EC /* UnlockedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -164,6 +166,8 @@
 		2BA5942C1EB42D260065FDD9 /* BCVideoPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BCVideoPlayer.framework; path = "DerivedData/li5/Build/Products/Debug-iphonesimulator/BCVideoPlayer/BCVideoPlayer.framework"; sourceTree = "<group>"; };
 		2BA594371EB42DFF0065FDD9 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "DerivedData/li5/Build/Products/Debug-iphonesimulator/CocoaLumberjack/CocoaLumberjack.framework"; sourceTree = "<group>"; };
 		2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDKLogger.swift; sourceTree = "<group>"; };
+		2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastPageViewController.swift; sourceTree = "<group>"; };
+		2BC4EF241EECB78200ACAC26 /* KUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KUI.swift; sourceTree = "<group>"; };
 		5B06F3C21CFA410A007FA3AB /* NSObject+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Li5.h"; sourceTree = "<group>"; };
 		5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Li5.m"; sourceTree = "<group>"; };
 		5B06F3C91CFA44AA007FA3AB /* UIImage+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Li5.h"; sourceTree = "<group>"; };
@@ -355,8 +359,7 @@
 			children = (
 				2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */,
 				2B96A1461EE6E01400093EA3 /* PrimeTimeViewControllerDataSource.swift */,
-				2B96A1441EE6CD0A00093EA3 /* ProductPageViewController.swift */,
-				5B613DA01E43F4A9006C3A9F /* ProductPageViews.storyboard */,
+				2BC4EF211EECB39B00ACAC26 /* Pages */,
 			);
 			name = PrimeTime;
 			sourceTree = "<group>";
@@ -371,9 +374,11 @@
 		2B9CEDC51EC7D73F00B6BA73 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5B613DA01E43F4A9006C3A9F /* ProductPageViews.storyboard */,
 				2B84CD111EE837880011F061 /* Abstraction */,
 				2B84CD121EE837940011F061 /* PrimeTime */,
 				7818510A1EE9F0C500F124EC /* Video */,
+				2BC4EF241EECB78200ACAC26 /* KUI.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -399,6 +404,15 @@
 				2BA593471EB4258E0065FDD9 /* Info.plist */,
 			);
 			path = Li5SDKTests;
+			sourceTree = "<group>";
+		};
+		2BC4EF211EECB39B00ACAC26 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				2B96A1441EE6CD0A00093EA3 /* ProductPageViewController.swift */,
+				2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */,
+			);
+			name = Pages;
 			sourceTree = "<group>";
 		};
 		3F42F740CE8663DBD2D0DCE6 /* Frameworks */ = {
@@ -1056,6 +1070,7 @@
 				2BA593B21EB4275D0065FDD9 /* BAFluidView.m in Sources */,
 				2BA593B51EB4275D0065FDD9 /* UIColor+ColorWithHex.m in Sources */,
 				2BA593B71EB4275D0065FDD9 /* Li5PlayerUISlider.m in Sources */,
+				2BC4EF231EECB3CA00ACAC26 /* LastPageViewController.swift in Sources */,
 				2BA593B91EB4275D0065FDD9 /* Li5PlayerTimer.m in Sources */,
 				2BA593BA1EB4275D0065FDD9 /* Wave.swift in Sources */,
 				2BA593BB1EB4275D0065FDD9 /* ThinPlayerProgressView.swift in Sources */,
@@ -1077,6 +1092,7 @@
 				2BA593F61EB4275D0065FDD9 /* UIColor+Li5UIColor.m in Sources */,
 				2B96A1451EE6CD0A00093EA3 /* ProductPageViewController.swift in Sources */,
 				2BA593F81EB4275D0065FDD9 /* UIImage+Li5.m in Sources */,
+				2BC4EF251EECB78200ACAC26 /* KUI.swift in Sources */,
 				2BA593FA1EB4275D0065FDD9 /* UILabel+Li5.m in Sources */,
 				2BA593FC1EB4275D0065FDD9 /* UIView+Li5.m in Sources */,
 				2BA593FE1EB4275D0065FDD9 /* UIViewController+Indexed.m in Sources */,

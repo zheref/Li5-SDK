@@ -60,25 +60,48 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     // MARK: - Initializers
     
     
-    static func instance(withProduct product: Product,
-                         andContext context: PContext) -> TeaserViewController {
-        
-        let storyboard = UIStoryboard(name: "ProductPageViews",
-                                      bundle: Bundle(for: TeaserViewController.self))
-        
-        let vc = storyboard.instantiateViewController(withIdentifier: "TeaserView")
-            as! TeaserViewController
-        
-        log.verbose("Initializing new TeaserVC")
-        
-        vc.product = product
-        vc.productContext = context
-        vc.reset()
-            
-        return vc
+    /// For purposes of avoiding arbitrary creation from outside
+    private init() {
+        super.init(nibName: nil, bundle: nil)
     }
     
     
+    /// Creates and instance of TeaserVC with the given product and context
+    /// - Parameters:
+    ///   - product: The product for which the TeaserVC should be created
+    ///   - context: The context for the TeaserVC
+    /// - Returns: New instance of TeaserViewController setup for the given data
+    static func instance(withProduct product: Product,
+                         andContext context: PContext) -> TeaserViewController {
+        
+        let storyboard = UIStoryboard(name: KUI.Storyboard.ProductPageViews.rawValue,
+                                      bundle: Bundle(for: TeaserViewController.self))
+        
+        let vc = storyboard.instantiateViewController(withIdentifier: KUI.ViewController.TeaserView.rawValue)
+            as? TeaserViewController
+        
+        if vc == nil {
+            log.error("Failed to cast ViewController from storyboard to TeaserViewController")
+        }
+        
+        let viewController = vc!
+        
+        log.verbose("Initializing new TeaserVC")
+        
+        viewController.product = product
+        viewController.productContext = context
+        viewController.reset()
+            
+        return viewController
+    }
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    
+    /// Sets up from scratch the player
     private func reset() {
         if let url = Foundation.URL(string: product.trailerURL) {
             player = BCPlayer(url: url, bufferInSeconds: 10.0, priority: .buffer, delegate: self)
@@ -89,11 +112,6 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         } else {
             log.error("URL couldn't be created with string \(product.trailerURL)")
         }
-    }
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
     
     
