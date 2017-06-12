@@ -220,7 +220,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     
     private func setup() {
-        //setupPoster()
+        setupPoster()
         
         playerLayer?.frame = view.bounds
         playerLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill

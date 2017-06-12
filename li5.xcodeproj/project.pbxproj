@@ -92,6 +92,7 @@
 		2BA789381EE470F0009385BA /* SDKLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */; };
 		2BC4EF231EECB3CA00ACAC26 /* LastPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */; };
 		2BC4EF251EECB78200ACAC26 /* KUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF241EECB78200ACAC26 /* KUI.swift */; };
+		2BC4EF2B1EEEE67E00ACAC26 /* KVOController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
 		7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818510B1EE9F12300F124EC /* VideoViewController.swift */; };
 		7818510E1EE9F7D400F124EC /* UnlockedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -168,6 +169,7 @@
 		2BAFA03B1EDFA1F800282964 /* SDKLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDKLogger.swift; sourceTree = "<group>"; };
 		2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastPageViewController.swift; sourceTree = "<group>"; };
 		2BC4EF241EECB78200ACAC26 /* KUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KUI.swift; sourceTree = "<group>"; };
+		2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KVOController.framework; path = Carthage/Build/iOS/KVOController.framework; sourceTree = "<group>"; };
 		5B06F3C21CFA410A007FA3AB /* NSObject+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Li5.h"; sourceTree = "<group>"; };
 		5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Li5.m"; sourceTree = "<group>"; };
 		5B06F3C91CFA44AA007FA3AB /* UIImage+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Li5.h"; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BC4EF2B1EEEE67E00ACAC26 /* KVOController.framework in Frameworks */,
 				2B84CD181EE838800011F061 /* UIKit.framework in Frameworks */,
 				28544A62245B9F3093B0C879 /* Pods_Li5SDK.framework in Frameworks */,
 			);
@@ -418,6 +421,7 @@
 		3F42F740CE8663DBD2D0DCE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */,
 				2B84CD171EE838800011F061 /* UIKit.framework */,
 				2B44F53B1EBB539200AB18A0 /* AMPopTip.framework */,
 				2BA594371EB42DFF0065FDD9 /* CocoaLumberjack.framework */,
@@ -1290,6 +1294,7 @@
 					"$(PROJECT_DIR)/DerivedData/li5/Build/Products/Debug-iphonesimulator/JSONModel",
 					"$(PROJECT_DIR)/DerivedData/li5/Build/Products/Debug-iphonesimulator/BCVideoPlayer",
 					"$(PROJECT_DIR)/DerivedData/li5/Build/Products/Debug-iphonesimulator/CocoaLumberjack",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1338,6 +1343,7 @@
 					"$(PROJECT_DIR)/DerivedData/li5/Build/Products/Debug-iphonesimulator/JSONModel",
 					"$(PROJECT_DIR)/DerivedData/li5/Build/Products/Debug-iphonesimulator/BCVideoPlayer",
 					"$(PROJECT_DIR)/DerivedData/li5/Build/Products/Debug-iphonesimulator/CocoaLumberjack",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Li5SDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

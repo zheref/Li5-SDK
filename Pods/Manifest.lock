@@ -16,6 +16,7 @@ PODS:
     - AFNetworking/NSURLSession
   - BCVideoPlayer (0.1.0):
     - GCDWebServer
+    - KVOController
     - SwiftyBeaver
   - CocoaLumberjack (3.0.0):
     - CocoaLumberjack/Default (= 3.0.0)
@@ -34,6 +35,7 @@ PODS:
   - GCDWebServer/Core (3.2.7)
   - HexColors (2.3.0)
   - JSONModel (1.7.0)
+  - KVOController (1.2.0)
   - Li5Api (0.0.1):
     - AFNetworking
     - JSONModel
@@ -84,7 +86,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  BCVideoPlayer: c85dda2896a43152da0b99bc675bf3100673c125
+  BCVideoPlayer: f2dc76cedc1028bffc25d0a57121d0c965ece277
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
@@ -92,6 +94,7 @@ SPEC CHECKSUMS:
   GCDWebServer: 76a9540371d5f12f850b32ec7f555dd2d266e543
   HexColors: 6ad3947c3447a055a3aa8efa859def096351fe5f
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
+  KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
   Li5Api: 0d884a2f2d2f1d63adb48b7e3a43d06901b0f597
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   SAMKeychain: 1865333198217411f35327e8da61b43de79b635b

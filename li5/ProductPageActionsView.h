@@ -9,10 +9,8 @@
 
 #import "Li5View.h"
 
-@protocol HeartAnimationViewDelegate;
-
 //IB_DESIGNABLE
-@interface ProductPageActionsView : Li5View<HeartAnimationViewDelegate>
+@interface ProductPageActionsView : Li5View
 
 - (void)setProduct:(Product *)product animate:(BOOL)animate;
 - (void)refreshStatus;
