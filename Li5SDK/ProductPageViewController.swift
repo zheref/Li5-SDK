@@ -8,11 +8,15 @@
 
 import Foundation
 
-import BCVideoPlayer
 
-@objc class ProductPageViewController : PaginatorViewController, Displayable {
+class ProductPageViewController : PaginatorViewController {
     
     public var product: Product!
+    
+    
+    var vcIdentity: String {
+        return "\(scrollPageIndex):\(product.id ?? "nil")"
+    }
     
     
     public required init(withProduct product: Product, andContext context: PContext) {
@@ -48,7 +52,7 @@ import BCVideoPlayer
     // MARK: - LIFECYCLE
     
     public override func viewDidLoad() {
-        log.debug("Product page vc did load: \(product.id ?? "nil")")
+        log.debug("Product page vc did load: \(vcIdentity)")
         view.backgroundColor = UIColor.yellow
         super.viewDidLoad()
     }
@@ -56,7 +60,7 @@ import BCVideoPlayer
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        log.debug("Product page vc did appear: \(product.id ?? "nil")")
+        log.debug("Product page vc did appear: \(vcIdentity)")
     }
     
     
@@ -85,12 +89,12 @@ import BCVideoPlayer
     
     
     deinit {
-        log.debug("Deinitializing ProductVC for: \(product.id ?? "nil")")
+        log.debug("Deinitializing ProductVC for: \(vcIdentity)")
     }
     
     
     public override func didReceiveMemoryWarning() {
-        log.warning("Received memory warning in ProductVC for: \(product.id ?? "nil")")
+        log.warning("Received memory warning in ProductVC for: \(vcIdentity)")
         super.didReceiveMemoryWarning()
     }
     

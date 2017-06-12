@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 
 protocol TeaserViewControllerProtocol {
@@ -20,16 +21,20 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     // MARK: - Stored Properties
     
+    // MARK: References
+    
     var product: Product!
     var productContext: PContext!
     
-    var hasBeenRetried: Bool = false
-    var isDisplayed = false
+    var endPlayObserver: NSObjectProtocol?
     
     var player: BCPlayer?
     var playerLayer: BCPlayerLayer?
     
     var waveView: Wave?
+    
+    var hasBeenRetried: Bool = false
+    var isDisplayed = false
     
     // MARK: - Outlets
     
@@ -57,6 +62,10 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         return product.type == "product" || (product.type == "url" && product.contentUrl != nil)
     }
     
+    fileprivate var productId: String {
+        return product.id ?? "nil"
+    }
+    
     // MARK: - Initializers
     
     
@@ -74,10 +83,10 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     static func instance(withProduct product: Product,
                          andContext context: PContext) -> TeaserViewController {
         
-        let storyboard = UIStoryboard(name: KUI.Storyboard.ProductPageViews.rawValue,
+        let storyboard = UIStoryboard(name: KUI.SB.ProductPageViews.rawValue,
                                       bundle: Bundle(for: TeaserViewController.self))
         
-        let vc = storyboard.instantiateViewController(withIdentifier: KUI.ViewController.TeaserView.rawValue)
+        let vc = storyboard.instantiateViewController(withIdentifier: KUI.VC.TeaserView.rawValue)
             as? TeaserViewController
         
         if vc == nil {
@@ -140,7 +149,6 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         
         clearObservers()
         player?.pauseAndDestroy()
-        // [self updateSecondsWatched];
     }
     
     
@@ -212,7 +220,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     
     private func setup() {
-        setupPoster()
+        //setupPoster()
         
         playerLayer?.frame = view.bounds
         playerLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
@@ -286,35 +294,33 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         }
         
         if player?.status == .readyToPlay {
-            log.debug("Trying to play since player status seems to be ready to play: \(product.id ?? "nil")")
+            log.debug("Trying to play since player status seems to be ready to play: \(productId)")
             waveView?.stopAnimating()
             
-            progressView.player = player
-            
             if isDisplayed {
-                log.debug("Playing video: \(product.id ?? "nil")")
-                player?.play()
+                clearObservers()
                 setupObservers()
+                log.debug("Playing video: \(productId)")
+                player?.play()
             } else {
-                log.verbose("Stopped trying to play because video is ready but vc is not being displayed: \(product.id ?? "nil")")
+                log.verbose("Stopped trying to play because video is ready but vc is not being displayed: \(productId)")
             }
         } else {
-            log.warning("Tried to play but not ready yet: \(product.id ?? "nil")")
+            log.warning("Tried to play but not ready yet: \(productId)")
         }
     }
     
     
     private func replay() {
         log.verbose("Replaying...")
-        
         player?.seek(to: kCMTimeZero)
-        player?.play()
+        playIfReady()
     }
     
     
     fileprivate func retryPlayer() {
         guard let url = Foundation.URL(string: product.trailerURL) else {
-            log.error("Couldn't undertand url for string: \(product.trailerURL)")
+            log.error("Couldn't undertand url for string: \(product.trailerURL), productId: \(productId)")
             return
         }
         
@@ -326,18 +332,37 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     
     fileprivate func setupObservers() {
-        log.verbose("Setting up observers for TeaserVC with product id: \(product.id)")
+        log.verbose("Setting up observers for TeaserVC with product id: \(productId)")
+        
+        if endPlayObserver == nil {
+            endPlayObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
+                                                                     object: player?.currentItem,
+                                                                     queue: nil)
+            { [weak self] (_) in
+                log.verbose("Finished playing video.")
+                DispatchQueue.main.async { [weak self] in
+                    self?.replay()
+                }
+            }
+        }
+        
+        progressView.player = player
     }
     
     
     fileprivate func clearObservers() {
-        progressView.player = nil
+        log.debug("Clear observers for TeaserVC for product id: \(productId)")
+        
+        if endPlayObserver != nil {
+            log.verbose("Clearing end play observer in TeaserVC for product id: \(productId)")
+            NotificationCenter.default.removeObserver(endPlayObserver!)
+            endPlayObserver = nil
+        }
+        
+        if progressView != nil {
+            progressView.player = nil
+        }
     }
-    
-}
-
-
-extension TeaserViewController : UIViewControllerTransitioningDelegate {
     
 }
 
@@ -345,12 +370,13 @@ extension TeaserViewController : UIViewControllerTransitioningDelegate {
 extension TeaserViewController : BCPlayerDelegate {
     
     func readyToPlay() {
+        log.verbose("Ready to play: \(productId)")
         playIfReady()
     }
     
     
     func failToLoadItem(_ error : NSError) {
-        log.error("Failed to load item for product with id: \(product.id ?? "nil") : \(error.localizedDescription)")
+        log.error("Failed to load item for product with id: \(productId) : \(error.localizedDescription)")
         
         if hasBeenRetried == false {
             clearObservers()
@@ -366,14 +392,13 @@ extension TeaserViewController : BCPlayerDelegate {
     
     
     func networkFail(_ error : NSError) {
-        log.error("Network failed to load TeaserVC for product with id: \(product.id ?? "nil") : \(error.localizedDescription)")
-        
+        log.error("Network failed to load TeaserVC for product with id: \(productId) : \(error.localizedDescription)")
         // TODO: Show error message
     }
     
     
     func bufferEmpty() {
-        log.verbose("Buffer is EMPTY for TeaserVC with product id: \(product.id ?? "nil"). Waiting...")
+        log.verbose("Buffer is EMPTY for TeaserVC with product id: \(productId). Waiting...")
         
         waveView?.startAnimating()
         
@@ -382,7 +407,7 @@ extension TeaserViewController : BCPlayerDelegate {
     
     
     func bufferReady() {
-        log.verbose("Buffer is ready for TeaserVC with product id: \(product.id ?? "nil")")
+        log.verbose("Buffer is ready for TeaserVC with product id: \(productId)")
         
         waveView?.stopAnimating()
         

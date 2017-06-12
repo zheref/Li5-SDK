@@ -20,11 +20,9 @@
     BOOL _animate;
 }
 
-@property (weak, nonatomic) IBOutlet HeartAnimationView *loveButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentsButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 
-@property (weak, nonatomic) IBOutlet UILabel *loveCounter;
 @property (weak, nonatomic) IBOutlet UILabel *reviewsCounter;
 
 @property (weak, nonatomic) IBOutlet UIView *shareView;
@@ -72,8 +70,6 @@
 {
     [super initialize];
     
-    [self.loveButton setDelegate:self];
-    
 #ifdef EMBED
     self.loveButton.hidden = YES;
     self.commentsButton.hidden = YES;
@@ -94,8 +90,6 @@
 - (void)refreshStatus
 {
     DDLogVerbose(@"");
-    [self.loveButton setSelected:_product.isLoved];
-    self.loveCounter.text = [self friendlyNumber:_product.loves.longLongValue];
     
     self.unlockedMultilevelCallout.hidden = !self.product.isEligibleForMultiLevel;
     if (self.product.isEligibleForMultiLevel) {
@@ -189,48 +183,6 @@
         stringNumber = [NSString stringWithFormat:@"%.1fM", newNumber];
     }
     return stringNumber;
-}
-
-- (void)didTapButton
-{
-    DDLogVerbose(@"Love Button Pressed");
-    if (self.loveButton.selected)
-    {
-        self.product.isLoved = false;
-        [self.loveButton setSelected:false];
-        self.product.loves = @([self.product.loves integerValue] - 1);
-        self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
-        
-        [[Li5ApiHandler sharedInstance] deleteLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
-            if (error != nil)
-            {
-                self.product.isLoved = true;
-                [self.loveButton setSelected:true];
-                self.product.loves = @([self.product.loves integerValue] + 1);
-                self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
-            }
-        }];
-    }
-    else
-    {
-        self.product.isLoved = true;
-        [self.loveButton setSelected:true];
-        self.product.loves = @([self.product.loves integerValue] + 1);
-        self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
-        
-        //Vibrate sound
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-        
-        [[Li5ApiHandler sharedInstance] postLoveForProductWithID:self.product.id withCompletion:^(NSError *error) {
-            if (error != nil)
-            {
-                self.product.isLoved = false;
-                [self.loveButton setSelected:false];
-                self.product.loves = @([self.product.loves integerValue] - 1);
-                self.loveCounter.text = [self friendlyNumber:self.product.loves.longLongValue];
-            }
-        }];
-    }
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

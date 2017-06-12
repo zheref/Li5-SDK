@@ -37,7 +37,7 @@ public enum PContext : UInt {
     
     
     func fetchProducts(withReturner returner: @escaping ProductsReturner, andHandler handler: @escaping ErrorReturner) {
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let li5 = Li5ApiHandler.sharedInstance() else {
                 log.error("No instance available for Li5 API Services")
                 return

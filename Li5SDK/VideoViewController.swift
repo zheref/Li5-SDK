@@ -76,7 +76,7 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
         super.viewDidLoad()
         
         automaticallyAdjustsScrollViewInsets = false
-        view.backgroundColor = UIColor.red
+        view.backgroundColor = UIColor.clear
         
         present(viewController: teaserViewController, withAppearanceTransition: false)
     }

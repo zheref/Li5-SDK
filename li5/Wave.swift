@@ -194,24 +194,26 @@ open class Wave : UIView {
             }, completion: { (t) in      
         })
         
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
-            let x = self.frame.origin.x;
-            let max = (self.frame.width * CGFloat(2)) - CGFloat(2);
-            
-            while(self.isAnimating){
-               
-                //dispatch_after(delayTime, dispatch_get_main_queue()) {
-                    DispatchQueue.main.sync {
-
-                    if(self.frame.origin.x <= max) {
-                        self.frame.origin.x += 1.5;
-                    }
-                    else{
-                        self.frame.origin.x = x;
+        
+        DispatchQueue.global().async { [weak self] in
+            if let this = self {
+                let x = this.frame.origin.x
+                let max = (this.frame.width * CGFloat(2)) - CGFloat(2)
+                
+                while this.isAnimating {
+                    DispatchQueue.main.sync { [weak self] in
+                        if let this = self {
+                            if (this.frame.origin.x <= max) {
+                                this.frame.origin.x += 1.5
+                            } else {
+                                this.frame.origin.x = x
+                            }
                         }
-                    };
-               // }
+                    }
+                }
             }
+            
+            
         }
     }
     

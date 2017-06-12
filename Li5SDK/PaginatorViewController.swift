@@ -315,13 +315,21 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     }
     
     
+    /// Logs current preloaded view controllers in stack of 3 with their corresponding product ids
+    /// when available
     private func logPreloadedViewControllers() {
         if let _ = datasource {
-            log.debug("---- Preloaded ViewControllers ----")
+            log.debug("---- PVC PVC PVC PVC PVC PVC PVC ----")
+            
             for pvc in _preloadedViewControllers {
-                log.debug("PVC Index: \(pvc.scrollPageIndex)")
+                if let ppvc = pvc as? ProductPageViewController {
+                    log.debug("PVC Index: \(pvc.scrollPageIndex)   ID: \(ppvc.product.id ?? "nil")")
+                } else {
+                    log.debug("PVC Index: \(pvc.scrollPageIndex)")
+                }
             }
-            log.debug("---- --------- --------------- ----")
+            
+            log.debug("---- --- --- --- --- --- --- --- ----")
         }
     }
     

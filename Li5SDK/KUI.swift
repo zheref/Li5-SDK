@@ -10,12 +10,12 @@ import Foundation
 
 class KUI {
     
-    enum Storyboard : String {
+    enum SB : String {
         case ProductPageViews
     }
     
     
-    enum ViewController : String {
+    enum VC : String {
         case TeaserView
     }
     
