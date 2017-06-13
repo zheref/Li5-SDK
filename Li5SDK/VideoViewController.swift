@@ -146,7 +146,7 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     ///   - vc: The viewController willing to present
     ///   - appearance: Whether it's appearing or not
     func present(viewController vc: UIViewController, withAppearanceTransition appearance: Bool) {
-        log.debug("Presenting VC from VideoViewController \(product.id)")
+        log.verbose("Presenting VC from VideoViewController \(product.id)")
         
         vc.willMove(toParentViewController: self)
         addChildViewController(vc)
@@ -179,7 +179,7 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
                    withAppearanceTransition appearance: Bool,
                    byForcing force: Bool) {
         
-        log.debug("Unpresenting VC from VideoViewController \(product.id)")
+        log.verbose("Unpresenting VC from VideoViewController \(product.id)")
         
         vc.willMove(toParentViewController: nil)
         

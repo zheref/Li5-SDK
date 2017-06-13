@@ -48,8 +48,8 @@ public enum PContext : UInt {
                     log.error("Error while fetching products: \(error)")
                     handler(error)
                 } else if let products = products {
-                    log.debug("\(products.data.count) fetched products")
-                    log.debug(products)
+                    log.info("\(products.data.count) fetched products")
+                    log.verbose(products)
                     
                     if products.data.count > 0 {
                         if let this = self {
@@ -73,7 +73,7 @@ public enum PContext : UInt {
     
     func productPageViewController(atIndex index: Int) -> ProductPageViewController {
         let product = products[index]
-        log.debug("Delivering new instance of ProductViewController for product with id \(product.id ?? "nil")")
+        log.verbose("Delivering new instance of ProductViewController for product with id \(product.id ?? "nil")")
         return ProductPageViewController(withProduct: product, andContext: PContext.Discover)
     }
     
@@ -137,10 +137,10 @@ public enum PContext : UInt {
             let index = viewController.scrollPageIndex
             
             if index >= products.count || index == NSNotFound {
-                log.debug("No more viewcontrollers to deliver. Exceeded amount of products.")
+                log.verbose("No more viewcontrollers to deliver. Exceeded amount of products.")
                 return nil
             } else {
-                log.debug("Delivered next viewcontroller")
+                log.verbose("Delivered next viewcontroller")
                 return productPageViewController(atIndex: index + 1)
             }
         } else {
@@ -151,7 +151,7 @@ public enum PContext : UInt {
     
     func viewControllerViewController(at index: Int) -> UIViewController? {
         if index < 0 || index >= products.count || index == NSNotFound {
-            log.debug("No more viewcontrollers to deliver. Index below 0.")
+            log.verbose("No more viewcontrollers to deliver. Index below 0.")
             return nil
         } else {
             return productPageViewController(atIndex: index)

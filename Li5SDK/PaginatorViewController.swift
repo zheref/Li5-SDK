@@ -60,7 +60,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     var preloadedViewControllers: [UIViewController] {
         get { return _preloadedViewControllers }
         set {
-            log.debug("Setting preloaded view controllers")
+            log.verbose("Setting preloaded view controllers")
             
             if let firstVC = newValue.first {
                 if currentPageIndex != firstVC.scrollPageIndex {
@@ -70,14 +70,14 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
                 currentViewController = firstVC
                 
                 if let _ = datasource {
-                    log.debug("PT: Datasource present. Will set preloaded view controllers by also preloading the next ones.")
+                    log.verbose("PT: Datasource present. Will set preloaded view controllers by also preloading the next ones.")
                     
                     let preloadedViewControllersPlusNextOne = preloadNextViewController(to: newValue)
                     let preloadedViewControllersPlusSurroundings = preloadPreviousViewController(to: preloadedViewControllersPlusNextOne)
-                    log.debug("Preloaded viewcontrollers! Now we have \(preloadedViewControllersPlusSurroundings.count) in queue")
+                    log.verbose("Preloaded viewcontrollers! Now we have \(preloadedViewControllersPlusSurroundings.count) in queue")
                     _preloadedViewControllers = preloadedViewControllersPlusSurroundings
                 } else {
-                    log.debug("Datasource not present. Will set preloaded view controllers just as they were passed.")
+                    log.verbose("Datasource not present. Will set preloaded view controllers just as they were passed.")
                     _preloadedViewControllers = newValue
                     
                     for index in currentPageIndex...(_preloadedViewControllers.count - 1) {
@@ -227,7 +227,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     
     func moveTo(pageIndex targetPageIndex: Int) {
-        log.debug("Moved to page index: \(targetPageIndex)...")
+        log.verbose("Moved to page index: \(targetPageIndex)...")
         
         if currentPageIndex != targetPageIndex {
             
@@ -335,7 +335,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     
     private func append(preloadedVC: UIViewController) {
-        log.debug("Appending preloaded viewcontroller for index: \(preloadedVC.scrollPageIndex)")
+        log.verbose("Appending preloaded viewcontroller for index: \(preloadedVC.scrollPageIndex)")
         _preloadedViewControllers.append(preloadedVC)
         
         logPreloadedViewControllers()
@@ -399,7 +399,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
             preloading = true
             
             log.warning("Trying to preload a vc that should have existed in the first place: \(pageIndex)")
-            log.debug("Preloading for page index: \(pageIndex)")
+            log.verbose("Preloading for page index: \(pageIndex)")
             
             preloadingViewController.scrollPageIndex = pageIndex
             
@@ -430,7 +430,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
             _preloadedViewControllers = vcs
             
             if preloadingViewController.parent == nil {
-                log.debug("Presenting preloading view controller with page index: \(pageIndex)")
+                log.verbose("Presenting preloading view controller with page index: \(pageIndex)")
                 present(viewController: preloadingViewController)
             }
             
@@ -477,11 +477,11 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
         log.verbose("Trying to get page vc for index \(index)")
         
         if let matchingViewController = viewControllerMatching(productIndex: index) {
-            log.debug("Page vc matching index is already in memory. Returning it...")
+            log.verbose("Page vc matching index is already in memory. Returning it...")
             return matchingViewController
         }
         
-        log.debug("No page vc matching index. Creating new instance from scratch...")
+        log.verbose("No page vc matching index. Creating new instance from scratch...")
         
         guard let datasource = datasource else {
             log.warning("DataSource is nil for PaginatorViewController. Won't continue without it")
@@ -507,7 +507,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
         for childVC in childViewControllers {
             if _preloadedViewControllers.contains(childVC) == false {
                 if currentViewController != childVC {
-                    log.debug("Getting rid of unnecessary child view controller: \(childVC.scrollPageIndex)")
+                    log.verbose("Getting rid of unnecessary child view controller: \(childVC.scrollPageIndex)")
                     childVC.view.removeFromSuperview()
                     childVC.removeFromParentViewController()
                 }
@@ -569,7 +569,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     
     override public func viewDidLoad() {
-        log.debug("PaginatorViewController did load :)")
+        log.verbose("PaginatorViewController did load :)")
         super.viewDidLoad()
         
         setup()
@@ -584,7 +584,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     
     override public func viewDidAppear(_ animated: Bool) {
-        log.debug("PaginatorViewController did appear")
+        log.verbose("PaginatorViewController did appear")
         super.viewDidAppear(animated)
         
         currentViewController?.endAppearanceTransition()
@@ -599,7 +599,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     
     override public func viewDidDisappear(_ animated: Bool) {
-        log.debug("PaginatorViewController did disappear")
+        log.verbose("PaginatorViewController did disappear")
         
         currentViewController?.endAppearanceTransition()
     }
@@ -683,7 +683,7 @@ extension PaginatorViewController : UIScrollViewDelegate {
             lastContentOffset = scrollView.contentOffset.y
         }
         
-        log.debug("Scroll direction recognized: \(scrollDirection.debugDescription)")
+        log.verbose("Scroll direction recognized: \(scrollDirection.debugDescription)")
     }
     
     

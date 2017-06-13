@@ -52,7 +52,7 @@ class ProductPageViewController : PaginatorViewController {
     // MARK: - LIFECYCLE
     
     public override func viewDidLoad() {
-        log.debug("Product page vc did load: \(vcIdentity)")
+        log.verbose("Product page vc did load: \(vcIdentity)")
         view.backgroundColor = UIColor.yellow
         super.viewDidLoad()
     }
@@ -60,7 +60,7 @@ class ProductPageViewController : PaginatorViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        log.debug("Product page vc did appear: \(vcIdentity)")
+        log.verbose("Product page vc did appear: \(vcIdentity)")
     }
     
     
@@ -83,13 +83,13 @@ class ProductPageViewController : PaginatorViewController {
     
     
     override func viewDidLayoutSubviews() {
-        log.debug("viewDidLayoutSubviews")
+        log.verbose("viewDidLayoutSubviews")
         super.viewDidLayoutSubviews()
     }
     
     
     deinit {
-        log.debug("Deinitializing ProductVC for: \(vcIdentity)")
+        log.verbose("Deinitializing ProductVC for: \(vcIdentity)")
     }
     
     

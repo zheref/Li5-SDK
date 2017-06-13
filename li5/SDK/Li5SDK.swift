@@ -42,7 +42,7 @@ open class Li5SDK {
                                              withApiKey: apiKey) { nserror in
             
             if let errorString = nserror != nil ? nserror?.localizedDescription : "0" {
-                log.debug("Logged in with result: \(errorString)")
+                log.info("Logged in with result: \(errorString)")
             }
         }
     }

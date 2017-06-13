@@ -33,6 +33,10 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     var waveView: Wave?
     
+    var posterImageView: UIImageView?
+    
+    // MARK: Flags
+    
     var hasBeenRetried: Bool = false
     var isDisplayed = false
     
@@ -200,7 +204,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     
     deinit {
-        log.debug("Deinitializing Teaser VC for product id: \(product.id ?? "nil")")
+        log.verbose("Deinitializing Teaser VC for product id: \(product.id ?? "nil")")
         
         clearObservers()
         player?.pauseAndDestroy()
@@ -272,15 +276,17 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     private func setupPoster() {
         if let poster = product.trailerPosterPreview {
-            log.verbose("Rendering available poster for product on Teaser...")
+            log.debug("Rendering available poster for product on Teaser...")
             
             if let data = Data(base64Encoded: poster),
                 let image = UIImage(data: data) {
                 
-                let imageView = UIImageView(image: image)
-                imageView.frame = view.bounds
+                posterImageView = UIImageView(image: image)
+                posterImageView?.frame = view.bounds
                 
-                playerContainer.addSubview(imageView)
+                if let posterImageView = posterImageView {
+                    playerContainer.addSubview(posterImageView)
+                }
             }
         }
     }
@@ -294,13 +300,14 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         }
         
         if player?.status == .readyToPlay {
-            log.debug("Trying to play since player status seems to be ready to play: \(productId)")
+            log.verbose("Trying to play since player status seems to be ready to play: \(productId)")
             waveView?.stopAnimating()
             
             if isDisplayed {
                 clearObservers()
                 setupObservers()
-                log.debug("Playing video: \(productId)")
+                posterImageView?.removeFromSuperview()
+                log.verbose("Playing video: \(productId)")
                 player?.play()
             } else {
                 log.verbose("Stopped trying to play because video is ready but vc is not being displayed: \(productId)")
@@ -319,6 +326,8 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     
     fileprivate func retryPlayer() {
+        log.warning("Retrying player...")
+        
         guard let url = Foundation.URL(string: product.trailerURL) else {
             log.error("Couldn't undertand url for string: \(product.trailerURL), productId: \(productId)")
             return
@@ -351,7 +360,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     
     fileprivate func clearObservers() {
-        log.debug("Clear observers for TeaserVC for product id: \(productId)")
+        log.verbose("Clear observers for TeaserVC for product id: \(productId)")
         
         if endPlayObserver != nil {
             log.verbose("Clearing end play observer in TeaserVC for product id: \(productId)")

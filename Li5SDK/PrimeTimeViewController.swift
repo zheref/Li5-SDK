@@ -104,13 +104,13 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
     
     
     override func viewDidLayoutSubviews() {
-        log.debug("viewDidLayoutSubviews")
+        log.verbose("viewDidLayoutSubviews")
         super.viewDidLayoutSubviews()
     }
     
     
     deinit {
-        log.debug("Deallocating instance of PrimeTimeViewController")
+        log.verbose("Deallocating instance of PrimeTimeViewController")
     }
     
     // MARK: - ROUTINES
@@ -169,7 +169,7 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
         firstPageViewController.scrollPageIndex = startIndex
         preloadedViewControllers = [firstPageViewController]
         
-        log.debug("Calling relayout manually...")
+        log.verbose("Calling relayout manually...")
         relayout()
         
         firstPageViewController.beginAppearanceTransition(true, animated: false)
