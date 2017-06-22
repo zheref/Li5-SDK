@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -22,7 +23,7 @@
         <!--Last Page View Controller-->
         <scene sceneID="GIL-qm-dNn">
             <objects>
-                <viewController storyboardIdentifier="LastPageView" id="52w-Xj-q32" customClass="LastPageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LastPage" id="52w-Xj-q32" customClass="LastPageViewController" customModule="Li5SDK" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zzJ-bb-kVu"/>
                         <viewControllerLayoutGuide type="bottom" id="oyF-A9-7NZ"/>
@@ -315,10 +316,10 @@
                                         <rect key="frame" x="20" y="259" width="335" height="150"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Px5-R7-sMN">
-                                                <rect key="frame" x="29" y="25" width="278.5" height="100"/>
+                                                <rect key="frame" x="28.5" y="25" width="278.5" height="100"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Esquire_logo" translatesAutoresizingMaskIntoConstraints="NO" id="ZxV-YB-o7f">
-                                                        <rect key="frame" x="19" y="0.0" width="240" height="61"/>
+                                                        <rect key="frame" x="18.5" y="0.0" width="240" height="61"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
@@ -403,16 +404,16 @@
                         <outlet property="dropDownArrow" destination="3NF-ej-deS" id="ZFb-SO-36O"/>
                         <outlet property="endOfShowVideoView" destination="aoi-fU-uJl" id="nSh-ap-ndm"/>
                         <outlet property="endOfShowView" destination="1t6-qN-SOc" id="54H-mp-W6g"/>
-                        <outlet property="popcorn1" destination="wvX-pe-MDh" id="E3A-K9-MLG"/>
-                        <outlet property="popcorn2" destination="sFm-se-Kz6" id="lYm-HH-reg"/>
-                        <outlet property="popcorn3" destination="wVa-A7-5ht" id="sNN-sx-ped"/>
-                        <outlet property="popcorn4" destination="XD7-94-EbK" id="udm-JU-It3"/>
-                        <outlet property="popcornFloor" destination="IGg-7I-ADK" id="YgF-Ix-zwn"/>
                         <outlet property="showLogo" destination="ZxV-YB-o7f" id="fxc-SD-oUC"/>
                         <outlet property="staticView" destination="O3G-Aw-DXx" id="JC9-QR-tuU"/>
                         <outlet property="swipeDownView" destination="cY4-rt-55o" id="FLb-Ow-3FZ"/>
                         <outlet property="turnOnNotifications" destination="E7w-MG-g7x" id="BmX-c3-y0C"/>
                         <outlet property="videoView" destination="qBI-26-MM6" id="uKS-CL-i3f"/>
+                        <outletCollection property="popcorns" destination="wvX-pe-MDh" collectionClass="NSMutableArray" id="WRQ-GI-VRv"/>
+                        <outletCollection property="popcorns" destination="sFm-se-Kz6" collectionClass="NSMutableArray" id="CXP-GN-d2f"/>
+                        <outletCollection property="popcorns" destination="IGg-7I-ADK" collectionClass="NSMutableArray" id="luV-dF-ikp"/>
+                        <outletCollection property="popcorns" destination="wVa-A7-5ht" collectionClass="NSMutableArray" id="6vH-Ld-jIq"/>
+                        <outletCollection property="popcorns" destination="XD7-94-EbK" collectionClass="NSMutableArray" id="ghB-FT-NEw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pij-n7-bhm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -438,7 +439,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lYW-6W-Dn2">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xuq-c8-MLD" customClass="SpinnerView" customModule="Li5" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xuq-c8-MLD" customClass="SpinnerView" customModule="Li5SDK" customModuleProvider="target">
                                         <rect key="frame" x="162" y="308.5" width="50" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -527,10 +528,10 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C2K-8e-AIF">
-                                        <rect key="frame" x="70" y="209" width="236" height="230"/>
+                                        <rect key="frame" x="70.5" y="209.5" width="235.5" height="229"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipeLeftIcon" translatesAutoresizingMaskIntoConstraints="NO" id="OzZ-2k-3rW">
-                                                <rect key="frame" x="78" y="0.0" width="80" height="123"/>
+                                                <rect key="frame" x="77.5" y="0.0" width="80" height="123"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="123" id="Kyu-Dc-khC"/>
                                                     <constraint firstAttribute="width" constant="81" id="yor-bK-4bz"/>
@@ -543,7 +544,7 @@
                                                 </variation>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SWIPE LEFT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbL-NC-JEf">
-                                                <rect key="frame" x="0.0" y="148" width="236" height="50"/>
+                                                <rect key="frame" x="0.0" y="148" width="235.5" height="49"/>
                                                 <fontDescription key="fontDescription" name="Rubik-Bold" family="Rubik" pointSize="40"/>
                                                 <color key="textColor" red="0.94117647410000005" green="0.86666667460000002" blue="0.23137255009999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -551,7 +552,7 @@
                                                 <size key="shadowOffset" width="1" height="2"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO WATCH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j83-nQ-yer">
-                                                <rect key="frame" x="0.0" y="204" width="236" height="26"/>
+                                                <rect key="frame" x="0.0" y="203" width="235.5" height="26"/>
                                                 <fontDescription key="fontDescription" name="Rubik-Bold" family="Rubik" pointSize="20"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>

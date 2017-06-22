@@ -378,6 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				5B613DA01E43F4A9006C3A9F /* ProductPageViews.storyboard */,
+				5B613D851E43F459006C3A9F /* DiscoverViews.storyboard */,
 				2B84CD111EE837880011F061 /* Abstraction */,
 				2B84CD121EE837940011F061 /* PrimeTime */,
 				7818510A1EE9F0C500F124EC /* Video */,
@@ -520,7 +521,6 @@
 		5B6204421CCA5DBB003C9390 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
-				5B613D851E43F459006C3A9F /* DiscoverViews.storyboard */,
 				5BE00A1A1D108CFA00C8E72F /* SpinnerViewController.h */,
 				5BE00A1B1D108CFA00C8E72F /* SpinnerViewController.m */,
 				5B8625CD1C763CE4006869DE /* IndexedViewController.h */,
@@ -1159,6 +1159,7 @@
 				5B613D841E43F459006C3A9F /* Base */,
 			);
 			name = DiscoverViews.storyboard;
+			path = ../li5;
 			sourceTree = "<group>";
 		};
 		5B613D971E43F496006C3A9F /* ProductsListView.xib */ = {

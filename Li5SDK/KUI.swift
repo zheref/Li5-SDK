@@ -12,11 +12,13 @@ class KUI {
     
     enum SB : String {
         case ProductPageViews
+        case DiscoverViews
     }
     
     
     enum VC : String {
         case TeaserView
+        case LastPage
     }
     
 }

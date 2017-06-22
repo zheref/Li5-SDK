@@ -85,6 +85,17 @@ public enum PContext : UInt {
     }
     
     
+    func lastPageViewController() -> LastPageViewController {
+        let storyboard = UIStoryboard(name: KUI.SB.DiscoverViews.rawValue, bundle: Bundle(for: PrimeTimeViewControllerDataSource.self))
+        
+        let vc = storyboard.instantiateViewController(withIdentifier: KUI.VC.LastPage.rawValue) as! LastPageViewController
+        vc.scrollPageIndex = products.count
+        vc.lastVideoUrl = endOfPrimeTime
+        
+        return vc
+    }
+    
+    
     // MARK: - PRIVATE INTERFACE
     
     private var expirationTimer: Timer?
@@ -151,8 +162,13 @@ public enum PContext : UInt {
     
     func viewControllerViewController(at index: Int) -> UIViewController? {
         if index < 0 || index >= products.count || index == NSNotFound {
-            log.verbose("No more viewcontrollers to deliver. Index below 0.")
-            return nil
+            if index == products.count {
+                log.debug("No more viewcontrollers to deliver. Delivering LastPage")
+                return lastPageViewController()
+            } else {
+                log.verbose("No more viewcontrollers to deliver. Index below 0 or above products count")
+                return nil
+            }
         } else {
             return productPageViewController(atIndex: index)
         }

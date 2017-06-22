@@ -9,13 +9,22 @@
 import Foundation
 
 
-class ProductPageViewController : PaginatorViewController {
+protocol ProductPageViewControllerProtocol {
+    
+}
+
+
+class ProductPageViewController : PaginatorViewController, ProductPageViewControllerProtocol {
     
     public var product: Product!
     
     
     var vcIdentity: String {
-        return "\(scrollPageIndex):\(product.id ?? "nil")"
+        if product != nil {
+            return "\(scrollPageIndex):\(product.id ?? "nil")"
+        } else {
+            return "\(scrollPageIndex):"
+        }
     }
     
     
@@ -45,8 +54,13 @@ class ProductPageViewController : PaginatorViewController {
     }
     
     
+    public override init() {
+        super.init()
+    }
+    
+    
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     // MARK: - LIFECYCLE
