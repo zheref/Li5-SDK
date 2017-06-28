@@ -330,6 +330,17 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
                 }
             }
             
+            log.debug("---- CVC CVC CVC CVC CVC CVC CVC ----")
+            
+            for vc in childViewControllers {
+                if let ppvc = vc as? ProductPageViewController,
+                    ppvc.product != nil {
+                    log.debug("PVC Index: \(vc.scrollPageIndex)   ID: \(ppvc.product.id ?? "nil")")
+                } else {
+                    log.debug("PVC Index: \(vc.scrollPageIndex)")
+                }
+            }
+            
             log.debug("---- --- --- --- --- --- --- --- ----")
         }
     }
