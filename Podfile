@@ -4,7 +4,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'Li5SDK' do
-    pod 'CocoaLumberjack'
+    #pod 'CocoaLumberjack'
     pod 'Li5Api', :path => '../api'
     #pod 'BCVideoPlayer', :path => '../player'
     

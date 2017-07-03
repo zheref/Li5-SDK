@@ -90,7 +90,6 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AFNetworking/AFNetworking.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FXBlurView/FXBlurView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/HexColors/HexColors.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONModel/JSONModel.framework"
@@ -106,7 +105,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AFNetworking/AFNetworking.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FXBlurView/FXBlurView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/HexColors/HexColors.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONModel/JSONModel.framework"
