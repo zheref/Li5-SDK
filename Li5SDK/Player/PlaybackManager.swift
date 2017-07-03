@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PlaybackManager : NSObject {
+@objc class PlaybackManager : NSObject {
     
     // MARK: - CLASS MEMBERS
     
@@ -20,9 +20,9 @@ class PlaybackManager : NSObject {
     
     // MARK: Stored Properties
     
-    private var playerbackManagerKVOContext = 0
+    var player: AVQueuePlayer? = AVQueuePlayer()
     
-    @objc private var player: AVQueuePlayer? = AVQueuePlayer()
+    private var playerbackManagerKVOContext = 0
     
     private weak var delegate: PlaybackDelegate?
     
@@ -77,21 +77,20 @@ class PlaybackManager : NSObject {
     
     // MARK: - ROUTINES
     
-    func attach(delegate: PlaybackDelegate, automaticallyReplays: Bool) -> AVPlayer {
-        if player == nil {
-            player = AVQueuePlayer()
-        }
-        
+    /// Attaches the currently displayed view controller to back the media playback
+    /// - Parameters:
+    ///   - delegate: The currently displayed responsible of handling and playing the media
+    ///   - automaticallyReplays: Whether the current item should play in loop or not
+    func attach(delegate: PlaybackDelegate, automaticallyReplays: Bool) {
         self.delegate = delegate
         self.automaticallyReplays = automaticallyReplays
         
         addObserver(self, forKeyPath: #keyPath(PlaybackManager.player.currentItem.status),
                     options: [.new, .initial], context: &playerbackManagerKVOContext)
-        
-        return player!
     }
     
-    
+    /// Enqueue URL as AVPlayerItem into the manager for it to be played when its turn comes
+    /// - Parameter url: The URL of the media track to play
     func append(url: Foundation.URL) {
         let item = AVPlayerItem(url: url)
         playlistItems.append(item)
@@ -186,7 +185,14 @@ class PlaybackManager : NSObject {
     }
     
     
-    func playNext() {
+    /// Replay the current item from the beginning
+    private func replay() {
+        player?.seek(to: kCMTimeZero)
+        player?.play()
+    }
+    
+    
+    private func playNext() {
         if currentIndex == playlistItems.count - 1 {
             log.error("Trying to go to next player item when there are no more enqueued")
         } else {
@@ -196,7 +202,7 @@ class PlaybackManager : NSObject {
     }
     
     
-    func playPrevious() {
+    private func playPrevious() {
         if currentIndex == 0 {
             log.error("Trying to go to previous player item when the cursor is on zero position")
         } else {
@@ -205,18 +211,9 @@ class PlaybackManager : NSObject {
         }
     }
     
-    
-    
-    
-    
+    /// Goes to the position zero of the playback
     private func goToZero() {
         player?.seek(to: kCMTimeZero)
-    }
-    
-    
-    func replay() {
-        player?.seek(to: kCMTimeZero)
-        player?.play()
     }
     
     
@@ -225,7 +222,6 @@ class PlaybackManager : NSObject {
                                change: [NSKeyValueChangeKey : Any]?,
                                context: UnsafeMutableRawPointer?) {
         
-        // Make sure the this KVO callback was intended for this view controller.
         guard context == &playerbackManagerKVOContext else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
             return
@@ -245,28 +241,6 @@ class PlaybackManager : NSObject {
                                       error: player?.currentItem?.error)
             } else if newStatus == .readyToPlay {
                 delegate?.bufferIsReadyToPlay()
-            }
-        } else if keyPath == #keyPath(PlaybackManager.player.currentItem.duration) {
-            let newDuration: CMTime
-            
-            if let newDurationAsValue = change?[NSKeyValueChangeKey.newKey] as? NSValue {
-                newDuration = newDurationAsValue.timeValue
-            } else {
-                newDuration = kCMTimeZero
-            }
-            
-            guard let player = player else {
-                return
-            }
-            
-            let hasValidDuration = newDuration.isNumeric && newDuration.value != 0
-            let newDurationSeconds = hasValidDuration ? CMTimeGetSeconds(newDuration) : 0.0
-            let currentTime = hasValidDuration ? Float(CMTimeGetSeconds(player.currentTime())) : 0.0
-            
-            log.verbose("Playback time: \(currentTime)")
-            
-            if currentTime == Float(newDurationSeconds) {
-                replay()
             }
         }
     }

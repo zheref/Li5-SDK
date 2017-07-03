@@ -27,6 +27,9 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     var playerLayer: AVPlayerLayer?
     
+    /// A weak reference to the player held by the PlaybackManager for convenience purposes
+    private weak var player: AVPlayer?
+    
     var waveView: Wave?
     
     var posterImageView: UIImageView?
@@ -34,7 +37,14 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     // MARK: Flags
     
     var hasBeenRetried: Bool = false
-    var isDisplayed = false
+    var isDisplayed = false {
+        didSet {
+            if isDisplayed {
+                log.debug("Attaching Teaser(\(scrollPageIndex)) to PlaybackManager")
+                PlaybackManager.shared.attach(delegate: self, automaticallyReplays: true)
+            }
+        }
+    }
     
     // MARK: - Outlets
     
@@ -111,9 +121,9 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     /// Sets up from scratch the player
     private func reset() {
-        let player = PlaybackManager.shared.attach(delegate: self, automaticallyReplays: true)
-        playerLayer = AVPlayerLayer(player: player)
-        //progressView.player = player
+        if let player = PlaybackManager.shared.player {
+            playerLayer = AVPlayerLayer(player: player)
+        }
     }
     
     
@@ -130,6 +140,22 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         super.viewDidLoad()
         
         setup()
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        actionsView.refreshStatus()
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        log.verbose("TeaserVC for product with id \(product.id ?? "nil") did appear")
+        super.viewDidAppear(animated)
+        
+        isDisplayed = true
+        
+        readyToPlay()
     }
     
     
@@ -152,26 +178,6 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         log.verbose("TeaserVC for product with id \(product.id ?? "nil") will disappear")
         
         super.viewWillDisappear(animated)
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        log.verbose("TeaserVC for product with id \(product.id ?? "nil") will appear")
-        
-        super.viewWillAppear(animated)
-        
-        actionsView.refreshStatus()
-    }
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        log.verbose("TeaserVC for product with id \(product.id ?? "nil") did appear")
-        
-        super.viewDidAppear(animated)
-        
-        isDisplayed = true
-        
-        playIfReady()
     }
     
     
@@ -208,6 +214,8 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     // MARK: Routines
     
     private func setup() {
+        progressView.player = player
+        
         setupPoster()
         
         playerLayer?.frame = view.bounds
@@ -276,17 +284,16 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     }
     
     
-    fileprivate func playIfReady() {
-        log.debug("Calling to play if ready...")
-        
+    fileprivate func readyToPlay() {
         if isDisplayed {
-            log.verbose("Calling to play video: \(productId)")
-            
             if PlaybackManager.shared.readyToPlayCurrentItem {
                 waveView?.stopAnimating()
                 posterImageView?.removeFromSuperview()
                 
+                log.verbose("Calling to play video: \(productId)")
                 PlaybackManager.shared.viewReadyToPlay()
+            } else {
+                log.verbose("Stopped trying to play because video is not ready to be played: \(productId)")
             }
         } else {
             log.verbose("Stopped trying to play because video is ready but vc is not being displayed: \(productId)")
@@ -316,10 +323,7 @@ extension TeaserViewController : PlaybackDelegate {
     
     
     func bufferIsReadyToPlay() {
-        waveView?.stopAnimating()
-        posterImageView?.removeFromSuperview()
-        
-        playIfReady()
+        readyToPlay()
     }
     
 }

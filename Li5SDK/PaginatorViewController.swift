@@ -60,8 +60,6 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     var preloadedViewControllers: [UIViewController] {
         get { return _preloadedViewControllers }
         set {
-            log.verbose("Setting preloaded view controllers")
-            
             if let firstVC = newValue.first {
                 if currentPageIndex != firstVC.scrollPageIndex {
                     currentPageIndex = firstVC.scrollPageIndex
@@ -70,14 +68,12 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
                 currentViewController = firstVC
                 
                 if let _ = datasource {
-                    log.verbose("PT: Datasource present. Will set preloaded view controllers by also preloading the next ones.")
-                    
                     let preloadedViewControllersPlusNextOne = preloadNextViewController(to: newValue)
                     let preloadedViewControllersPlusSurroundings = preloadPreviousViewController(to: preloadedViewControllersPlusNextOne)
-                    log.verbose("Preloaded viewcontrollers! Now we have \(preloadedViewControllersPlusSurroundings.count) in queue")
+                    log.debug("Preloaded viewcontrollers! Now we have \(preloadedViewControllersPlusSurroundings.count) in queue")
                     _preloadedViewControllers = preloadedViewControllersPlusSurroundings
                 } else {
-                    log.verbose("Datasource not present. Will set preloaded view controllers just as they were passed.")
+                    log.debug("Datasource not present. Will set preloaded view controllers just as they were passed.")
                     _preloadedViewControllers = newValue
                     
                     for index in currentPageIndex...(_preloadedViewControllers.count - 1) {
@@ -209,9 +205,6 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     
     func updateScrollViewContent() {
-        
-        log.verbose("Updating scroll view content (?)...")
-        
         containerScrollView.delegate = nil
         
         pageLength = direction == .Vertical ? view.bounds.size.height : view.bounds.size.width // Do we need to reupdate this???
@@ -368,10 +361,6 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
         }
         
         if isViewControllerPreloaded(forIndex: pageIndex) {
-            log.verbose("Not preloading since vc for page index: \(pageIndex) is already in memory")
-            
-            log.verbose("Surrounding preloaded vc if needed")
-            
             preloading = true
             
             var vcs = [UIViewController]()
@@ -564,7 +553,6 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
             controllers.append(contentsOf: vcs)
             
             if let nextVC = datasource.viewController(after: lastVC) {
-                log.verbose("Preloading next view controller")
                 nextVC.scrollPageIndex = lastVC.scrollPageIndex + 1
                 
                 controllers.append(nextVC)
@@ -581,7 +569,6 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     
     override public func viewDidLoad() {
-        log.verbose("PaginatorViewController did load :)")
         super.viewDidLoad()
         
         setup()
@@ -596,7 +583,6 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     
     override public func viewDidAppear(_ animated: Bool) {
-        log.verbose("PaginatorViewController did appear")
         super.viewDidAppear(animated)
         
         currentViewController?.endAppearanceTransition()
@@ -611,8 +597,6 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     
     override public func viewDidDisappear(_ animated: Bool) {
-        log.verbose("PaginatorViewController did disappear")
-        
         currentViewController?.endAppearanceTransition()
     }
     
@@ -633,8 +617,6 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
 extension PaginatorViewController : UIScrollViewDelegate {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        log.verbose("Scrolling")
-        
         // Recognizes direction
         recognizeScrollDirection(for: scrollView)
         
@@ -673,8 +655,6 @@ extension PaginatorViewController : UIScrollViewDelegate {
     /// Update direction and last content offset
     /// - Parameter scrollView: scrollView for which the scroll direction should be recognized
     private func recognizeScrollDirection(for scrollView: UIScrollView) {
-        log.verbose("Recognizing motion direction")
-        
         scrollDirection = .none
         
         if direction == .Horizontal {
@@ -694,8 +674,6 @@ extension PaginatorViewController : UIScrollViewDelegate {
             
             lastContentOffset = scrollView.contentOffset.y
         }
-        
-        log.verbose("Scroll direction recognized: \(scrollDirection.debugDescription)")
     }
     
     

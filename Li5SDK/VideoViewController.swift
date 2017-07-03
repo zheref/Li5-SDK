@@ -63,7 +63,6 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     
     
     override func viewDidLoad() {
-        log.verbose("VideoViewController did load for product id: \(product.id)")
         super.viewDidLoad()
         
         automaticallyAdjustsScrollViewInsets = false
@@ -81,7 +80,6 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     
     
     override func viewDidAppear(_ animated: Bool) {
-        log.verbose("VideoViewController did appear for product id: \(product.id)")
         super.viewDidAppear(animated)
         
         currentViewController?.endAppearanceTransition()
@@ -96,7 +94,6 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     
     
     override func viewDidDisappear(_ animated: Bool) {
-        log.verbose("VideoViewController did disappear for product id: \(product.id)")
         super.viewDidDisappear(animated)
         
         currentViewController?.endAppearanceTransition()
@@ -115,14 +112,11 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     
     
     override func didReceiveMemoryWarning() {
-        log.verbose("VideoViewController did receive memory warning: \(product.id)")
         super.didReceiveMemoryWarning()
     }
     
     
     deinit {
-        log.verbose("Deinitializing VideoViewController for product with id: \(product.id)")
-        
         teaserViewController = nil
         //TODO: unlockedViewController = nil
         currentViewController = nil

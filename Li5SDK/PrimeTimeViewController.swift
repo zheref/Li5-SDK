@@ -128,7 +128,6 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
         } else {
             operationQueue.addOperation { [weak self] in
                 if let this = self {
-                    log.verbose("Loading PrimeTime data...")
                     this.primeTimeLoading = true
                     
                     this.primeTimeDataSource.fetchProducts(returner: { [weak self] (products) in
