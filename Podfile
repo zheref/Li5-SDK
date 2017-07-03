@@ -6,9 +6,8 @@ use_frameworks!
 target 'Li5SDK' do
     pod 'CocoaLumberjack'
     pod 'Li5Api', :path => '../api'
-    pod 'BCVideoPlayer', :path => '../player'
+    #pod 'BCVideoPlayer', :path => '../player'
     
-    pod 'GCDWebServer', '~> 3.2.5'
     pod 'SDWebImage', '~>3.7'
     pod 'Masonry'
     pod 'TSMessages', :git => 'https://github.com/KrauseFx/TSMessages.git' #can be eliminated
@@ -21,6 +20,7 @@ target 'Li5SDK' do
     pod 'Crashlytics'
     
     pod 'SwiftyBeaver'
+    pod 'KVOController'
 end
 
 target 'DemoSDK' do
