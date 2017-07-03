@@ -49,8 +49,6 @@
                                propertyArray, @"properties",
                                methodArray, @"methods",
                                nil];
-    
-    DDLogVerbose(@"%@", classInfo);
 }
 
 @end

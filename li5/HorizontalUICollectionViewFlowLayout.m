@@ -20,7 +20,6 @@
 
 - (instancetype)initWithColumns:(NSInteger)col andRows:(NSInteger)rows
 {
-    DDLogVerbose(@"");
     self = [super init];
     if (self)
     {
@@ -33,14 +32,12 @@
 
 - (void)awakeFromNib
 {
-    DDLogVerbose(@"");
     [super awakeFromNib];
     [self initialize];
 }
 
 - (void)initialize
 {
-    DDLogVerbose(@"");
     __nbColumns = __nbColumns ?: 3;
     __nbLines = __nbLines ?: 3;
     
@@ -50,7 +47,6 @@
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    //DDLogVerbose(@"");
     NSInteger idxPage = (int)indexPath.row / (__nbColumns * __nbLines);
 
     NSInteger O = indexPath.row - (idxPage * __nbColumns * __nbLines);

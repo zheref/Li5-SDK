@@ -114,12 +114,12 @@
     CGFloat rotationStrengthY = fabs(MIN(dragDistance.y / CGRectGetHeight(self.bounds), rotationMax));
     CGFloat rotationAngle =  defaultRotationAngle * (rotationStrengthY*animationDirectionY - rotationStrengthX*animationDirectionX);
     
-    DDLogDebug(@"size: %@",NSStringFromCGSize(self.bounds.size));
-    DDLogDebug(@"_initialPanPoint: %@",NSStringFromCGPoint(_initialPanPoint));
-    DDLogDebug(@"animationDirection: (%f,%f)",animationDirectionX,animationDirectionY);
-    DDLogDebug(@"rotationStrength: (%f,%f)",rotationStrengthX, rotationStrengthY);
-    DDLogDebug(@"dragDistance: %@",NSStringFromCGPoint(dragDistance));
-    DDLogDebug(@"rotationAngle: %f",rotationAngle * 180 / M_PI);
+    NSLog(@"size: %@",NSStringFromCGSize(self.bounds.size));
+    NSLog(@"_initialPanPoint: %@",NSStringFromCGPoint(_initialPanPoint));
+    NSLog(@"animationDirection: (%f,%f)",animationDirectionX,animationDirectionY);
+    NSLog(@"rotationStrength: (%f,%f)",rotationStrengthX, rotationStrengthY);
+    NSLog(@"dragDistance: %@",NSStringFromCGPoint(dragDistance));
+    NSLog(@"rotationAngle: %f",rotationAngle * 180 / M_PI);
     
     [UIView animateWithDuration:0.25 animations:^{
         self.transform = CGAffineTransformRotate(CGAffineTransformTranslate(CGAffineTransformIdentity, dragDistance.x, dragDistance.y), rotationAngle);

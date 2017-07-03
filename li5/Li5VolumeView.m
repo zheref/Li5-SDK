@@ -81,7 +81,7 @@
         [self addSubview:_volume];
         
     } @catch (NSException *exception) {
-        DDLogError(@"unable to initialize AVAudioSession %@", exception.description);
+        NSLog(@"Error: unable to initialize AVAudioSession %@", exception.description);
     }
 }
 
@@ -120,7 +120,7 @@
     {
         CGFloat value = [[change valueForKey:@"new"] floatValue];
         
-        DDLogVerbose(@"changing volume to: %f",value);
+        NSLog(@"changing volume to: %f",value);
         
         [self updateVolumeWith:value animated:true];
     }
@@ -128,7 +128,6 @@
 
 - (void)dealloc
 {
-    DDLogDebug(@"%p",self);
     [[AVAudioSession sharedInstance] removeObserver:self forKeyPath:@"outputVolume"];
 }
 

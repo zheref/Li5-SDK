@@ -72,7 +72,6 @@
 }
 
 - (void)viewDidLoad {
-    DDLogVerbose(@"");
     [super viewDidLoad];
     
 #ifndef EMBED
@@ -97,7 +96,6 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DDLogVerbose(@"");
     [super viewDidAppear:animated];
     
     [self fetchPrimeTime:nil];
@@ -107,7 +105,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    DDLogVerbose(@"");
     [super viewDidDisappear:animated];
     
     [self hideMovie];
@@ -115,14 +112,12 @@
 
 - (void)replayMovie:(NSNotification *)notification
 {
-    DDLogVerbose(@"replaying animation");
     [loadingLayer.player seekToTime:kCMTimeZero];
     [loadingLayer.player play];
 }
 
 - (void)hideMovie
 {
-    DDLogVerbose(@"");
     [loadingLayer.player pause];
     
     [self removeVideoEndObservers];
@@ -131,7 +126,6 @@
 }
 
 - (void)displayErrorAndHideMovie:(NSNotification*)notification {
-    DDLogVerbose(@"");
     
     [self hideMovie];
     
@@ -181,7 +175,6 @@
 
 - (void)dealloc
 {
-    DDLogDebug(@"%p",self);
     [loadingLayer.player replaceCurrentItemWithPlayerItem:nil];
     loadingLayer = nil;
     

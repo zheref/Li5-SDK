@@ -9,8 +9,6 @@
 #ifndef CrashlyticsLogger_h
 #define CrashlyticsLogger_h
 
-#import "DDLog.h"
-
 @interface CrashlyticsLogger : DDAbstractLogger
 
 +(CrashlyticsLogger*) sharedInstance;

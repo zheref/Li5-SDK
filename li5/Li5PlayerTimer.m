@@ -64,7 +64,6 @@
 
 - (void)initialize
 {
-    DDLogDebug(@"");
     _startAngle = M_PI * 1.5;
     _endAngle = _startAngle + (M_PI * 2);
     _percentage = 0.0f;
@@ -280,7 +279,6 @@
 
 - (void)dealloc
 {
-    DDLogDebug(@"%p",self);
     [self removeObservers];
 }
 

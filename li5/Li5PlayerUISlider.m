@@ -409,7 +409,6 @@
 
 - (void)dealloc
 {
-    DDLogDebug(@"%p",self);
     [self removeObservers];
 }
 

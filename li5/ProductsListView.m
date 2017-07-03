@@ -32,7 +32,6 @@ static const CGFloat rightSectionInset = 0.0;
 
 - (void)initialize
 {
-    DDLogVerbose(@"");
     [super initialize];
 
     _fetching = NO;
@@ -42,7 +41,6 @@ static const CGFloat rightSectionInset = 0.0;
 
 - (void)awakeFromNib
 {
-    DDLogVerbose(@"");
     [super awakeFromNib];
 
     [_collectionView setCollectionViewLayout:[[HorizontalUICollectionViewFlowLayout alloc] initWithColumns:self.columns andRows:self.rows]];
@@ -53,7 +51,6 @@ static const CGFloat rightSectionInset = 0.0;
 
 - (void)prepareForInterfaceBuilder
 {
-    DDLogVerbose(@"");
 //    [_collectionView setDataSource:[ProductsListViewIBDataSource new]];
 //    [_collectionView reloadData];
 }
@@ -62,7 +59,6 @@ static const CGFloat rightSectionInset = 0.0;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DDLogVerbose(@"");
     
     CGFloat width = ((collectionView.frame.size.width - leftSectionInset - rightSectionInset) / self.columns) - lineSpacing;
     CGFloat height = (collectionView.frame.size.height - topSectionInset - bottomSectionInset - (self.rows-1)*interimItemSpacing ) / self.rows;
@@ -72,25 +68,21 @@ static const CGFloat rightSectionInset = 0.0;
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    DDLogVerbose(@"");
     return lineSpacing;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    DDLogVerbose(@"");
     return interimItemSpacing;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    DDLogVerbose(@"");
     return UIEdgeInsetsMake(topSectionInset, leftSectionInset, bottomSectionInset, rightSectionInset);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DDLogVerbose(@"");
     if (self.delegate)
     {
         [self.delegate didSelectItemAtIndexPath:indexPath];
@@ -99,13 +91,11 @@ static const CGFloat rightSectionInset = 0.0;
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DDLogVerbose(@"");
     [((ProductsCollectionViewCell *)cell) willDisplayCell];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DDLogVerbose(@"");
     [((ProductsCollectionViewCell *)cell) didEndDisplayingCell];
 }
 
@@ -113,7 +103,6 @@ static const CGFloat rightSectionInset = 0.0;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    DDLogVerbose(@"");
     CGFloat width = scrollView.frame.size.width;
     NSInteger page = (scrollView.contentOffset.x + (0.5f * width)) / width;
     

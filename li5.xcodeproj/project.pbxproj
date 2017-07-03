@@ -78,8 +78,6 @@
 		2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66D81CFF2D39001BE4BB /* Li5GradientView.m */; };
 		2BA5940B1EB4275D0065FDD9 /* Li5BlurredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC66E31CFF64F6001BE4BB /* Li5BlurredView.m */; };
 		2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5134F91D1304C300EE374C /* Li5VolumeView.m */; };
-		2BA594101EB4275D0065FDD9 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
-		2BA594121EB4275D0065FDD9 /* CrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */; };
 		2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
 		2BA594201EB42C370065FDD9 /* Heart.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B983CD61D356B9C00D0A3C0 /* Heart.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA5942E1EB42D4F0065FDD9 /* DetailsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB4AB151C4FC631002C22C8 /* DetailsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1124,9 +1122,7 @@
 				2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */,
 				2BA5940B1EB4275D0065FDD9 /* Li5BlurredView.m in Sources */,
 				2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */,
-				2BA594101EB4275D0065FDD9 /* Li5LoggerFormatter.m in Sources */,
 				7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */,
-				2BA594121EB4275D0065FDD9 /* CrashlyticsLogger.m in Sources */,
 				2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */,
 				2BA5934F1EB426220065FDD9 /* Li5SDK.swift in Sources */,
 			);

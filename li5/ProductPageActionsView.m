@@ -89,7 +89,6 @@
 
 - (void)refreshStatus
 {
-    DDLogVerbose(@"");
     
     self.unlockedMultilevelCallout.hidden = !self.product.isEligibleForMultiLevel;
     if (self.product.isEligibleForMultiLevel) {
@@ -105,11 +104,9 @@
 
 - (void)animate
 {
-    DDLogVerbose(@"%p",self);
 }
 
 -(void)dissmisAnimation {
-    DDLogVerbose(@"%p",self);
 }
 
 #pragma mark - User Actions
@@ -130,7 +127,6 @@
 
 - (BOOL)presentShareExplainerViewIfNeeded
 {
-    DDLogVerbose(@"");
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:kLi5ShareExplainerViewPresented])
     {
@@ -150,7 +146,7 @@
 
 - (IBAction)shareProduct:(UIButton*)button
 {
-    DDLogVerbose(@"Share Button Pressed");
+    NSLog(@"Share Button Pressed");
     
     if (![self presentShareExplainerViewIfNeeded]) {
         

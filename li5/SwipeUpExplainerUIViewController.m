@@ -13,7 +13,6 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DDLogVerbose(@"");
     [super viewDidAppear:animated];
 }
 

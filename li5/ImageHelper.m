@@ -60,7 +60,6 @@ completationHandler:(void (^ _Nonnull)(NSData * _Nullable))completationHandler {
 
 - (void)dealloc
 {
-    DDLogDebug(@"%p",self);
     
     [self cancel];
     

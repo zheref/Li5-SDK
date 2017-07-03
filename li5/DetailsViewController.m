@@ -99,7 +99,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    DDLogVerbose(@"%@", self.product.title);
     
     if (!self.product.hasOffer)
     {
@@ -191,7 +190,6 @@
 
 - (void)presentExplainerViewsIfNeeded
 {
-    DDLogVerbose(@"");
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:kLi5SwipeUpExplainerViewPresented] && self.pContext == kProductContextDiscover)
     {

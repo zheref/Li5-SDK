@@ -54,7 +54,6 @@
 
 - (void)viewDidLoad
 {
-    DDLogVerbose(@"");
     [super viewDidLoad];
     
     self.view.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.5];
@@ -64,7 +63,6 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DDLogVerbose(@"");
     [super viewDidAppear:animated];
     
     [self.textView flashScrollIndicators];
@@ -72,13 +70,11 @@
 
 - (void)__refreshView
 {
-    DDLogVerbose(@"");
     [self.textView setText:self.product.body];
 }
 
 - (void)setProduct:(Product *)product
 {
-    DDLogVerbose(@"");
     _product = product;
     
     if ([self isViewLoaded])

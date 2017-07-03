@@ -26,21 +26,19 @@
 #pragma mark - UI Setup
 
 - (void)awakeFromNib {
-    DDLogVerbose(@"");
     [super awakeFromNib];
     // Initialization code
 }
 
 - (void)prepareForReuse
 {
-    DDLogVerbose(@"");
     [super prepareForReuse];
     [self cleanup];
 }
 
 - (void)updateViews
 {
-    DDLogVerbose(@"Thumb: %@ - Preview: %@",self.product.trailerThumbnail,self.product.videoPreview);
+    NSLog(@"Thumb: %@ - Preview: %@",self.product.trailerThumbnail,self.product.videoPreview);
     // Initialize the progress view
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -80,19 +78,16 @@
 
 - (void)willDisplayCell
 {
-    DDLogVerbose(@"");
     [self updateViews];
 }
 
 - (void)didEndDisplayingCell
 {
-    DDLogVerbose(@"");
     [self cleanup];
 }
 
 - (void)cleanup
 {
-    DDLogVerbose(@"");
     [self.imageHelper cancel];
     self.imageHelper = nil;
     
@@ -106,14 +101,12 @@
 
 - (void)setProduct:(Product *)product
 {
-    DDLogVerbose(@"");
     _product = product;
     _order = nil;
 }
 
 - (void)setOrder:(Order*)order
 {
-    DDLogVerbose(@"");
     _order = order;
     _product = order.product;
 }
@@ -122,7 +115,6 @@
 
 - (void)dealloc
 {
-    DDLogDebug(@"%p",self);
     [self cleanup];
     self.imageView = nil;
     self.imageHelper = nil;
