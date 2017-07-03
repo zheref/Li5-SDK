@@ -34,8 +34,8 @@ class LastPageViewController : ProductPageViewController {
     // MARK: References
     
     var content: EndOfPrimeTime
-    var player: BCPlayer?
-    var playerLayer: BCPlayerLayer?
+    var player: AVPlayer?
+    var playerLayer: AVPlayerLayer?
     var audioPlayer: AVAudioPlayer?
     var showPlayer: AVPlayer?
     
@@ -71,8 +71,9 @@ class LastPageViewController : ProductPageViewController {
             }
             
             if let url = Foundation.URL(string: lastVideoUrl.url) {
-                player = BCPlayer(url: url, bufferInSeconds: 50.0, priority: .play, delegate: self)
-                playerLayer = BCPlayerLayer(player: player, andFrame: UIScreen.main.bounds, previewImageRequired: true)
+                player = AVPlayer(url: url)
+                //TODO: player?.play() ???
+                playerLayer = AVPlayerLayer(player: player)
                 
                 OperationQueue.main.addOperation { [weak self] in
                     guard let this = self else {
@@ -375,32 +376,32 @@ extension LastPageViewController : UIGestureRecognizerDelegate {
 }
 
 
-extension LastPageViewController : BCPlayerDelegate {
-    
-    func readyToPlay() {
-        play()
-    }
-    
-    
-    func failToLoadItem(_ error : NSError) {
-        log.error(error.description)
-        Crashlytics.sharedInstance().recordError(error)
-    }
-    
-    
-    func networkFail(_ error : NSError) {
-        log.error(error.localizedDescription)
-        Crashlytics.sharedInstance().recordError(error)
-    }
-    
-    
-    func bufferEmpty() {
-        log.verbose("Buffer for LastPageViewController empty")
-    }
-    
-    
-    func bufferReady() {
-        log.verbose("Buffer for LastPageViewController ready")
-    }
-    
-}
+//extension LastPageViewController : BCPlayerDelegate {
+//    
+//    func readyToPlay() {
+//        play()
+//    }
+//    
+//    
+//    func failToLoadItem(_ error : NSError) {
+//        log.error(error.description)
+//        Crashlytics.sharedInstance().recordError(error)
+//    }
+//    
+//    
+//    func networkFail(_ error : NSError) {
+//        log.error(error.localizedDescription)
+//        Crashlytics.sharedInstance().recordError(error)
+//    }
+//    
+//    
+//    func bufferEmpty() {
+//        log.verbose("Buffer for LastPageViewController empty")
+//    }
+//    
+//    
+//    func bufferReady() {
+//        log.verbose("Buffer for LastPageViewController ready")
+//    }
+//    
+//}

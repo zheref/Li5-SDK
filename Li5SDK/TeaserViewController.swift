@@ -115,7 +115,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     /// Sets up from scratch the player
     private func reset() {
         if let url = Foundation.URL(string: product.trailerURL) {
-            player = BCPlayer(url: url, bufferInSeconds: 10.0, priority: .buffer, delegate: self)
+            player = AVPlayer(url: url)
             playerLayer = AVPlayerLayer(player: player)
         } else {
             log.error("URL couldn't be created with string \(product.trailerURL)")
@@ -322,7 +322,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
             return
         }
         
-        player = BCPlayer(url: url, bufferInSeconds: 10.0, priority: .buffer, delegate: self)
+        player = AVPlayer(url: url)
         playerLayer?.player = player
         
         player?.play()
@@ -385,54 +385,54 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
 }
 
 
-extension TeaserViewController : BCPlayerDelegate {
-    
-    func readyToPlay() {
-        log.verbose("Ready to play: \(productId)")
-        playIfReady()
-    }
-    
-    
-    func failToLoadItem(_ error : NSError) {
-        log.error("Failed to load item for product with id: \(productId) : \(error.localizedDescription)")
-        
-        if hasBeenRetried == false {
-            clearObservers()
-            //player?.pauseAndDestroy()
-            retryPlayer()
-            setupObservers()
-        } else {
-            // TODO: Show error message
-        }
-        
-        hasBeenRetried = true
-    }
-    
-    
-    func networkFail(_ error : NSError) {
-        log.error("Network failed to load TeaserVC for product with id: \(productId) : \(error.localizedDescription)")
-        // TODO: Show error message
-    }
-    
-    
-    func bufferEmpty() {
-        log.verbose("Buffer is EMPTY for TeaserVC with product id: \(productId). Waiting...")
-        
-        waveView?.startAnimating()
-        
-        player?.pause()
-    }
-    
-    
-    func bufferReady() {
-        log.verbose("Buffer is ready for TeaserVC with product id: \(productId)")
-        
-        waveView?.stopAnimating()
-        
-        playIfReady()
-    }
-    
-}
+//extension TeaserViewController : BCPlayerDelegate {
+//    
+//    func readyToPlay() {
+//        log.verbose("Ready to play: \(productId)")
+//        playIfReady()
+//    }
+//    
+//    
+//    func failToLoadItem(_ error : NSError) {
+//        log.error("Failed to load item for product with id: \(productId) : \(error.localizedDescription)")
+//        
+//        if hasBeenRetried == false {
+//            clearObservers()
+//            //player?.pauseAndDestroy()
+//            retryPlayer()
+//            setupObservers()
+//        } else {
+//            // TODO: Show error message
+//        }
+//        
+//        hasBeenRetried = true
+//    }
+//    
+//    
+//    func networkFail(_ error : NSError) {
+//        log.error("Network failed to load TeaserVC for product with id: \(productId) : \(error.localizedDescription)")
+//        // TODO: Show error message
+//    }
+//    
+//    
+//    func bufferEmpty() {
+//        log.verbose("Buffer is EMPTY for TeaserVC with product id: \(productId). Waiting...")
+//        
+//        waveView?.startAnimating()
+//        
+//        player?.pause()
+//    }
+//    
+//    
+//    func bufferReady() {
+//        log.verbose("Buffer is ready for TeaserVC with product id: \(productId)")
+//        
+//        waveView?.stopAnimating()
+//        
+//        playIfReady()
+//    }
+//    
+//}
 
 
 extension TeaserViewController : UIGestureRecognizerDelegate {

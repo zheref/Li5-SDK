@@ -23,7 +23,7 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     var product: Product
     
     var teaserViewController: TeaserViewController!
-    var unlockedViewController: UnlockedViewController?
+    //TODO: var unlockedViewController: UnlockedViewController?
     
     var currentViewController: UIViewController?
     
@@ -124,7 +124,7 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
         log.verbose("Deinitializing VideoViewController for product with id: \(product.id)")
         
         teaserViewController = nil
-        unlockedViewController = nil
+        //TODO: unlockedViewController = nil
         currentViewController = nil
     }
     

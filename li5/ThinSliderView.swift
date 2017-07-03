@@ -10,8 +10,6 @@ import UIKit
 import SnapKit
 import CoreMedia
 
-import BCVideoPlayer
-
 //@IBDesignable
 @objc open class ThinSliderView: UIView {
     
@@ -22,7 +20,7 @@ import BCVideoPlayer
     
     fileprivate var timeObserver : AnyObject?
     
-    weak var player: BCPlayer? {
+    weak var player: AVPlayer? {
         willSet {
             self.removeObservers()
         }

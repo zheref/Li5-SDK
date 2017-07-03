@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import BCVideoPlayer
 
 typealias ProductsReturner = ([Product]) -> Void
 
@@ -75,13 +74,6 @@ public enum PContext : UInt {
         let product = products[index]
         log.verbose("Delivering new instance of ProductViewController for product with id \(product.id ?? "nil")")
         return ProductPageViewController(withProduct: product, andContext: PContext.Discover)
-    }
-    
-    
-    func productPageViewController(atIndex index: Int, withPriority priority: BCPriority) -> ProductPageViewController {
-        let productViewController = productPageViewController(atIndex: index)
-        //productViewController.setPriority(priority)
-        return productViewController
     }
     
     

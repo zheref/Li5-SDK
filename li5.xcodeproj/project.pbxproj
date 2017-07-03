@@ -48,7 +48,6 @@
 		2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CD71D356B9C00D0A3C0 /* Heart.m */; };
 		2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CD81D356B9C00D0A3C0 /* HeartAnimationView.swift */; };
 		2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6009E1E1564DB007553B8 /* ShareExplainerUIViewController.m */; };
-		2BA593AE1EB4275D0065FDD9 /* UnlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75519C1CCFAECE007FAF67 /* UnlockedViewController.m */; };
 		2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CCF1D3418B100D0A3C0 /* SliderFluidView.m */; };
 		2BA593B21EB4275D0065FDD9 /* BAFluidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CBF1D33E97E00D0A3C0 /* BAFluidView.m */; };
 		2BA593B51EB4275D0065FDD9 /* UIColor+ColorWithHex.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B983CC21D33E97E00D0A3C0 /* UIColor+ColorWithHex.m */; };
@@ -81,7 +80,6 @@
 		2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5134F91D1304C300EE374C /* Li5VolumeView.m */; };
 		2BA594101EB4275D0065FDD9 /* Li5LoggerFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7551BA1CCFED36007FAF67 /* Li5LoggerFormatter.m */; };
 		2BA594121EB4275D0065FDD9 /* CrashlyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */; };
-		2BA594141EB4275D0065FDD9 /* Li5BCLoggerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5134DA1D12FCE900EE374C /* Li5BCLoggerDelegate.m */; };
 		2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B360EA81D087524004B3691 /* Li5Constants.m */; };
 		2BA594201EB42C370065FDD9 /* Heart.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B983CD61D356B9C00D0A3C0 /* Heart.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA5942E1EB42D4F0065FDD9 /* DetailsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB4AB151C4FC631002C22C8 /* DetailsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -97,7 +95,6 @@
 		2BF2668E1F09411D00CB9461 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
 		7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818510B1EE9F12300F124EC /* VideoViewController.swift */; };
-		7818510E1EE9F7D400F124EC /* UnlockedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -840,7 +837,6 @@
 				2BA594311EB42DA70065FDD9 /* IndexedViewController.h in Headers */,
 				2B5A00241EEB8401000E4F71 /* Li5VolumeView.h in Headers */,
 				2BA594301EB42D920065FDD9 /* ShapesHelper.h in Headers */,
-				7818510E1EE9F7D400F124EC /* UnlockedViewController.h in Headers */,
 				2BA5942F1EB42D820065FDD9 /* ProductPageProtocol.h in Headers */,
 				2B5A00211EEB7E0C000E4F71 /* Li5PlayerTimer.h in Headers */,
 				2B5A00221EEB805F000E4F71 /* ProductPageActionsView.h in Headers */,
@@ -1087,7 +1083,6 @@
 				2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */,
 				2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */,
 				2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */,
-				2BA593AE1EB4275D0065FDD9 /* UnlockedViewController.m in Sources */,
 				2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */,
 				2BA593B21EB4275D0065FDD9 /* BAFluidView.m in Sources */,
 				2BA593B51EB4275D0065FDD9 /* UIColor+ColorWithHex.m in Sources */,
@@ -1132,7 +1127,6 @@
 				2BA594101EB4275D0065FDD9 /* Li5LoggerFormatter.m in Sources */,
 				7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */,
 				2BA594121EB4275D0065FDD9 /* CrashlyticsLogger.m in Sources */,
-				2BA594141EB4275D0065FDD9 /* Li5BCLoggerDelegate.m in Sources */,
 				2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */,
 				2BA5934F1EB426220065FDD9 /* Li5SDK.swift in Sources */,
 			);
