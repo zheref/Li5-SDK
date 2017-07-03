@@ -283,7 +283,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         }
     }
     
-    
+    /// Notifies the advocates that the VC is ready and set up to act as a host of the playback
     fileprivate func readyToPlay() {
         if isDisplayed {
             if PlaybackManager.shared.readyToPlayCurrentItem {

@@ -28,31 +28,32 @@ import Foundation
     
     private var endPlayObserver: NSObjectProtocol?
     
+    /// Determines whether the current played item should loop/repeat or not
     private var automaticallyReplays = false {
         didSet {
             if automaticallyReplays {
-                //player?.
-                
                 log.verbose("Setting up automatic replay for player on index: \(currentIndex)")
                 
-//                if endPlayObserver == nil {
-//                    let item = playlistItems[currentIndex]
-//                    
-//                    endPlayObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
-//                                                                             object: player?.currentItem,
-//                                                                             queue: nil)
-//                    { [weak self] (_) in
-//                        log.verbose("Finished playing video.")
-//                        
-//                        DispatchQueue.main.async { [weak self] in
-//                            self?.replay()
-//                        }
-//                    }
-//                }
+                player?.actionAtItemEnd = .none
+                
+                if endPlayObserver == nil {
+                    endPlayObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
+                                                                             object: player?.currentItem,
+                                                                             queue: nil)
+                    { [weak self] (_) in
+                        log.verbose("Finished playing video.")
+                        
+                        DispatchQueue.main.async { [weak self] in
+                            self?.replay()
+                        }
+                    }
+                }
             } else {
-//                if let observer = endPlayObserver {
-//                    NotificationCenter.default.removeObserver(observer)
-//                }
+                player?.actionAtItemEnd = .pause
+                
+                if let observer = endPlayObserver {
+                    NotificationCenter.default.removeObserver(observer)
+                }
             }
         }
     }
