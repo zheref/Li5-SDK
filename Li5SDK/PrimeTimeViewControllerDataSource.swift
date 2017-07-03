@@ -35,7 +35,8 @@ public enum PContext : UInt {
     }
     
     
-    func fetchProducts(withReturner returner: @escaping ProductsReturner, andHandler handler: @escaping ErrorReturner) {
+    func fetchProducts(returner: @escaping ProductsReturner, handler: @escaping ErrorReturner) {
+        
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let li5 = Li5ApiHandler.sharedInstance() else {
                 log.error("No instance available for Li5 API Services")
@@ -67,6 +68,7 @@ public enum PContext : UInt {
                 }
             }
         }
+        
     }
     
     
@@ -94,7 +96,19 @@ public enum PContext : UInt {
     
     private var expiration: Date?
     
-    private var products = [Product]()
+    private var products = [Product]() {
+        didSet {
+            for product in products {
+                if let url = Foundation.URL(string: product.trailerURL) {
+                    PlaybackManager.shared.append(url: url)
+                } else {
+                    log.error("Wasn't able to parse into URL: \(product.trailerURL)")
+                }
+            }
+            
+            PlaybackManager.shared.printEnqueuedItems()
+        }
+    }
     
     private var endOfPrimeTime: EndOfPrimeTime?
     

@@ -25,9 +25,6 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     var product: Product!
     
-    var endPlayObserver: NSObjectProtocol?
-    
-    weak var player: AVPlayer?
     var playerLayer: AVPlayerLayer?
     
     var waveView: Wave?
@@ -114,12 +111,9 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     /// Sets up from scratch the player
     private func reset() {
-        if let url = Foundation.URL(string: product.trailerURL) {
-            player = AVPlayer(url: url)
-            playerLayer = AVPlayerLayer(player: player)
-        } else {
-            log.error("URL couldn't be created with string \(product.trailerURL)")
-        }
+        let player = PlaybackManager.shared.attach(delegate: self, automaticallyReplays: true)
+        playerLayer = AVPlayerLayer(player: player)
+        //progressView.player = player
     }
     
     
@@ -146,8 +140,11 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         
         isDisplayed = false
         
-        clearObservers()
-        //player?.pauseAndDestroy()
+        if progressView != nil {
+            progressView.player = nil
+        }
+        
+        PlaybackManager.shared.videoWillChange()
     }
     
     
@@ -201,12 +198,10 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     deinit {
         log.verbose("Deinitializing Teaser VC for product id: \(product.id ?? "nil")")
         
-        clearObservers()
-        //player?.pauseAndDestroy()
-        
+        progressView = nil
+        playerLayer = nil
         product = nil
         waveView = nil
-        playerLayer = nil
     }
     
     
@@ -285,101 +280,46 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         log.debug("Calling to play if ready...")
         
         if isDisplayed {
-            player?.play()
-        }
-        
-        if player?.status == .readyToPlay {
-            log.verbose("Trying to play since player status seems to be ready to play: \(productId)")
-            waveView?.stopAnimating()
+            log.verbose("Calling to play video: \(productId)")
             
-            if isDisplayed {
-                clearObservers()
-                setupObservers()
+            if PlaybackManager.shared.readyToPlayCurrentItem {
+                waveView?.stopAnimating()
                 posterImageView?.removeFromSuperview()
-                log.verbose("Playing video: \(productId)")
-                player?.play()
-            } else {
-                log.verbose("Stopped trying to play because video is ready but vc is not being displayed: \(productId)")
+                
+                PlaybackManager.shared.viewReadyToPlay()
             }
         } else {
-            log.warning("Tried to play but not ready yet: \(productId)")
+            log.verbose("Stopped trying to play because video is ready but vc is not being displayed: \(productId)")
         }
+    }
+}
+
+
+extension TeaserViewController : PlaybackDelegate {
+    
+    func handleError(with message: String?, error: Error? = nil) {
+        log.error("Error occurred with message: \(message), error: \(error).")
+        
+        let alertTitle = NSLocalizedString("alert.error.title", comment: "Alert title for errors")
+        
+        let alertMessage = message ?? NSLocalizedString("error.default.description", comment: "Default error message when no NSError provided")
+        
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        
+        let alertActionTitle = NSLocalizedString("alert.error.actions.OK", comment: "OK on error alert")
+        let alertAction = UIAlertAction(title: alertActionTitle, style: .default, handler: nil)
+        
+        alert.addAction(alertAction)
+        
+        present(alert, animated: true, completion: nil)
     }
     
     
-    private func replay() {
-        log.verbose("Replaying...")
-        player?.seek(to: kCMTimeZero)
+    func bufferIsReadyToPlay() {
+        waveView?.stopAnimating()
+        posterImageView?.removeFromSuperview()
+        
         playIfReady()
-    }
-    
-    
-    fileprivate func retryPlayer() {
-        log.warning("Retrying player...")
-        
-        guard let url = Foundation.URL(string: product.trailerURL) else {
-            log.error("Couldn't undertand url for string: \(product.trailerURL), productId: \(productId)")
-            return
-        }
-        
-        player = AVPlayer(url: url)
-        playerLayer?.player = player
-        
-        player?.play()
-    }
-    
-    
-    fileprivate func setupObservers() {
-        log.verbose("Setting up observers for TeaserVC with product id: \(productId)")
-        
-        if endPlayObserver == nil {
-            endPlayObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
-                                                                     object: player?.currentItem,
-                                                                     queue: nil)
-            { [weak self] (_) in
-                log.verbose("Finished playing video.")
-                DispatchQueue.main.async { [weak self] in
-                    self?.replay()
-                }
-            }
-        }
-        
-        progressView.player = player
-    }
-    
-    
-    func releasePlayer() {
-        //player?.cancelPendingPrerolls()
-        player?.pause()
-        
-        //kvoController.unobserve(_playerItem)
-        
-//        if let currentItem = currentItem {
-//            NotificationCenter.default.removeObserver(currentItem)
-//        }
-        
-//        output = nil
-//        _playerItem = nil
-//        
-//        if (self.timeObserver != nil) {
-//            self.removeTimeObserver(self.timeObserver!);
-//            self.timeObserver = nil;
-//        }
-    }
-    
-    
-    fileprivate func clearObservers() {
-        log.verbose("Clear observers for TeaserVC for product id: \(productId)")
-        
-        if endPlayObserver != nil {
-            log.verbose("Clearing end play observer in TeaserVC for product id: \(productId)")
-            NotificationCenter.default.removeObserver(endPlayObserver!)
-            endPlayObserver = nil
-        }
-        
-        if progressView != nil {
-            progressView.player = nil
-        }
     }
     
 }
@@ -406,21 +346,6 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
 //        }
 //        
 //        hasBeenRetried = true
-//    }
-//    
-//    
-//    func networkFail(_ error : NSError) {
-//        log.error("Network failed to load TeaserVC for product with id: \(productId) : \(error.localizedDescription)")
-//        // TODO: Show error message
-//    }
-//    
-//    
-//    func bufferEmpty() {
-//        log.verbose("Buffer is EMPTY for TeaserVC with product id: \(productId). Waiting...")
-//        
-//        waveView?.startAnimating()
-//        
-//        player?.pause()
 //    }
 //    
 //    

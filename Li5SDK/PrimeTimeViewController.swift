@@ -61,35 +61,21 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
     
     // MARK: - LIFECYCLE
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         log.verbose("PrimeTimeViewController did load")
         
         setupPrimeTime()
-        load()
+        
+        load() { [weak self] in
+            self?.startPrimeTime()
+        }
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        log.verbose("PrimeTimeViewController did appear")
-    }
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
     }
     
     
@@ -123,41 +109,44 @@ class PrimeTimeViewController : PaginatorViewController, PrimeTimeViewController
     }
     
     
-    func load() {
+    func load(then: @escaping () -> Void) {
         log.verbose("Checking need to load PrimeTime data...")
         
-        if primeTimeLoading == false {
-            
-            if primeTimeLoaded == false {
-                
-                operationQueue.addOperation { [weak self] in
-                    if let this = self {
-                        log.verbose("Loading PrimeTime data...")
-                        this.primeTimeLoading = true
-                        
-                        this.primeTimeDataSource.fetchProducts(withReturner: { [weak self] (products) in
-                            if let this = self {
-                                this.primeTimeLoading = false
-                                this.startPrimeTime()
-                            } else {
-                                log.warning("Skipped processing of primetime data. Self got lost")
-                            }
-                        }, andHandler: { (error) in
-                            log.error(error.localizedDescription)
-                        })
-                    } else {
-                        log.warning("Skipped load primetime data operation. Self got lost")
-                    }
-                }
-                
-            } else {
-                log.verbose("PrimeTime data is already LOADED. Starting PrimeTime...")
-                startPrimeTime()
-            }
-            
-        } else {
+        if primeTimeLoading {
             log.warning("PrimeTime data is already LOADING. Won't order to load again!")
+        } else {
+            loadDataIfNeeded(then: then)
         }
+    }
+    
+    
+    private func loadDataIfNeeded(then: @escaping () -> Void) {
+        
+        if primeTimeLoaded {
+            log.verbose("PrimeTime data is already LOADED. Starting PrimeTime...")
+            then()
+        } else {
+            operationQueue.addOperation { [weak self] in
+                if let this = self {
+                    log.verbose("Loading PrimeTime data...")
+                    this.primeTimeLoading = true
+                    
+                    this.primeTimeDataSource.fetchProducts(returner: { [weak self] (products) in
+                        if let this = self {
+                            this.primeTimeLoading = false
+                            then()
+                        } else {
+                            log.warning("Skipped processing of primetime data. Self got lost")
+                        }
+                    }, handler: { (error) in
+                        log.error(error.localizedDescription)
+                    })
+                } else {
+                    log.warning("Skipped load primetime data operation. Self got lost")
+                }
+            }
+        }
+        
     }
     
     

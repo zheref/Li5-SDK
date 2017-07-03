@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		28544A62245B9F3093B0C879 /* Pods_Li5SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E898E5E76AA7BABBE01F9E /* Pods_Li5SDK.framework */; };
 		2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */; };
+		2B0234611F0A8AB400B86B06 /* PlaybackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */; };
 		2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA01E43F4A9006C3A9F /* ProductPageViews.storyboard */; };
 		2B44F4F01EBAC4CF00AB18A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44F4EF1EBAC4CF00AB18A0 /* AppDelegate.swift */; };
 		2B44F4F21EBAC4CF00AB18A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44F4F11EBAC4CF00AB18A0 /* ViewController.swift */; };
@@ -133,6 +134,7 @@
 		0E210ED3071F8970AD216AF8 /* Pods-Li5SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Li5SDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-Li5SDK/Pods-Li5SDK.release.xcconfig"; sourceTree = "<group>"; };
 		1053B67F6FFB4C6C85CE982F /* Pods-DemoSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoSDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoSDK/Pods-DemoSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndexedProtocol.swift; sourceTree = "<group>"; };
+		2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackDelegate.swift; path = Player/PlaybackDelegate.swift; sourceTree = "<group>"; };
 		2B44F4ED1EBAC4CF00AB18A0 /* DemoSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B44F4EF1EBAC4CF00AB18A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B44F4F11EBAC4CF00AB18A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -809,6 +811,7 @@
 			children = (
 				78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */,
 				2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */,
+				2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -1093,6 +1096,7 @@
 				2BA593BC1EB4275D0065FDD9 /* ThinSliderView.swift in Sources */,
 				2BA593BE1EB4275D0065FDD9 /* ImageUICollectionViewCell.m in Sources */,
 				2BA593C01EB4275D0065FDD9 /* DetailsViewController.m in Sources */,
+				2B0234611F0A8AB400B86B06 /* PlaybackDelegate.swift in Sources */,
 				2BA593C21EB4275D0065FDD9 /* ImageCardViewController.m in Sources */,
 				2BA593C41EB4275D0065FDD9 /* DetailsDescriptionViewController.m in Sources */,
 				2BA789381EE470F0009385BA /* SDKLogger.swift in Sources */,

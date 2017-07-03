@@ -89,8 +89,8 @@ class ProductPageViewController : PaginatorViewController, ProductPageViewContro
     
     
     public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         log.verbose("Product page vc did appear: \(vcIdentity)")
+        super.viewDidAppear(animated)
     }
     
     
