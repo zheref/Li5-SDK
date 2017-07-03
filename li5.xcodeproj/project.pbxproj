@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		28544A62245B9F3093B0C879 /* Pods_Li5SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E898E5E76AA7BABBE01F9E /* Pods_Li5SDK.framework */; };
+		2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */; };
 		2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA01E43F4A9006C3A9F /* ProductPageViews.storyboard */; };
 		2B44F4F01EBAC4CF00AB18A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44F4EF1EBAC4CF00AB18A0 /* AppDelegate.swift */; };
 		2B44F4F21EBAC4CF00AB18A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44F4F11EBAC4CF00AB18A0 /* ViewController.swift */; };
@@ -93,9 +94,11 @@
 		2BC4EF231EECB3CA00ACAC26 /* LastPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */; };
 		2BC4EF251EECB78200ACAC26 /* KUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF241EECB78200ACAC26 /* KUI.swift */; };
 		2BC4EF2B1EEEE67E00ACAC26 /* KVOController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */; };
+		2BF2668E1F09411D00CB9461 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
 		7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818510B1EE9F12300F124EC /* VideoViewController.swift */; };
 		7818510E1EE9F7D400F124EC /* UnlockedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B75519B1CCFAECE007FAF67 /* UnlockedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +137,7 @@
 /* Begin PBXFileReference section */
 		0E210ED3071F8970AD216AF8 /* Pods-Li5SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Li5SDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-Li5SDK/Pods-Li5SDK.release.xcconfig"; sourceTree = "<group>"; };
 		1053B67F6FFB4C6C85CE982F /* Pods-DemoSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoSDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoSDK/Pods-DemoSDK.debug.xcconfig"; sourceTree = "<group>"; };
+		2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndexedProtocol.swift; sourceTree = "<group>"; };
 		2B44F4ED1EBAC4CF00AB18A0 /* DemoSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B44F4EF1EBAC4CF00AB18A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B44F4F11EBAC4CF00AB18A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +174,7 @@
 		2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastPageViewController.swift; sourceTree = "<group>"; };
 		2BC4EF241EECB78200ACAC26 /* KUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KUI.swift; sourceTree = "<group>"; };
 		2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KVOController.framework; path = Carthage/Build/iOS/KVOController.framework; sourceTree = "<group>"; };
+		2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackManager.swift; path = Player/PlaybackManager.swift; sourceTree = "<group>"; };
 		5B06F3C21CFA410A007FA3AB /* NSObject+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Li5.h"; sourceTree = "<group>"; };
 		5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Li5.m"; sourceTree = "<group>"; };
 		5B06F3C91CFA44AA007FA3AB /* UIImage+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Li5.h"; sourceTree = "<group>"; };
@@ -292,6 +297,7 @@
 		63442170E3DFD55EC89DB9FD /* Pods-DemoSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoSDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoSDK/Pods-DemoSDK.release.xcconfig"; sourceTree = "<group>"; };
 		6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7818510B1EE9F12300F124EC /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Li5PlayerView.swift; path = Player/Li5PlayerView.swift; sourceTree = "<group>"; };
 		80DBD9F80C310DAD4C901CAD /* Pods-Li5SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Li5SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Li5SDK/Pods-Li5SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		9C5AA8101CD02E7100F3DE08 /* ProductsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsCollectionViewCell.h; sourceTree = "<group>"; };
 		9C5AA8111CD02E7100F3DE08 /* ProductsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsCollectionViewCell.m; sourceTree = "<group>"; };
@@ -353,6 +359,7 @@
 				2B84CD131EE837DC0011F061 /* PaginatorViewControllerDataSource.swift */,
 				2B84CD151EE838680011F061 /* PaginatorViewControllerDelegate.swift */,
 				2B84CD1B1EE8C6C70011F061 /* Displayable.swift */,
+				2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */,
 			);
 			name = Abstraction;
 			sourceTree = "<group>";
@@ -396,6 +403,7 @@
 				2B9CEDC51EC7D73F00B6BA73 /* UI */,
 				2B84CD0E1EE8362C0011F061 /* UIKit Extensions */,
 				2B9CEDC41EC7D73500B6BA73 /* Core */,
+				78FC0C1F1F04C369004AF0D8 /* Player */,
 				2BA5933B1EB4258D0065FDD9 /* Info.plist */,
 			);
 			path = Li5SDK;
@@ -801,6 +809,15 @@
 			name = Video;
 			sourceTree = "<group>";
 		};
+		78FC0C1F1F04C369004AF0D8 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */,
+				2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */,
+			);
+			name = Player;
+			sourceTree = "<group>";
+		};
 		FB0AFBF8E94E01415951E979 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1068,6 +1085,7 @@
 				2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */,
 				2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */,
 				2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */,
+				2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */,
 				2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */,
 				2BA593AE1EB4275D0065FDD9 /* UnlockedViewController.m in Sources */,
 				2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */,
@@ -1091,9 +1109,11 @@
 				2BA593ED1EB4275D0065FDD9 /* ImageHelper.m in Sources */,
 				2BA593EE1EB4275D0065FDD9 /* DeviceManager.swift in Sources */,
 				2B84CD141EE837DC0011F061 /* PaginatorViewControllerDataSource.swift in Sources */,
+				2BF2668E1F09411D00CB9461 /* PlaybackManager.swift in Sources */,
 				2BA593F41EB4275D0065FDD9 /* NSObject+Li5.m in Sources */,
 				2B84CD0D1EE835BE0011F061 /* PaginatorViewController.swift in Sources */,
 				2BA593F61EB4275D0065FDD9 /* UIColor+Li5UIColor.m in Sources */,
+				78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */,
 				2B96A1451EE6CD0A00093EA3 /* ProductPageViewController.swift in Sources */,
 				2BA593F81EB4275D0065FDD9 /* UIImage+Li5.m in Sources */,
 				2BC4EF251EECB78200ACAC26 /* KUI.swift in Sources */,

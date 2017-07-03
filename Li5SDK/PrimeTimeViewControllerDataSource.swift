@@ -80,7 +80,7 @@ public enum PContext : UInt {
     
     func productPageViewController(atIndex index: Int, withPriority priority: BCPriority) -> ProductPageViewController {
         let productViewController = productPageViewController(atIndex: index)
-        productViewController.setPriority(priority)
+        //productViewController.setPriority(priority)
         return productViewController
     }
     

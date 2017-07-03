@@ -9,18 +9,30 @@
 import Foundation
 
 
-protocol ProductPageViewControllerProtocol {
+protocol ProductPageViewControllerProtocol : PageIndexedProtocol {
     
 }
 
 
 class ProductPageViewController : PaginatorViewController, ProductPageViewControllerProtocol {
     
-    public var product: Product!
+    // MARK: - INSTANCE MEMBERS
     
+    // MARK: - Properties
+    
+    // MARK: Stored Properties
+    
+    public var product: Product?
+    
+    // MARK: Computed Properties
+    
+    /// Index of the represented model object inside the main data source
+    public var pageIndex: Int {
+        return scrollPageIndex
+    }
     
     var vcIdentity: String {
-        if product != nil {
+        if let product = product {
             return "\(scrollPageIndex):\(product.id ?? "nil")"
         } else {
             return "\(scrollPageIndex):"
@@ -31,35 +43,39 @@ class ProductPageViewController : PaginatorViewController, ProductPageViewContro
     public required init(withProduct product: Product, andContext context: PContext) {
         log.info("Creating ProductVC for product with id \(product.id ?? "nil")")
         
-        super.init(withDirection: .Vertical)
-        
         self.product = product
         
-        let lastProduct = self.product.isAd ||
-            (self.product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame && self.product.contentUrl == nil)
+        super.init(withDirection: .Vertical)
+        
+        guard let product = self.product else {
+            log.error("This should have not entered here. Just assigned product value for ProductPage.")
+            return
+        }
+        
+        let lastProduct = product.isAd ||
+            (product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame && product.contentUrl == nil)
         
         if lastProduct {
             preloadedViewControllers = [
-                VideoViewController(withProduct: self.product, andContext: context)
+                VideoViewController(product: product, context: context, pageIndex: scrollPageIndex)
             ]
         } else {
             preloadedViewControllers = [
-                VideoViewController(withProduct: self.product, andContext: context),
+                VideoViewController(product: product, context: context, pageIndex: scrollPageIndex),
                 
-                self.product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame ?
-                    DetailsHTMLViewController(withProduct: self.product, andContext: context.legacyVersion) :
-                    DetailsViewController(product: self.product, andContext: context.legacyVersion)
+                product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame ?
+                    DetailsHTMLViewController(withProduct: product, andContext: context.legacyVersion) :
+                    DetailsViewController(product: product, andContext: context.legacyVersion)
             ]
         }
     }
     
-    
-    public override init() {
+    override init() {
         super.init()
     }
     
-    
     required public init?(coder aDecoder: NSCoder) {
+        log.warning("ProductPageViewController initialized through coder. There will most likely be crashes!!!")
         super.init(coder: aDecoder)
     }
     
@@ -80,13 +96,6 @@ class ProductPageViewController : PaginatorViewController, ProductPageViewContro
     
     public override var prefersStatusBarHidden: Bool {
         return true
-    }
-    
-    
-    public func setPriority(_ priority: BCPriority) {
-        if let videoVC = preloadedViewControllers.first as? VideoViewController {
-            videoVC.setPriority(priority)
-        }
     }
     
     

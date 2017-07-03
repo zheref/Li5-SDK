@@ -20,7 +20,7 @@ open class ThinPlayerProgressView: UIView {
     
     fileprivate var timeObserver : Any?
     
-    open weak var player: BCPlayer? {
+    open weak var player: AVPlayer? {
         willSet {
             self.removeObservers()
         }

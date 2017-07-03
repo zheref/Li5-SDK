@@ -24,12 +24,11 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     // MARK: References
     
     var product: Product!
-    var productContext: PContext!
     
     var endPlayObserver: NSObjectProtocol?
     
-    var player: BCPlayer?
-    var playerLayer: BCPlayerLayer?
+    weak var player: AVPlayer?
+    var playerLayer: AVPlayerLayer?
     
     var waveView: Wave?
     
@@ -102,7 +101,6 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         log.verbose("Initializing new TeaserVC")
         
         viewController.product = product
-        viewController.productContext = context
         viewController.reset()
             
         return viewController
@@ -118,10 +116,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     private func reset() {
         if let url = Foundation.URL(string: product.trailerURL) {
             player = BCPlayer(url: url, bufferInSeconds: 10.0, priority: .buffer, delegate: self)
-            
-            playerLayer = BCPlayerLayer(player: player,
-                                        andFrame: UIScreen.main.bounds,
-                                        previewImageRequired: false)
+            playerLayer = AVPlayerLayer(player: player)
         } else {
             log.error("URL couldn't be created with string \(product.trailerURL)")
         }
@@ -152,7 +147,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         isDisplayed = false
         
         clearObservers()
-        player?.pauseAndDestroy()
+        //player?.pauseAndDestroy()
     }
     
     
@@ -207,21 +202,15 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         log.verbose("Deinitializing Teaser VC for product id: \(product.id ?? "nil")")
         
         clearObservers()
-        player?.pauseAndDestroy()
+        //player?.pauseAndDestroy()
         
         product = nil
-        player = nil
         waveView = nil
+        playerLayer = nil
     }
     
     
     // MARK: Routines
-    
-    
-    func setPriority(_ priority: BCPriority) {
-        player?.changePriority(priority)
-    }
-    
     
     private func setup() {
         setupPoster()
@@ -296,7 +285,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         log.debug("Calling to play if ready...")
         
         if isDisplayed {
-            player?.changePriority(.play)
+            player?.play()
         }
         
         if player?.status == .readyToPlay {
@@ -359,6 +348,26 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     }
     
     
+    func releasePlayer() {
+        //player?.cancelPendingPrerolls()
+        player?.pause()
+        
+        //kvoController.unobserve(_playerItem)
+        
+//        if let currentItem = currentItem {
+//            NotificationCenter.default.removeObserver(currentItem)
+//        }
+        
+//        output = nil
+//        _playerItem = nil
+//        
+//        if (self.timeObserver != nil) {
+//            self.removeTimeObserver(self.timeObserver!);
+//            self.timeObserver = nil;
+//        }
+    }
+    
+    
     fileprivate func clearObservers() {
         log.verbose("Clear observers for TeaserVC for product id: \(productId)")
         
@@ -389,7 +398,7 @@ extension TeaserViewController : BCPlayerDelegate {
         
         if hasBeenRetried == false {
             clearObservers()
-            player?.pauseAndDestroy()
+            //player?.pauseAndDestroy()
             retryPlayer()
             setupObservers()
         } else {

@@ -9,13 +9,7 @@
 import UIKit
 
 
-protocol VideoViewControllerProtocol : Displayable {
-    
-//    - (void)setPriority:(BCPriority)priority;
-//    
-//    - (BCPlayer *)getPlayer;
-    
-    
+protocol VideoViewControllerProtocol : Displayable, PageIndexedProtocol {
     
 }
 
@@ -26,7 +20,7 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     
     // MARK: - Stored Properties
     
-    var product: Product!
+    var product: Product
     
     var teaserViewController: TeaserViewController!
     var unlockedViewController: UnlockedViewController?
@@ -35,12 +29,14 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     
     // MARK: - Computed Properties
     
+    var pageIndex: Int
     
     // MARK: - Initializers
     
     
-    required init(withProduct product: Product, andContext context: PContext) {
+    required init(product: Product, context: PContext, pageIndex: Int) {
         self.product = product
+        self.pageIndex = pageIndex
         
         teaserViewController = TeaserViewController.instance(withProduct: self.product,
                                                              andContext: context)
@@ -61,11 +57,6 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     
     
     // MARK: - Routines
-    
-    
-    func setPriority(_ priority: BCPriority) {
-        teaserViewController.setPriority(priority)
-    }
     
     
     // MARK: - Lifecycle
@@ -138,7 +129,6 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     }
     
     // MARK: - PRIVATE INTERFACE
-    
     
     /// Present the given view controller calling the appearance methods and keeping the reference
     /// into the currentViewController variable
