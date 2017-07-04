@@ -40,12 +40,14 @@ class ProductPageViewController : PaginatorViewController, ProductPageViewContro
     }
     
     
-    public required init(withProduct product: Product, andContext context: PContext) {
+    public required init(withProduct product: Product, pageIndex: Int, andContext context: PContext) {
         log.info("Creating ProductVC for product with id \(product.id ?? "nil")")
         
         self.product = product
         
         super.init(withDirection: .Vertical)
+        
+        self.scrollPageIndex = pageIndex
         
         guard let product = self.product else {
             log.error("This should have not entered here. Just assigned product value for ProductPage.")

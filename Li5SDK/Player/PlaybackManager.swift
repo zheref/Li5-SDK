@@ -34,33 +34,26 @@ import Foundation
             if automaticallyReplays {
                 log.verbose("Setting up automatic replay for player on index: \(currentIndex)")
                 
-                player?.actionAtItemEnd = .none
-                
-                if endPlayObserver == nil {
-                    endPlayObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
-                                                                             object: player?.currentItem,
-                                                                             queue: nil)
-                    { [weak self] (_) in
-                        log.verbose("Finished playing video.")
-                        
-                        DispatchQueue.main.async { [weak self] in
-                            self?.replay()
-                        }
-                    }
-                }
+                setAutomaticReplay()
             } else {
                 player?.actionAtItemEnd = .pause
                 
                 if let observer = endPlayObserver {
                     NotificationCenter.default.removeObserver(observer)
                 }
+                
+                endPlayObserver = nil
             }
         }
     }
     
     private var playlistItems = [AVPlayerItem]()
     
+    /// The index of the item currently in playback
     private var currentIndex: Int = 0
+    
+    /// The index willing to be played right now
+    private var continueWithIndex: Int = 0
     
     // MARK: Computed Properties
     
@@ -82,9 +75,10 @@ import Foundation
     /// - Parameters:
     ///   - delegate: The currently displayed responsible of handling and playing the media
     ///   - automaticallyReplays: Whether the current item should play in loop or not
-    func attach(delegate: PlaybackDelegate, automaticallyReplays: Bool) {
+    func attach(delegate: PlaybackDelegate, index: Int, automaticallyReplays: Bool) {
         self.delegate = delegate
         self.automaticallyReplays = automaticallyReplays
+        self.continueWithIndex = index
         
         addObserver(self, forKeyPath: #keyPath(PlaybackManager.player.currentItem.status),
                     options: [.new, .initial], context: &playerbackManagerKVOContext)
@@ -98,12 +92,77 @@ import Foundation
         player?.insert(item, after: nil)
     }
     
-    
+    /// Notifies the current playback host is ready to play (ex. is already displayed)
     func viewReadyToPlay() {
-//        addObserver(self, forKeyPath: #keyPath(PlaybackManager.player.currentItem.duration),
-//                    options: [.new, .initial], context: &playerbackManagerKVOContext)
+        if continueWithIndex == currentIndex {
+            playIfReady()
+        } else {
+            continuePlayback()
+        }
+    }
+    
+    private func setAutomaticReplay() {
+        if automaticallyReplays {
+            player?.actionAtItemEnd = .none
+            
+            if endPlayObserver != nil {
+                NotificationCenter.default.removeObserver(endPlayObserver!)
+                endPlayObserver = nil
+            }
+            
+            endPlayObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
+                                                                     object: player?.currentItem,
+                                                                     queue: nil)
+            { [weak self] (_) in
+                log.verbose("Finished playing video.")
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.replay()
+                }
+            }
+        }
+    }
+    
+    /// When current playback item index is different than the continueWithIndex (willing to play now)
+    /// do the necessary procedures for it to start playing the following index and match the model
+    private func continuePlayback() {
+        if continueWithIndex == currentIndex + 1 {
+            currentIndex = continueWithIndex
+            
+            player?.advanceToNextItem()
+        } else {
+            currentIndex = continueWithIndex
+            
+            player?.removeAllItems()
+            
+            for index in currentIndex...playlistItems.count-1 {
+                let item = playlistItems[index]
+                
+                if player == nil { player = AVQueuePlayer() }
+                
+                guard let player = player else {
+                    log.error("Player nil?!! But I just sanity-checked it! Dark magic!!!")
+                    return
+                }
+                
+                if player.canInsert(item, after: nil) {
+                    player.seek(to: kCMTimeZero)
+                    player.insert(item, after: nil)
+                } else {
+                    log.warning("Wasn't able to insert av player item while refreshign for specific play")
+                }
+            }
+            
+            printEnqueuedItems()
+            
+            if player?.status == .readyToPlay {
+                player?.play()
+            } else {
+                log.warning("Tried to play but not ready yet for index: \(currentIndex)")
+            }
+        }
         
-        playIfReady()
+        setAutomaticReplay()
     }
     
     
@@ -115,31 +174,6 @@ import Foundation
         } else {
             log.warning("Tried to play but not ready yet for index: \(currentIndex)")
         }
-    }
-    
-    
-    private func play(index: Int) {
-        player?.removeAllItems()
-        
-        for index in currentIndex...playlistItems.count {
-            let item = playlistItems[index]
-            
-            if player == nil { player = AVQueuePlayer() }
-            
-            guard let player = player else {
-                log.error("Player nil?!! But I just sanity-checked it! Dark magic!!!")
-                return
-            }
-            
-            if player.canInsert(item, after: nil) {
-                player.seek(to: kCMTimeZero)
-                player.insert(item, after: nil)
-            } else {
-                log.warning("Wasn't able to insert av player item while refreshign for specific play")
-            }
-        }
-        
-        printEnqueuedItems()
     }
     
     
@@ -207,8 +241,8 @@ import Foundation
         if currentIndex == 0 {
             log.error("Trying to go to previous player item when the cursor is on zero position")
         } else {
-            currentIndex -= 1
-            play(index: currentIndex)
+            continueWithIndex = currentIndex - 1
+            continuePlayback()
         }
     }
     

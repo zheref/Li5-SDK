@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 
 
-protocol TeaserViewControllerProtocol {
+protocol TeaserViewControllerProtocol : PageIndexedProtocol {
     
 }
 
@@ -24,6 +24,8 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     // MARK: References
     
     var product: Product!
+    
+    var pageIndex: Int = -1
     
     var playerLayer: AVPlayerLayer?
     
@@ -40,8 +42,8 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     var isDisplayed = false {
         didSet {
             if isDisplayed {
-                log.debug("Attaching Teaser(\(scrollPageIndex)) to PlaybackManager")
-                PlaybackManager.shared.attach(delegate: self, automaticallyReplays: true)
+                log.debug("Attaching Teaser(\(pageIndex)) to PlaybackManager")
+                PlaybackManager.shared.attach(delegate: self, index: pageIndex, automaticallyReplays: true)
             }
         }
     }
@@ -90,7 +92,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     ///   - product: The product for which the TeaserVC should be created
     ///   - context: The context for the TeaserVC
     /// - Returns: New instance of TeaserViewController setup for the given data
-    static func instance(withProduct product: Product,
+    static func instance(withProduct product: Product, pageIndex: Int,
                          andContext context: PContext) -> TeaserViewController {
         
         let storyboard = UIStoryboard(name: KUI.SB.ProductPageViews.rawValue,
@@ -108,6 +110,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         log.verbose("Initializing new TeaserVC")
         
         viewController.product = product
+        viewController.pageIndex = pageIndex
         viewController.reset()
             
         return viewController

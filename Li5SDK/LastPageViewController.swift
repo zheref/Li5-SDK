@@ -72,7 +72,6 @@ class LastPageViewController : ProductPageViewController {
             
             if let url = Foundation.URL(string: lastVideoUrl.url) {
                 player = AVPlayer(url: url)
-                //TODO: player?.play() ???
                 playerLayer = AVPlayerLayer(player: player)
                 
                 OperationQueue.main.addOperation { [weak self] in
@@ -118,9 +117,8 @@ class LastPageViewController : ProductPageViewController {
         self.reset()
     }
     
-    
-    public required init(withProduct product: Product, andContext context: PContext) {
-        fatalError("init(withProduct:andContext:) has not been implemented")
+    public required init(withProduct product: Product, pageIndex: Int, andContext context: PContext) {
+        fatalError("init(withProduct:pageIndex:andContext:) has not been implemented")
     }
     
     // MARK: - LIFECYCLE

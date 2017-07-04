@@ -22,6 +22,8 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     
     var product: Product
     
+    var pageIndex: Int
+    
     var teaserViewController: TeaserViewController!
     //TODO: var unlockedViewController: UnlockedViewController?
     
@@ -29,16 +31,16 @@ class VideoViewController : UIViewController, VideoViewControllerProtocol, UIGes
     
     // MARK: - Computed Properties
     
-    var pageIndex: Int
-    
     // MARK: - Initializers
     
     
     required init(product: Product, context: PContext, pageIndex: Int) {
         self.product = product
+        
+        log.debug("Setting VideoVC pageIndex to \(pageIndex)")
         self.pageIndex = pageIndex
         
-        teaserViewController = TeaserViewController.instance(withProduct: self.product,
+        teaserViewController = TeaserViewController.instance(withProduct: self.product, pageIndex: self.pageIndex,
                                                              andContext: context)
         
         if product.videoURL != nil && !product.videoURL.isEmpty {
