@@ -219,5 +219,13 @@ class ShowViewController: UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
+    
+    
+    // MARK: Actions
+    
+    @IBAction func userDidTapRightActiveSection(_ sender: Any) {
+        player.advanceToNextItem()
+    }
+    
 
 }
