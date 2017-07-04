@@ -21,6 +21,8 @@ open class Li5SDK {
     var primetimeViewController: PrimeTimeViewController!
     var primetimeDataSource: PrimeTimeViewControllerDataSource!
     
+    var showViewController: ShowViewController!
+    
     fileprivate init() {}
     
     
@@ -69,11 +71,17 @@ open class Li5SDK {
             primetimeViewController = PrimeTimeViewController(withDataSource: primetimeDataSource)
         }
         
+        if showViewController == nil {
+            showViewController = ShowViewController(nibName: KUI.XIB.ShowViewController.rawValue,
+                                                    bundle: Bundle(for: Li5SDK.self))
+        }
+        
         guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {
             return
         }
         
-        rootVC.present(primetimeViewController, animated: false, completion: nil)
+        //rootVC.present(primetimeViewController, animated: false, completion: nil)
+        rootVC.present(showViewController, animated: false, completion: nil)
     }
     
     

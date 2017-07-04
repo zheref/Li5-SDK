@@ -10,6 +10,10 @@ import Foundation
 
 class KUI {
     
+    enum XIB: String {
+        case ShowViewController
+    }
+    
     enum SB : String {
         case ProductPageViews
         case DiscoverViews
