@@ -14,4 +14,6 @@ protocol PlaybackDelegate : class {
     
     func handleError(with message: String?, error: Error?)
     
+    func isPlaying()
+    
 }

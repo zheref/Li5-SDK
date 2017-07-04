@@ -90,6 +90,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     /// Creates and instance of TeaserVC with the given product and context
     /// - Parameters:
     ///   - product: The product for which the TeaserVC should be created
+    ///   - pageIndex: The page index being represented by the TeaserVC
     ///   - context: The context for the TeaserVC
     /// - Returns: New instance of TeaserViewController setup for the given data
     static func instance(withProduct product: Product, pageIndex: Int,
@@ -124,9 +125,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     /// Sets up from scratch the player
     private func reset() {
-        if let player = PlaybackManager.shared.player {
-            playerLayer = AVPlayerLayer(player: player)
-        }
+        playerLayer = AVPlayerLayer(player: player)
     }
     
     
@@ -148,6 +147,7 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         actionsView.refreshStatus()
     }
     
@@ -268,11 +268,9 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
         }
     }
     
-    
+    /// Shows poster image if available in the product model and is a valid base 64 image
     private func setupPoster() {
         if let poster = product.trailerPosterPreview {
-            log.debug("Rendering available poster for product on Teaser...")
-            
             if let data = Data(base64Encoded: poster),
                 let image = UIImage(data: data) {
                 
@@ -280,6 +278,8 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
                 posterImageView?.frame = view.bounds
                 
                 if let posterImageView = posterImageView {
+                    log.debug("Rendering available poster for product on Teaser(\(pageIndex))...")
+                    
                     playerContainer.addSubview(posterImageView)
                 }
             }
@@ -290,10 +290,11 @@ class TeaserViewController : UIViewController, TeaserViewControllerProtocol {
     fileprivate func readyToPlay() {
         if isDisplayed {
             if PlaybackManager.shared.readyToPlayCurrentItem {
+                log.verbose("Calling to play video: \(productId)")
+                
                 waveView?.stopAnimating()
                 posterImageView?.removeFromSuperview()
                 
-                log.verbose("Calling to play video: \(productId)")
                 PlaybackManager.shared.viewReadyToPlay()
             } else {
                 log.verbose("Stopped trying to play because video is not ready to be played: \(productId)")
@@ -327,6 +328,12 @@ extension TeaserViewController : PlaybackDelegate {
     
     func bufferIsReadyToPlay() {
         readyToPlay()
+    }
+    
+    
+    func isPlaying() {
+        waveView?.stopAnimating()
+        posterImageView?.removeFromSuperview()
     }
     
 }

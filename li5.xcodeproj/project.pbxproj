@@ -94,6 +94,7 @@
 		2BF2668E1F09411D00CB9461 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
 		7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818510B1EE9F12300F124EC /* VideoViewController.swift */; };
+		783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783D81E51F0C301600EDAF64 /* AVPlayer.swift */; };
 		78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -294,6 +295,7 @@
 		63442170E3DFD55EC89DB9FD /* Pods-DemoSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoSDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoSDK/Pods-DemoSDK.release.xcconfig"; sourceTree = "<group>"; };
 		6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7818510B1EE9F12300F124EC /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		783D81E51F0C301600EDAF64 /* AVPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayer.swift; path = "UIKit Extensions/AVPlayer.swift"; sourceTree = "<group>"; };
 		78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Li5PlayerView.swift; path = Player/Li5PlayerView.swift; sourceTree = "<group>"; };
 		80DBD9F80C310DAD4C901CAD /* Pods-Li5SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Li5SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Li5SDK/Pods-Li5SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		9C5AA8101CD02E7100F3DE08 /* ProductsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsCollectionViewCell.h; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 		2B84CD0E1EE8362C0011F061 /* UIKit Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				783D81E51F0C301600EDAF64 /* AVPlayer.swift */,
 			);
 			name = "UIKit Extensions";
 			sourceTree = "<group>";
@@ -1084,6 +1087,7 @@
 				2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */,
 				2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */,
 				2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */,
+				783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */,
 				2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */,
 				2BA593B21EB4275D0065FDD9 /* BAFluidView.m in Sources */,
 				2BA593B51EB4275D0065FDD9 /* UIColor+ColorWithHex.m in Sources */,
