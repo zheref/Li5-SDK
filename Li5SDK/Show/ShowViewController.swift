@@ -13,48 +13,35 @@ private var playerViewControllerKVOContext = 0
 
 class ShowViewController: UIViewController {
     
-    // MARK: - CLASS PROPERTIES
-    
-    // Attempt load and test these asset keys before playing.
-    static let assetKeysRequiredToPlay = [
-        "playable",
-        "hasProtectedContent"
-    ]
-    
     // MARK: - PROPERTIES
     
     // MARK: Outlets
     
     @IBOutlet weak var playerView: Li5PlayerView!
+    @IBOutlet weak var posterImageView: UIImageView!
     
     // MARK: Stored Properties
     
+    /// The player responsible of the media playback
     let player = AVQueuePlayer()
     
+    /// The index of the item currently being played
+    var currentIndex: Int = 0
+    
+    /// The product models which trailer URLs should be played
     var products = [Product]()
     
+    /// The assets corresponding the trailers of each product to be eventually played
     var loadedAssets = [AVURLAsset]()
-    
-    /*
-     A token obtained from calling `player`'s `addPeriodicTimeObserverForInterval(_:queue:usingBlock:)`
-     method.
-     */
-    var timeObserverToken: Any?
     
     // MARK: Computed Properties
     
-    var currentTime: Double {
-        get {
-            return CMTimeGetSeconds(player.currentTime())
-        }
-        set {
-            let newTime = CMTimeMakeWithSeconds(newValue, 1)
-            player.seek(to: newTime, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
-        }
-    }
-    
     var playerLayer: AVPlayerLayer? {
         return playerView.playerLayer
+    }
+    
+    var currentProduct: Product {
+        return products[currentIndex]
     }
     
     // MARK: - INSTANCE OPERATIONS
@@ -63,21 +50,13 @@ class ShowViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        player.automaticallyWaitsToMinimizeStalling = false
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        /*
-         Update the UI when these player properties change.
-         
-         Use the context parameter to distinguish KVO for our particular observers
-         and not those destined for a subclass that also happens to be observing
-         these properties.
-         */
         addObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem.status), options: [.new, .initial], context: &playerViewControllerKVOContext)
         addObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem), options: [.new, .initial], context: &playerViewControllerKVOContext)
         
@@ -96,6 +75,8 @@ class ShowViewController: UIViewController {
                 }
             }
             
+            self.setupPoster()
+            
             self.player.play()
         }
     }
@@ -104,15 +85,13 @@ class ShowViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if let timeObserverToken = timeObserverToken {
-            player.removeTimeObserver(timeObserverToken)
-            self.timeObserverToken = nil
-        }
-        
         player.pause()
         
-        removeObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem.status), context: &playerViewControllerKVOContext)
-        removeObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem), context: &playerViewControllerKVOContext)
+        removeObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem.status),
+                       context: &playerViewControllerKVOContext)
+        
+        removeObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem),
+                       context: &playerViewControllerKVOContext)
     }
     
     
@@ -152,6 +131,10 @@ class ShowViewController: UIViewController {
             
             if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber {
                 newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.intValue)!
+                
+                if newStatus == .readyToPlay {
+                    player.play()
+                }
             }
             else {
                 newStatus = .unknown
@@ -159,6 +142,16 @@ class ShowViewController: UIViewController {
             
             if newStatus == .failed {
                 handleError(with: player.currentItem?.error?.localizedDescription, error: player.currentItem?.error)
+            }
+        }
+    }
+    
+    /// Shows poster image if available in the product model and is a valid base 64 image
+    private func setupPoster() {
+        if let poster = currentProduct.trailerPosterPreview {
+            if let data = Data(base64Encoded: poster),
+                let image = UIImage(data: data) {
+                posterImageView.image = image
             }
         }
     }
@@ -224,6 +217,8 @@ class ShowViewController: UIViewController {
     // MARK: Actions
     
     @IBAction func userDidTapRightActiveSection(_ sender: Any) {
+        currentIndex += 1
+        setupPoster()
         player.advanceToNextItem()
     }
     
