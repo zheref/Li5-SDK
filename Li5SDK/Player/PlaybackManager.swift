@@ -20,13 +20,15 @@ import Foundation
     
     // MARK: Stored Properties
     
-    var player: AVQueuePlayer? = AVQueuePlayer()
+    var player: AVQueuePlayer = AVQueuePlayer()
     
     private var playerbackManagerKVOContext = 0
     
     private weak var delegate: PlaybackDelegate?
     
     private var endPlayObserver: NSObjectProtocol?
+    
+    private var statusForCurrentItem: AVPlayerItemStatus = .unknown
     
     /// Determines whether the current played item should loop/repeat or not
     private var automaticallyReplays = false {
@@ -36,7 +38,7 @@ import Foundation
                 
                 setAutomaticReplay()
             } else {
-                player?.actionAtItemEnd = .pause
+                player.actionAtItemEnd = .pause
                 
                 if let observer = endPlayObserver {
                     NotificationCenter.default.removeObserver(observer)
@@ -58,11 +60,7 @@ import Foundation
     // MARK: Computed Properties
     
     var readyToPlayCurrentItem: Bool {
-        if player == nil {
-            return false
-        } else {
-            return player!.status == .readyToPlay
-        }
+        return player.status == .readyToPlay && statusForCurrentItem == .readyToPlay
     }
     
     // MARK: - INITIALIZERS
@@ -78,7 +76,9 @@ import Foundation
     func attach(delegate: PlaybackDelegate, index: Int, automaticallyReplays: Bool) {
         self.delegate = delegate
         self.automaticallyReplays = automaticallyReplays
-        self.continueWithIndex = index
+        
+        continueWithIndex = index
+        statusForCurrentItem = .unknown
         
         addObserver(self, forKeyPath: #keyPath(PlaybackManager.player.currentItem.status),
                     options: [.new, .initial], context: &playerbackManagerKVOContext)
@@ -89,7 +89,7 @@ import Foundation
     func append(url: Foundation.URL) {
         let item = AVPlayerItem(url: url)
         playlistItems.append(item)
-        player?.insert(item, after: nil)
+        player.insert(item, after: nil)
     }
     
     /// Notifies the current playback host is ready to play (ex. is already displayed)
@@ -103,7 +103,7 @@ import Foundation
     
     private func setAutomaticReplay() {
         if automaticallyReplays {
-            player?.actionAtItemEnd = .none
+            player.actionAtItemEnd = .none
             
             if endPlayObserver != nil {
                 NotificationCenter.default.removeObserver(endPlayObserver!)
@@ -111,11 +111,9 @@ import Foundation
             }
             
             endPlayObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
-                                                                     object: player?.currentItem,
+                                                                     object: player.currentItem,
                                                                      queue: nil)
             { [weak self] (_) in
-                log.verbose("Finished playing video.")
-                
                 DispatchQueue.main.async { [weak self] in
                     self?.replay()
                 }
@@ -129,21 +127,18 @@ import Foundation
         if continueWithIndex == currentIndex + 1 {
             currentIndex = continueWithIndex
             
-            player?.advanceToNextItem()
+            player.advanceToNextItem()
+            
+            if player.isPlaying {
+                delegate?.isPlaying()
+            }
         } else {
             currentIndex = continueWithIndex
             
-            player?.removeAllItems()
+            player.removeAllItems()
             
             for index in currentIndex...playlistItems.count-1 {
                 let item = playlistItems[index]
-                
-                if player == nil { player = AVQueuePlayer() }
-                
-                guard let player = player else {
-                    log.error("Player nil?!! But I just sanity-checked it! Dark magic!!!")
-                    return
-                }
                 
                 if player.canInsert(item, after: nil) {
                     player.seek(to: kCMTimeZero)
@@ -155,8 +150,9 @@ import Foundation
             
             printEnqueuedItems()
             
-            if player?.status == .readyToPlay {
-                player?.play()
+            if player.status == .readyToPlay {
+                player.play()
+                delegate?.isPlaying()
             } else {
                 log.warning("Tried to play but not ready yet for index: \(currentIndex)")
             }
@@ -169,8 +165,12 @@ import Foundation
     private func playIfReady() {
         log.debug("Calling to play if ready...")
         
-        if player?.status == .readyToPlay {
-            player?.play()
+        if player.status == .readyToPlay {
+            player.play()
+            
+            if player.isPlaying {
+                //delegate?.isPlaying()
+            }
         } else {
             log.warning("Tried to play but not ready yet for index: \(currentIndex)")
         }
@@ -178,7 +178,7 @@ import Foundation
     
     
     public func videoWillChange() {
-        player?.pause()
+        player.pause()
         goToZero()
         
         
@@ -200,30 +200,26 @@ import Foundation
     
     
     func printEnqueuedItems() {
-        if let player = player {
-            log.debug("Enqueued items:")
-            
-            for item in player.items() {
-                log.debug(item.description)
-            }
-            
-            log.debug("-------- ------")
-        } else {
-            log.debug("Playlist items:")
-            
-            for item in playlistItems {
-                log.debug(item.description)
-            }
-            
-            log.debug("-------- ------")
+        log.debug("Enqueued items:")
+        
+        for item in player.items() {
+            log.debug(item.description)
         }
+        
+        log.debug("Playlist items:")
+        
+        for item in playlistItems {
+            log.debug(item.description)
+        }
+        
+        log.debug("-------- ------")
     }
     
     
     /// Replay the current item from the beginning
     private func replay() {
-        player?.seek(to: kCMTimeZero)
-        player?.play()
+        player.seek(to: kCMTimeZero)
+        player.play()
     }
     
     
@@ -232,7 +228,7 @@ import Foundation
             log.error("Trying to go to next player item when there are no more enqueued")
         } else {
             currentIndex += 1
-            player?.advanceToNextItem()
+            player.advanceToNextItem()
         }
     }
     
@@ -248,7 +244,7 @@ import Foundation
     
     /// Goes to the position zero of the playback
     private func goToZero() {
-        player?.seek(to: kCMTimeZero)
+        player.seek(to: kCMTimeZero)
     }
     
     
@@ -271,11 +267,18 @@ import Foundation
                 newStatus = .unknown
             }
             
-            if newStatus == .failed {
-                delegate?.handleError(with: player?.currentItem?.error?.localizedDescription,
-                                      error: player?.currentItem?.error)
-            } else if newStatus == .readyToPlay {
-                delegate?.bufferIsReadyToPlay()
+            if statusForCurrentItem != newStatus {
+                statusForCurrentItem = newStatus
+                
+                switch(statusForCurrentItem) {
+                case .failed:
+                    delegate?.handleError(with: player.currentItem?.error?.localizedDescription,
+                                          error: player.currentItem?.error)
+                case .readyToPlay:
+                    delegate?.bufferIsReadyToPlay()
+                default:
+                    break
+                }
             }
         }
     }
