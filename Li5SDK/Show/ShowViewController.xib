@@ -29,6 +29,12 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-aT-y6f" customClass="Li5PlayerView" customModule="Li5SDK" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeO-DA-YCE">
+                    <rect key="frame" x="0.0" y="0.0" width="187.5" height="667"/>
+                    <connections>
+                        <action selector="userDidTapLeftActiveSection:" destination="-1" eventType="touchUpInside" id="ybC-Y0-6fV"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lcp-o3-NKo">
                     <rect key="frame" x="187.5" y="0.0" width="187.5" height="667"/>
                     <connections>
@@ -39,8 +45,12 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Lcp-o3-NKo" firstAttribute="top" secondItem="Kca-aT-y6f" secondAttribute="top" id="5Hm-U4-1Sv"/>
+                <constraint firstItem="SeO-DA-YCE" firstAttribute="bottom" secondItem="Kca-aT-y6f" secondAttribute="bottom" id="F5Z-A5-w16"/>
                 <constraint firstAttribute="trailing" secondItem="Kca-aT-y6f" secondAttribute="trailing" id="HhM-0Y-ODp"/>
+                <constraint firstItem="SeO-DA-YCE" firstAttribute="width" secondItem="Kca-aT-y6f" secondAttribute="width" multiplier="0.5" id="IGF-oZ-6vc"/>
+                <constraint firstItem="SeO-DA-YCE" firstAttribute="top" secondItem="Kca-aT-y6f" secondAttribute="top" id="QQo-SF-vq9"/>
                 <constraint firstItem="Lcp-o3-NKo" firstAttribute="trailing" secondItem="Kca-aT-y6f" secondAttribute="trailing" id="ZTw-5M-gaN"/>
+                <constraint firstItem="SeO-DA-YCE" firstAttribute="leading" secondItem="Kca-aT-y6f" secondAttribute="leading" id="dbF-hQ-XVy"/>
                 <constraint firstItem="Kca-aT-y6f" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hrl-bW-02k"/>
                 <constraint firstItem="Lcp-o3-NKo" firstAttribute="bottom" secondItem="Kca-aT-y6f" secondAttribute="bottom" id="pvD-Rm-D2s"/>
                 <constraint firstAttribute="bottom" secondItem="Kca-aT-y6f" secondAttribute="bottom" id="uL5-YW-KTA"/>
@@ -48,6 +58,11 @@
                 <constraint firstItem="Lcp-o3-NKo" firstAttribute="width" secondItem="Kca-aT-y6f" secondAttribute="width" multiplier="0.5" id="x7v-Qm-6ac"/>
             </constraints>
             <point key="canvasLocation" x="26.5" y="52.5"/>
+        </view>
+        <view contentMode="scaleToFill" id="ohl-1T-kLM">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
         </view>
     </objects>
 </document>

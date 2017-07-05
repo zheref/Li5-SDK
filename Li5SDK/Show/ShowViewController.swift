@@ -31,8 +31,13 @@ class ShowViewController: UIViewController {
     /// The product models which trailer URLs should be played
     var products = [Product]()
     
+    /// TODO: Missing documentation
+    var playlistItems = [AVPlayerItem]()
+    
     /// The assets corresponding the trailers of each product to be eventually played
     var loadedAssets = [AVURLAsset]()
+    
+    private var endPlayObserver: NSObjectProtocol?
     
     // MARK: Computed Properties
     
@@ -50,8 +55,6 @@ class ShowViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        player.automaticallyWaitsToMinimizeStalling = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,6 +74,7 @@ class ShowViewController: UIViewController {
                     
                     let newPlayerItem = AVPlayerItem(asset: asset)
                     
+                    self.playlistItems.append(newPlayerItem)
                     self.player.insert(newPlayerItem, after: nil)
                 }
             }
@@ -99,6 +103,7 @@ class ShowViewController: UIViewController {
         super.viewDidAppear(animated)
         
         player.play()
+        setAutomaticReplay()
     }
     
     
@@ -194,6 +199,67 @@ class ShowViewController: UIViewController {
     }
     
     
+    private func playNext() {
+        if currentIndex == playlistItems.count - 1 {
+            log.error("Trying to go to next player item when there are no more enqueued")
+        } else {
+            currentIndex += 1
+            setupPoster()
+            player.advanceToNextItem()
+            setAutomaticReplay()
+        }
+    }
+    
+    
+    private func playPrevious() {
+        if currentIndex == 0 {
+            log.error("Trying to go to previous player item when the cursor is on zero position")
+        } else {
+            currentIndex -= 1
+            setupPoster()
+            
+            player.removeAllItems()
+            
+            for index in currentIndex...playlistItems.count-1 {
+                let item = playlistItems[index]
+                
+                if player.canInsert(item, after: nil) {
+                    player.seek(to: kCMTimeZero)
+                    player.insert(item, after: nil)
+                } else {
+                    log.warning("Wasn't able to insert av player item while refreshign for specific play")
+                }
+            }
+            
+            if player.status == .readyToPlay {
+                player.play()
+                setAutomaticReplay()
+            } else {
+                log.warning("Tried to play but not ready yet for index: \(currentIndex)")
+            }
+        }
+    }
+    
+    
+    private func setAutomaticReplay() {
+        player.actionAtItemEnd = .none
+        
+        if endPlayObserver != nil {
+            NotificationCenter.default.removeObserver(endPlayObserver!)
+            endPlayObserver = nil
+        }
+        
+        endPlayObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
+                                                                 object: player.currentItem,
+                                                                 queue: nil)
+        { [weak self] (_) in
+            DispatchQueue.main.async { [weak self] in
+                self?.player.seek(to: kCMTimeZero)
+            }
+        }
+    }
+    
+    
     // MARK: Error Handling
     
     func handleError(with message: String?, error: Error? = nil) {
@@ -216,10 +282,12 @@ class ShowViewController: UIViewController {
     
     // MARK: Actions
     
+    @IBAction func userDidTapLeftActiveSection(_ sender: Any) {
+        playPrevious()
+    }
+    
     @IBAction func userDidTapRightActiveSection(_ sender: Any) {
-        currentIndex += 1
-        setupPoster()
-        player.advanceToNextItem()
+        playNext()
     }
     
 
