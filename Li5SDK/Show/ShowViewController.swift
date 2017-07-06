@@ -19,6 +19,8 @@ class ShowViewController: UIViewController {
     
     @IBOutlet weak var playerView: Li5PlayerView!
     @IBOutlet weak var posterImageView: UIImageView!
+    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: Stored Properties
     
@@ -35,7 +37,7 @@ class ShowViewController: UIViewController {
     var playlistItems = [AVPlayerItem]()
     
     /// The assets corresponding the trailers of each product to be eventually played
-    var loadedAssets = [AVURLAsset]()
+    var assetsManager = PlaybackAssetsManager()
     
     private var endPlayObserver: NSObjectProtocol?
     
@@ -45,8 +47,12 @@ class ShowViewController: UIViewController {
         return playerView.playerLayer
     }
     
-    var currentProduct: Product {
-        return products[currentIndex]
+    var currentProduct: Product? {
+        if currentIndex >= 0 && currentIndex < products.count {
+            return products[currentIndex]
+        } else {
+            return nil
+        }
     }
     
     // MARK: - INSTANCE OPERATIONS
@@ -63,25 +69,25 @@ class ShowViewController: UIViewController {
         addObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem.status), options: [.new, .initial], context: &playerViewControllerKVOContext)
         addObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem), options: [.new, .initial], context: &playerViewControllerKVOContext)
         
+        self.showLoadingScreen()
+        
         playerView.playerLayer.player = player
         
         asynchronouslyLoadProducts { [unowned self] in
+            var assets = [Li5Asset]()
+            
             for product in self.products {
                 if let url = Foundation.URL(string: product.trailerURL) {
-                    let asset = AVURLAsset(url: url, options: [:])
-                    
-                    self.loadedAssets.append(asset)
-                    
-                    let newPlayerItem = AVPlayerItem(asset: asset)
-                    
-                    self.playlistItems.append(newPlayerItem)
-                    self.player.insert(newPlayerItem, after: nil)
+                    let asset = AVURLAsset(url: url)
+                    assets.append(Li5Asset(id: product.id, asset: asset))
                 }
             }
             
-            self.setupPoster()
+            self.assetsManager.delegate = self
             
-            self.player.play()
+            self.assetsManager.assets = assets
+            
+            self.assetsManager.startDownloading()
         }
     }
     
@@ -152,7 +158,12 @@ class ShowViewController: UIViewController {
     }
     
     /// Shows poster image if available in the product model and is a valid base 64 image
-    private func setupPoster() {
+    fileprivate func setupPoster() {
+        guard let currentProduct = currentProduct else {
+            log.error("Current product is nil: \(currentIndex)")
+            return
+        }
+        
         if let poster = currentProduct.trailerPosterPreview {
             if let data = Data(base64Encoded: poster),
                 let image = UIImage(data: data) {
@@ -259,6 +270,17 @@ class ShowViewController: UIViewController {
         }
     }
     
+    /// Change elements to display loading screen. Specially designed for giving time for loading assets
+    private func showLoadingScreen() {
+        loadingView.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    
+    /// Change elements to hide loading screen. Should be run when assets are ready to play smoothly
+    fileprivate func hideLoadingScreen() {
+        loadingView.isHidden = true
+        activityIndicator.stopAnimating()
+    }
     
     // MARK: Error Handling
     
@@ -291,4 +313,22 @@ class ShowViewController: UIViewController {
     }
     
 
+}
+
+extension ShowViewController : Li5PlaybackAssetsManagerDelegate {
+    func managerDidFinishDownloadingRequiredAssets() {
+        log.verbose("Ready to play")
+        
+        for i in 0...products.count-1 {
+            let newPlayerItem = assetsManager.itemReady(forIndex: i)
+            self.playlistItems.append(newPlayerItem)
+            self.player.insert(newPlayerItem, after: nil)
+        }
+        
+        hideLoadingScreen()
+        
+        setupPoster()
+        
+        player.play()
+    }
 }

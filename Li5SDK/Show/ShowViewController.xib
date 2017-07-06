@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShowViewController" customModule="Li5SDK" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="C0O-Fl-QIu" id="3jL-d6-u8s"/>
+                <outlet property="loadingView" destination="x3f-37-WGt" id="HNh-NA-Uqv"/>
                 <outlet property="playerView" destination="Kca-aT-y6f" id="leZ-Ge-Vfn"/>
                 <outlet property="posterImageView" destination="6Az-qL-Gas" id="sb2-6K-joo"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -22,39 +24,59 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Az-qL-Gas">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Az-qL-Gas">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-aT-y6f" customClass="Li5PlayerView" customModule="Li5SDK" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeO-DA-YCE">
-                    <rect key="frame" x="0.0" y="0.0" width="187.5" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="188" height="667"/>
                     <connections>
                         <action selector="userDidTapLeftActiveSection:" destination="-1" eventType="touchUpInside" id="ybC-Y0-6fV"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lcp-o3-NKo">
-                    <rect key="frame" x="187.5" y="0.0" width="187.5" height="667"/>
+                    <rect key="frame" x="187" y="0.0" width="188" height="667"/>
                     <connections>
                         <action selector="userDidTapRightActiveSection:" destination="-1" eventType="touchUpInside" id="etI-pi-Aob"/>
                     </connections>
                 </button>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x3f-37-WGt">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="C0O-Fl-QIu">
+                            <rect key="frame" x="169" y="315" width="37" height="37"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="C0O-Fl-QIu" firstAttribute="centerX" secondItem="x3f-37-WGt" secondAttribute="centerX" id="99h-zl-lBj"/>
+                        <constraint firstItem="C0O-Fl-QIu" firstAttribute="centerY" secondItem="x3f-37-WGt" secondAttribute="centerY" id="G9g-Q9-uvb"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Lcp-o3-NKo" firstAttribute="top" secondItem="Kca-aT-y6f" secondAttribute="top" id="5Hm-U4-1Sv"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="bottom" secondItem="6Az-qL-Gas" secondAttribute="bottom" id="5N5-Wl-qQF"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="bottom" secondItem="Kca-aT-y6f" secondAttribute="bottom" id="F5Z-A5-w16"/>
                 <constraint firstAttribute="trailing" secondItem="Kca-aT-y6f" secondAttribute="trailing" id="HhM-0Y-ODp"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="width" secondItem="Kca-aT-y6f" secondAttribute="width" multiplier="0.5" id="IGF-oZ-6vc"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="bottom" secondItem="Kca-aT-y6f" secondAttribute="bottom" id="MEi-QE-qQM"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="trailing" secondItem="6Az-qL-Gas" secondAttribute="trailing" id="PKY-Fa-LLF"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="top" secondItem="Kca-aT-y6f" secondAttribute="top" id="QQo-SF-vq9"/>
                 <constraint firstItem="Lcp-o3-NKo" firstAttribute="trailing" secondItem="Kca-aT-y6f" secondAttribute="trailing" id="ZTw-5M-gaN"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="6Az-qL-Gas" secondAttribute="top" id="ZUc-fF-5E4"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="leading" secondItem="6Az-qL-Gas" secondAttribute="leading" id="bTl-JB-zj5"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="leading" secondItem="Kca-aT-y6f" secondAttribute="leading" id="dbF-hQ-XVy"/>
                 <constraint firstItem="Kca-aT-y6f" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hrl-bW-02k"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="Kca-aT-y6f" secondAttribute="top" id="icu-cr-ft8"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="trailing" secondItem="Kca-aT-y6f" secondAttribute="trailing" id="lOW-r1-9Hb"/>
                 <constraint firstItem="Lcp-o3-NKo" firstAttribute="bottom" secondItem="Kca-aT-y6f" secondAttribute="bottom" id="pvD-Rm-D2s"/>
                 <constraint firstAttribute="bottom" secondItem="Kca-aT-y6f" secondAttribute="bottom" id="uL5-YW-KTA"/>
                 <constraint firstItem="Kca-aT-y6f" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="uLg-2N-qoC"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="leading" secondItem="Kca-aT-y6f" secondAttribute="leading" id="ueu-SB-b6K"/>
                 <constraint firstItem="Lcp-o3-NKo" firstAttribute="width" secondItem="Kca-aT-y6f" secondAttribute="width" multiplier="0.5" id="x7v-Qm-6ac"/>
             </constraints>
             <point key="canvasLocation" x="26.5" y="52.5"/>

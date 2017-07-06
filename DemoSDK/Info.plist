@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.53</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -39,6 +39,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

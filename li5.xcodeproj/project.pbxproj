@@ -26,6 +26,9 @@
 		2B5A00221EEB805F000E4F71 /* ProductPageActionsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBC61E01D047508006B4C68 /* ProductPageActionsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B5A00231EEB80B6000E4F71 /* Li5View.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BAB34EC1CF1015C00AE74DC /* Li5View.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B5A00241EEB8401000E4F71 /* Li5VolumeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B5134F81D1304C300EE374C /* Li5VolumeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B7E487A1F0DDBFA0053B5EC /* PlaybackAssetsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E48791F0DDBFA0053B5EC /* PlaybackAssetsManager.swift */; };
+		2B7E487D1F0DE8970053B5EC /* PlaybackAssetsDownloadHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E487C1F0DE8970053B5EC /* PlaybackAssetsDownloadHandler.swift */; };
+		2B7E487F1F0DE8B90053B5EC /* Li5Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E487E1F0DE8B90053B5EC /* Li5Asset.swift */; };
 		2B84CD0D1EE835BE0011F061 /* PaginatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD0C1EE835BE0011F061 /* PaginatorViewController.swift */; };
 		2B84CD141EE837DC0011F061 /* PaginatorViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD131EE837DC0011F061 /* PaginatorViewControllerDataSource.swift */; };
 		2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD151EE838680011F061 /* PaginatorViewControllerDelegate.swift */; };
@@ -147,6 +150,9 @@
 		2B44F4FB1EBAC4CF00AB18A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B44F53B1EBB539200AB18A0 /* AMPopTip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AMPopTip.framework; path = "DerivedData/li5/Build/Products/Debug-iphonesimulator/AMPopTip/AMPopTip.framework"; sourceTree = "<group>"; };
 		2B5A001F1EEB5B65000E4F71 /* TeaserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeaserViewController.swift; sourceTree = "<group>"; };
+		2B7E48791F0DDBFA0053B5EC /* PlaybackAssetsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackAssetsManager.swift; path = Player/PlaybackAssetsManager.swift; sourceTree = "<group>"; };
+		2B7E487C1F0DE8970053B5EC /* PlaybackAssetsDownloadHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackAssetsDownloadHandler.swift; path = Player/PlaybackAssetsDownloadHandler.swift; sourceTree = "<group>"; };
+		2B7E487E1F0DE8B90053B5EC /* Li5Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Li5Asset.swift; path = Player/Li5Asset.swift; sourceTree = "<group>"; };
 		2B84CD0C1EE835BE0011F061 /* PaginatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatorViewController.swift; sourceTree = "<group>"; };
 		2B84CD131EE837DC0011F061 /* PaginatorViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatorViewControllerDataSource.swift; sourceTree = "<group>"; };
 		2B84CD151EE838680011F061 /* PaginatorViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatorViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -345,6 +351,16 @@
 				2B44F4FB1EBAC4CF00AB18A0 /* Info.plist */,
 			);
 			path = DemoSDK;
+			sourceTree = "<group>";
+		};
+		2B7E487B1F0DE8810053B5EC /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				2B7E48791F0DDBFA0053B5EC /* PlaybackAssetsManager.swift */,
+				2B7E487C1F0DE8970053B5EC /* PlaybackAssetsDownloadHandler.swift */,
+				2B7E487E1F0DE8B90053B5EC /* Li5Asset.swift */,
+			);
+			name = Assets;
 			sourceTree = "<group>";
 		};
 		2B84CD0E1EE8362C0011F061 /* UIKit Extensions */ = {
@@ -826,6 +842,7 @@
 		78FC0C1F1F04C369004AF0D8 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				2B7E487B1F0DE8810053B5EC /* Assets */,
 				78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */,
 				2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */,
 				2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */,
@@ -928,6 +945,11 @@
 						DevelopmentTeam = B64365EYZ4;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					2BA593371EB4258D0065FDD9 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1088,6 +1110,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BA593661EB4275D0065FDD9 /* SpinnerViewController.m in Sources */,
+				2B7E487A1F0DDBFA0053B5EC /* PlaybackAssetsManager.swift in Sources */,
 				2BA5936C1EB4275D0065FDD9 /* IndexedViewController.m in Sources */,
 				2B84CD1C1EE8C6C70011F061 /* Displayable.swift in Sources */,
 				2BA593701EB4275D0065FDD9 /* SwipeLeftToBeginViewController.m in Sources */,
@@ -1142,12 +1165,14 @@
 				2BA594031EB4275D0065FDD9 /* CardUICollectionViewCell.m in Sources */,
 				2B5A00201EEB5B65000E4F71 /* TeaserViewController.swift in Sources */,
 				2BA594051EB4275D0065FDD9 /* CardUIView.m in Sources */,
+				2B7E487F1F0DE8B90053B5EC /* Li5Asset.swift in Sources */,
 				2BA594071EB4275D0065FDD9 /* Li5View.m in Sources */,
 				2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */,
 				2BA5940B1EB4275D0065FDD9 /* Li5BlurredView.m in Sources */,
 				2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */,
 				7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */,
 				2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */,
+				2B7E487D1F0DE8970053B5EC /* PlaybackAssetsDownloadHandler.swift in Sources */,
 				2BA5934F1EB426220065FDD9 /* Li5SDK.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
