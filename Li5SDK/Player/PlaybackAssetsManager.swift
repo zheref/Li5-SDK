@@ -9,6 +9,11 @@
 import Foundation
 
 protocol Li5PlaybackAssetsManagerDelegate {
+    
+    func requiredAssetIsReady(_ asset: AVAsset, forId id: String)
+    
+    func managerDidFinishBufferingMinimumRequiredAssets()
+    
     func managerDidFinishDownloadingRequiredAssets()
 }
 
@@ -34,13 +39,17 @@ class PlaybackAssetsManager {
     
     // MARK: Public Operations
     
+    func startPreemptive() {
+        for i in 0...PlaybackAssetsManager.surroundBy {
+            preemptiveLoad(index: i)
+        }
+    }
+    
     /// Starts downloading the very first required assets to start a smooth experience
     func startDownloading() {
-//        for i in 0...PlaybackAssetsManager.surroundBy {
-//            download(index: i)
-//        }
-        
-        download(index: 0)
+        for i in 0...PlaybackAssetsManager.surroundBy {
+            download(index: i)
+        }
     }
     
     /// Returns an AVPlayerItem ready with the already downloaded or pending to download asset
@@ -52,6 +61,41 @@ class PlaybackAssetsManager {
     }
     
     // MARK: Private Operations
+    
+    fileprivate func preemptiveLoad(index: Int) {
+        let pAsset = assets[index]
+        
+        log.debug("Starting preemptive loading for index: \(index) -> \(pAsset.asset.url.absoluteURL)")
+        
+        pAsset.bufferStatus = .Buffering
+        
+        pAsset.asset.loadValuesAsynchronously(forKeys: ["playable", "tracks", "duration", "hasProtectedContent"]) { [weak self] in
+            guard let this = self else {
+                log.warning("PlaybackAssetsManager self instance lost on callback of asset loadValuesAsynchronously")
+                return
+            }
+            
+            pAsset.bufferStatus = .Buffered
+            
+            this.delegate?.requiredAssetIsReady(pAsset.asset, forId: pAsset.id)
+            
+            if let nextIndexToDownload = this.assets.index(where: { [weak self] (asset) -> Bool in
+                return asset.bufferStatus == .Pending
+            }) {
+                this.preemptiveLoad(index: nextIndexToDownload)
+            }
+            
+            let alreadyBufferedAssets = this.assets.filter { (asset) -> Bool in
+                return asset.bufferStatus == .Buffered
+            }
+            
+            if alreadyBufferedAssets.count > PlaybackAssetsManager.surroundBy &&
+                alreadyBufferedAssets.count < PlaybackAssetsManager.surroundBy + 2 {
+                
+                this.delegate?.managerDidFinishBufferingMinimumRequiredAssets()
+            }
+        }
+    }
     
     /// Starts the download process for the asset with the given index
     /// - Parameter index: Index of the asset, assuming its existence is sanity checked

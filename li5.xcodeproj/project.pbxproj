@@ -100,6 +100,8 @@
 		783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783D81E51F0C301600EDAF64 /* AVPlayer.swift */; };
 		7865AC4E1F0C42DE00544264 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7865AC4C1F0C42DE00544264 /* ShowViewController.swift */; };
 		7865AC4F1F0C42DE00544264 /* ShowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7865AC4D1F0C42DE00544264 /* ShowViewController.xib */; };
+		78A9B7E51F103E2600D68746 /* AssetPersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9B7E41F103E2600D68746 /* AssetPersistenceManager.swift */; };
+		78A9B7E71F103E7300D68746 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9B7E61F103E7300D68746 /* Asset.swift */; };
 		78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -306,6 +308,8 @@
 		783D81E51F0C301600EDAF64 /* AVPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayer.swift; path = "UIKit Extensions/AVPlayer.swift"; sourceTree = "<group>"; };
 		7865AC4C1F0C42DE00544264 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = Show/ShowViewController.swift; sourceTree = "<group>"; };
 		7865AC4D1F0C42DE00544264 /* ShowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShowViewController.xib; path = Show/ShowViewController.xib; sourceTree = "<group>"; };
+		78A9B7E41F103E2600D68746 /* AssetPersistenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AssetPersistenceManager.swift; path = Player/AssetPersistenceManager.swift; sourceTree = "<group>"; };
+		78A9B7E61F103E7300D68746 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asset.swift; path = Player/Asset.swift; sourceTree = "<group>"; };
 		78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Li5PlayerView.swift; path = Player/Li5PlayerView.swift; sourceTree = "<group>"; };
 		80DBD9F80C310DAD4C901CAD /* Pods-Li5SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Li5SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Li5SDK/Pods-Li5SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		9C5AA8101CD02E7100F3DE08 /* ProductsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsCollectionViewCell.h; sourceTree = "<group>"; };
@@ -359,6 +363,8 @@
 				2B7E48791F0DDBFA0053B5EC /* PlaybackAssetsManager.swift */,
 				2B7E487C1F0DE8970053B5EC /* PlaybackAssetsDownloadHandler.swift */,
 				2B7E487E1F0DE8B90053B5EC /* Li5Asset.swift */,
+				78A9B7E41F103E2600D68746 /* AssetPersistenceManager.swift */,
+				78A9B7E61F103E7300D68746 /* Asset.swift */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -1139,6 +1145,7 @@
 				2BA593BC1EB4275D0065FDD9 /* ThinSliderView.swift in Sources */,
 				2BA593BE1EB4275D0065FDD9 /* ImageUICollectionViewCell.m in Sources */,
 				2BA593C01EB4275D0065FDD9 /* DetailsViewController.m in Sources */,
+				78A9B7E51F103E2600D68746 /* AssetPersistenceManager.swift in Sources */,
 				2B0234611F0A8AB400B86B06 /* PlaybackDelegate.swift in Sources */,
 				2BA593C21EB4275D0065FDD9 /* ImageCardViewController.m in Sources */,
 				2BA593C41EB4275D0065FDD9 /* DetailsDescriptionViewController.m in Sources */,
@@ -1170,6 +1177,7 @@
 				2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */,
 				2BA5940B1EB4275D0065FDD9 /* Li5BlurredView.m in Sources */,
 				2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */,
+				78A9B7E71F103E7300D68746 /* Asset.swift in Sources */,
 				7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */,
 				2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */,
 				2B7E487D1F0DE8970053B5EC /* PlaybackAssetsDownloadHandler.swift in Sources */,

@@ -14,12 +14,20 @@ enum Li5AssetStatus {
     case Downloaded
 }
 
+enum Li5BufferStatus {
+    case Pending
+    case Buffering
+    case Buffered
+}
+
 class Li5Asset {
     
     let id: String
     let asset: AVURLAsset
     
     var status: Li5AssetStatus = .NotStarted
+    
+    var bufferStatus: Li5BufferStatus = .Pending
     
     var task: AVAssetDownloadTask?
     

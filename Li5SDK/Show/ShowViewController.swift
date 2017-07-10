@@ -11,6 +11,29 @@ import AVFoundation
 
 private var playerViewControllerKVOContext = 0
 
+let hardcodedHls = [
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+]
+
 class ShowViewController: UIViewController {
     
     // MARK: - PROPERTIES
@@ -76,18 +99,24 @@ class ShowViewController: UIViewController {
         asynchronouslyLoadProducts { [unowned self] in
             var assets = [Li5Asset]()
             
+            var i = 0 // TODO: Remove hardcode
+            
             for product in self.products {
+                //product.trailerURL = hardcodedHls[i] // TODO: Remove hardcode
+                i += 1 // TODO: Remove hardcode
+                
                 if let url = Foundation.URL(string: product.trailerURL) {
                     let asset = AVURLAsset(url: url)
+                    log.verbose("Creating Li5Asset for product \(product.id)")
                     assets.append(Li5Asset(id: product.id, asset: asset))
                 }
             }
             
             self.assetsManager.delegate = self
-            
             self.assetsManager.assets = assets
             
-            self.assetsManager.startDownloading()
+            self.assetsManager.startPreemptive()
+            //self.assetsManager.startDownloading()
         }
     }
     
@@ -155,6 +184,19 @@ class ShowViewController: UIViewController {
                 handleError(with: player.currentItem?.error?.localizedDescription, error: player.currentItem?.error)
             }
         }
+    }
+    
+    
+    /// Preloads the first assets
+    ///
+    /// - Parameter then: <#then description#>
+    private func preloadFirstAssets(_ then: () -> Void) {
+        //                for i in 0...products.count-1 {
+        //                    let newPlayerItem = assetsManager.itemReady(forIndex: i)
+        //                    self.playlistItems.append(newPlayerItem)
+        //                    self.player.insert(newPlayerItem, after: nil)
+        //                }
+        //
     }
     
     /// Shows poster image if available in the product model and is a valid base 64 image
@@ -316,19 +358,24 @@ class ShowViewController: UIViewController {
 }
 
 extension ShowViewController : Li5PlaybackAssetsManagerDelegate {
-    func managerDidFinishDownloadingRequiredAssets() {
-        log.verbose("Ready to play")
+    
+    func requiredAssetIsReady(_ asset: AVAsset, forId id: String) {
+        log.verbose("Adding ready asset for id: \(id)")
+        let newPlayerItem = AVPlayerItem(asset: asset)
         
-        for i in 0...products.count-1 {
-            let newPlayerItem = assetsManager.itemReady(forIndex: i)
-            self.playlistItems.append(newPlayerItem)
-            self.player.insert(newPlayerItem, after: nil)
+        playlistItems.append(newPlayerItem)
+        player.insert(newPlayerItem, after: nil)
+    }
+    
+    func managerDidFinishBufferingMinimumRequiredAssets() {
+        DispatchQueue.main.async { [unowned self] in
+            self.hideLoadingScreen()
+            self.setupPoster()
+            self.player.play()
         }
-        
-        hideLoadingScreen()
-        
-        setupPoster()
-        
-        player.play()
+    }
+    
+    func managerDidFinishDownloadingRequiredAssets() {
+        log.verbose("Finished downloading")
     }
 }
