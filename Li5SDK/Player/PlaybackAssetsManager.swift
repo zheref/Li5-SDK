@@ -10,7 +10,9 @@ import Foundation
 
 protocol Li5PlaybackAssetsManagerDelegate {
     
-    func requiredAssetIsReady(_ asset: AVAsset, forId id: String)
+    func requiredAssetIsBuffering(_ asset: Li5Asset)
+    
+    func requiredAssetIsReady(_ asset: Li5Asset)
     
     func managerDidFinishBufferingMinimumRequiredAssets()
     
@@ -21,7 +23,9 @@ class PlaybackAssetsManager {
     
     // MARK: - CLASS PROPERTIES
     
-    fileprivate static var surroundBy = 2
+    fileprivate static var surroundBy = 1
+    
+    fileprivate static var minimumRequiredPreloadedAssets = 4
     
     // MARK: - INSTANCE PROPERTIES
     
@@ -29,8 +33,10 @@ class PlaybackAssetsManager {
     
     let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: "assetDownloadConfIdentifier")
     
+    /// The array where assets are stored along with its media, metadata and status
     var assets = [Li5Asset]()
     
+    /// The responsible of handling the progress and completion of buffering and caching of assets
     var delegate: Li5PlaybackAssetsManagerDelegate?
     
     var assetURLSession: AVAssetDownloadURLSession!
@@ -56,66 +62,74 @@ class PlaybackAssetsManager {
     /// - Parameter index: Required index
     /// - Returns: AVPlayerItem with its corresponding asset attached
     func itemReady(forIndex index: Int) -> AVPlayerItem {
-        let asset = assets[index].asset
-        return AVPlayerItem(asset: asset)
+        return AVPlayerItem(asset: assets[index].media)
     }
     
     // MARK: Private Operations
     
     fileprivate func preemptiveLoad(index: Int) {
-        let pAsset = assets[index]
+        let asset = assets[index]
         
-        log.debug("Starting preemptive loading for index: \(index) -> \(pAsset.asset.url.absoluteURL)")
+        log.debug("Starting preemptive loading for index: \(index) -> \(asset.media.url.absoluteURL)")
         
-        pAsset.bufferStatus = .Buffering
+        asset.bufferStatus = .Buffering
         
-        pAsset.asset.loadValuesAsynchronously(forKeys: ["playable", "tracks", "duration", "hasProtectedContent"]) { [weak self] in
+        asset.media.loadValuesAsynchronously(forKeys: ["playable", "tracks", "duration", "hasProtectedContent"]) { [weak self] in
             guard let this = self else {
                 log.warning("PlaybackAssetsManager self instance lost on callback of asset loadValuesAsynchronously")
                 return
             }
             
-            pAsset.bufferStatus = .Buffered
+            asset.bufferStatus = .Buffered
             
-            this.delegate?.requiredAssetIsReady(pAsset.asset, forId: pAsset.id)
+            this.delegate?.requiredAssetIsReady(asset)
             
             if let nextIndexToDownload = this.assets.index(where: { [weak self] (asset) -> Bool in
                 return asset.bufferStatus == .Pending
             }) {
+                guard let this = self else {
+                    log.warning("Lost reference to PlaybackAssetsManager.self")
+                    return
+                }
+                
                 this.preemptiveLoad(index: nextIndexToDownload)
+            } else {
+                log.debug("No index found to continue buffering")
             }
             
             let alreadyBufferedAssets = this.assets.filter { (asset) -> Bool in
                 return asset.bufferStatus == .Buffered
             }
             
-            if alreadyBufferedAssets.count > PlaybackAssetsManager.surroundBy &&
-                alreadyBufferedAssets.count < PlaybackAssetsManager.surroundBy + 2 {
+            if alreadyBufferedAssets.count > PlaybackAssetsManager.minimumRequiredPreloadedAssets &&
+                alreadyBufferedAssets.count < PlaybackAssetsManager.minimumRequiredPreloadedAssets + 2 {
                 
                 this.delegate?.managerDidFinishBufferingMinimumRequiredAssets()
             }
         }
+        
+        delegate?.requiredAssetIsBuffering(asset)
     }
     
     /// Starts the download process for the asset with the given index
     /// - Parameter index: Index of the asset, assuming its existence is sanity checked
     fileprivate func download(index: Int) {
-        let pAsset = assets[index]
+        let asset = assets[index]
         
-        log.debug("Starting download for index: \(index) -> \(pAsset.asset.url.absoluteURL)")
+        log.debug("Starting download for index: \(index) -> \(asset.media.url.absoluteURL)")
         
-        let assetDownloadDelegate = PlaybackAssetsDownloadHandler(id: pAsset.id, delegate: self)
+        let assetDownloadDelegate = PlaybackAssetsDownloadHandler(id: asset.id, delegate: self)
         
         assetURLSession = AVAssetDownloadURLSession(configuration: backgroundConfiguration,
                                                     assetDownloadDelegate: assetDownloadDelegate,
                                                     delegateQueue: OperationQueue.main)
         
-        let task = assetURLSession.makeAssetDownloadTask(asset: pAsset.asset, assetTitle: pAsset.id,
+        let task = assetURLSession.makeAssetDownloadTask(asset: asset.media, assetTitle: asset.id,
                                                          assetArtworkData: nil,
                                                          options: nil)
-        pAsset.task = task
-        pAsset.task?.resume()
-        pAsset.status = .Downloading
+        asset.task = task
+        asset.task?.resume()
+        asset.status = .Downloading
     }
     
     /// Update asset with given id as downloaded setting its assigned location URL and updating

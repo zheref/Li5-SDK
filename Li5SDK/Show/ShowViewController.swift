@@ -108,7 +108,7 @@ class ShowViewController: UIViewController {
                 if let url = Foundation.URL(string: product.trailerURL) {
                     let asset = AVURLAsset(url: url)
                     log.verbose("Creating Li5Asset for product \(product.id)")
-                    assets.append(Li5Asset(id: product.id, asset: asset))
+                    assets.append(Li5Asset(id: product.id, media: asset))
                 }
             }
             
@@ -116,6 +116,8 @@ class ShowViewController: UIViewController {
             self.assetsManager.assets = assets
             
             self.assetsManager.startPreemptive()
+            
+            self.setupPoster()
             //self.assetsManager.startDownloading()
         }
     }
@@ -173,6 +175,7 @@ class ShowViewController: UIViewController {
                 newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.intValue)!
                 
                 if newStatus == .readyToPlay {
+                    player.seek(to: kCMTimeZero)
                     player.play()
                 }
             }
@@ -258,6 +261,8 @@ class ShowViewController: UIViewController {
         } else {
             currentIndex += 1
             setupPoster()
+            player.pause()
+            player.currentItem?.seek(to: kCMTimeZero)
             player.advanceToNextItem()
             setAutomaticReplay()
         }
@@ -277,6 +282,8 @@ class ShowViewController: UIViewController {
                 let item = playlistItems[index]
                 
                 if player.canInsert(item, after: nil) {
+                    player.pause()
+                    player.currentItem?.seek(to: kCMTimeZero)
                     player.seek(to: kCMTimeZero)
                     player.insert(item, after: nil)
                 } else {
@@ -324,10 +331,19 @@ class ShowViewController: UIViewController {
         activityIndicator.stopAnimating()
     }
     
+    fileprivate func enqueue(asset: Li5Asset) {
+        let playerItem = AVPlayerItem(asset: asset.media)
+        
+        playlistItems.append(playerItem)
+        player.insert(playerItem, after: nil)
+        
+        asset.queueStatus = .Enqueued
+    }
+    
     // MARK: Error Handling
     
     func handleError(with message: String?, error: Error? = nil) {
-        NSLog("Error occurred with message: \(message), error: \(error).")
+        log.error("Error occurred with message: \(message), error: \(error).")
         
         let alertTitle = NSLocalizedString("alert.error.title", comment: "Alert title for errors")
         
@@ -359,21 +375,25 @@ class ShowViewController: UIViewController {
 
 extension ShowViewController : Li5PlaybackAssetsManagerDelegate {
     
-    func requiredAssetIsReady(_ asset: AVAsset, forId id: String) {
-        log.verbose("Adding ready asset for id: \(id)")
-        let newPlayerItem = AVPlayerItem(asset: asset)
-        
-        playlistItems.append(newPlayerItem)
-        player.insert(newPlayerItem, after: nil)
+    func requiredAssetIsBuffering(_ asset: Li5Asset) {
+        log.debug("Enqueuing buffering asset(\(asset.id))")
+        enqueue(asset: asset)
     }
+    
+    
+    func requiredAssetIsReady(_ asset: Li5Asset) {
+        log.debug("Finished buffering asset(\(asset.id))")
+    }
+    
     
     func managerDidFinishBufferingMinimumRequiredAssets() {
         DispatchQueue.main.async { [unowned self] in
+            log.debug("Finished buffering minimum required assets!!!")
             self.hideLoadingScreen()
-            self.setupPoster()
             self.player.play()
         }
     }
+    
     
     func managerDidFinishDownloadingRequiredAssets() {
         log.verbose("Finished downloading")

@@ -20,14 +20,23 @@ enum Li5BufferStatus {
     case Buffered
 }
 
+enum Li5QueueStatus {
+    case NotEnqueued
+    case Enqueued
+    case Playing
+    case Played
+}
+
 class Li5Asset {
     
+    // MARK: - STORED PROPERTIES
+    
     let id: String
-    let asset: AVURLAsset
+    let media: AVURLAsset
     
     var status: Li5AssetStatus = .NotStarted
-    
     var bufferStatus: Li5BufferStatus = .Pending
+    var queueStatus: Li5QueueStatus = .NotEnqueued
     
     var task: AVAssetDownloadTask?
     
@@ -42,9 +51,9 @@ class Li5Asset {
         return "downloadedAsset(\(id))"
     }
     
-    init(id: String, asset: AVURLAsset) {
+    init(id: String, media: AVURLAsset) {
         self.id = id
-        self.asset = asset
+        self.media = media
     }
     
 }
