@@ -8,27 +8,13 @@
 
 import Foundation
 
-public protocol L5PreloaderDelegate : class {
-    
-    func didPreload(asset: Asset, by amount: Double)
-    
-    func didFinishPreloading(asset: Asset)
-    
-    func didFailPreloading(asset: Asset, withError error: Error)
+
+public protocol PreemptiveBufferPreloaderProtocol : BufferPreloaderProtocol {
     
 }
 
 
-public protocol L5PreemptiveBufferPreloaderProtocol : L5BufferPreloaderProtocol {
-    
-    var delegate: L5PreloaderDelegate { get set }
-    
-    func preload(asset: L5Asset, completion: @escaping PreloadCompletion)
-    
-}
-
-
-public class PreemptiveBufferPreloader : L5PreemptiveBufferPreloaderProtocol {
+public class PreemptiveBufferPreloader : PreemptiveBufferPreloaderProtocol {
     
     // MARK: - CLASS PROPERTIES
     
@@ -49,10 +35,10 @@ public class PreemptiveBufferPreloader : L5PreemptiveBufferPreloaderProtocol {
     
     // MARK: - EXPOSED OPERATIONS
     
-    public func preload(asset: L5Asset, completion: @escaping PreloadCompletion) {
+    public func preload(asset: Asset, completion: @escaping PreloadCompletion) {
         asset.bufferStatus = .buffering
         
-        asset.media?.loadValuesAsynchronously(forKeys: L5PreemptiveBufferPreloader.propertiesToPreload) {
+        asset.media?.loadValuesAsynchronously(forKeys: PreemptiveBufferPreloader.propertiesToPreload) {
             [weak self] in
             
             asset.bufferStatus = .buffered

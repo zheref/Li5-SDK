@@ -97,6 +97,7 @@
 		7818CA7C1F450F3E00595173 /* PreemptiveBufferPreloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA7B1F450F3E00595173 /* PreemptiveBufferPreloader.swift */; };
 		7818CA7E1F450FE000595173 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA7D1F450FE000595173 /* Asset.swift */; };
 		7818CA801F45100800595173 /* AssetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA7F1F45100800595173 /* AssetStatus.swift */; };
+		7818CA821F45116200595173 /* BufferPreloaderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA811F45116200595173 /* BufferPreloaderProtocol.swift */; };
 		783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783D81E51F0C301600EDAF64 /* AVPlayer.swift */; };
 		7865AC4E1F0C42DE00544264 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7865AC4C1F0C42DE00544264 /* ShowViewController.swift */; };
 		7865AC4F1F0C42DE00544264 /* ShowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7865AC4D1F0C42DE00544264 /* ShowViewController.xib */; };
@@ -306,6 +307,7 @@
 		7818CA7B1F450F3E00595173 /* PreemptiveBufferPreloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreemptiveBufferPreloader.swift; sourceTree = "<group>"; };
 		7818CA7D1F450FE000595173 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		7818CA7F1F45100800595173 /* AssetStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetStatus.swift; sourceTree = "<group>"; };
+		7818CA811F45116200595173 /* BufferPreloaderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferPreloaderProtocol.swift; sourceTree = "<group>"; };
 		783D81E51F0C301600EDAF64 /* AVPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayer.swift; path = "UIKit Extensions/AVPlayer.swift"; sourceTree = "<group>"; };
 		7865AC4C1F0C42DE00544264 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = Show/ShowViewController.swift; sourceTree = "<group>"; };
 		7865AC4D1F0C42DE00544264 /* ShowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShowViewController.xib; path = Show/ShowViewController.xib; sourceTree = "<group>"; };
@@ -869,9 +871,10 @@
 			isa = PBXGroup;
 			children = (
 				7818CA7A1F450AF800595173 /* Legacy */,
-				7818CA7B1F450F3E00595173 /* PreemptiveBufferPreloader.swift */,
 				7818CA7D1F450FE000595173 /* Asset.swift */,
 				7818CA7F1F45100800595173 /* AssetStatus.swift */,
+				7818CA811F45116200595173 /* BufferPreloaderProtocol.swift */,
+				7818CA7B1F450F3E00595173 /* PreemptiveBufferPreloader.swift */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -1137,6 +1140,7 @@
 			files = (
 				2BA593661EB4275D0065FDD9 /* SpinnerViewController.m in Sources */,
 				2BA5936C1EB4275D0065FDD9 /* IndexedViewController.m in Sources */,
+				7818CA821F45116200595173 /* BufferPreloaderProtocol.swift in Sources */,
 				2B84CD1C1EE8C6C70011F061 /* Displayable.swift in Sources */,
 				2BA593701EB4275D0065FDD9 /* SwipeLeftToBeginViewController.m in Sources */,
 				2BA593711EB4275D0065FDD9 /* SinnerView.swift in Sources */,
