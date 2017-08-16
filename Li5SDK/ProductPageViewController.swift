@@ -64,10 +64,7 @@ class ProductPageViewController : PaginatorViewController, ProductPageViewContro
         } else {
             preloadedViewControllers = [
                 VideoViewController(product: product, context: context, pageIndex: scrollPageIndex),
-                
-                product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame ?
-                    DetailsHTMLViewController(withProduct: product, andContext: context.legacyVersion) :
-                    DetailsViewController(product: product, andContext: context.legacyVersion)
+                DetailsHTMLViewController(withProduct: product, andContext: context.legacyVersion)
             ]
         }
     }

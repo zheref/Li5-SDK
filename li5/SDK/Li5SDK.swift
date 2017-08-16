@@ -80,8 +80,8 @@ open class Li5SDK {
             return
         }
         
-        //rootVC.present(primetimeViewController, animated: false, completion: nil)
-        rootVC.present(showViewController, animated: false, completion: nil)
+        rootVC.present(primetimeViewController, animated: false, completion: nil)
+        //rootVC.present(showViewController, animated: false, completion: nil)
     }
     
     
