@@ -100,6 +100,9 @@
 		7818CA821F45116200595173 /* BufferPreloaderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA811F45116200595173 /* BufferPreloaderProtocol.swift */; };
 		7818CA841F45126B00595173 /* CommonPreloadingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA831F45126B00595173 /* CommonPreloadingManager.swift */; };
 		7818CA861F4512D400595173 /* PreloadingManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA851F4512D400595173 /* PreloadingManagerProtocol.swift */; };
+		7818CA881F45164700595173 /* PlayerDownloadPreloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA871F45164700595173 /* PlayerDownloadPreloader.swift */; };
+		7818CA8A1F45185100595173 /* PlayerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA891F45185100595173 /* PlayerProtocol.swift */; };
+		7818CA8C1F4518BD00595173 /* MultiPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA8B1F4518BD00595173 /* MultiPlayer.swift */; };
 		783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783D81E51F0C301600EDAF64 /* AVPlayer.swift */; };
 		7865AC4E1F0C42DE00544264 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7865AC4C1F0C42DE00544264 /* ShowViewController.swift */; };
 		7865AC4F1F0C42DE00544264 /* ShowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7865AC4D1F0C42DE00544264 /* ShowViewController.xib */; };
@@ -312,6 +315,9 @@
 		7818CA811F45116200595173 /* BufferPreloaderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferPreloaderProtocol.swift; sourceTree = "<group>"; };
 		7818CA831F45126B00595173 /* CommonPreloadingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonPreloadingManager.swift; sourceTree = "<group>"; };
 		7818CA851F4512D400595173 /* PreloadingManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloadingManagerProtocol.swift; sourceTree = "<group>"; };
+		7818CA871F45164700595173 /* PlayerDownloadPreloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDownloadPreloader.swift; sourceTree = "<group>"; };
+		7818CA891F45185100595173 /* PlayerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerProtocol.swift; sourceTree = "<group>"; };
+		7818CA8B1F4518BD00595173 /* MultiPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPlayer.swift; sourceTree = "<group>"; };
 		783D81E51F0C301600EDAF64 /* AVPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayer.swift; path = "UIKit Extensions/AVPlayer.swift"; sourceTree = "<group>"; };
 		7865AC4C1F0C42DE00544264 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = Show/ShowViewController.swift; sourceTree = "<group>"; };
 		7865AC4D1F0C42DE00544264 /* ShowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShowViewController.xib; path = Show/ShowViewController.xib; sourceTree = "<group>"; };
@@ -879,8 +885,11 @@
 				7818CA7F1F45100800595173 /* AssetStatus.swift */,
 				7818CA811F45116200595173 /* BufferPreloaderProtocol.swift */,
 				7818CA7B1F450F3E00595173 /* PreemptiveBufferPreloader.swift */,
+				7818CA871F45164700595173 /* PlayerDownloadPreloader.swift */,
 				7818CA851F4512D400595173 /* PreloadingManagerProtocol.swift */,
 				7818CA831F45126B00595173 /* CommonPreloadingManager.swift */,
+				7818CA891F45185100595173 /* PlayerProtocol.swift */,
+				7818CA8B1F4518BD00595173 /* MultiPlayer.swift */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -1153,6 +1162,7 @@
 				2BA593711EB4275D0065FDD9 /* SinnerView.swift in Sources */,
 				2BA5938F1EB4275D0065FDD9 /* ProductsListView.m in Sources */,
 				2BA593911EB4275D0065FDD9 /* ProductsCollectionViewCell.m in Sources */,
+				7818CA8C1F4518BD00595173 /* MultiPlayer.swift in Sources */,
 				2BA593931EB4275D0065FDD9 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				2BA5939A1EB4275D0065FDD9 /* ProductPageActionsView.m in Sources */,
 				2B96A1491EE6F2A500093EA3 /* PrimeTimeViewController.swift in Sources */,
@@ -1186,11 +1196,13 @@
 				2BA593ED1EB4275D0065FDD9 /* ImageHelper.m in Sources */,
 				7818CA7E1F450FE000595173 /* Asset.swift in Sources */,
 				2BA593EE1EB4275D0065FDD9 /* DeviceManager.swift in Sources */,
+				7818CA8A1F45185100595173 /* PlayerProtocol.swift in Sources */,
 				2B84CD141EE837DC0011F061 /* PaginatorViewControllerDataSource.swift in Sources */,
 				2BF2668E1F09411D00CB9461 /* PlaybackManager.swift in Sources */,
 				2BA593F41EB4275D0065FDD9 /* NSObject+Li5.m in Sources */,
 				2B84CD0D1EE835BE0011F061 /* PaginatorViewController.swift in Sources */,
 				2BA593F61EB4275D0065FDD9 /* UIColor+Li5UIColor.m in Sources */,
+				7818CA881F45164700595173 /* PlayerDownloadPreloader.swift in Sources */,
 				78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */,
 				2B96A1451EE6CD0A00093EA3 /* ProductPageViewController.swift in Sources */,
 				2BA593F81EB4275D0065FDD9 /* UIImage+Li5.m in Sources */,

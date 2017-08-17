@@ -25,11 +25,11 @@ public class PreemptiveBufferPreloader : PreemptiveBufferPreloaderProtocol {
     
     // MARK: - STORED PROPERTIES
     
-    public var delegate: L5PreloaderDelegate
+    public var delegate: PreloaderDelegate
     
     // MARK: - INITIALIZERS
     
-    public init(delegate: L5PreloaderDelegate) {
+    public init(delegate: PreloaderDelegate) {
         self.delegate = delegate
     }
     
