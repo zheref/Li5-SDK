@@ -62,7 +62,7 @@ public class PlayerDownloadPreloader: NSObject, PlayerDownloadPreloaderProtocol 
         preloadCompletion = completion
         let avAsset = media(for: asset)
         let playerItem = AVPlayerItem(asset: avAsset, automaticallyLoadedAssetKeys: ["playable", "hasProtectedContent"])
-        playerItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: &L5PlayerPreloader.playerItemContext)
+        playerItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: &PlayerDownloadPreloader.playerItemContext)
         let player = AVPlayer(playerItem: playerItem)
         
         players[asset.url] = player
@@ -75,7 +75,7 @@ public class PlayerDownloadPreloader: NSObject, PlayerDownloadPreloaderProtocol 
     }
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard context == &L5PlayerPreloader.playerItemContext else {
+        guard context == &PlayerDownloadPreloader.playerItemContext else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
             return
         }
@@ -101,7 +101,7 @@ public class PlayerDownloadPreloader: NSObject, PlayerDownloadPreloaderProtocol 
                 knownAsset.playerItem = playerItem
                 knownAsset.player = player
                 preloadCompletion(knownAsset, nil)
-                playerItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), context: &L5PlayerPreloader.playerItemContext)
+                playerItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), context: &PlayerDownloadPreloader.playerItemContext)
             case .failed:
                 print("The item failed to load!")
                 preloadCompletion(knownAsset, playerItem.error)

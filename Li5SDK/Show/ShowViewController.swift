@@ -9,60 +9,31 @@
 import UIKit
 import AVFoundation
 
-private var playerViewControllerKVOContext = 0
-
-let hardcodedHls = [
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
-]
-
-class ShowViewController: UIViewController {
+class ShowViewController: UIViewController, MultiPlayerDelegate {
     
     // MARK: - PROPERTIES
     
     // MARK: Outlets
     
-    @IBOutlet weak var playerView: Li5PlayerView!
+    @IBOutlet weak var playerView: L5PlayerView!
     @IBOutlet weak var posterImageView: UIImageView!
-    @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var leftButton: UIButton!
+    @IBOutlet weak var rightButton: UIButton!
     // MARK: Stored Properties
     
     /// The player responsible of the media playback
-    let player = AVQueuePlayer()
-    
-    /// The index of the item currently being played
-    var currentIndex: Int = 0
-    
-    /// The product models which trailer URLs should be played
-    var products = [Product]()
-    
-    /// TODO: Missing documentation
-    var playlistItems = [AVPlayerItem]()
+    var player: PlayerProtocol!
     
     /// The assets corresponding the trailers of each product to be eventually played
-    var assetsManager = PlaybackAssetsManager()
+    var manager: PreloadingManagerProtocol!
     
-    private var endPlayObserver: NSObjectProtocol?
+    var bufferer: BufferPreloaderProtocol!
+    
+    var downloader: DownloadPreloaderProtocol?
+    
+    var didStartPlayback = false
     
     // MARK: Computed Properties
     
@@ -70,18 +41,24 @@ class ShowViewController: UIViewController {
         return playerView.playerLayer
     }
     
-    var currentProduct: Product? {
-        if currentIndex >= 0 && currentIndex < products.count {
-            return products[currentIndex]
-        } else {
-            return nil
-        }
-    }
-    
     // MARK: - INSTANCE OPERATIONS
     
+    // MARK: Exposed Operations
+    
+    internal func setup(player: PlayerProtocol,
+                        manager: PreloadingManagerProtocol,
+                        bufferer: BufferPreloaderProtocol,
+                        downloader: DownloadPreloaderProtocol?) {
+        
+        self.player = player
+        
+        self.manager = manager
+        self.bufferer = bufferer
+        self.downloader = downloader
+    }
+    
     // MARK: LifeCycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -89,37 +66,23 @@ class ShowViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        addObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem.status), options: [.new, .initial], context: &playerViewControllerKVOContext)
-        addObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem), options: [.new, .initial], context: &playerViewControllerKVOContext)
+        if let multiPlayer = player as? MultiPlayer {
+            multiPlayer.delegate = self
+        }
+        
+        player.settle()
+        
+        if let currentPlayer = player.currentPlayer {
+            playerView.playerLayer.player = currentPlayer
+        }
+        
+        manager.delegate = self
+        
+        manager.startPreloading()
         
         self.showLoadingScreen()
         
-        playerView.playerLayer.player = player
-        
-        asynchronouslyLoadProducts { [unowned self] in
-            var assets = [Li5Asset]()
-            
-            var i = 0 // TODO: Remove hardcode
-            
-            for product in self.products {
-                //product.trailerURL = hardcodedHls[i] // TODO: Remove hardcode
-                i += 1 // TODO: Remove hardcode
-                
-                if let url = Foundation.URL(string: product.trailerURL) {
-                    let asset = AVURLAsset(url: url)
-                    log.verbose("Creating Li5Asset for product \(product.id)")
-                    assets.append(Li5Asset(id: product.id, media: asset))
-                }
-            }
-            
-            self.assetsManager.delegate = self
-            self.assetsManager.assets = assets
-            
-            self.assetsManager.startPreemptive()
-            
-            self.setupPoster()
-            //self.assetsManager.startDownloading()
-        }
+        self.setupPoster()
     }
     
     
@@ -128,11 +91,7 @@ class ShowViewController: UIViewController {
         
         player.pause()
         
-        removeObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem.status),
-                       context: &playerViewControllerKVOContext)
-        
-        removeObserver(self, forKeyPath: #keyPath(ShowViewController.player.currentItem),
-                       context: &playerViewControllerKVOContext)
+        player.loosen()
     }
     
     
@@ -140,253 +99,72 @@ class ShowViewController: UIViewController {
         super.viewDidAppear(animated)
         
         player.play()
-        setAutomaticReplay()
+        player.automaticallyReplay = true
     }
     
+    func didChange(player: AVPlayer?) {
+        playerView.playerLayer.player = player
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
-    // MARK: KVO Observation
-    
-    // Update our UI when player or `player.currentItem` changes.
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        // Make sure the this KVO callback was intended for this view controller.
-        guard context == &playerViewControllerKVOContext else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-            return
-        }
-        
-        if keyPath == #keyPath(ShowViewController.player.currentItem) {
-            //queueDidChangeWithOldPlayerItems(oldPlayerItems: [], newPlayerItems: player.items())
-        } else if keyPath ==  #keyPath(ShowViewController.player.currentItem.status) {
-            // Display an error if status becomes `.Failed`.
-            
-            /*
-             Handle `NSNull` value for `NSKeyValueChangeNewKey`, i.e. when
-             `player.currentItem` is nil.
-             */
-            let newStatus: AVPlayerItemStatus
-            
-            if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber {
-                newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.intValue)!
-                
-                if newStatus == .readyToPlay {
-                    player.seek(to: kCMTimeZero)
-                    player.play()
-                }
-            }
-            else {
-                newStatus = .unknown
-            }
-            
-            if newStatus == .failed {
-                handleError(with: player.currentItem?.error?.localizedDescription, error: player.currentItem?.error)
-            }
-        }
-    }
-    
-    
-    /// Preloads the first assets
-    ///
-    /// - Parameter then: <#then description#>
-    private func preloadFirstAssets(_ then: () -> Void) {
-        //                for i in 0...products.count-1 {
-        //                    let newPlayerItem = assetsManager.itemReady(forIndex: i)
-        //                    self.playlistItems.append(newPlayerItem)
-        //                    self.player.insert(newPlayerItem, after: nil)
-        //                }
-        //
-    }
-    
     /// Shows poster image if available in the product model and is a valid base 64 image
     fileprivate func setupPoster() {
-        guard let currentProduct = currentProduct else {
-            log.error("Current product is nil: \(currentIndex)")
+        guard let currentAsset = manager.currentAsset else {
+            log.error("Current assets is nil: \(player.currentIndex)")
             return
         }
         
-        if let poster = currentProduct.trailerPosterPreview {
-            if let data = Data(base64Encoded: poster),
-                let image = UIImage(data: data) {
-                posterImageView.image = image
-            }
-        }
-    }
-    
-    
-    func asynchronouslyLoadProducts(_ then: @escaping () -> Void) {
-        
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let li5 = Li5ApiHandler.sharedInstance() else {
-                log.error("No instance available for Li5 API Services")
-                return
-            }
-            
-            li5.requestDiscoverProducts() { [weak self] (error, products) in
-                if let error = error {
-                    log.error("Error while fetching products: \(error)")
-                    // Handle error
-                } else if let products = products {
-                    log.info("\(products.data.count) fetched products")
-                    log.verbose(products)
-                    
-                    if products.data.count > 0 {
-                        if let this = self {
-                            this.products = products.data as? [Product] ?? [Product]()
-                            //this.endOfPrimeTime = products.endOfPrimeTime
-                            log.info("Products and EOPT set successfully")
-                            then()
-                        } else {
-                            log.warning("Lost reference to self after products have been fetched")
-                        }
-                    } else {
-                        log.warning("0 retrieved products")
-                    }
-                } else {
-                    log.error("No retrieved products")
-                }
-            }
-        }
-        
-    }
-    
-    
-    private func playNext() {
-        if currentIndex == playlistItems.count - 1 {
-            log.error("Trying to go to next player item when there are no more enqueued")
-        } else {
-            currentIndex += 1
-            setupPoster()
-            player.pause()
-            player.currentItem?.seek(to: kCMTimeZero)
-            player.advanceToNextItem()
-            setAutomaticReplay()
-        }
-    }
-    
-    
-    private func playPrevious() {
-        if currentIndex == 0 {
-            log.error("Trying to go to previous player item when the cursor is on zero position")
-        } else {
-            currentIndex -= 1
-            setupPoster()
-            
-            player.removeAllItems()
-            
-            for index in currentIndex...playlistItems.count-1 {
-                let item = playlistItems[index]
-                
-                if player.canInsert(item, after: nil) {
-                    player.pause()
-                    player.currentItem?.seek(to: kCMTimeZero)
-                    player.seek(to: kCMTimeZero)
-                    player.insert(item, after: nil)
-                } else {
-                    log.warning("Wasn't able to insert av player item while refreshign for specific play")
-                }
-            }
-            
-            if player.status == .readyToPlay {
-                player.play()
-                setAutomaticReplay()
-            } else {
-                log.warning("Tried to play but not ready yet for index: \(currentIndex)")
-            }
-        }
-    }
-    
-    
-    private func setAutomaticReplay() {
-        player.actionAtItemEnd = .none
-        
-        if endPlayObserver != nil {
-            NotificationCenter.default.removeObserver(endPlayObserver!)
-            endPlayObserver = nil
-        }
-        
-        endPlayObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
-                                                                 object: player.currentItem,
-                                                                 queue: nil)
-        { [weak self] (_) in
-            DispatchQueue.main.async { [weak self] in
-                self?.player.seek(to: kCMTimeZero)
-            }
+        if let poster = currentAsset.poster {
+            posterImageView.image = UIImage(data: poster)
         }
     }
     
     /// Change elements to display loading screen. Specially designed for giving time for loading assets
-    private func showLoadingScreen() {
-        loadingView.isHidden = false
+    internal func showLoadingScreen() {
+        leftButton.isUserInteractionEnabled = false
+        rightButton.isUserInteractionEnabled = false
+        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     
     /// Change elements to hide loading screen. Should be run when assets are ready to play smoothly
-    fileprivate func hideLoadingScreen() {
-        loadingView.isHidden = true
+    internal func hideLoadingScreen() {
+        leftButton.isUserInteractionEnabled = true
+        rightButton.isUserInteractionEnabled = true
+        activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
     }
-    
-    fileprivate func enqueue(asset: Li5Asset) {
-        let playerItem = AVPlayerItem(asset: asset.media)
-        
-        playlistItems.append(playerItem)
-        player.insert(playerItem, after: nil)
-        
-        asset.queueStatus = .Enqueued
-    }
-    
-    // MARK: Error Handling
-    
-    func handleError(with message: String?, error: Error? = nil) {
-        log.error("Error occurred with message: \(message), error: \(error).")
-        
-        let alertTitle = NSLocalizedString("alert.error.title", comment: "Alert title for errors")
-        
-        let alertMessage = message ?? NSLocalizedString("error.default.description", comment: "Default error message when no NSError provided")
-        
-        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-        
-        let alertActionTitle = NSLocalizedString("alert.error.actions.OK", comment: "OK on error alert")
-        let alertAction = UIAlertAction(title: alertActionTitle, style: .default, handler: nil)
-        
-        alert.addAction(alertAction)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
     
     // MARK: Actions
     
     @IBAction func userDidTapLeftActiveSection(_ sender: Any) {
-        playPrevious()
+        player.goPrevious()
     }
     
     @IBAction func userDidTapRightActiveSection(_ sender: Any) {
-        playNext()
+        player.goNext()
     }
     
-
+    
 }
 
-extension ShowViewController : Li5PlaybackAssetsManagerDelegate {
-    
-    func requiredAssetIsBuffering(_ asset: Li5Asset) {
-        log.debug("Enqueuing buffering asset(\(asset.id))")
-        enqueue(asset: asset)
+extension ShowViewController : PreloadingManagerDelegate {
+    func didPreload(_ asset: Asset) {
+        if let currentAsset = self.manager?.currentAsset, currentAsset === asset, didStartPlayback {
+            DispatchQueue.main.async { [unowned self] in
+                self.hideLoadingScreen()
+                self.player.play()
+            }
+        }
     }
     
     
-    func requiredAssetIsReady(_ asset: Li5Asset) {
-        log.debug("Finished buffering asset(\(asset.id))")
-    }
-    
-    
-    func managerDidFinishBufferingMinimumRequiredAssets() {
+    func managerIsReadyForPlayback() {
+        didStartPlayback = true
         DispatchQueue.main.async { [unowned self] in
             log.debug("Finished buffering minimum required assets!!!")
             self.hideLoadingScreen()
@@ -394,8 +172,8 @@ extension ShowViewController : Li5PlaybackAssetsManagerDelegate {
         }
     }
     
-    
-    func managerDidFinishDownloadingRequiredAssets() {
-        log.verbose("Finished downloading")
+    var playingIndex: Int {
+        return player.currentIndex
     }
+    
 }

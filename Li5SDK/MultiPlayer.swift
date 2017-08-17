@@ -27,7 +27,7 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
     
     // MARK: - STORED PROPERTIES
     
-    weak public var delegate: L5MultiPlayerDelegate?
+    weak public var delegate: MultiPlayerDelegate?
     
     /// Backup array of the items enqueued to be played
     var enqueuedItems = [Asset]()
@@ -43,7 +43,7 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
     /// The index of the item currently being played
     public var currentIndex: Int = 0
     
-    internal var currentAsset: L5Asset? {
+    internal var currentAsset: Asset? {
         if enqueuedItems.count > currentIndex {
             return enqueuedItems[currentIndex]
         }
@@ -55,7 +55,7 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
         return currentAsset?.playerItem
     }
     
-    public func append(asset: L5Asset) {
+    public func append(asset: Asset) {
         enqueuedItems.append(asset)
     }
     
