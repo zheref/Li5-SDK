@@ -30,7 +30,7 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
     weak public var delegate: L5MultiPlayerDelegate?
     
     /// Backup array of the items enqueued to be played
-    var enqueuedItems = [L5Asset]()
+    var enqueuedItems = [Asset]()
     
     /// The object observing when the playback of the current item ends
     private var endPlayObserver: NSObjectProtocol?
