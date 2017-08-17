@@ -16,6 +16,18 @@ let log = SwiftyBeaver.self
 
 typealias ErrorReturner = (Error) -> Void
 
+public let hlsVideoURLs = [
+    "https://li5-staging-media.s3.amazonaws.com/public/2017/06/26/0c04e3aa-d69a-4a85-aae0-877a051e5fbe/hls.m3u8",
+    "https://li5-staging-media.s3.amazonaws.com/public/2017/06/26/977aaddc-163e-41af-9f16-8c4e8273f483/hls.m3u8",
+    "https://li5-staging-media.s3.amazonaws.com/public/2017/06/26/1ba5e997-36de-490a-889f-4efdc5fdf454/hls.m3u8",
+    "https://li5-staging-media.s3.amazonaws.com/public/2017/06/26/01938331-7b23-4878-9e68-7b052a907a41/hls.m3u8",
+    "https://li5-staging-media.s3.amazonaws.com/public/2017/06/26/ced1d1be-fd74-4616-9fc5-523aa386a5b2/hls.m3u8",
+    "https://li5-staging-media.s3.amazonaws.com/public/2017/06/26/a94e97ba-3f10-4483-82a3-9cdcd1a3804d/hls.m3u8",
+    "https://li5-staging-media.s3.amazonaws.com/public/2017/06/26/b849c1a1-5e2a-4890-8cbf-7c216407155c/hls.m3u8",
+    "https://li5-staging-media.s3.amazonaws.com/public/2017/06/26/1cc99262-c3e0-4f29-bd03-4c6a5a8ef907/hls.m3u8",
+    "https://li5-staging-media.s3.amazonaws.com/public/2017/06/26/c549384b-eb34-4b64-b7ca-a3554acc87cc/hls.m3u8"
+]
+
 open class Li5SDK {
     
     var primetimeViewController: PrimeTimeViewController!
@@ -62,6 +74,17 @@ open class Li5SDK {
     }
     
     
+    private var assets: [Asset] {
+        var i = 0
+        
+        return hlsVideoURLs.map({ (urlStr) -> Asset in
+            let asset = Asset(url: URL(string: urlStr)!, forId: i.description)
+            i += 1
+            return asset
+        })
+    }
+    
+    
     open func present() {
         prepareMediaCapabilities()
         
@@ -74,14 +97,28 @@ open class Li5SDK {
         if showViewController == nil {
             showViewController = ShowViewController(nibName: KUI.XIB.ShowViewController.rawValue,
                                                     bundle: Bundle(for: Li5SDK.self))
+            
+            let manager = CommonPreloadingManager(assets: assets,
+                                                  sameTimeBufferAmount: 1,
+                                                  minimumBufferedVideosToStartPlaying: 2)
+            
+            let bufferer = PreemptiveBufferPreloader(delegate: manager)
+            let downloader = PlayerDownloadPreloader(delegate: manager)
+            
+            manager.setup(bufferer: bufferer, downloader: downloader)
+            
+            showViewController.setup(player: MultiPlayer(),
+                                     manager: manager,
+                                     bufferer: bufferer,
+                                     downloader: downloader)
         }
         
         guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {
             return
         }
         
-        rootVC.present(primetimeViewController, animated: false, completion: nil)
-        //rootVC.present(showViewController, animated: false, completion: nil)
+        //rootVC.present(primetimeViewController, animated: false, completion: nil)
+        rootVC.present(showViewController, animated: false, completion: nil)
     }
     
     

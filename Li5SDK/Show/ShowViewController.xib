@@ -10,7 +10,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShowViewController" customModule="Li5SDK" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShowViewController" customModule="Li5SDK" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicator" destination="C0O-Fl-QIu" id="n7A-ll-flq"/>
+                <outlet property="leftButton" destination="SeO-DA-YCE" id="bMF-X3-l84"/>
+                <outlet property="playerView" destination="Kca-aT-y6f" id="erM-hJ-3UF"/>
+                <outlet property="posterImageView" destination="6Az-qL-Gas" id="Xji-b1-QJl"/>
+                <outlet property="rightButton" destination="Lcp-o3-NKo" id="goC-cO-Sci"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="8Id-4k-fYT"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -19,14 +28,20 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Az-qL-Gas">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </imageView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-aT-y6f" customClass="Li5PlayerView" customModule="Li5SDK" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-aT-y6f" customClass="L5PlayerView" customModule="Li5SDK" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeO-DA-YCE">
                     <rect key="frame" x="0.0" y="0.0" width="188" height="667"/>
+                    <connections>
+                        <action selector="userDidTapLeftActiveSection:" destination="-1" eventType="touchUpInside" id="Geh-ek-vrs"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lcp-o3-NKo">
                     <rect key="frame" x="187" y="0.0" width="188" height="667"/>
+                    <connections>
+                        <action selector="userDidTapRightActiveSection:" destination="-1" eventType="touchUpInside" id="3ZN-aZ-3OV"/>
+                    </connections>
                 </button>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x3f-37-WGt">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
