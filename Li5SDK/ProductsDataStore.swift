@@ -56,13 +56,9 @@ public class ProductsDataStore {
             pm.url = url
         } else { log.error("Couldn't parse URL for trailer") }
         
-        if let url = Foundation.URL(string: product.videoURL) {
-            pm.extendedUrl = url
-        } else { log.error("Couldn't parse URL for extended") }
-        
-        if let url = Foundation.URL(string: product.contentUrl) {
-            pm.detailsUrl = url
-        } else { log.error("Couldn't parse URL for content/details") }
+//        if let url = Foundation.URL(string: product.contentUrl) {
+//            pm.detailsUrl = url
+//        } else { log.error("Couldn't parse URL for content/details") }
         
         pm.poster = product.trailerPosterPreview
         pm.categoryName = product.categoryName

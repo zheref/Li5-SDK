@@ -165,9 +165,6 @@
 		2B84CD171EE838800011F061 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2B84CD191EE842A90011F061 /* PaginatorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaginatorViewController.xib; sourceTree = "<group>"; };
 		2B84CD1B1EE8C6C70011F061 /* Displayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Displayable.swift; sourceTree = "<group>"; };
-		2B96A1441EE6CD0A00093EA3 /* ProductPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPageViewController.swift; sourceTree = "<group>"; };
-		2B96A1461EE6E01400093EA3 /* PrimeTimeViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimeTimeViewControllerDataSource.swift; sourceTree = "<group>"; };
-		2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimeTimeViewController.swift; sourceTree = "<group>"; };
 		2BA593321EB425190065FDD9 /* Li5SDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Li5SDK.swift; path = ../li5/SDK/Li5SDK.swift; sourceTree = "<group>"; };
 		2BA593381EB4258D0065FDD9 /* Li5SDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Li5SDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BA5933A1EB4258D0065FDD9 /* Li5SDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Li5SDK.h; sourceTree = "<group>"; };
@@ -408,16 +405,6 @@
 			name = Abstraction;
 			sourceTree = "<group>";
 		};
-		2B84CD121EE837940011F061 /* PrimeTime */ = {
-			isa = PBXGroup;
-			children = (
-				2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */,
-				2B96A1461EE6E01400093EA3 /* PrimeTimeViewControllerDataSource.swift */,
-				2BC4EF211EECB39B00ACAC26 /* Pages */,
-			);
-			name = PrimeTime;
-			sourceTree = "<group>";
-		};
 		2B9CEDC41EC7D73500B6BA73 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,7 +420,6 @@
 				5B613DA01E43F4A9006C3A9F /* ProductPageViews.storyboard */,
 				5B613D851E43F459006C3A9F /* DiscoverViews.storyboard */,
 				2B84CD111EE837880011F061 /* Abstraction */,
-				2B84CD121EE837940011F061 /* PrimeTime */,
 				7865AC491F0C423400544264 /* Show */,
 				7818510A1EE9F0C500F124EC /* Video */,
 				2BC4EF241EECB78200ACAC26 /* KUI.swift */,
@@ -462,15 +448,6 @@
 				2BA593471EB4258E0065FDD9 /* Info.plist */,
 			);
 			path = Li5SDKTests;
-			sourceTree = "<group>";
-		};
-		2BC4EF211EECB39B00ACAC26 /* Pages */ = {
-			isa = PBXGroup;
-			children = (
-				2B96A1441EE6CD0A00093EA3 /* ProductPageViewController.swift */,
-				2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */,
-			);
-			name = Pages;
 			sourceTree = "<group>";
 		};
 		3F42F740CE8663DBD2D0DCE6 /* Frameworks */ = {
@@ -883,6 +860,7 @@
 				7865AC4C1F0C42DE00544264 /* ShowViewController.swift */,
 				7865AC4D1F0C42DE00544264 /* ShowViewController.xib */,
 				7818CA8F1F451F9300595173 /* PageViewController.swift */,
+				2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */,
 			);
 			name = Show;
 			sourceTree = "<group>";

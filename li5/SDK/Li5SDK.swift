@@ -81,6 +81,17 @@ open class Li5SDK {
     }
     
     
+    private func toAssets(_ models: [ProductModel]) -> [Asset] {
+        var i = 0
+        
+        return models.map({ (model) -> Asset in
+            let asset = Asset(url: model.url!, forId: i.description)
+            i += 1
+            return asset
+        })
+    }
+    
+    
     open func present() {
         prepareMediaCapabilities()
         
@@ -88,27 +99,32 @@ open class Li5SDK {
             showViewController = ShowViewController(nibName: KUI.XIB.ShowViewController.rawValue,
                                                     bundle: Bundle(for: Li5SDK.self))
             
-            let manager = CommonPreloadingManager(assets: assets,
-                                                  sameTimeBufferAmount: 1,
-                                                  minimumBufferedVideosToStartPlaying: 2)
+            ProductsDataStore.shared.asynchronouslyLoadProducts({ [unowned self] (products) in
+                let assets = self.toAssets(products)
             
-            let bufferer = PreemptiveBufferPreloader(delegate: manager)
-            let downloader = PlayerDownloadPreloader(delegate: manager)
-            
-            manager.setup(bufferer: bufferer, downloader: downloader)
-            
-            showViewController.setup(player: MultiPlayer(),
-                                     manager: manager,
-                                     bufferer: bufferer,
-                                     downloader: downloader)
+                let manager = CommonPreloadingManager(assets: assets,
+                                                      sameTimeBufferAmount: 1,
+                                                      minimumBufferedVideosToStartPlaying: 2)
+                
+                let bufferer = PreemptiveBufferPreloader(delegate: manager)
+                let downloader = PlayerDownloadPreloader(delegate: manager)
+                
+                manager.setup(bufferer: bufferer, downloader: downloader)
+                
+                self.showViewController.setup(products: products,
+                                              player: MultiPlayer(),
+                                              manager: manager,
+                                              bufferer: bufferer,
+                                              downloader: downloader)
+                
+                guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {
+                    return
+                }
+                
+                //rootVC.present(primetimeViewController, animated: false, completion: nil)
+                rootVC.present(self.showViewController, animated: false, completion: nil)
+            })
         }
-        
-        guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {
-            return
-        }
-        
-        //rootVC.present(primetimeViewController, animated: false, completion: nil)
-        rootVC.present(showViewController, animated: false, completion: nil)
     }
     
     

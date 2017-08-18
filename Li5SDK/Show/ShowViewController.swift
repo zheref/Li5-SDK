@@ -19,6 +19,7 @@ class ShowViewController: UIViewController {
     @IBOutlet weak var rightButton: UIButton!
     
     // MARK: Stored Properties
+    
     var currentIndex = 0
     var currentController: TrailerViewController!
     
@@ -39,7 +40,8 @@ class ShowViewController: UIViewController {
     
     // MARK: Exposed Operations
     
-    internal func setup(player: PlayerProtocol,
+    internal func setup(products: [ProductModel],
+                        player: PlayerProtocol,
                         manager: PreloadingManagerProtocol,
                         bufferer: BufferPreloaderProtocol,
                         downloader: DownloadPreloaderProtocol?) {
@@ -51,7 +53,7 @@ class ShowViewController: UIViewController {
         self.downloader = downloader
     }
     
-    // MARK: LifeCycle
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,8 +87,6 @@ class ShowViewController: UIViewController {
         super.viewDidDisappear(animated)
         
         player.pause()
-        
-    
         player.loosen()
     }
     
@@ -97,10 +97,7 @@ class ShowViewController: UIViewController {
         player.automaticallyReplay = true
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    // MARK: Routines
     
     func product(for index: Int) -> ProductModel {
         let urlForIndex = hlsVideoURLs[index]
