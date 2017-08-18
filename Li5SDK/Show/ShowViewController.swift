@@ -9,28 +9,21 @@
 import UIKit
 import AVFoundation
 
-class ShowViewController: UIViewController, MultiPlayerDelegate {
+class ShowViewController: UIViewController {
     
     // MARK: - PROPERTIES
     
     // MARK: Outlets
     
-    @IBOutlet weak var playerView: L5PlayerView!
-    @IBOutlet weak var posterImageView: UIImageView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
     @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
+    
     // MARK: Stored Properties
-    
-    /// The player responsible of the media playback
+    var currentIndex = 0
+    var currentController: TrailerViewController!
     var player: PlayerProtocol!
-    
-    /// The assets corresponding the trailers of each product to be eventually played
     var manager: PreloadingManagerProtocol!
-    
     var bufferer: BufferPreloaderProtocol!
-    
     var downloader: DownloadPreloaderProtocol?
     
     var didStartPlayback = false
@@ -38,7 +31,7 @@ class ShowViewController: UIViewController, MultiPlayerDelegate {
     // MARK: Computed Properties
     
     var playerLayer: AVPlayerLayer? {
-        return playerView.playerLayer
+        return currentController.playerView.playerLayer
     }
     
     // MARK: - INSTANCE OPERATIONS
@@ -61,39 +54,40 @@ class ShowViewController: UIViewController, MultiPlayerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        currentController = TrailerViewController.instance(withProduct: product(for: currentIndex))
+        currentController.view.frame = view.bounds
+        view.insertSubview(currentController.view, at: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if let multiPlayer = player as? MultiPlayer {
-            multiPlayer.delegate = self
+            multiPlayer.delegate = currentController
         }
         
         player.settle()
         
         if let currentPlayer = player.currentPlayer {
-            playerView.playerLayer.player = currentPlayer
+            currentController.playerView.playerLayer.player = currentPlayer
         }
         
         manager.delegate = self
         
         manager.startPreloading()
         
-        self.showLoadingScreen()
-        
-        self.setupPoster()
+        currentController.showLoadingScreen()
     }
-    
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         player.pause()
         
+    
         player.loosen()
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -102,41 +96,20 @@ class ShowViewController: UIViewController, MultiPlayerDelegate {
         player.automaticallyReplay = true
     }
     
-    func didChange(player: AVPlayer?) {
-        playerView.playerLayer.player = player
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    /// Shows poster image if available in the product model and is a valid base 64 image
-    fileprivate func setupPoster() {
-        guard let currentAsset = manager.currentAsset else {
-            log.error("Current assets is nil: \(player.currentIndex)")
-            return
+    func product(for index: Int) -> ProductModel {
+        let urlForIndex = hlsVideoURLs[index]
+        var product = ProductModel()
+        
+        if let shortUrl = Foundation.URL(string: urlForIndex) {
+            product.url = shortUrl
         }
         
-        if let poster = currentAsset.poster {
-            posterImageView.image = UIImage(data: poster)
-        }
-    }
-    
-    /// Change elements to display loading screen. Specially designed for giving time for loading assets
-    internal func showLoadingScreen() {
-        leftButton.isUserInteractionEnabled = false
-        rightButton.isUserInteractionEnabled = false
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-    }
-    
-    /// Change elements to hide loading screen. Should be run when assets are ready to play smoothly
-    internal func hideLoadingScreen() {
-        leftButton.isUserInteractionEnabled = true
-        rightButton.isUserInteractionEnabled = true
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
+        return product
     }
     
     // MARK: Actions
@@ -153,21 +126,21 @@ class ShowViewController: UIViewController, MultiPlayerDelegate {
 }
 
 extension ShowViewController : PreloadingManagerDelegate {
+    
     func didPreload(_ asset: Asset) {
         if let currentAsset = self.manager?.currentAsset, currentAsset === asset, didStartPlayback {
             DispatchQueue.main.async { [unowned self] in
-                self.hideLoadingScreen()
+                self.currentController.hideLoadingScreen()
                 self.player.play()
             }
         }
     }
     
-    
     func managerIsReadyForPlayback() {
         didStartPlayback = true
         DispatchQueue.main.async { [unowned self] in
             log.debug("Finished buffering minimum required assets!!!")
-            self.hideLoadingScreen()
+            self.currentController.hideLoadingScreen()
             self.player.play()
         }
     }

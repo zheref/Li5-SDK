@@ -108,6 +108,8 @@
 		783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783D81E51F0C301600EDAF64 /* AVPlayer.swift */; };
 		7865AC4E1F0C42DE00544264 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7865AC4C1F0C42DE00544264 /* ShowViewController.swift */; };
 		7865AC4F1F0C42DE00544264 /* ShowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7865AC4D1F0C42DE00544264 /* ShowViewController.xib */; };
+		78A4DD861F46686C00788FB5 /* TrailerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A4DD851F46686C00788FB5 /* TrailerViewController.swift */; };
+		78A4DD881F466A1400788FB5 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A4DD871F466A1400788FB5 /* ProductModel.swift */; };
 		78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -202,7 +204,7 @@
 		5B0CC6851D93230E00FD99A4 /* li5.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = li5.entitlements; sourceTree = "<group>"; };
 		5B1EA3041D1C832300EA8519 /* UIView+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Li5.h"; sourceTree = "<group>"; };
 		5B1EA3051D1C832300EA8519 /* UIView+Li5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Li5.m"; sourceTree = "<group>"; };
-		5B22CB7D1E84327B00DC8399 /* DetailsHTMLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsHTMLViewController.swift; sourceTree = "<group>"; };
+		5B22CB7D1E84327B00DC8399 /* DetailsHTMLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsHTMLViewController.swift; path = ../li5/DetailsHTMLViewController.swift; sourceTree = "<group>"; };
 		5B23E8531E8D4AEC0015A14A /* ThinSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThinSliderView.swift; sourceTree = "<group>"; };
 		5B2617521CEA12B200B51593 /* CrashlyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashlyticsLogger.m; sourceTree = "<group>"; };
 		5B2617561CEA12C500B51593 /* CrashlyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsLogger.h; sourceTree = "<group>"; };
@@ -325,6 +327,8 @@
 		783D81E51F0C301600EDAF64 /* AVPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayer.swift; path = "UIKit Extensions/AVPlayer.swift"; sourceTree = "<group>"; };
 		7865AC4C1F0C42DE00544264 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = Show/ShowViewController.swift; sourceTree = "<group>"; };
 		7865AC4D1F0C42DE00544264 /* ShowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShowViewController.xib; path = Show/ShowViewController.xib; sourceTree = "<group>"; };
+		78A4DD851F46686C00788FB5 /* TrailerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrailerViewController.swift; sourceTree = "<group>"; };
+		78A4DD871F466A1400788FB5 /* ProductModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		78A9B7E41F103E2600D68746 /* AssetPersistenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AssetPersistenceManager.swift; path = Player/AssetPersistenceManager.swift; sourceTree = "<group>"; };
 		78A9B7E61F103E7300D68746 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asset.swift; path = Player/Asset.swift; sourceTree = "<group>"; };
 		78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Li5PlayerView.swift; path = Player/Li5PlayerView.swift; sourceTree = "<group>"; };
@@ -420,6 +424,7 @@
 		2B9CEDC41EC7D73500B6BA73 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				78A4DD871F466A1400788FB5 /* ProductModel.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -607,7 +612,6 @@
 				5BBF17A61D18659700680738 /* DetailsDescriptionViewController.m */,
 				5B2A24FF1D492F5900DCA209 /* SwipeUpExplainerUIViewController.h */,
 				5B2A25001D492F5900DCA209 /* SwipeUpExplainerUIViewController.m */,
-				5B22CB7D1E84327B00DC8399 /* DetailsHTMLViewController.swift */,
 			);
 			name = Details;
 			sourceTree = "<group>";
@@ -846,8 +850,8 @@
 		7818510A1EE9F0C500F124EC /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				7818510B1EE9F12300F124EC /* VideoViewController.swift */,
-				2B5A001F1EEB5B65000E4F71 /* TeaserViewController.swift */,
+				78A4DD851F46686C00788FB5 /* TrailerViewController.swift */,
+				5B22CB7D1E84327B00DC8399 /* DetailsHTMLViewController.swift */,
 				7818CA911F451FBC00595173 /* PlayerView.swift */,
 			);
 			name = Video;
@@ -865,6 +869,8 @@
 		7818CA7A1F450AF800595173 /* Legacy */ = {
 			isa = PBXGroup;
 			children = (
+				2B5A001F1EEB5B65000E4F71 /* TeaserViewController.swift */,
+				7818510B1EE9F12300F124EC /* VideoViewController.swift */,
 				2B7E487B1F0DE8810053B5EC /* Assets */,
 				78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */,
 				2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */,
@@ -1178,6 +1184,7 @@
 				2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */,
 				2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */,
 				2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */,
+				78A4DD881F466A1400788FB5 /* ProductModel.swift in Sources */,
 				2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */,
 				783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */,
 				2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */,
@@ -1201,6 +1208,7 @@
 				2B4D4F891EB9899A00B23EA8 /* DetailsHTMLViewController.swift in Sources */,
 				2BA593EB1EB4275D0065FDD9 /* ShapesHelper.m in Sources */,
 				2BA593ED1EB4275D0065FDD9 /* ImageHelper.m in Sources */,
+				78A4DD861F46686C00788FB5 /* TrailerViewController.swift in Sources */,
 				7818CA7E1F450FE000595173 /* Asset.swift in Sources */,
 				2BA593EE1EB4275D0065FDD9 /* DeviceManager.swift in Sources */,
 				7818CA8A1F45185100595173 /* PlayerProtocol.swift in Sources */,
