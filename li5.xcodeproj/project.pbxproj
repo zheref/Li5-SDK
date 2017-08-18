@@ -103,6 +103,7 @@
 		783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783D81E51F0C301600EDAF64 /* AVPlayer.swift */; };
 		7865AC4E1F0C42DE00544264 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7865AC4C1F0C42DE00544264 /* ShowViewController.swift */; };
 		7865AC4F1F0C42DE00544264 /* ShowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7865AC4D1F0C42DE00544264 /* ShowViewController.xib */; };
+		787B5A761F4798D300BAC786 /* ProductsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B5A751F4798D300BAC786 /* ProductsDataStore.swift */; };
 		78A4DD861F46686C00788FB5 /* TrailerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A4DD851F46686C00788FB5 /* TrailerViewController.swift */; };
 		78A4DD881F466A1400788FB5 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A4DD871F466A1400788FB5 /* ProductModel.swift */; };
 		78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */; };
@@ -322,6 +323,7 @@
 		783D81E51F0C301600EDAF64 /* AVPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayer.swift; path = "UIKit Extensions/AVPlayer.swift"; sourceTree = "<group>"; };
 		7865AC4C1F0C42DE00544264 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = Show/ShowViewController.swift; sourceTree = "<group>"; };
 		7865AC4D1F0C42DE00544264 /* ShowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShowViewController.xib; path = Show/ShowViewController.xib; sourceTree = "<group>"; };
+		787B5A751F4798D300BAC786 /* ProductsDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsDataStore.swift; sourceTree = "<group>"; };
 		78A4DD851F46686C00788FB5 /* TrailerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrailerViewController.swift; sourceTree = "<group>"; };
 		78A4DD871F466A1400788FB5 /* ProductModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		78A9B7E41F103E2600D68746 /* AssetPersistenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AssetPersistenceManager.swift; path = Player/AssetPersistenceManager.swift; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 			isa = PBXGroup;
 			children = (
 				78A4DD871F466A1400788FB5 /* ProductModel.swift */,
+				787B5A751F4798D300BAC786 /* ProductsDataStore.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -1167,6 +1170,7 @@
 				7818CA861F4512D400595173 /* PreloadingManagerProtocol.swift in Sources */,
 				2BA593701EB4275D0065FDD9 /* SwipeLeftToBeginViewController.m in Sources */,
 				2BA593711EB4275D0065FDD9 /* SinnerView.swift in Sources */,
+				787B5A761F4798D300BAC786 /* ProductsDataStore.swift in Sources */,
 				2BA5938F1EB4275D0065FDD9 /* ProductsListView.m in Sources */,
 				2BA593911EB4275D0065FDD9 /* ProductsCollectionViewCell.m in Sources */,
 				7818CA8C1F4518BD00595173 /* MultiPlayer.swift in Sources */,
