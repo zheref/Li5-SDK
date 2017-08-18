@@ -21,7 +21,6 @@
 		2B44F5411EBB569800AB18A0 /* Li5SDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA593381EB4258D0065FDD9 /* Li5SDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2B477EC11EC6C38200C9F10D /* ProductPageActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA51E43F4B2006C3A9F /* ProductPageActionsView.xib */; };
 		2B4D4F891EB9899A00B23EA8 /* DetailsHTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B22CB7D1E84327B00DC8399 /* DetailsHTMLViewController.swift */; };
-		2B5A00201EEB5B65000E4F71 /* TeaserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5A001F1EEB5B65000E4F71 /* TeaserViewController.swift */; };
 		2B5A00211EEB7E0C000E4F71 /* Li5PlayerTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBC66E71D00A777001BE4BB /* Li5PlayerTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B5A00221EEB805F000E4F71 /* ProductPageActionsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBC61E01D047508006B4C68 /* ProductPageActionsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B5A00231EEB80B6000E4F71 /* Li5View.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BAB34EC1CF1015C00AE74DC /* Li5View.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -32,9 +31,6 @@
 		2B84CD181EE838800011F061 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B84CD171EE838800011F061 /* UIKit.framework */; };
 		2B84CD1A1EE842A90011F061 /* PaginatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B84CD191EE842A90011F061 /* PaginatorViewController.xib */; };
 		2B84CD1C1EE8C6C70011F061 /* Displayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD1B1EE8C6C70011F061 /* Displayable.swift */; };
-		2B96A1451EE6CD0A00093EA3 /* ProductPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1441EE6CD0A00093EA3 /* ProductPageViewController.swift */; };
-		2B96A1471EE6E01400093EA3 /* PrimeTimeViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1461EE6E01400093EA3 /* PrimeTimeViewControllerDataSource.swift */; };
-		2B96A1491EE6F2A500093EA3 /* PrimeTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96A1481EE6F2A500093EA3 /* PrimeTimeViewController.swift */; };
 		2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613D851E43F459006C3A9F /* DiscoverViews.storyboard */; };
 		2BA593481EB4258E0065FDD9 /* Li5SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA5933A1EB4258D0065FDD9 /* Li5SDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA5934F1EB426220065FDD9 /* Li5SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA593321EB425190065FDD9 /* Li5SDK.swift */; };
@@ -93,7 +89,6 @@
 		2BC4EF2B1EEEE67E00ACAC26 /* KVOController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */; };
 		2BF2668E1F09411D00CB9461 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
-		7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818510B1EE9F12300F124EC /* VideoViewController.swift */; };
 		7818CA7C1F450F3E00595173 /* PreemptiveBufferPreloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA7B1F450F3E00595173 /* PreemptiveBufferPreloader.swift */; };
 		7818CA7E1F450FE000595173 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA7D1F450FE000595173 /* Asset.swift */; };
 		7818CA801F45100800595173 /* AssetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA7F1F45100800595173 /* AssetStatus.swift */; };
@@ -1177,7 +1172,6 @@
 				7818CA8C1F4518BD00595173 /* MultiPlayer.swift in Sources */,
 				2BA593931EB4275D0065FDD9 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				2BA5939A1EB4275D0065FDD9 /* ProductPageActionsView.m in Sources */,
-				2B96A1491EE6F2A500093EA3 /* PrimeTimeViewController.swift in Sources */,
 				7818CA7C1F450F3E00595173 /* PreemptiveBufferPreloader.swift in Sources */,
 				2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */,
 				7818CA901F451F9300595173 /* PageViewController.swift in Sources */,
@@ -1196,7 +1190,6 @@
 				2BA593BA1EB4275D0065FDD9 /* Wave.swift in Sources */,
 				7865AC4E1F0C42DE00544264 /* ShowViewController.swift in Sources */,
 				2BA593BB1EB4275D0065FDD9 /* ThinPlayerProgressView.swift in Sources */,
-				2B96A1471EE6E01400093EA3 /* PrimeTimeViewControllerDataSource.swift in Sources */,
 				2BA593BC1EB4275D0065FDD9 /* ThinSliderView.swift in Sources */,
 				2BA593BE1EB4275D0065FDD9 /* ImageUICollectionViewCell.m in Sources */,
 				2BA593C01EB4275D0065FDD9 /* DetailsViewController.m in Sources */,
@@ -1219,7 +1212,6 @@
 				2BA593F61EB4275D0065FDD9 /* UIColor+Li5UIColor.m in Sources */,
 				7818CA881F45164700595173 /* PlayerDownloadPreloader.swift in Sources */,
 				78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */,
-				2B96A1451EE6CD0A00093EA3 /* ProductPageViewController.swift in Sources */,
 				7818CA921F451FBC00595173 /* PlayerView.swift in Sources */,
 				2BA593F81EB4275D0065FDD9 /* UIImage+Li5.m in Sources */,
 				2BC4EF251EECB78200ACAC26 /* KUI.swift in Sources */,
@@ -1229,7 +1221,6 @@
 				2BA594001EB4275D0065FDD9 /* UIBezierPath+UIImage.m in Sources */,
 				2BA594011EB4275D0065FDD9 /* CardStackUICollectionViewLayout.swift in Sources */,
 				2BA594031EB4275D0065FDD9 /* CardUICollectionViewCell.m in Sources */,
-				2B5A00201EEB5B65000E4F71 /* TeaserViewController.swift in Sources */,
 				2BA594051EB4275D0065FDD9 /* CardUIView.m in Sources */,
 				7818CA841F45126B00595173 /* CommonPreloadingManager.swift in Sources */,
 				2BA594071EB4275D0065FDD9 /* Li5View.m in Sources */,
@@ -1237,7 +1228,6 @@
 				7818CA801F45100800595173 /* AssetStatus.swift in Sources */,
 				2BA5940B1EB4275D0065FDD9 /* Li5BlurredView.m in Sources */,
 				2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */,
-				7818510C1EE9F12300F124EC /* VideoViewController.swift in Sources */,
 				2BA594161EB4275D0065FDD9 /* Li5Constants.m in Sources */,
 				2BA5934F1EB426220065FDD9 /* Li5SDK.swift in Sources */,
 			);

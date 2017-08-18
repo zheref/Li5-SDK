@@ -17,7 +17,7 @@ protocol LastPageViewControllerProtocol {
 }
 
 
-class LastPageViewController : ProductPageViewController {
+class LastPageViewController : PageViewController {
     
     // MARK: - CLASS MEMBERS
     
@@ -117,7 +117,7 @@ class LastPageViewController : ProductPageViewController {
         self.reset()
     }
     
-    public required init(withProduct product: Product, pageIndex: Int, andContext context: PContext) {
+    public required init(withProduct product: ProductModel) {
         fatalError("init(withProduct:pageIndex:andContext:) has not been implemented")
     }
     

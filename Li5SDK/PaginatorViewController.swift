@@ -315,9 +315,9 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
             log.debug("---- PVC PVC PVC PVC PVC PVC PVC ----")
             
             for pvc in _preloadedViewControllers {
-                if let ppvc = pvc as? ProductPageViewController,
+                if let ppvc = pvc as? PageViewController,
                     let ppvcProduct = ppvc.product {
-                    log.debug("PVC Index: \(pvc.scrollPageIndex)   ID: \(ppvcProduct.id ?? "nil")")
+                    log.debug("PVC Index: \(pvc.scrollPageIndex)   ID: \(ppvcProduct.id)")
                 } else {
                     log.debug("PVC Index: \(pvc.scrollPageIndex)")
                 }
@@ -326,9 +326,9 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
             log.debug("---- CVC CVC CVC CVC CVC CVC CVC ----")
             
             for vc in childViewControllers {
-                if let ppvc = vc as? ProductPageViewController,
+                if let ppvc = vc as? PageViewController,
                     let ppvcProduct = ppvc.product {
-                    log.debug("PVC Index: \(vc.scrollPageIndex)   ID: \(ppvcProduct.id ?? "nil")")
+                    log.debug("PVC Index: \(vc.scrollPageIndex)   ID: \(ppvcProduct.id)")
                 } else {
                     log.debug("PVC Index: \(vc.scrollPageIndex)")
                 }

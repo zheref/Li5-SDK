@@ -30,13 +30,9 @@ public let hlsVideoURLs = [
 
 open class Li5SDK {
     
-    var primetimeViewController: PrimeTimeViewController!
-    var primetimeDataSource: PrimeTimeViewControllerDataSource!
-    
     var showViewController: ShowViewController!
     
     fileprivate init() {}
-    
     
     open static var shared: Li5SDK = {
         return Li5SDK()
@@ -87,12 +83,6 @@ open class Li5SDK {
     
     open func present() {
         prepareMediaCapabilities()
-        
-        if primetimeDataSource == nil { primetimeDataSource = PrimeTimeViewControllerDataSource() }
-        
-        if primetimeViewController == nil {
-            primetimeViewController = PrimeTimeViewController(withDataSource: primetimeDataSource)
-        }
         
         if showViewController == nil {
             showViewController = ShowViewController(nibName: KUI.XIB.ShowViewController.rawValue,

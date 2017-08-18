@@ -175,7 +175,7 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         if let categoryName = product.categoryName {
             categoryLabel.text = categoryName.uppercased()
             categoryImage.image = UIImage(named: categoryName.replacingOccurrences(of: " ", with: "").lowercased(),
-                                          in: Bundle(for: TeaserViewController.self),
+                                          in: Bundle(for: TrailerViewController.self),
                                           compatibleWith: nil)
         }
         

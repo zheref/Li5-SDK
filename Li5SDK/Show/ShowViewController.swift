@@ -21,6 +21,7 @@ class ShowViewController: UIViewController {
     // MARK: Stored Properties
     var currentIndex = 0
     var currentController: TrailerViewController!
+    
     var player: PlayerProtocol!
     var manager: PreloadingManagerProtocol!
     var bufferer: BufferPreloaderProtocol!

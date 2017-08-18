@@ -8,67 +8,36 @@
 
 import Foundation
 
-import Foundation
 
-
-protocol PageViewControllerProtocol : PageIndexedProtocol {
+protocol PageViewControllerProtocol {
     
 }
 
 
 class PageViewController : PaginatorViewController, PageViewControllerProtocol {
     
-    // MARK: - INSTANCE MEMBERS
+    // MARK: - Stored Properties
     
-    // MARK: - Properties
+    public var product: ProductModel!
     
-    // MARK: Stored Properties
+    // MARK: - Initializers
     
-    public var product: Product?
-    
-    // MARK: Computed Properties
-    
-    /// Index of the represented model object inside the main data source
-    public var pageIndex: Int {
-        return scrollPageIndex
-    }
-    
-    var vcIdentity: String {
-        if let product = product {
-            return "\(scrollPageIndex):\(product.id ?? "nil")"
-        } else {
-            return "\(scrollPageIndex):"
-        }
-    }
-    
-    
-    public required init(withProduct product: Product, pageIndex: Int, andContext context: PContext) {
-        log.info("Creating ProductVC for product with id \(product.id ?? "nil")")
+    public required init(withProduct product: ProductModel) {
+        log.info("Creating ProductVC for product with id \(product.id)")
         
         self.product = product
         
         super.init(withDirection: .Vertical)
-        
-        self.scrollPageIndex = pageIndex
         
         guard let product = self.product else {
             log.error("This should have not entered here. Just assigned product value for ProductPage.")
             return
         }
         
-        let lastProduct = product.isAd ||
-            (product.type.caseInsensitiveCompare("url") == ComparisonResult.orderedSame && product.contentUrl == nil)
-        
-        if lastProduct {
-            preloadedViewControllers = [
-                VideoViewController(product: product, context: context, pageIndex: scrollPageIndex)
-            ]
-        } else {
-            preloadedViewControllers = [
-                VideoViewController(product: product, context: context, pageIndex: scrollPageIndex),
-                DetailsHTMLViewController(withProduct: product, andContext: context.legacyVersion)
-            ]
-        }
+        preloadedViewControllers = [
+            TrailerViewController.instance(withProduct: self.product),
+            DetailsHTMLViewController(withProduct: product)
+        ]
     }
     
     override init() {
@@ -83,43 +52,25 @@ class PageViewController : PaginatorViewController, PageViewControllerProtocol {
     // MARK: - LIFECYCLE
     
     public override func viewDidLoad() {
-        log.verbose("Product page vc did load: \(vcIdentity)")
-        view.backgroundColor = UIColor.yellow
         super.viewDidLoad()
     }
     
-    
     public override func viewDidAppear(_ animated: Bool) {
-        log.verbose("Product page vc did appear: \(vcIdentity)")
         super.viewDidAppear(animated)
     }
-    
     
     public override var prefersStatusBarHidden: Bool {
         return true
     }
-    
     
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         currentViewController?.view.frame = view.bounds
     }
     
-    
     override func viewDidLayoutSubviews() {
         log.verbose("viewDidLayoutSubviews")
         super.viewDidLayoutSubviews()
-    }
-    
-    
-    deinit {
-        log.verbose("Deinitializing ProductVC for: \(vcIdentity)")
-    }
-    
-    
-    public override func didReceiveMemoryWarning() {
-        log.warning("Received memory warning in ProductVC for: \(vcIdentity)")
-        super.didReceiveMemoryWarning()
     }
     
 }

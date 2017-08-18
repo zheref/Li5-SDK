@@ -10,8 +10,8 @@ import Foundation
 
 protocol Displayable {
     
-    var product: Product { get set }
+    var product: ProductModel { get set }
     
-    init(product: Product, context: PContext, pageIndex: Int)
+    init(product: ProductModel)
     
 }

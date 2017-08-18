@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ProductModel {
+public struct ProductModel {
     
     var id = -1
     

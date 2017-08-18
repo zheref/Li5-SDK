@@ -13,14 +13,12 @@ import WebKit
 
     fileprivate var webView: WKWebView?
     
-    var product : Product!
-    var context : ProductContext!
+    var product : ProductModel!
     
-    public convenience init(withProduct product: Product, andContext context:ProductContext) {
+    public convenience init(withProduct product: ProductModel) {
         self.init()
         
         self.product = product
-        self.context = context
     }
     
     open override func loadView() {
@@ -32,7 +30,7 @@ import WebKit
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = (self.product.contentUrl != nil) ? URL(string:self.product.contentUrl) : URL(string: "https://www.li5.tv")
+        let url = product.detailsUrl
         let req = URLRequest(url: url!)
         webView?.load(req)
     }
