@@ -17,7 +17,7 @@ let log = SwiftyBeaver.self
 /// SDK class which will be the access point to the presentation and configuration of SDK
 open class Li5SDK {
     
-    private var showViewController: ShowViewController!
+    private var viewController: ShowViewController!
     
     fileprivate init() {}
     
@@ -53,8 +53,8 @@ open class Li5SDK {
     open func present() {
         prepareMediaCapabilities()
         
-        if showViewController == nil {
-            showViewController = ShowViewController(nibName: KUI.XIB.ShowViewController.rawValue,
+        if viewController == nil {
+            viewController = ShowViewController(nibName: KUI.XIB.ShowViewController.rawValue,
                                                     bundle: Bundle(for: Li5SDK.self))
             
             ProductsDataStore.shared.asynchronouslyLoadProducts({ [weak self] (products) in
@@ -85,17 +85,17 @@ open class Li5SDK {
         
         manager.setup(bufferer: bufferer, downloader: downloader)
         
-        self.showViewController.setup(products: products,
-                                      player: MultiPlayer(),
-                                      manager: manager,
-                                      bufferer: bufferer,
-                                      downloader: downloader)
+        viewController.setup(products: products,
+                             player: MultiPlayer(),
+                             manager: manager,
+                             bufferer: bufferer,
+                             downloader: downloader)
         
         guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {
             return
         }
         
-        rootVC.present(self.showViewController, animated: false, completion: nil)
+        rootVC.present(viewController, animated: false, completion: nil)
     }
     
     
