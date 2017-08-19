@@ -16,9 +16,6 @@ public class Asset {
     
     // MARK: - STORED PROPERTIES
     
-    /// The model identifier of the asset. Usually the same id as its corresponding model from API
-    public let id: String
-    
     /// The URL this asset is representing. The validity should be checked before creating the asset.
     public let url: Foundation.URL
     
@@ -55,11 +52,9 @@ public class Asset {
     
     // MARK: - INITIALIZERS
     
-    public init(url: Foundation.URL, forId id: String) {
+    public init(url: Foundation.URL) {
         self.url = url
         self.media = AVAsset(url: url)
-        
-        self.id = id
     }
     
 }

@@ -104,6 +104,8 @@
 		7865AC4E1F0C42DE00544264 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7865AC4C1F0C42DE00544264 /* ShowViewController.swift */; };
 		7865AC4F1F0C42DE00544264 /* ShowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7865AC4D1F0C42DE00544264 /* ShowViewController.xib */; };
 		787B5A761F4798D300BAC786 /* ProductsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B5A751F4798D300BAC786 /* ProductsDataStore.swift */; };
+		787B5A781F47B24500BAC786 /* CommonAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B5A771F47B24500BAC786 /* CommonAliases.swift */; };
+		787B5A7A1F47B2F900BAC786 /* KCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B5A791F47B2F900BAC786 /* KCore.swift */; };
 		78A4DD861F46686C00788FB5 /* TrailerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A4DD851F46686C00788FB5 /* TrailerViewController.swift */; };
 		78A4DD881F466A1400788FB5 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A4DD871F466A1400788FB5 /* ProductModel.swift */; };
 		78FC0C211F04C3B7004AF0D8 /* Li5PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC0C201F04C3B7004AF0D8 /* Li5PlayerView.swift */; };
@@ -321,6 +323,8 @@
 		7865AC4C1F0C42DE00544264 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = Show/ShowViewController.swift; sourceTree = "<group>"; };
 		7865AC4D1F0C42DE00544264 /* ShowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShowViewController.xib; path = Show/ShowViewController.xib; sourceTree = "<group>"; };
 		787B5A751F4798D300BAC786 /* ProductsDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsDataStore.swift; sourceTree = "<group>"; };
+		787B5A771F47B24500BAC786 /* CommonAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonAliases.swift; sourceTree = "<group>"; };
+		787B5A791F47B2F900BAC786 /* KCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KCore.swift; sourceTree = "<group>"; };
 		78A4DD851F46686C00788FB5 /* TrailerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrailerViewController.swift; sourceTree = "<group>"; };
 		78A4DD871F466A1400788FB5 /* ProductModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		78A9B7E41F103E2600D68746 /* AssetPersistenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AssetPersistenceManager.swift; path = Player/AssetPersistenceManager.swift; sourceTree = "<group>"; };
@@ -408,8 +412,10 @@
 		2B9CEDC41EC7D73500B6BA73 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				78A4DD871F466A1400788FB5 /* ProductModel.swift */,
-				787B5A751F4798D300BAC786 /* ProductsDataStore.swift */,
+				787B5A791F47B2F900BAC786 /* KCore.swift */,
+				787B5A771F47B24500BAC786 /* CommonAliases.swift */,
+				787B5A7C1F47B30300BAC786 /* DataStores */,
+				787B5A7B1F47B2FE00BAC786 /* Models */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -865,6 +871,22 @@
 			name = Show;
 			sourceTree = "<group>";
 		};
+		787B5A7B1F47B2FE00BAC786 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				78A4DD871F466A1400788FB5 /* ProductModel.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		787B5A7C1F47B30300BAC786 /* DataStores */ = {
+			isa = PBXGroup;
+			children = (
+				787B5A751F4798D300BAC786 /* ProductsDataStore.swift */,
+			);
+			name = DataStores;
+			sourceTree = "<group>";
+		};
 		78FC0C1F1F04C369004AF0D8 /* Player */ = {
 			isa = PBXGroup;
 			children = (
@@ -1158,6 +1180,7 @@
 				2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */,
 				7818CA901F451F9300595173 /* PageViewController.swift in Sources */,
 				2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */,
+				787B5A781F47B24500BAC786 /* CommonAliases.swift in Sources */,
 				2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */,
 				2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */,
 				78A4DD881F466A1400788FB5 /* ProductModel.swift in Sources */,
@@ -1204,6 +1227,7 @@
 				2BA594011EB4275D0065FDD9 /* CardStackUICollectionViewLayout.swift in Sources */,
 				2BA594031EB4275D0065FDD9 /* CardUICollectionViewCell.m in Sources */,
 				2BA594051EB4275D0065FDD9 /* CardUIView.m in Sources */,
+				787B5A7A1F47B2F900BAC786 /* KCore.swift in Sources */,
 				7818CA841F45126B00595173 /* CommonPreloadingManager.swift in Sources */,
 				2BA594071EB4275D0065FDD9 /* Li5View.m in Sources */,
 				2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */,

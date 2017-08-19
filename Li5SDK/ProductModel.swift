@@ -12,8 +12,8 @@ public struct ProductModel {
     
     var id = -1
     
-    var title = "Title"
-    var categoryName: String? = "Category"
+    var title = ""
+    var categoryName: String? = ""
     var url: Foundation.URL?
     
     var detailsUrl: Foundation.URL?
@@ -22,5 +22,12 @@ public struct ProductModel {
     var poster: String?
     
     var isAd = false
+    
+    var asAsset: Asset? {
+        if let url = url {
+            let asset = Asset(url: url)
+            return asset
+        } else { return nil }
+    }
     
 }

@@ -23,6 +23,8 @@ class ShowViewController: UIViewController {
     var currentIndex = 0
     var currentController: TrailerViewController!
     
+    var products = [ProductModel]()
+    
     var player: PlayerProtocol!
     var manager: PreloadingManagerProtocol!
     var bufferer: BufferPreloaderProtocol!
@@ -46,6 +48,7 @@ class ShowViewController: UIViewController {
                         bufferer: BufferPreloaderProtocol,
                         downloader: DownloadPreloaderProtocol?) {
         
+        self.products = products
         self.player = player
         
         self.manager = manager
@@ -58,7 +61,7 @@ class ShowViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentController = TrailerViewController.instance(withProduct: product(for: currentIndex))
+        currentController = TrailerViewController.instance(withProduct: products[currentIndex])
         currentController.view.frame = view.bounds
         view.insertSubview(currentController.view, at: 0)
     }
@@ -95,19 +98,6 @@ class ShowViewController: UIViewController {
         
         player.play()
         player.automaticallyReplay = true
-    }
-    
-    // MARK: Routines
-    
-    func product(for index: Int) -> ProductModel {
-        let urlForIndex = hlsVideoURLs[index]
-        var product = ProductModel()
-        
-        if let shortUrl = Foundation.URL(string: urlForIndex) {
-            product.url = shortUrl
-        }
-        
-        return product
     }
     
     // MARK: Actions
