@@ -15,7 +15,6 @@ import SwiftyBeaver
 let log = SwiftyBeaver.self
 
 /// SDK class which will be the access point to the presentation and configuration of SDK
-
 open class Li5SDK {
     
     private var showViewController: ShowViewController!
@@ -48,11 +47,6 @@ open class Li5SDK {
         }
     }
     
-    /// Sets logger up for custom log printing
-    private func configLogger() {
-        log.addDestination(ConsoleDestination())
-    }
-    
     /// PRE: :config method must have been already called by the time of this method call
     /// Starts the SDK by presenting the main view controller which holds the whole funcionality
     /// of
@@ -67,6 +61,11 @@ open class Li5SDK {
                 self?.render(withProducts: products)
             })
         }
+    }
+    
+    /// Sets logger up for custom log printing
+    private func configLogger() {
+        log.addDestination(ConsoleDestination())
     }
     
     /// Starts presentation of SDK for already available products
@@ -103,7 +102,7 @@ open class Li5SDK {
     // Restart any tasks that were paused (or not yet started) while the application was
     // inactive. If the application was previously in the background, optionally refresh the
     // user interface.
-    func prepareMediaCapabilities() {
+    private func prepareMediaCapabilities() {
         do {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
