@@ -101,8 +101,8 @@
 		7818CA901F451F9300595173 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA8F1F451F9300595173 /* PageViewController.swift */; };
 		7818CA921F451FBC00595173 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA911F451FBC00595173 /* PlayerView.swift */; };
 		783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783D81E51F0C301600EDAF64 /* AVPlayer.swift */; };
-		7865AC4E1F0C42DE00544264 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7865AC4C1F0C42DE00544264 /* ShowViewController.swift */; };
-		7865AC4F1F0C42DE00544264 /* ShowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7865AC4D1F0C42DE00544264 /* ShowViewController.xib */; };
+		7865AC4E1F0C42DE00544264 /* PrimeTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7865AC4C1F0C42DE00544264 /* PrimeTimeViewController.swift */; };
+		7865AC4F1F0C42DE00544264 /* PrimeTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7865AC4D1F0C42DE00544264 /* PrimeTimeViewController.xib */; };
 		787B5A761F4798D300BAC786 /* ProductsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B5A751F4798D300BAC786 /* ProductsDataStore.swift */; };
 		787B5A781F47B24500BAC786 /* CommonAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B5A771F47B24500BAC786 /* CommonAliases.swift */; };
 		787B5A7A1F47B2F900BAC786 /* KCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B5A791F47B2F900BAC786 /* KCore.swift */; };
@@ -320,8 +320,8 @@
 		7818CA8F1F451F9300595173 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		7818CA911F451FBC00595173 /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		783D81E51F0C301600EDAF64 /* AVPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayer.swift; path = "UIKit Extensions/AVPlayer.swift"; sourceTree = "<group>"; };
-		7865AC4C1F0C42DE00544264 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = Show/ShowViewController.swift; sourceTree = "<group>"; };
-		7865AC4D1F0C42DE00544264 /* ShowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShowViewController.xib; path = Show/ShowViewController.xib; sourceTree = "<group>"; };
+		7865AC4C1F0C42DE00544264 /* PrimeTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrimeTimeViewController.swift; path = Show/PrimeTimeViewController.swift; sourceTree = "<group>"; };
+		7865AC4D1F0C42DE00544264 /* PrimeTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PrimeTimeViewController.xib; path = Show/PrimeTimeViewController.xib; sourceTree = "<group>"; };
 		787B5A751F4798D300BAC786 /* ProductsDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsDataStore.swift; sourceTree = "<group>"; };
 		787B5A771F47B24500BAC786 /* CommonAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonAliases.swift; sourceTree = "<group>"; };
 		787B5A791F47B2F900BAC786 /* KCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KCore.swift; sourceTree = "<group>"; };
@@ -863,8 +863,8 @@
 		7865AC491F0C423400544264 /* Show */ = {
 			isa = PBXGroup;
 			children = (
-				7865AC4C1F0C42DE00544264 /* ShowViewController.swift */,
-				7865AC4D1F0C42DE00544264 /* ShowViewController.xib */,
+				7865AC4C1F0C42DE00544264 /* PrimeTimeViewController.swift */,
+				7865AC4D1F0C42DE00544264 /* PrimeTimeViewController.xib */,
 				7818CA8F1F451F9300595173 /* PageViewController.swift */,
 				2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */,
 			);
@@ -1049,7 +1049,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B84CD1A1EE842A90011F061 /* PaginatorViewController.xib in Resources */,
-				7865AC4F1F0C42DE00544264 /* ShowViewController.xib in Resources */,
+				7865AC4F1F0C42DE00544264 /* PrimeTimeViewController.xib in Resources */,
 				2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */,
 				2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */,
 				2B477EC11EC6C38200C9F10D /* ProductPageActionsView.xib in Resources */,
@@ -1193,7 +1193,7 @@
 				2BC4EF231EECB3CA00ACAC26 /* LastPageViewController.swift in Sources */,
 				2BA593B91EB4275D0065FDD9 /* Li5PlayerTimer.m in Sources */,
 				2BA593BA1EB4275D0065FDD9 /* Wave.swift in Sources */,
-				7865AC4E1F0C42DE00544264 /* ShowViewController.swift in Sources */,
+				7865AC4E1F0C42DE00544264 /* PrimeTimeViewController.swift in Sources */,
 				2BA593BB1EB4275D0065FDD9 /* ThinPlayerProgressView.swift in Sources */,
 				2BA593BC1EB4275D0065FDD9 /* ThinSliderView.swift in Sources */,
 				2BA593BE1EB4275D0065FDD9 /* ImageUICollectionViewCell.m in Sources */,

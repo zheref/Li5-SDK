@@ -17,7 +17,7 @@ let log = SwiftyBeaver.self
 /// SDK class which will be the access point to the presentation and configuration of SDK
 open class Li5SDK {
     
-    private var viewController: ShowViewController!
+    private var viewController: PrimeTimeViewController!
     
     fileprivate init() {}
     
@@ -54,7 +54,7 @@ open class Li5SDK {
         prepareMediaCapabilities()
         
         if viewController == nil {
-            viewController = ShowViewController(nibName: KUI.XIB.ShowViewController.rawValue,
+            viewController = PrimeTimeViewController(nibName: KUI.XIB.PrimeTimeViewController.rawValue,
                                                     bundle: Bundle(for: Li5SDK.self))
             
             ProductsDataStore.shared.asynchronouslyLoadProducts({ [weak self] (products) in

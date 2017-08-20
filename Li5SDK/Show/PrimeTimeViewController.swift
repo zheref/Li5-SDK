@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class ShowViewController: UIViewController {
+class PrimeTimeViewController: UIViewController {
     
     // MARK: - PROPERTIES
     
@@ -113,7 +113,7 @@ class ShowViewController: UIViewController {
     
 }
 
-extension ShowViewController : PreloadingManagerDelegate {
+extension PrimeTimeViewController : PreloadingManagerDelegate {
     
     func didPreload(_ asset: Asset) {
         if let currentAsset = self.manager?.currentAsset, currentAsset === asset, didStartPlayback {

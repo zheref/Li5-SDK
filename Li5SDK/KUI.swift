@@ -11,7 +11,7 @@ import Foundation
 class KUI {
     
     enum XIB: String {
-        case ShowViewController
+        case PrimeTimeViewController
     }
     
     enum SB : String {
