@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -23,13 +23,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeO-DA-YCE">
-                    <rect key="frame" x="0.0" y="0.0" width="188" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="112.5" height="667"/>
                     <connections>
                         <action selector="userDidTapLeftActiveSection:" destination="-1" eventType="touchUpInside" id="Geh-ek-vrs"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lcp-o3-NKo">
-                    <rect key="frame" x="187" y="0.0" width="188" height="667"/>
+                    <rect key="frame" x="262.5" y="0.0" width="112.5" height="667"/>
                     <connections>
                         <action selector="userDidTapRightActiveSection:" destination="-1" eventType="touchUpInside" id="3ZN-aZ-3OV"/>
                     </connections>
@@ -43,7 +43,7 @@
             <constraints>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="CKY-qM-Htl"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="Lcp-o3-NKo" secondAttribute="top" id="CbI-Pp-SPW"/>
-                <constraint firstItem="SeO-DA-YCE" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.5" id="DNw-F3-lCJ"/>
+                <constraint firstItem="SeO-DA-YCE" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.3" id="DNw-F3-lCJ"/>
                 <constraint firstAttribute="trailing" secondItem="Lcp-o3-NKo" secondAttribute="trailing" id="FdO-rm-yAa"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="trailing" secondItem="Lcp-o3-NKo" secondAttribute="trailing" id="LWp-gY-Kzv"/>
                 <constraint firstAttribute="bottom" secondItem="x3f-37-WGt" secondAttribute="bottom" id="Nx9-pa-o7q"/>
@@ -51,7 +51,7 @@
                 <constraint firstItem="x3f-37-WGt" firstAttribute="bottom" secondItem="SeO-DA-YCE" secondAttribute="bottom" id="OlW-HK-zOH"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="bottom" secondItem="Lcp-o3-NKo" secondAttribute="bottom" id="Wqy-mF-Oae"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="leading" secondItem="SeO-DA-YCE" secondAttribute="leading" id="Xqq-LY-XxE"/>
-                <constraint firstItem="Lcp-o3-NKo" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.5" id="fBq-Nh-CeE"/>
+                <constraint firstItem="Lcp-o3-NKo" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.3" id="fBq-Nh-CeE"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="SeO-DA-YCE" secondAttribute="top" id="nLW-IB-wyu"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="o3m-4R-oV9"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rn1-kY-3Nz"/>

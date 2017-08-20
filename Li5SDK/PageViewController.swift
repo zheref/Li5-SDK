@@ -20,11 +20,12 @@ class PageViewController : PaginatorViewController, PageViewControllerProtocol {
     
     public var product: ProductModel!
     
+    // TODO: UNSAFE
+    var trailer: TrailerViewController!
+    
     // MARK: - Initializers
     
     public required init(withProduct product: ProductModel) {
-        log.info("Creating ProductVC for product with id \(product.id)")
-        
         self.product = product
         
         super.init(withDirection: .Vertical)
@@ -34,8 +35,10 @@ class PageViewController : PaginatorViewController, PageViewControllerProtocol {
             return
         }
         
+        trailer = TrailerViewController.instance(withProduct: self.product)
+        
         preloadedViewControllers = [
-            TrailerViewController.instance(withProduct: self.product),
+            trailer!,
             DetailsHTMLViewController(withProduct: product)
         ]
     }
@@ -50,14 +53,6 @@ class PageViewController : PaginatorViewController, PageViewControllerProtocol {
     }
     
     // MARK: - LIFECYCLE
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
     
     public override var prefersStatusBarHidden: Bool {
         return true

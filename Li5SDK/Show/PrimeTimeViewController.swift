@@ -21,7 +21,7 @@ class PrimeTimeViewController: UIViewController {
     // MARK: Stored Properties
     
     var currentIndex = 0
-    var currentController: TrailerViewController!
+    var currentController: PageViewController!
     
     var products = [ProductModel]()
     
@@ -35,7 +35,7 @@ class PrimeTimeViewController: UIViewController {
     // MARK: Computed Properties
     
     var playerLayer: AVPlayerLayer? {
-        return currentController.playerView.playerLayer
+        return currentController.trailer.layer
     }
     
     // MARK: - INSTANCE OPERATIONS
@@ -61,7 +61,7 @@ class PrimeTimeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentController = TrailerViewController.instance(withProduct: products[currentIndex])
+        currentController = PageViewController(withProduct: products[currentIndex])
         currentController.view.frame = view.bounds
         view.insertSubview(currentController.view, at: 0)
     }
@@ -70,20 +70,21 @@ class PrimeTimeViewController: UIViewController {
         super.viewWillAppear(animated)
         
         if let multiPlayer = player as? MultiPlayer {
-            multiPlayer.delegate = currentController
+            multiPlayer.delegate = currentController.trailer
         }
         
         player.settle()
         
         if let currentPlayer = player.currentPlayer {
-            currentController.playerView.playerLayer.player = currentPlayer
+            // TODO: Fix this
+            currentController.trailer.playerView.playerLayer.player = currentPlayer
         }
         
         manager.delegate = self
         
         manager.startPreloading()
         
-        currentController.showLoadingScreen()
+        currentController.trailer.showLoadingScreen()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -118,7 +119,7 @@ extension PrimeTimeViewController : PreloadingManagerDelegate {
     func didPreload(_ asset: Asset) {
         if let currentAsset = self.manager?.currentAsset, currentAsset === asset, didStartPlayback {
             DispatchQueue.main.async { [unowned self] in
-                self.currentController.hideLoadingScreen()
+                self.currentController.trailer.hideLoadingScreen()
                 self.player.play()
             }
         }
@@ -128,7 +129,7 @@ extension PrimeTimeViewController : PreloadingManagerDelegate {
         didStartPlayback = true
         DispatchQueue.main.async { [unowned self] in
             log.debug("Finished buffering minimum required assets!!!")
-            self.currentController.hideLoadingScreen()
+            self.currentController.trailer.hideLoadingScreen()
             self.player.play()
         }
     }

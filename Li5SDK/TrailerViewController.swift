@@ -46,6 +46,10 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     // MARK: - Computed Properties
     
+    var layer: AVPlayerLayer {
+        return playerView.playerLayer
+    }
+    
     var unlockable: Bool {
         return product.extendedUrl != nil
     }
