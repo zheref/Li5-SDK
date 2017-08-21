@@ -95,6 +95,10 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         player.automaticallyReplay = true
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     // MARK: Actions
     
     @IBAction func userDidTapLeftActiveSection(_ sender: Any) {

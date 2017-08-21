@@ -56,6 +56,8 @@
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="o3m-4R-oV9"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rn1-kY-3Nz"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
             <point key="canvasLocation" x="26.5" y="52.5"/>
         </view>
         <view contentMode="scaleToFill" id="ohl-1T-kLM">
