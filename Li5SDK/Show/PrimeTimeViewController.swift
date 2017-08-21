@@ -109,6 +109,10 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         if let cp = player.currentPlayer {
             currentController.trailerVC.set(player: cp)
         }
+        
+        if currentController.currentPageIndex != 0 {
+            currentController.moveTo(pageIndex: 0)
+        }
     }
     
     @IBAction func userDidTapRightActiveSection(_ sender: Any) {
@@ -118,6 +122,10 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         
         if let cp = player.currentPlayer {
             currentController.trailerVC.set(player: cp)
+        }
+        
+        if currentController.currentPageIndex != 0 {
+            currentController.moveTo(pageIndex: 0)
         }
     }
     

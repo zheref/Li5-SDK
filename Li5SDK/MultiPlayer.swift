@@ -87,8 +87,11 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
         self.currentItem?.seek(to: kCMTimeZero)
     }
     
-    
     public func goNext() {
+        goNext(startPlaying: true)
+    }
+    
+    public func goNext(startPlaying: Bool) {
         if currentIndex == enqueuedItems.count - 1 {
             log.error("Trying to go to next player item when there are no more enqueued")
         } else {
@@ -96,7 +99,9 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
             let lastItem = currentItem
             currentIndex += 1
             currentItem?.seek(to: kCMTimeZero)
-            play()
+            
+            if startPlaying { play() }
+            
             lastItem?.seek(to: kCMTimeZero)
             automaticallyReplay = true
         }
@@ -107,6 +112,10 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
     }
     
     public func goPrevious() {
+        goPrevious(startPlaying: true)
+    }
+    
+    public func goPrevious(startPlaying: Bool) {
         if currentIndex == 0 {
             log.error("Trying to go to previous player item when the cursor is on zero position")
         } else {
@@ -114,7 +123,9 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
             let lastItem = currentItem
             currentIndex -= 1
             currentItem?.seek(to: kCMTimeZero)
-            play()
+            
+            if startPlaying { play() }
+            
             lastItem?.seek(to: kCMTimeZero)
             automaticallyReplay = true
         }

@@ -9,15 +9,11 @@
 import Foundation
 import AVFoundation
 
-
 protocol PageViewControllerProtocol {
     
 }
 
-
 class PlayPageViewController : PaginatorViewController, PageViewControllerProtocol {
-    
-    // MARK: - Stored Properties
     
     weak var player: PlayerProtocol!
     weak var manager: PreloadingManagerProtocol!
@@ -33,8 +29,6 @@ class PlayPageViewController : PaginatorViewController, PageViewControllerProtoc
     var htmlVC: DetailsHTMLViewController!
     
     var didStartPlayback = false
-    
-    // MARK: - Initializers
     
     public required init(withProduct product: ProductModel, player: PlayerProtocol, manager: PreloadingManagerProtocol) {
         self.product = product
@@ -53,8 +47,6 @@ class PlayPageViewController : PaginatorViewController, PageViewControllerProtoc
         log.warning("ProductPageViewController initialized through coder. There will most likely be crashes!!!")
         super.init(coder: aDecoder)
     }
-    
-    // MARK: - Lifecycle
     
     public override var prefersStatusBarHidden: Bool {
         return true
@@ -83,8 +75,6 @@ class PlayPageViewController : PaginatorViewController, PageViewControllerProtoc
         
         super.moveTo(pageIndex: targetPageIndex)
     }
-    
-    // MARK: - Routines
     
     func startPreloading() {
         manager.delegate = self

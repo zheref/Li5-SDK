@@ -9,29 +9,17 @@
 import Foundation
 import AVFoundation
 
-
 protocol TrailerViewControllerProtocol {
-    
     func set(player: AVPlayer)
-    
 }
 
-
 class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
-    
-    // MARK: - INSTANCE MEMBERS
-    
-    // MARK: - Stored Properties
-    
-    // MARK: References
     
     var product: ProductModel! {
         didSet {
             setupPoster()
         }
     }
-    
-    // MARK: - Outlets
     
     var waveView: Wave?
     
@@ -46,8 +34,6 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var headerView: UIView!
-    
-    // MARK: - Computed Properties
     
     var layer: AVPlayerLayer {
         return playerView.playerLayer
@@ -67,19 +53,10 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     // MARK: - Initializers
     
-    
-    /// For purposes of avoiding arbitrary creation from outside
     private init() {
         super.init(nibName: nil, bundle: nil)
     }
     
-    
-    /// Creates and instance of TeaserVC with the given product and context
-    /// - Parameters:
-    ///   - product: The product for which the TeaserVC should be created
-    ///   - pageIndex: The page index being represented by the TeaserVC
-    ///   - context: The context for the TeaserVC
-    /// - Returns: New instance of TeaserViewController setup for the given data
     static func instance(withProduct product: ProductModel) -> TrailerViewController {
         
         let storyboard = UIStoryboard(name: KUI.SB.ProductPageViews.rawValue,
@@ -101,18 +78,13 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         return viewController
     }
     
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    
-    // MARK: Lifecycle
-    
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
     
     override func viewDidLoad() {
         log.verbose("TeaserVC did load for product with id: \(product.id)")
@@ -121,7 +93,6 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         
         setup()
     }
-    
     
     override func viewDidDisappear(_ animated: Bool) {
         log.verbose("TeaserVC for product with id \(product.id) did disappear")
@@ -132,18 +103,6 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
             progressView.player = nil
         }
     }
-    
-    deinit {
-        log.verbose("Deinitializing Teaser VC for product id: \(product.id)")
-        
-        progressView = nil
-        playerView = nil
-        product = nil
-        waveView = nil
-    }
-    
-    
-    // MARK: Routines
     
     func set(player: AVPlayer) {
         playerView.player = player
@@ -186,7 +145,6 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         }
     }
     
-    /// Shows poster image if available in the product model and is a valid base 64 image
     private func setupPoster() {
         guard posterImageView != nil else { return }
         
@@ -197,8 +155,8 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
             }
         }
     }
+    
 }
-
 
 extension TrailerViewController : MultiPlayerDelegate {
     
@@ -206,13 +164,11 @@ extension TrailerViewController : MultiPlayerDelegate {
         playerView.playerLayer.player = player
     }
     
-    /// Change elements to display loading screen. Specially designed for giving time for loading assets
-    internal func showLoadingScreen() {
+    func showLoadingScreen() {
         waveView?.startAnimating()
     }
     
-    /// Change elements to hide loading screen. Should be run when assets are ready to play smoothly
-    internal func hideLoadingScreen() {
+    func hideLoadingScreen() {
         waveView?.stopAnimating()
     }
     
