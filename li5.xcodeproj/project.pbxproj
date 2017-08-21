@@ -87,6 +87,7 @@
 		2BC4EF231EECB3CA00ACAC26 /* LastPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */; };
 		2BC4EF251EECB78200ACAC26 /* KUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF241EECB78200ACAC26 /* KUI.swift */; };
 		2BC4EF2B1EEEE67E00ACAC26 /* KVOController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */; };
+		2BEDFBE01F4A77F7008FB4B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AACC1C4D60B9002C22C8 /* Assets.xcassets */; };
 		2BF2668E1F09411D00CB9461 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
 		7818CA7C1F450F3E00595173 /* PreemptiveBufferPreloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA7B1F450F3E00595173 /* PreemptiveBufferPreloader.swift */; };
@@ -1052,6 +1053,7 @@
 				7865AC4F1F0C42DE00544264 /* PrimeTimeViewController.xib in Resources */,
 				2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */,
 				2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */,
+				2BEDFBE01F4A77F7008FB4B8 /* Assets.xcassets in Resources */,
 				2B477EC11EC6C38200C9F10D /* ProductPageActionsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

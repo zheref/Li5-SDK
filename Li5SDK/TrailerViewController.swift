@@ -168,6 +168,10 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         if product.isAd == false && hasDetails == false {
             arrowImageView.isHidden = true
             moreLabel.isHidden = true
+        } else {
+            arrowImageView.image = UIImage(named: "down",
+                                           in: Bundle(for: TrailerViewController.self),
+                                           compatibleWith: nil)
         }
         
         if unlockable {
