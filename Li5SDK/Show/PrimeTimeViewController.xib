@@ -23,13 +23,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeO-DA-YCE">
-                    <rect key="frame" x="0.0" y="0.0" width="112.5" height="667"/>
+                    <rect key="frame" x="0.0" y="50" width="112.5" height="527"/>
                     <connections>
                         <action selector="userDidTapLeftActiveSection:" destination="-1" eventType="touchUpInside" id="Geh-ek-vrs"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lcp-o3-NKo">
-                    <rect key="frame" x="262.5" y="0.0" width="112.5" height="667"/>
+                    <rect key="frame" x="262.5" y="50" width="112.5" height="527"/>
                     <connections>
                         <action selector="userDidTapRightActiveSection:" destination="-1" eventType="touchUpInside" id="3ZN-aZ-3OV"/>
                     </connections>
@@ -42,17 +42,17 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="CKY-qM-Htl"/>
-                <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="Lcp-o3-NKo" secondAttribute="top" id="CbI-Pp-SPW"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="Lcp-o3-NKo" secondAttribute="top" constant="-50" id="CbI-Pp-SPW"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.3" id="DNw-F3-lCJ"/>
                 <constraint firstAttribute="trailing" secondItem="Lcp-o3-NKo" secondAttribute="trailing" id="FdO-rm-yAa"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="trailing" secondItem="Lcp-o3-NKo" secondAttribute="trailing" id="LWp-gY-Kzv"/>
                 <constraint firstAttribute="bottom" secondItem="x3f-37-WGt" secondAttribute="bottom" id="Nx9-pa-o7q"/>
                 <constraint firstAttribute="trailing" secondItem="x3f-37-WGt" secondAttribute="trailing" id="OTH-rp-rUy"/>
-                <constraint firstItem="x3f-37-WGt" firstAttribute="bottom" secondItem="SeO-DA-YCE" secondAttribute="bottom" id="OlW-HK-zOH"/>
-                <constraint firstItem="x3f-37-WGt" firstAttribute="bottom" secondItem="Lcp-o3-NKo" secondAttribute="bottom" id="Wqy-mF-Oae"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="bottom" secondItem="SeO-DA-YCE" secondAttribute="bottom" constant="90" id="OlW-HK-zOH"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="bottom" secondItem="Lcp-o3-NKo" secondAttribute="bottom" constant="90" id="Wqy-mF-Oae"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="leading" secondItem="SeO-DA-YCE" secondAttribute="leading" id="Xqq-LY-XxE"/>
                 <constraint firstItem="Lcp-o3-NKo" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.3" id="fBq-Nh-CeE"/>
-                <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="SeO-DA-YCE" secondAttribute="top" id="nLW-IB-wyu"/>
+                <constraint firstItem="x3f-37-WGt" firstAttribute="top" secondItem="SeO-DA-YCE" secondAttribute="top" constant="-50" id="nLW-IB-wyu"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="o3m-4R-oV9"/>
                 <constraint firstItem="x3f-37-WGt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rn1-kY-3Nz"/>
             </constraints>
