@@ -87,12 +87,13 @@ class PlayPageViewController : PaginatorViewController, PageViewControllerProtoc
     // MARK: - Routines
     
     func startPreloading() {
+        manager.delegate = self
+        manager.startPreloading()
+        
         if let currentPlayer = player.currentPlayer {
             trailerVC.set(player: currentPlayer)
         }
         
-        manager.delegate = self
-        manager.startPreloading()
         trailerVC.showLoadingScreen()
     }
     
@@ -105,6 +106,11 @@ extension PlayPageViewController : PreloadingManagerDelegate {
             DispatchQueue.main.async { [unowned self] in
                 self.trailerVC.hideLoadingScreen()
                 self.player.play()
+                
+                if let cp = self.player.currentPlayer {
+                    self.trailerVC.set(player: cp)
+                }
+                
             }
         }
     }
@@ -116,6 +122,10 @@ extension PlayPageViewController : PreloadingManagerDelegate {
             log.debug("Finished buffering minimum required assets!!!")
             self.trailerVC.hideLoadingScreen()
             self.player.play()
+            
+            if let cp = self.player.currentPlayer {
+                self.trailerVC.set(player: cp)
+            }
         }
     }
     

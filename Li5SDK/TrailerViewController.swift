@@ -38,14 +38,12 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     @IBOutlet weak var playerView: L5PlayerView!
     @IBOutlet weak var posterImageView: UIImageView!
     
-    @IBOutlet weak var actionsView: ProductPageActionsView!
     @IBOutlet weak var progressView: ThinPlayerProgressView!
     
     @IBOutlet weak var categoryImage: UIImageView!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var arrowImageView: UIImageView!
     @IBOutlet weak var moreLabel: UILabel!
-    @IBOutlet weak var shareButton: UIButton!
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var headerView: UIView!
@@ -126,13 +124,6 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     }
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        actionsView.refreshStatus()
-    }
-    
-    
     override func viewDidDisappear(_ animated: Bool) {
         log.verbose("TeaserVC for product with id \(product.id) did disappear")
         
@@ -157,27 +148,12 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     func set(player: AVPlayer) {
         playerView.player = player
+        progressView.player = playerView.player
     }
     
     private func setup() {
-        progressView.player = playerView.player
-        
         setupPoster()
-        
-        //actionsView.setProduct(product, animate: true)
-        
-        if let categoryName = product.categoryName {
-            categoryLabel.text = categoryName.uppercased()
-            categoryImage.image = UIImage(named: categoryName.replacingOccurrences(of: " ", with: "").lowercased(),
-                                          in: Bundle(for: TrailerViewController.self),
-                                          compatibleWith: nil)
-        }
-        
-        categoryImage.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
-        categoryImage.layer.shadowOffset = CGSize(width: 0, height: 2)
-        categoryImage.layer.shadowOpacity = 1
-        categoryImage.layer.shadowRadius = 1.0
-        categoryImage.clipsToBounds = false
+        setupCategory()
         
         waveView = Wave(withView: view)
         waveView?.startAnimating()
@@ -197,6 +173,21 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         if unlockable {
             progressView.backgroundColor = UIColor.li5_red().withAlphaComponent(0.6)
         }
+    }
+    
+    private func setupCategory() {
+        if let categoryName = product.categoryName {
+            categoryLabel.text = categoryName.uppercased()
+            categoryImage.image = UIImage(named: categoryName.replacingOccurrences(of: " ", with: "").lowercased(),
+                                          in: Bundle(for: TrailerViewController.self),
+                                          compatibleWith: nil)
+        }
+        
+        categoryImage.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        categoryImage.layer.shadowOffset = CGSize(width: 0, height: 2)
+        categoryImage.layer.shadowOpacity = 1
+        categoryImage.layer.shadowRadius = 1.0
+        categoryImage.clipsToBounds = false
     }
     
     /// Shows poster image if available in the product model and is a valid base 64 image

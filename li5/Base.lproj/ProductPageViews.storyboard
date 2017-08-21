@@ -68,24 +68,6 @@
                                         <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.2507918074324324" colorSpace="custom" customColorSpace="sRGB"/>
                                         <size key="shadowOffset" width="2" height="2"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gjS-Wh-YHU" customClass="ProductPageActionsView">
-                                        <rect key="frame" x="305" y="202" width="50" height="263"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" priority="1" constant="200" id="KgQ-Ei-C8u"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="48" id="cT8-Kf-G6c"/>
-                                            <constraint firstAttribute="height" priority="1" constant="263" id="glf-aa-db9"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="pDT-Jw-IHJ"/>
-                                            <constraint firstAttribute="width" priority="1" constant="50" id="rJT-eP-vIw"/>
-                                        </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="KgQ-Ei-C8u"/>
-                                                <exclude reference="cT8-Kf-G6c"/>
-                                                <exclude reference="pDT-Jw-IHJ"/>
-                                            </mask>
-                                        </variation>
-                                    </view>
                                     <view opaque="NO" alpha="0.14999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rlK-aG-cDa" userLabel="Gradient View" customClass="Li5GradientView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -133,40 +115,21 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wxe-rd-Apg" customClass="ThinPlayerProgressView" customModule="Li5SDK" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="5"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="5" id="VF1-kV-5p9"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MoW-Vb-eVf">
-                                        <rect key="frame" x="329" y="622" width="35" height="35"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="35" id="Vsn-eH-f8T"/>
-                                            <constraint firstAttribute="height" constant="35" id="yCW-EK-13P"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="shared"/>
-                                        <connections>
-                                            <action selector="shareAction:" destination="fwY-UF-IvN" eventType="touchUpInside" id="opj-Lo-7QX"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <accessibility key="accessibilityConfiguration" identifier="Controls Container"/>
                                 <constraints>
-                                    <constraint firstItem="gjS-Wh-YHU" firstAttribute="centerY" secondItem="Gur-AB-pj1" secondAttribute="centerY" id="01G-qA-x02"/>
                                     <constraint firstItem="HPq-T7-N2p" firstAttribute="centerY" secondItem="QD4-ir-vdw" secondAttribute="centerY" id="189-e3-PTl"/>
                                     <constraint firstAttribute="trailing" secondItem="2k6-Mt-JfT" secondAttribute="trailing" id="3a4-BQ-ucc"/>
                                     <constraint firstAttribute="bottom" secondItem="rlK-aG-cDa" secondAttribute="bottom" constant="619" id="7oo-KR-gz8"/>
-                                    <constraint firstItem="gjS-Wh-YHU" firstAttribute="centerX" secondItem="Gur-AB-pj1" secondAttribute="centerX" id="8qm-nx-8hx"/>
                                     <constraint firstItem="2k6-Mt-JfT" firstAttribute="top" secondItem="Gur-AB-pj1" secondAttribute="top" id="B3e-fS-eEe"/>
                                     <constraint firstItem="QD4-ir-vdw" firstAttribute="centerX" secondItem="Gur-AB-pj1" secondAttribute="centerX" id="CPo-TM-fX8"/>
-                                    <constraint firstAttribute="trailing" secondItem="gjS-Wh-YHU" secondAttribute="trailing" constant="20" id="D1G-ax-sSl"/>
-                                    <constraint firstAttribute="trailing" secondItem="MoW-Vb-eVf" secondAttribute="trailing" constant="11" id="Jfh-WY-L47"/>
                                     <constraint firstItem="HPq-T7-N2p" firstAttribute="leading" secondItem="QD4-ir-vdw" secondAttribute="trailing" constant="-2" id="LdF-oo-Wdd"/>
                                     <constraint firstItem="rlK-aG-cDa" firstAttribute="leading" secondItem="Gur-AB-pj1" secondAttribute="leading" id="LfP-rq-OyL"/>
-                                    <constraint firstAttribute="bottom" secondItem="MoW-Vb-eVf" secondAttribute="bottom" constant="10" id="M6O-xp-NMc"/>
                                     <constraint firstItem="Wxe-rd-Apg" firstAttribute="top" secondItem="Gur-AB-pj1" secondAttribute="top" id="bs5-WY-zwk"/>
-                                    <constraint firstItem="gjS-Wh-YHU" firstAttribute="centerX" secondItem="Gur-AB-pj1" secondAttribute="centerX" id="ej3-zn-PQu"/>
                                     <constraint firstItem="rlK-aG-cDa" firstAttribute="height" secondItem="2k6-Mt-JfT" secondAttribute="height" id="mko-dh-ucg"/>
                                     <constraint firstAttribute="trailing" secondItem="rlK-aG-cDa" secondAttribute="trailing" id="pjI-zy-SIW"/>
                                     <constraint firstItem="rlK-aG-cDa" firstAttribute="top" secondItem="Gur-AB-pj1" secondAttribute="top" id="pk0-oI-69I"/>
@@ -174,12 +137,6 @@
                                     <constraint firstItem="2k6-Mt-JfT" firstAttribute="leading" secondItem="Gur-AB-pj1" secondAttribute="leading" id="u3u-P1-oeU"/>
                                     <constraint firstItem="Wxe-rd-Apg" firstAttribute="leading" secondItem="Gur-AB-pj1" secondAttribute="leading" id="vot-27-p1d"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="8qm-nx-8hx"/>
-                                        <exclude reference="ej3-zn-PQu"/>
-                                    </mask>
-                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -215,7 +172,6 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="actionsView" destination="gjS-Wh-YHU" id="w2c-FI-rbo"/>
                         <outlet property="arrowImageView" destination="HPq-T7-N2p" id="4T8-fh-NVx"/>
                         <outlet property="categoryImage" destination="mBk-xF-xAM" id="hqx-5O-c24"/>
                         <outlet property="categoryLabel" destination="whU-ht-WC0" id="Vcn-1l-Izn"/>
@@ -225,7 +181,6 @@
                         <outlet property="playerView" destination="0es-l2-OCi" id="LMa-DU-fuF"/>
                         <outlet property="posterImageView" destination="UaP-Qd-qp4" id="lcz-bJ-Rhs"/>
                         <outlet property="progressView" destination="Wxe-rd-Apg" id="3u1-Qd-1WI"/>
-                        <outlet property="shareButton" destination="MoW-Vb-eVf" id="Nd6-U3-Fqd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dge-ys-Q2l" userLabel="First Responder" sceneMemberID="firstResponder"/>

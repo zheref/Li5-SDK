@@ -52,7 +52,7 @@ open class ThinPlayerProgressView: UIView {
     }
     
     func initialize() {
-        overlay.backgroundColor = UIColor.white
+        overlay.backgroundColor = UIColor.red
         self.addSubview(overlay)
     }
     

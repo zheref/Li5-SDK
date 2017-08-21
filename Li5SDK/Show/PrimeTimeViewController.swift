@@ -103,12 +103,22 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     @IBAction func userDidTapLeftActiveSection(_ sender: Any) {
         player.goPrevious()
+        
         currentController.product = products[player.currentIndex]
+        
+        if let cp = player.currentPlayer {
+            currentController.trailerVC.set(player: cp)
+        }
     }
     
     @IBAction func userDidTapRightActiveSection(_ sender: Any) {
         player.goNext()
+        
         currentController.product = products[player.currentIndex]
+        
+        if let cp = player.currentPlayer {
+            currentController.trailerVC.set(player: cp)
+        }
     }
     
     
