@@ -9,45 +9,51 @@
 import UIKit
 import WebKit
 
-@objc open class DetailsHTMLViewController: UIViewController {
+@objc class DetailsHTMLViewController: UIViewController {
 
     fileprivate var webView: WKWebView?
     
     var product : ProductModel! {
         didSet {
-            let url = product.detailsUrl
-            
-            if url != nil {
-                let req = URLRequest(url: url!)
-                webView?.load(req)
-            } else {
-                webView?.loadHTMLString("", baseURL: nil)
-            }
+            resetView()
+            loadUrl()
         }
     }
     
-    public convenience init(withProduct product: ProductModel) {
+    convenience init(withProduct product: ProductModel) {
         self.init()
         self.product = product
     }
     
-    open override func loadView() {
-        webView = WKWebView()
-        
-        view = webView
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        resetView()
+        loadUrl()
     }
     
-    open override func viewDidLoad() {
-        super.viewDidLoad()
+    private func resetView() {
+        if webView != nil {
+            webView?.removeFromSuperview()
+            webView = nil
+        }
         
-        let url = product.detailsUrl
-        let req = URLRequest(url: url!)
-        webView?.load(req)
+        webView = WKWebView()
+        webView?.frame = view.bounds
+        
+        if webView != nil {
+            view.addSubview(webView!)
+        }
     }
-
-    open override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    private func loadUrl() {
+        let url = product.detailsUrl
+        
+        webView?.load(URLRequest(url: Foundation.URL(string: "about:blank")!))
+        
+        if url != nil {
+            let req = URLRequest(url: url!)
+            webView?.load(req)
+        }
     }
 
 }
