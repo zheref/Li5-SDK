@@ -24,7 +24,6 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     // MARK: Stored Properties
     
-    var currentIndex = 0
     var currentController: PlayPageViewController!
     
     var products = [ProductModel]()
@@ -63,9 +62,9 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentController = PlayPageViewController(withProduct: products[currentIndex])
-        currentController.player = player
-        currentController.manager = manager
+        currentController = PlayPageViewController(withProduct: products[player.currentIndex],
+                                                   player: player,
+                                                   manager: manager)
         currentController.view.frame = view.bounds
         view.insertSubview(currentController.view, at: 0)
     }
@@ -100,10 +99,12 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     @IBAction func userDidTapLeftActiveSection(_ sender: Any) {
         player.goPrevious()
+        currentController.product = products[player.currentIndex]
     }
     
     @IBAction func userDidTapRightActiveSection(_ sender: Any) {
         player.goNext()
+        currentController.product = products[player.currentIndex]
     }
     
     

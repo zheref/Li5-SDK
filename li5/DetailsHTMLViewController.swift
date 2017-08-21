@@ -13,11 +13,21 @@ import WebKit
 
     fileprivate var webView: WKWebView?
     
-    var product : ProductModel!
+    var product : ProductModel! {
+        didSet {
+            let url = product.detailsUrl
+            
+            if url != nil {
+                let req = URLRequest(url: url!)
+                webView?.load(req)
+            } else {
+                webView?.loadHTMLString("", baseURL: nil)
+            }
+        }
+    }
     
     public convenience init(withProduct product: ProductModel) {
         self.init()
-        
         self.product = product
     }
     

@@ -22,7 +22,12 @@ class PlayPageViewController : PaginatorViewController, PageViewControllerProtoc
     weak var player: PlayerProtocol!
     weak var manager: PreloadingManagerProtocol!
     
-    var product: ProductModel!
+    var product: ProductModel! {
+        didSet {
+            trailerVC.product = product
+            htmlVC.product = product
+        }
+    }
     
     var trailerVC: TrailerViewController!
     var htmlVC: DetailsHTMLViewController!
@@ -31,8 +36,10 @@ class PlayPageViewController : PaginatorViewController, PageViewControllerProtoc
     
     // MARK: - Initializers
     
-    public required init(withProduct product: ProductModel) {
+    public required init(withProduct product: ProductModel, player: PlayerProtocol, manager: PreloadingManagerProtocol) {
         self.product = product
+        self.player = player
+        self.manager = manager
         
         trailerVC = TrailerViewController.instance(withProduct: self.product)
         htmlVC = DetailsHTMLViewController(withProduct: product)
