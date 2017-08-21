@@ -1383,8 +1383,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.li5.sdk.demoone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7969a414-fd9f-4549-8d0b-8b282ec644ef";
-				PROVISIONING_PROFILE_SPECIFIER = "Development 201707p";
+				PROVISIONING_PROFILE = "ee98394b-d850-4921-9f7b-022061a861f1";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.li5.sdk.demoone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
