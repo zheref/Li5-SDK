@@ -70,6 +70,20 @@ class PlayPageViewController : PaginatorViewController, PageViewControllerProtoc
         super.viewDidLayoutSubviews()
     }
     
+    override func moveTo(pageIndex targetPageIndex: Int) {
+        if targetPageIndex == 1 {
+            player.pause()
+        } else {
+            if let cp = player.currentPlayer {
+                if cp.isPlaying == false {
+                    player.play()
+                }
+            }
+        }
+        
+        super.moveTo(pageIndex: targetPageIndex)
+    }
+    
     // MARK: - Routines
     
     func startPreloading() {
