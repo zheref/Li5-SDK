@@ -84,32 +84,17 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jewelry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="whU-ht-WC0">
-                                                <rect key="frame" x="44" y="19" width="60.5" height="20"/>
+                                                <rect key="frame" x="20" y="19" width="60.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="15"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.250501478" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <size key="shadowOffset" width="2" height="2"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jewelry" translatesAutoresizingMaskIntoConstraints="NO" id="mBk-xF-xAM">
-                                                <rect key="frame" x="15" y="20" width="22" height="18"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="17" id="Y21-Xc-POk"/>
-                                                    <constraint firstAttribute="width" constant="19" id="pMw-1B-01V"/>
-                                                </constraints>
-                                                <variation key="default">
-                                                    <mask key="constraints">
-                                                        <exclude reference="Y21-Xc-POk"/>
-                                                        <exclude reference="pMw-1B-01V"/>
-                                                    </mask>
-                                                </variation>
-                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="mBk-xF-xAM" firstAttribute="centerY" secondItem="whU-ht-WC0" secondAttribute="centerY" id="3aa-TC-5yw"/>
-                                            <constraint firstItem="whU-ht-WC0" firstAttribute="leading" secondItem="mBk-xF-xAM" secondAttribute="trailing" constant="7" id="XBp-jF-rFw"/>
-                                            <constraint firstItem="mBk-xF-xAM" firstAttribute="leading" secondItem="2k6-Mt-JfT" secondAttribute="leading" constant="15" identifier="categoryImageLeadingConstraint" id="eDt-WD-hEG"/>
+                                            <constraint firstItem="whU-ht-WC0" firstAttribute="leading" secondItem="2k6-Mt-JfT" secondAttribute="leading" constant="20" id="ljM-YU-gxc"/>
                                             <constraint firstItem="whU-ht-WC0" firstAttribute="top" secondItem="2k6-Mt-JfT" secondAttribute="top" constant="19" id="sa1-QG-Ief"/>
                                         </constraints>
                                     </view>
@@ -173,7 +158,6 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="arrowImageView" destination="HPq-T7-N2p" id="4T8-fh-NVx"/>
-                        <outlet property="categoryImage" destination="mBk-xF-xAM" id="hqx-5O-c24"/>
                         <outlet property="categoryLabel" destination="whU-ht-WC0" id="Vcn-1l-Izn"/>
                         <outlet property="contentView" destination="Gur-AB-pj1" id="HYB-ha-JvR"/>
                         <outlet property="headerView" destination="2k6-Mt-JfT" id="8FV-5I-ztW"/>
@@ -2519,7 +2503,6 @@ successfully processed</string>
         <image name="cvv" width="224" height="87"/>
         <image name="down" width="22" height="19"/>
         <image name="icAbout" width="20" height="20"/>
-        <image name="jewelry" width="22" height="18"/>
         <image name="movingHand" width="35" height="50"/>
         <image name="mute" width="29" height="33"/>
         <image name="pause" width="14" height="23"/>

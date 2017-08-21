@@ -40,7 +40,6 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     @IBOutlet weak var progressView: ThinPlayerProgressView!
     
-    @IBOutlet weak var categoryImage: UIImageView!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var arrowImageView: UIImageView!
     @IBOutlet weak var moreLabel: UILabel!
@@ -182,16 +181,9 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     private func setupCategory() {
         if let categoryName = product.categoryName {
             categoryLabel.text = categoryName.uppercased()
-            categoryImage.image = UIImage(named: categoryName.replacingOccurrences(of: " ", with: "").lowercased(),
-                                          in: Bundle(for: TrailerViewController.self),
-                                          compatibleWith: nil)
+        } else {
+            categoryLabel.text = ""
         }
-        
-        categoryImage.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
-        categoryImage.layer.shadowOffset = CGSize(width: 0, height: 2)
-        categoryImage.layer.shadowOpacity = 1
-        categoryImage.layer.shadowRadius = 1.0
-        categoryImage.clipsToBounds = false
     }
     
     /// Shows poster image if available in the product model and is a valid base 64 image
