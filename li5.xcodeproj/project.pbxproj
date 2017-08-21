@@ -98,7 +98,7 @@
 		7818CA881F45164700595173 /* PlayerDownloadPreloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA871F45164700595173 /* PlayerDownloadPreloader.swift */; };
 		7818CA8A1F45185100595173 /* PlayerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA891F45185100595173 /* PlayerProtocol.swift */; };
 		7818CA8C1F4518BD00595173 /* MultiPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA8B1F4518BD00595173 /* MultiPlayer.swift */; };
-		7818CA901F451F9300595173 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA8F1F451F9300595173 /* PageViewController.swift */; };
+		7818CA901F451F9300595173 /* PlayPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA8F1F451F9300595173 /* PlayPageViewController.swift */; };
 		7818CA921F451FBC00595173 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7818CA911F451FBC00595173 /* PlayerView.swift */; };
 		783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783D81E51F0C301600EDAF64 /* AVPlayer.swift */; };
 		7865AC4E1F0C42DE00544264 /* PrimeTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7865AC4C1F0C42DE00544264 /* PrimeTimeViewController.swift */; };
@@ -317,7 +317,7 @@
 		7818CA871F45164700595173 /* PlayerDownloadPreloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDownloadPreloader.swift; sourceTree = "<group>"; };
 		7818CA891F45185100595173 /* PlayerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerProtocol.swift; sourceTree = "<group>"; };
 		7818CA8B1F4518BD00595173 /* MultiPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPlayer.swift; sourceTree = "<group>"; };
-		7818CA8F1F451F9300595173 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		7818CA8F1F451F9300595173 /* PlayPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayPageViewController.swift; sourceTree = "<group>"; };
 		7818CA911F451FBC00595173 /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		783D81E51F0C301600EDAF64 /* AVPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayer.swift; path = "UIKit Extensions/AVPlayer.swift"; sourceTree = "<group>"; };
 		7865AC4C1F0C42DE00544264 /* PrimeTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrimeTimeViewController.swift; path = Show/PrimeTimeViewController.swift; sourceTree = "<group>"; };
@@ -865,7 +865,7 @@
 			children = (
 				7865AC4C1F0C42DE00544264 /* PrimeTimeViewController.swift */,
 				7865AC4D1F0C42DE00544264 /* PrimeTimeViewController.xib */,
-				7818CA8F1F451F9300595173 /* PageViewController.swift */,
+				7818CA8F1F451F9300595173 /* PlayPageViewController.swift */,
 				2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */,
 			);
 			name = Show;
@@ -1178,7 +1178,7 @@
 				2BA5939A1EB4275D0065FDD9 /* ProductPageActionsView.m in Sources */,
 				7818CA7C1F450F3E00595173 /* PreemptiveBufferPreloader.swift in Sources */,
 				2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */,
-				7818CA901F451F9300595173 /* PageViewController.swift in Sources */,
+				7818CA901F451F9300595173 /* PlayPageViewController.swift in Sources */,
 				2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */,
 				787B5A781F47B24500BAC786 /* CommonAliases.swift in Sources */,
 				2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */,

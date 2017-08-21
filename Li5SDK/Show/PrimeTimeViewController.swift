@@ -9,7 +9,11 @@
 import UIKit
 import AVFoundation
 
-class PrimeTimeViewController: UIViewController {
+protocol PrimeTimeViewControllerProtocol {
+    
+}
+
+class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol {
     
     // MARK: - PROPERTIES
     
@@ -21,7 +25,7 @@ class PrimeTimeViewController: UIViewController {
     // MARK: Stored Properties
     
     var currentIndex = 0
-    var currentController: PageViewController!
+    var currentController: PlayPageViewController!
     
     var products = [ProductModel]()
     
@@ -30,12 +34,10 @@ class PrimeTimeViewController: UIViewController {
     var bufferer: BufferPreloaderProtocol!
     var downloader: DownloadPreloaderProtocol?
     
-    var didStartPlayback = false
-    
     // MARK: Computed Properties
     
     var playerLayer: AVPlayerLayer? {
-        return currentController.trailer.layer
+        return currentController.trailerVC.layer
     }
     
     // MARK: - INSTANCE OPERATIONS
@@ -61,7 +63,9 @@ class PrimeTimeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentController = PageViewController(withProduct: products[currentIndex])
+        currentController = PlayPageViewController(withProduct: products[currentIndex])
+        currentController.player = player
+        currentController.manager = manager
         currentController.view.frame = view.bounds
         view.insertSubview(currentController.view, at: 0)
     }
@@ -70,21 +74,12 @@ class PrimeTimeViewController: UIViewController {
         super.viewWillAppear(animated)
         
         if let multiPlayer = player as? MultiPlayer {
-            multiPlayer.delegate = currentController.trailer
+            multiPlayer.delegate = currentController.trailerVC
         }
         
         player.settle()
         
-        if let currentPlayer = player.currentPlayer {
-            // TODO: Fix this
-            currentController.trailer.playerView.playerLayer.player = currentPlayer
-        }
-        
-        manager.delegate = self
-        
-        manager.startPreloading()
-        
-        currentController.trailer.showLoadingScreen()
+        currentController.startPreloading()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -111,31 +106,5 @@ class PrimeTimeViewController: UIViewController {
         player.goNext()
     }
     
-    
-}
-
-extension PrimeTimeViewController : PreloadingManagerDelegate {
-    
-    func didPreload(_ asset: Asset) {
-        if let currentAsset = self.manager?.currentAsset, currentAsset === asset, didStartPlayback {
-            DispatchQueue.main.async { [unowned self] in
-                self.currentController.trailer.hideLoadingScreen()
-                self.player.play()
-            }
-        }
-    }
-    
-    func managerIsReadyForPlayback() {
-        didStartPlayback = true
-        DispatchQueue.main.async { [unowned self] in
-            log.debug("Finished buffering minimum required assets!!!")
-            self.currentController.trailer.hideLoadingScreen()
-            self.player.play()
-        }
-    }
-    
-    var playingIndex: Int {
-        return player.currentIndex
-    }
     
 }

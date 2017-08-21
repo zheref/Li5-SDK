@@ -12,6 +12,8 @@ import AVFoundation
 
 protocol TrailerViewControllerProtocol {
     
+    func set(player: AVPlayer)
+    
 }
 
 
@@ -127,12 +129,6 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     }
     
     
-    override func viewDidAppear(_ animated: Bool) {
-        log.verbose("TeaserVC for product with id \(product.id) did appear")
-        super.viewDidAppear(animated)
-    }
-    
-    
     override func viewDidDisappear(_ animated: Bool) {
         log.verbose("TeaserVC for product with id \(product.id) did disappear")
         
@@ -142,20 +138,6 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
             progressView.player = nil
         }
     }
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        log.verbose("TeaserVC for product with id \(product.id) will disappear")
-        
-        super.viewWillDisappear(animated)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        log.error("Received memory warning for TeaserVC for product id: \(product.id)")
-        
-        super.didReceiveMemoryWarning()
-    }
-    
     
     deinit {
         log.verbose("Deinitializing Teaser VC for product id: \(product.id)")
@@ -168,6 +150,10 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     
     // MARK: Routines
+    
+    func set(player: AVPlayer) {
+        playerView.player = player
+    }
     
     private func setup() {
         progressView.player = playerView.player

@@ -17,7 +17,7 @@ protocol LastPageViewControllerProtocol {
 }
 
 
-class LastPageViewController : PageViewController {
+class LastPageViewController : PaginatorViewController, LastPageViewControllerProtocol {
     
     // MARK: - CLASS MEMBERS
     

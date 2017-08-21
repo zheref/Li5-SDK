@@ -113,11 +113,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     // MARK: Stored Properties
     
-    private var _preloadedViewControllers = [UIViewController]() {
-        didSet {
-            logPreloadedViewControllers()
-        }
-    }
+    private var _preloadedViewControllers = [UIViewController]()
     
     // MARK: Thread related
     
@@ -308,42 +304,9 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     }
     
     
-    /// Logs current preloaded view controllers in stack of 3 with their corresponding product ids
-    /// when available
-    private func logPreloadedViewControllers() {
-        if let _ = datasource {
-            log.debug("---- PVC PVC PVC PVC PVC PVC PVC ----")
-            
-            for pvc in _preloadedViewControllers {
-                if let ppvc = pvc as? PageViewController,
-                    let ppvcProduct = ppvc.product {
-                    log.debug("PVC Index: \(pvc.scrollPageIndex)   ID: \(ppvcProduct.id)")
-                } else {
-                    log.debug("PVC Index: \(pvc.scrollPageIndex)")
-                }
-            }
-            
-            log.debug("---- CVC CVC CVC CVC CVC CVC CVC ----")
-            
-            for vc in childViewControllers {
-                if let ppvc = vc as? PageViewController,
-                    let ppvcProduct = ppvc.product {
-                    log.debug("PVC Index: \(vc.scrollPageIndex)   ID: \(ppvcProduct.id)")
-                } else {
-                    log.debug("PVC Index: \(vc.scrollPageIndex)")
-                }
-            }
-            
-            log.debug("---- --- --- --- --- --- --- --- ----")
-        }
-    }
-    
-    
     private func append(preloadedVC: UIViewController) {
         log.verbose("Appending preloaded viewcontroller for index: \(preloadedVC.scrollPageIndex)")
         _preloadedViewControllers.append(preloadedVC)
-        
-        logPreloadedViewControllers()
     }
     
     
