@@ -56,6 +56,10 @@ public class ProductsDataStore {
             pm.url = url
         } else { log.error("Couldn't parse URL for trailer") }
         
+        if product.videoPosterPreview != nil {
+            pm.poster = product.videoPosterPreview
+        }
+        
         if product.contentUrl != nil,
             let url = Foundation.URL(string: product.contentUrl) {
             pm.detailsUrl = url

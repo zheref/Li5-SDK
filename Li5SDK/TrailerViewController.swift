@@ -25,7 +25,11 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     // MARK: References
     
-    var product: ProductModel!
+    var product: ProductModel! {
+        didSet {
+            setupPoster()
+        }
+    }
     
     // MARK: - Outlets
     
@@ -197,9 +201,12 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     /// Shows poster image if available in the product model and is a valid base 64 image
     private func setupPoster() {
+        guard posterImageView != nil else { return }
+        
         if let poster = product.poster {
             if let data = Data(base64Encoded: poster),
                 let image = UIImage(data: data) {
+                posterImageView.image = image
             }
         }
     }
