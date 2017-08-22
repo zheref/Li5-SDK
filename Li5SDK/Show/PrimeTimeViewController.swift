@@ -22,6 +22,9 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
     
+    @IBOutlet weak var activityLayer: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var activityLayerAppName: UILabel!
     // MARK: Stored Properties
     
     var currentController: PlayPageViewController!
@@ -30,8 +33,6 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     var player: PlayerProtocol!
     var manager: PreloadingManagerProtocol!
-    var bufferer: BufferPreloaderProtocol!
-    var downloader: DownloadPreloaderProtocol?
     
     // MARK: Computed Properties
     
@@ -53,8 +54,6 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         self.player = player
         
         self.manager = manager
-        self.bufferer = bufferer
-        self.downloader = downloader
     }
     
     // MARK: Lifecycle
@@ -65,6 +64,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         currentController = PlayPageViewController(withProduct: products[player.currentIndex],
                                                    player: player,
                                                    manager: manager)
+        currentController.delegate = self
         currentController.view.frame = view.bounds
         view.insertSubview(currentController.view, at: 0)
     }
@@ -79,6 +79,8 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         player.settle()
         
         currentController.startPreloading()
+        
+        presentActivityIndicator()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -97,6 +99,21 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    private func presentActivityIndicator() {
+        activityLayer.isHidden = false
+        activityIndicator.startAnimating()
+        activityLayerAppName.text = Bundle.main.infoDictionary?["CFBundleName"] as? String
+        leftButton.isUserInteractionEnabled = false
+        rightButton.isUserInteractionEnabled = false
+    }
+    
+    fileprivate func dismissActivityIndicator() {
+        activityLayer.isHidden = true
+        activityIndicator.stopAnimating()
+        leftButton.isUserInteractionEnabled = true
+        rightButton.isUserInteractionEnabled = true
     }
     
     // MARK: Actions
@@ -129,5 +146,12 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         }
     }
     
+}
+
+extension PrimeTimeViewController : PlayPageViewControllerDelegate {
+    
+    func readyForPlayback() {
+        dismissActivityIndicator()
+    }
     
 }

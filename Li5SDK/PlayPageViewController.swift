@@ -9,14 +9,26 @@
 import Foundation
 import AVFoundation
 
-protocol PageViewControllerProtocol {
-    
+protocol PlayPageViewControllerProtocol {
+    var product: ProductModel! { get set }
+    var delegate: PlayPageViewControllerDelegate? { get set }
 }
 
-class PlayPageViewController : PaginatorViewController, PageViewControllerProtocol {
+protocol PlayPageViewControllerDelegate : class {
+    func readyForPlayback()
+}
+
+class PlayPageViewController : PaginatorViewController, PlayPageViewControllerProtocol {
     
     weak var player: PlayerProtocol!
     weak var manager: PreloadingManagerProtocol!
+    
+    var trailerVC: TrailerViewController!
+    var htmlVC: DetailsHTMLViewController!
+    
+    var didStartPlayback = false
+    
+    weak var delegate: PlayPageViewControllerDelegate?
     
     var product: ProductModel! {
         didSet {
@@ -25,12 +37,9 @@ class PlayPageViewController : PaginatorViewController, PageViewControllerProtoc
         }
     }
     
-    var trailerVC: TrailerViewController!
-    var htmlVC: DetailsHTMLViewController!
-    
-    var didStartPlayback = false
-    
-    public required init(withProduct product: ProductModel, player: PlayerProtocol, manager: PreloadingManagerProtocol) {
+    public required init(withProduct product: ProductModel,
+                         player: PlayerProtocol,
+                         manager: PreloadingManagerProtocol) {
         self.product = product
         self.player = player
         self.manager = manager
@@ -95,6 +104,7 @@ extension PlayPageViewController : PreloadingManagerDelegate {
         if let currentAsset = self.manager?.currentAsset, currentAsset === asset, didStartPlayback {
             DispatchQueue.main.async { [unowned self] in
                 self.trailerVC.hideLoadingScreen()
+
                 self.player.play()
                 
                 if let cp = self.player.currentPlayer {
@@ -111,6 +121,7 @@ extension PlayPageViewController : PreloadingManagerDelegate {
         DispatchQueue.main.async { [unowned self] in
             log.debug("Finished buffering minimum required assets!!!")
             self.trailerVC.hideLoadingScreen()
+            self.delegate?.readyForPlayback()
             self.player.play()
             
             if let cp = self.player.currentPlayer {
