@@ -19,19 +19,7 @@ protocol LastPageViewControllerProtocol {
 
 class LastPageViewController : PaginatorViewController, LastPageViewControllerProtocol {
     
-    // MARK: - CLASS MEMBERS
-    
-    // No one yet :(
-    
-    // MARK: - INSTANCE MEMBERS
-    
-    // MARK: - Stored Properties
-    
-    // MARK: Flags
-    
     var isBeingDisplayed = false
-    
-    // MARK: References
     
     var content: EndOfPrimeTime
     var player: AVPlayer?
@@ -43,8 +31,6 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
     var showPlaybackEndObserver: Any?
     
     var profilePanGestureRecognizer: UIPanGestureRecognizer?
-    
-    // MARK: Outlets
     
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var staticView: UIView!
@@ -189,19 +175,6 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         staticView.isHidden = player != nil
     }
     
-    
-    deinit {
-        log.debug("Deinitializing instance of LastPageViewController")
-        clearObservers()
-    }
-    
-    // MARK: - ROUTINES
-    
-    private func setupGestureRecognizers() {
-        log.verbose("Setting up gesture recognizers")
-    }
-    
-    
     @objc private func updateNotificationsView() {
         log.verbose("Updating notifications view")
         
@@ -228,17 +201,13 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         }
     }
     
-    
     fileprivate func play() {
-        log.verbose("Playing LastPageViewController...")
-        
         if isBeingDisplayed, let player = player {
             player.play()
         } else {
             staticView.isHidden = false
         }
     }
-    
     
     private func setupObservers() {
         log.verbose("Setting up observers for LastPageViewController")

@@ -25,11 +25,12 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     @IBOutlet weak var activityLayer: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var activityLayerAppName: UILabel!
-    // MARK: Stored Properties
     
     var currentController: PlayPageViewController!
+    var lastpageViewController: LastPageViewController?
     
     var products = [ProductModel]()
+    var eop: EndOfPrimeTime?
     
     var player: PlayerProtocol!
     var manager: PreloadingManagerProtocol!
@@ -45,12 +46,14 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     // MARK: Exposed Operations
     
     internal func setup(products: [ProductModel],
+                        eop: EndOfPrimeTime?,
                         player: PlayerProtocol,
                         manager: PreloadingManagerProtocol,
                         bufferer: BufferPreloaderProtocol,
                         downloader: DownloadPreloaderProtocol?) {
         
         self.products = products
+        self.eop = eop
         self.player = player
         
         self.manager = manager
@@ -61,12 +64,8 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentController = PlayPageViewController(withProduct: products[player.currentIndex],
-                                                   player: player,
-                                                   manager: manager)
-        currentController.delegate = self
-        currentController.view.frame = view.bounds
-        view.insertSubview(currentController.view, at: 0)
+        setupPlayPageViewController()
+        setupLastPageViewController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,6 +98,35 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+
+    private func setupPlayPageViewController() {
+        currentController = PlayPageViewController(withProduct: products[player.currentIndex],
+                                                   player: player,
+                                                   manager: manager)
+
+        currentController.delegate = self
+        currentController.view.frame = view.bounds
+        view.insertSubview(currentController.view, at: 0)
+    }
+
+    private func setupLastPageViewController() {
+        if let eop = eop {
+            lastpageViewController = LastPageViewController(content: eop)
+            lastpageViewController?.view.frame = view.bounds
+        }
+    }
+
+    private func displayLastPage() {
+        if let lpvc = lastpageViewController {
+            view.insertSubview(lpvc.videoView, aboveSubview: currentController.view)
+        }
+    }
+
+    private func hideLastPage() {
+        if let lpvc = lastpageViewController {
+            lpvc.view.removeFromSuperview()
+        }
     }
     
     private func presentActivityIndicator() {
@@ -133,16 +161,20 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     }
     
     @IBAction func userDidTapRightActiveSection(_ sender: Any) {
-        player.goNext()
-        
-        currentController.product = products[player.currentIndex]
-        
-        if let cp = player.currentPlayer {
-            currentController.trailerVC.set(player: cp)
-        }
-        
-        if currentController.currentPageIndex != 0 {
-            currentController.moveTo(pageIndex: 0)
+        if player.currentIndex + 1 == products.count {
+            displayLastPage()
+        } else {
+            player.goNext()
+            
+            currentController.product = products[player.currentIndex]
+            
+            if let cp = player.currentPlayer {
+                currentController.trailerVC.set(player: cp)
+            }
+            
+            if currentController.currentPageIndex != 0 {
+                currentController.moveTo(pageIndex: 0)
+            }
         }
     }
     
