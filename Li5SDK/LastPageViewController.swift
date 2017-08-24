@@ -43,8 +43,6 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
     @IBOutlet var popcorns: [UIImageView]!
     @IBOutlet weak var endOfShowView: UIView!
     
-    // MARK: - Computed Properties
-    
     private var notificationsEnabled: Bool {
         return true
     }
@@ -89,8 +87,6 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         }
     }
     
-    // MARK: - INITIALIZERS
-    
     init(content: EndOfPrimeTime) {
         self.content = content
         super.init()
@@ -107,6 +103,27 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         fatalError("init(withProduct:pageIndex:andContext:) has not been implemented")
     }
     
+    static func instance(withEOP eop: EndOfPrimeTime) -> LastPageViewController {
+        
+        let storyboard = UIStoryboard(name: "DiscoverViews",
+                                      bundle: Bundle(for: TrailerViewController.self))
+        
+        let vc = storyboard.instantiateViewController(withIdentifier: "LastPageView")
+            as? LastPageViewController
+        
+        if vc == nil {
+            log.error("Failed to cast ViewController from storyboard to LastPageViewController")
+        }
+        
+        let viewController = vc!
+        
+        log.verbose("Initializing new LastPageVC")
+        
+        viewController.content = eop
+        
+        return viewController
+    }
+    
     // MARK: - LIFECYCLE
     
     override func viewDidLoad() {
@@ -121,10 +138,6 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         if let playerLayer = playerLayer {
             videoView.layer.addSublayer(playerLayer)
         }
-        
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "kPrimeTimeLoaded"), object: nil)
-        
-        setupGestureRecognizers()
         
         view.addSubview(Li5VolumeView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 5)))
         

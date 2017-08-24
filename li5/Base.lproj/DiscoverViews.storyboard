@@ -23,7 +23,7 @@
         <!--Last Page View Controller-->
         <scene sceneID="GIL-qm-dNn">
             <objects>
-                <viewController storyboardIdentifier="LastPage" id="52w-Xj-q32" customClass="LastPageViewController" customModule="Li5SDK" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LastPageView" id="52w-Xj-q32" customClass="LastPageViewController" customModule="Li5SDK" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zzJ-bb-kVu"/>
                         <viewControllerLayoutGuide type="bottom" id="oyF-A9-7NZ"/>
