@@ -120,7 +120,8 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     private func displayLastPage() {
         if let lpvc = lastpageViewController {
             //view.insertSubview(lpvc.videoView, aboveSubview: currentController.view)
-            view.insertSubview(lpvc.videoView, belowSubview: currentController.view)
+            //view.insertSubview(lpvc.videoView, belowSubview: currentController.view)
+            view.addSubview(lpvc.videoView)
         }
     }
 
