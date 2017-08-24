@@ -106,6 +106,7 @@ extension PlayPageViewController : PreloadingManagerDelegate {
                 self.trailerVC.hideLoadingScreen()
 
                 self.player.play()
+                self.player.automaticallyReplay = self.player.automaticallyReplay
                 
                 if let cp = self.player.currentPlayer {
                     self.trailerVC.set(player: cp)
@@ -123,6 +124,7 @@ extension PlayPageViewController : PreloadingManagerDelegate {
             self.trailerVC.hideLoadingScreen()
             self.delegate?.readyForPlayback()
             self.player.play()
+            self.player.automaticallyReplay = self.player.automaticallyReplay
             
             if let cp = self.player.currentPlayer {
                 self.trailerVC.set(player: cp)
