@@ -38,6 +38,8 @@ public protocol PlayerProtocol : class {
     
     func goPrevious()
     
+    func goToZero()
+    
     func append(asset: Asset)
     
     func settle()

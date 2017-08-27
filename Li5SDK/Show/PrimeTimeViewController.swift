@@ -21,10 +21,10 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
-    
     @IBOutlet weak var activityLayer: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var activityLayerAppName: UILabel!
+    @IBOutlet weak var lastPageContainer: UIView!
     
     var currentController: PlayPageViewController!
     var lastpageViewController: LastPageViewController?
@@ -113,21 +113,26 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     private func setupLastPageViewController() {
         if let eop = eop {
             lastpageViewController = LastPageViewController.instance(withEOP: eop)
-            lastpageViewController?.view.frame = view.bounds
+            lastpageViewController?.view.frame = lastPageContainer.bounds
         }
     }
 
     private func displayLastPage() {
         if let lpvc = lastpageViewController {
-            //view.insertSubview(lpvc.videoView, aboveSubview: currentController.view)
-            //view.insertSubview(lpvc.videoView, belowSubview: currentController.view)
-            view.addSubview(lpvc.videoView)
+            lastPageContainer.addSubview(lpvc.view)
+            lastPageContainer.isHidden = false
+            addChildViewController(lpvc)
+            player.pause()
         }
     }
 
     private func hideLastPage() {
         if let lpvc = lastpageViewController {
             lpvc.view.removeFromSuperview()
+            lastPageContainer.isHidden = true
+            lpvc.removeFromParentViewController()
+            player.goToZero()
+            player.play()
         }
     }
     
@@ -149,16 +154,20 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     // MARK: Actions
     
     @IBAction func userDidTapLeftActiveSection(_ sender: Any) {
-        player.goPrevious()
-        
-        currentController.product = products[player.currentIndex]
-        
-        if let cp = player.currentPlayer {
-            currentController.trailerVC.set(player: cp)
-        }
-        
-        if currentController.currentPageIndex != 0 {
-            currentController.moveTo(pageIndex: 0)
+        if let lpvc = lastpageViewController, lpvc.parent != nil {
+            hideLastPage()
+        } else {
+            player.goPrevious()
+            
+            currentController.product = products[player.currentIndex]
+            
+            if let cp = player.currentPlayer {
+                currentController.trailerVC.set(player: cp)
+            }
+            
+            if currentController.currentPageIndex != 0 {
+                currentController.moveTo(pageIndex: 0)
+            }
         }
     }
     

@@ -82,7 +82,7 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
     }
     
     
-    private func goToZero() {
+    public func goToZero() {
         currentItem?.seek(to: kCMTimeZero)
     }
     

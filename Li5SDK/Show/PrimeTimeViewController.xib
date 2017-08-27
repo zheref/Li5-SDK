@@ -16,6 +16,7 @@
                 <outlet property="activityIndicator" destination="QkH-nm-1p5" id="L0X-7Q-479"/>
                 <outlet property="activityLayer" destination="iwn-t1-3s8" id="l3m-pe-K9R"/>
                 <outlet property="activityLayerAppName" destination="SqL-Fl-i0x" id="31n-xk-A9z"/>
+                <outlet property="lastPageContainer" destination="7tz-XW-8th" id="owd-6O-3Nf"/>
                 <outlet property="leftButton" destination="SeO-DA-YCE" id="bMF-X3-l84"/>
                 <outlet property="rightButton" destination="Lcp-o3-NKo" id="goC-cO-Sci"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="8Id-4k-fYT"/>
@@ -26,6 +27,10 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7tz-XW-8th" userLabel="LastPage Layer">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeO-DA-YCE">
                     <rect key="frame" x="0.0" y="50" width="113" height="527"/>
                     <connections>
@@ -38,7 +43,7 @@
                         <action selector="userDidTapRightActiveSection:" destination="-1" eventType="touchUpInside" id="3ZN-aZ-3OV"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iwn-t1-3s8">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iwn-t1-3s8">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="QkH-nm-1p5">
@@ -62,10 +67,13 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="7tz-XW-8th" secondAttribute="trailing" id="9C0-H9-bJR"/>
+                <constraint firstAttribute="bottom" secondItem="7tz-XW-8th" secondAttribute="bottom" id="9L6-27-dFJ"/>
                 <constraint firstAttribute="bottom" secondItem="iwn-t1-3s8" secondAttribute="bottom" id="DB7-Kq-pLT"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.3" id="DNw-F3-lCJ"/>
                 <constraint firstAttribute="trailing" secondItem="iwn-t1-3s8" secondAttribute="trailing" id="Dqa-qp-Yh6"/>
                 <constraint firstAttribute="trailing" secondItem="Lcp-o3-NKo" secondAttribute="trailing" id="FdO-rm-yAa"/>
+                <constraint firstItem="7tz-XW-8th" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Hoo-hk-jle"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="baseline" secondItem="Lcp-o3-NKo" secondAttribute="baseline" id="QeT-Zl-YSP"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="bottom" secondItem="Lcp-o3-NKo" secondAttribute="bottom" id="SQd-Nn-tio"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="UDl-ew-gRj"/>
@@ -76,6 +84,7 @@
                 <constraint firstAttribute="bottom" secondItem="SeO-DA-YCE" secondAttribute="bottom" constant="90" id="qNY-pA-oYJ"/>
                 <constraint firstItem="iwn-t1-3s8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qTA-51-oKP"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="firstBaseline" secondItem="Lcp-o3-NKo" secondAttribute="firstBaseline" id="uQM-4u-mbz"/>
+                <constraint firstItem="7tz-XW-8th" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ugu-u3-Ci0"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
