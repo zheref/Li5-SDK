@@ -134,6 +134,7 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
         delegate?.didChange(player: currentPlayer)
         if let player = currentPlayer, player.status == .readyToPlay {
             player.play()
+            delegate?.hideLoadingScreen()
         } else {
             delegate?.showLoadingScreen()
             log.warning("Tried to play but not ready yet for index: \(currentIndex)")
