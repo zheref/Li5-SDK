@@ -152,6 +152,7 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
             showPlayer?.isMuted = true
             
             let videoLayer = AVPlayerLayer(player: showPlayer)
+            
             videoLayer.frame = view.bounds
             videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
             

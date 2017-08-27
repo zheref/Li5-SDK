@@ -113,6 +113,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     private func setupLastPageViewController() {
         if let eop = eop {
             lastpageViewController = LastPageViewController.instance(withEOP: eop)
+            lastpageViewController?.lastVideoUrl = eop
             lastpageViewController?.view.frame = lastPageContainer.bounds
         }
     }
