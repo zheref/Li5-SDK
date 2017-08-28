@@ -290,7 +290,6 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
     
     private func hideVideo() {
         if player != nil {
-            staticView.isHidden = false
             videoView.isHidden = true
             playerLayer?.removeFromSuperlayer()
             playerLayer = nil
