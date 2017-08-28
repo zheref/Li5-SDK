@@ -18,6 +18,7 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     var product: ProductModel! {
         didSet {
             setupPoster()
+            setupCategory()
             setupProgressColor()
         }
     }
@@ -147,10 +148,12 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     }
     
     private func setupCategory() {
-        if let categoryName = product.categoryName {
-            categoryLabel.text = categoryName.uppercased()
-        } else {
-            categoryLabel.text = ""
+        if categoryLabel != nil {
+            if let categoryName = product.categoryName {
+                categoryLabel.text = categoryName.uppercased()
+            } else {
+                categoryLabel.text = ""
+            }
         }
     }
     
