@@ -219,9 +219,10 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
     
     fileprivate func play() {
         if isBeingDisplayed, let player = player {
+            player.seek(to: kCMTimeZero)
             player.play()
         } else {
-            staticView.isHidden = false
+            replayEndOfShow()
         }
     }
     
@@ -295,6 +296,12 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
             playerLayer = nil
             player = nil
         }
+    }
+    
+    
+    func replayEndOfPrimeTime() {
+        player?.seek(to: kCMTimeZero)
+        player?.play()
     }
     
     
