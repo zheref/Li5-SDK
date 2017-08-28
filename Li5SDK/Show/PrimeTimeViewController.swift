@@ -198,6 +198,10 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
 
 extension PrimeTimeViewController : PlayPageViewControllerDelegate {
     
+    var visibleToPlay: Bool {
+        return lastpageViewController?.parent == nil
+    }
+    
     func readyForPlayback() {
         dismissActivityIndicator()
     }

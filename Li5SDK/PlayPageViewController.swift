@@ -16,6 +16,7 @@ protocol PlayPageViewControllerProtocol {
 
 protocol PlayPageViewControllerDelegate : class {
     func readyForPlayback()
+    var visibleToPlay: Bool { get }
 }
 
 class PlayPageViewController : PaginatorViewController, PlayPageViewControllerProtocol {
@@ -105,8 +106,13 @@ extension PlayPageViewController : PreloadingManagerDelegate {
             DispatchQueue.main.async { [unowned self] in
                 self.trailerVC.hideLoadingScreen()
 
-                self.player.play()
                 self.player.automaticallyReplay = self.player.automaticallyReplay
+                
+                guard let delegate = self.delegate else { return }
+                
+                if delegate.visibleToPlay {
+                    self.player.play()
+                }
                 
                 if let cp = self.player.currentPlayer {
                     self.trailerVC.set(player: cp)
