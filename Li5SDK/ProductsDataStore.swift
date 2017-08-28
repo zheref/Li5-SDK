@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias ProductsReturner = ([ProductModel], EndOfPrimeTime?) -> Void
+public typealias ProductsReturner = ([ProductModel], EndOfPrimeTime?, EndOfShow?) -> Void
 
 public class ProductsDataStore {
     
@@ -34,13 +34,14 @@ public class ProductsDataStore {
                     log.info("\(products.data.count) fetched products")
 
                     let eop = products.endOfPrimeTime
+                    let eos = products.endOfShow
 
                     let products = products.data as? [Product] ?? [Product]()
                     log.info("Products set successfully")
                     
                     returner(products.map({ [unowned self] (product) -> ProductModel in
                         return self.toModel(product)
-                    }), eop)
+                    }), eop, eos)
                 } else {
                     log.error("No retrieved products")
                 }

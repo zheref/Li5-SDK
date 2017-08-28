@@ -57,8 +57,8 @@ open class Li5SDK {
             viewController = PrimeTimeViewController(nibName: KUI.XIB.PrimeTimeViewController.rawValue,
                                                     bundle: Bundle(for: Li5SDK.self))
             
-            ProductsDataStore.shared.asynchronouslyLoadProducts({ [weak self] (products, eop) in
-                self?.render(withProducts: products, eop: eop)
+            ProductsDataStore.shared.asynchronouslyLoadProducts({ [weak self] (products, eop, eos) in
+                self?.render(withProducts: products, eop: eop, eos: eos)
             })
         }
     }
@@ -70,7 +70,7 @@ open class Li5SDK {
     
     /// Starts presentation of SDK for already available products
     /// - Parameter products: The already available models to use as base of presentation
-    private func render(withProducts products: [ProductModel], eop: EndOfPrimeTime?) {
+    private func render(withProducts products: [ProductModel], eop: EndOfPrimeTime?, eos: EndOfShow?) {
         // !!!UNSAFE POINT
         let assets = products.map({ (model) -> Asset in
             return model.asAsset!
@@ -87,6 +87,7 @@ open class Li5SDK {
         
         viewController.setup(products: products,
                              eop: eop,
+                             eos: eos,
                              player: MultiPlayer(),
                              manager: manager,
                              bufferer: bufferer,

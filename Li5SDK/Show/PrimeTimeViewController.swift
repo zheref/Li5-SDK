@@ -31,6 +31,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     var products = [ProductModel]()
     var eop: EndOfPrimeTime?
+    var eos: EndOfShow?
     
     var player: PlayerProtocol!
     var manager: PreloadingManagerProtocol!
@@ -47,6 +48,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     internal func setup(products: [ProductModel],
                         eop: EndOfPrimeTime?,
+                        eos: EndOfShow?,
                         player: PlayerProtocol,
                         manager: PreloadingManagerProtocol,
                         bufferer: BufferPreloaderProtocol,
@@ -54,6 +56,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         
         self.products = products
         self.eop = eop
+        self.eos = eos
         self.player = player
         
         self.manager = manager
@@ -114,6 +117,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         if let eop = eop {
             lastpageViewController = LastPageViewController.instance(withEOP: eop)
             lastpageViewController?.lastVideoUrl = eop
+            lastpageViewController?.endOfShow = eos
             lastpageViewController?.view.frame = lastPageContainer.bounds
         }
     }

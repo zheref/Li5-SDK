@@ -87,6 +87,8 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         }
     }
     
+    var endOfShow: EndOfShow?
+    
     init(content: EndOfPrimeTime) {
         self.content = content
         super.init()
@@ -146,7 +148,7 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         showLogo.image = showLogo.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         showLogo.tintColor = UIColor.li5_white()
         
-        if let videoUrl = Bundle.main.url(forResource: "end_of_show", withExtension: ".mp4") {
+        if endOfShow?.url != nil, let videoUrl = Foundation.URL(string: endOfShow!.url) {
             showPlayer = AVPlayer(url: videoUrl)
             showPlayer?.actionAtItemEnd = .none
             showPlayer?.isMuted = true
@@ -280,7 +282,8 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         
         audioPlayer?.play()
         hideVideo()
-        view.bringSubview(toFront: staticView)
+        showPlayer?.play()
+        setupObservers()
     }
     
     
