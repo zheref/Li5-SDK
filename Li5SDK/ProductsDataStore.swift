@@ -66,6 +66,11 @@ public class ProductsDataStore {
             pm.detailsUrl = url
         } else { log.error("Couldn't parse URL for content/details") }
         
+        if product.videoURL != nil,
+            let url = Foundation.URL(string: product.videoURL) {
+            pm.extendedUrl = url
+        } else { log.error("No extended available for this one") }
+        
         pm.poster = product.trailerPosterPreview
         pm.categoryName = product.categoryName
         

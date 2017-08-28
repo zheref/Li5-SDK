@@ -355,34 +355,3 @@ extension LastPageViewController : UIGestureRecognizerDelegate {
     
     
 }
-
-
-//extension LastPageViewController : BCPlayerDelegate {
-//    
-//    func readyToPlay() {
-//        play()
-//    }
-//    
-//    
-//    func failToLoadItem(_ error : NSError) {
-//        log.error(error.description)
-//        Crashlytics.sharedInstance().recordError(error)
-//    }
-//    
-//    
-//    func networkFail(_ error : NSError) {
-//        log.error(error.localizedDescription)
-//        Crashlytics.sharedInstance().recordError(error)
-//    }
-//    
-//    
-//    func bufferEmpty() {
-//        log.verbose("Buffer for LastPageViewController empty")
-//    }
-//    
-//    
-//    func bufferReady() {
-//        log.verbose("Buffer for LastPageViewController ready")
-//    }
-//    
-//}

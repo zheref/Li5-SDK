@@ -132,7 +132,6 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
             lpvc.view.removeFromSuperview()
             lastPageContainer.isHidden = true
             lpvc.removeFromParentViewController()
-            setupLastPageViewController()
             player.goToZero()
             player.play()
         }

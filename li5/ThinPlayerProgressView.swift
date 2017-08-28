@@ -52,8 +52,13 @@ open class ThinPlayerProgressView: UIView {
     }
     
     func initialize() {
-        overlay.backgroundColor = UIColor.red
+        overlay.backgroundColor = UIColor.white
         self.addSubview(overlay)
+    }
+    
+    public var overlayColor: UIColor? {
+        get { return overlay.backgroundColor }
+        set { overlay.backgroundColor = newValue }
     }
     
     override open func layoutSubviews() {

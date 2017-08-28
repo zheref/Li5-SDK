@@ -18,6 +18,7 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     var product: ProductModel! {
         didSet {
             setupPoster()
+            setupProgressColor()
         }
     }
     
@@ -132,8 +133,16 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
                                            compatibleWith: nil)
         }
         
-        if unlockable {
-            progressView.backgroundColor = UIColor.li5_red().withAlphaComponent(0.6)
+        setupProgressColor()
+    }
+    
+    private func setupProgressColor() {
+        if progressView != nil {
+            if unlockable {
+                progressView.overlayColor = UIColor.red
+            } else {
+                progressView.overlayColor = UIColor.white
+            }
         }
     }
     
