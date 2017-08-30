@@ -202,6 +202,10 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
             print("Hold!!!")
         }
     }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
 }
 
 extension PrimeTimeViewController : PlayPageViewControllerDelegate {
