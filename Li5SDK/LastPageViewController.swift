@@ -24,7 +24,6 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
     var content: EndOfPrimeTime
     var player: AVPlayer?
     var playerLayer: AVPlayerLayer?
-    var audioPlayer: AVAudioPlayer?
     var showPlayer: AVPlayer?
     
     var playbackEndObserver: Any?
@@ -281,8 +280,8 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         log.verbose("Running presentSwipeDownViewIfNeeded")
         clearObservers()
         
-        audioPlayer?.play()
         hideVideo()
+        showPlayer?.isMuted = false
         showPlayer?.play()
         setupObservers()
     }
