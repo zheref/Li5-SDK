@@ -540,7 +540,7 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        containerScrollView.frame = view.bounds
         currentViewController?.beginAppearanceTransition(true, animated: animated)
     }
     
