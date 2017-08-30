@@ -71,7 +71,9 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         setupPlayPageViewController()
         setupLastPageViewController()
         
-        middleButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(userDidHoldMiddleActiveSection)))
+        let gestureRecorgnizer = UILongPressGestureRecognizer(target: self, action: #selector(userDidHoldMiddleActiveSection))
+        //middleButton.addGestureRecognizer()
+        view.addGestureRecognizer(gestureRecorgnizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {

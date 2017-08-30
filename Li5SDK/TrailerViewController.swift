@@ -97,6 +97,12 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        progressView.player = playerView.player
+        
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         log.verbose("TeaserVC for product with id \(product.id) did disappear")
         
