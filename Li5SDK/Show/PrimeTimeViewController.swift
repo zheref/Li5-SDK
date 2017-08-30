@@ -21,6 +21,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
+    @IBOutlet weak var middleButton: UIButton!
     @IBOutlet weak var activityLayer: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var activityLayerAppName: UILabel!
@@ -69,6 +70,8 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         
         setupPlayPageViewController()
         setupLastPageViewController()
+        
+        middleButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(userDidHoldMiddleActiveSection)))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -194,6 +197,11 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         }
     }
     
+    func userDidHoldMiddleActiveSection(_ recognizer: UILongPressGestureRecognizer) {
+        if recognizer.state == UIGestureRecognizerState.began {
+            print("Hold!!!")
+        }
+    }
 }
 
 extension PrimeTimeViewController : PlayPageViewControllerDelegate {
