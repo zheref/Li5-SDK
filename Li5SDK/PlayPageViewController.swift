@@ -34,7 +34,7 @@ class PlayPageViewController : PaginatorViewController, PlayPageViewControllerPr
     var product: ProductModel! {
         didSet {
             trailerVC.product = product
-            htmlVC.product = product
+            setHTMLDetails()
         }
     }
     
@@ -95,6 +95,15 @@ class PlayPageViewController : PaginatorViewController, PlayPageViewControllerPr
         }
         
         trailerVC.showLoadingScreen()
+    }
+    
+    func setHTMLDetails() {
+        if let _ = product.detailsUrl {
+            toggleScroll(into: true)
+            htmlVC.product = product
+        } else {
+            toggleScroll(into: false)
+        }
     }
     
 }

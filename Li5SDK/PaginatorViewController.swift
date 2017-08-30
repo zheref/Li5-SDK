@@ -37,6 +37,8 @@ internal protocol PaginatorViewControllerProtocol {
     var direction: PaginationDirection { get set }
     var bounces: Bool { get set }
     
+    func toggleScroll(into b: Bool)
+    
 }
 
 
@@ -571,6 +573,11 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     public override func viewDidLayoutSubviews() {
         relayout()
+    }
+    
+    
+    func toggleScroll(into b: Bool) {
+        containerScrollView.isScrollEnabled = b
     }
     
     

@@ -20,6 +20,7 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
             setupPoster()
             setupCategory()
             setupProgressColor()
+            toggleMoreCaptionDisplay(into: product.detailsUrl != nil)
         }
     }
     
@@ -135,6 +136,7 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         }
         
         setupProgressColor()
+        toggleMoreCaptionDisplay(into: product.detailsUrl != nil)
     }
     
     private func setupProgressColor() {
@@ -165,6 +167,13 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
                 let image = UIImage(data: data) {
                 posterImageView.image = image
             }
+        }
+    }
+    
+    private func toggleMoreCaptionDisplay(into show: Bool) {
+        if moreLabel != nil, arrowImageView != nil {
+            moreLabel.isHidden = !show
+            arrowImageView.isHidden = !show
         }
     }
     
