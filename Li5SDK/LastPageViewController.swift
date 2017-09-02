@@ -186,6 +186,7 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         super.viewDidDisappear(animated)
         isBeingDisplayed = false
         player?.pause()
+        showPlayer?.pause()
         clearObservers()
         staticView.isHidden = player != nil
     }
