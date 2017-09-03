@@ -27,15 +27,15 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     @IBOutlet weak var activityLayerAppName: UILabel!
     @IBOutlet weak var lastPageContainer: UIView!
     
-    var currentController: PlayPageViewController!
-    var lastpageViewController: LastPageViewController?
+    private var currentController: PlayPageViewController!
+    fileprivate var lastpageViewController: LastPageViewController?
     
-    var products = [ProductModel]()
-    var eop: EndOfPrimeTime?
-    var eos: EndOfShow?
+    private var products = [ProductModel]()
+    private var eop: EndOfPrimeTime?
+    private var eos: EndOfShow?
     
-    var player: PlayerProtocol!
-    var manager: PreloadingManagerProtocol!
+    private var player: PlayerProtocol!
+    private var manager: PreloadingManagerProtocol!
     
     // MARK: Computed Properties
     

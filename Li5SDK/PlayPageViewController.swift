@@ -10,8 +10,11 @@ import Foundation
 import AVFoundation
 
 protocol PlayPageViewControllerProtocol {
+    var trailerVC: TrailerViewController! { get set }
     var product: ProductModel! { get set }
     var delegate: PlayPageViewControllerDelegate? { get set }
+    
+    func startPreloading()
 }
 
 protocol PlayPageViewControllerDelegate : class {
@@ -25,9 +28,9 @@ class PlayPageViewController : PaginatorViewController, PlayPageViewControllerPr
     weak var manager: PreloadingManagerProtocol!
     
     var trailerVC: TrailerViewController!
-    var htmlVC: DetailsHTMLViewController!
+    fileprivate var htmlVC: DetailsHTMLViewController!
     
-    var didStartPlayback = false
+    fileprivate var didStartPlayback = false
     
     weak var delegate: PlayPageViewControllerDelegate?
     
@@ -37,6 +40,8 @@ class PlayPageViewController : PaginatorViewController, PlayPageViewControllerPr
             setHTMLDetails()
         }
     }
+    
+    // MARK: - INITIALIZERS
     
     public required init(withProduct product: ProductModel,
                          player: PlayerProtocol,
@@ -97,7 +102,7 @@ class PlayPageViewController : PaginatorViewController, PlayPageViewControllerPr
         trailerVC.showLoadingScreen()
     }
     
-    func setHTMLDetails() {
+    private func setHTMLDetails() {
         if let _ = product.detailsUrl {
             toggleScroll(into: true)
             htmlVC.product = product
