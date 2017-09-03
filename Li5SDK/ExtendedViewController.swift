@@ -9,14 +9,6 @@
 import Foundation
 import AVFoundation
 
-//@interface UnlockedViewController : UIViewController <UIGestureRecognizerDelegate, DisplayableProtocol, BCPlayerDelegate, UIActionSheetDelegate>
-//
-//@property(nonatomic, assign) CGPoint initialPoint;
-//
-//+ (id)unlockedWithProduct:(Product *)thisProduct andContext:(ProductContext)ctx;
-//
-//@end
-
 protocol ExtendedViewControllerProtocol {
     var initialPoint: CGPoint! { get set }
     func create(product: ProductModel) -> ExtendedViewControllerProtocol!

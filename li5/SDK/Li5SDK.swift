@@ -14,15 +14,21 @@ import AVFoundation
 import SwiftyBeaver
 let log = SwiftyBeaver.self
 
+public protocol Li5SDKProtocol {
+    static var shared: Li5SDKProtocol { get }
+    func config(apiKey: String, forApp appId: String)
+    func present()
+}
+
 /// SDK class which will be the access point to the presentation and configuration of SDK
-open class Li5SDK {
+public class Li5SDK : Li5SDKProtocol {
     
     private var viewController: PrimeTimeViewController!
     
     fileprivate init() {}
     
     /// Singleton instance of the SDK
-    open static var shared: Li5SDK = {
+    public static var shared: Li5SDKProtocol = {
         return Li5SDK()
     }()
     
@@ -31,7 +37,7 @@ open class Li5SDK {
     /// - Parameters:
     ///   - apiKey: The provided app secret key when created at the dashboard
     ///   - appId: The unique id given to the app at the dashboard
-    open func config(apiKey: String, forApp appId: String) {
+    public func config(apiKey: String, forApp appId: String) {
         configLogger()
         
         log.info("Setting up Li5 SDK")
@@ -50,7 +56,7 @@ open class Li5SDK {
     /// PRE: :config method must have been already called by the time of this method call
     /// Starts the SDK by presenting the main view controller which holds the whole funcionality
     /// of
-    open func present() {
+    public func present() {
         prepareMediaCapabilities()
         
         if viewController == nil {
