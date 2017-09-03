@@ -23,6 +23,7 @@ class KUI {
     enum VC : String {
         case TeaserView
         case LastPage
+        case UnlockedView
     }
     
 }

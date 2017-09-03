@@ -10,6 +10,8 @@
 		28544A62245B9F3093B0C879 /* Pods_Li5SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E898E5E76AA7BABBE01F9E /* Pods_Li5SDK.framework */; };
 		2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */; };
 		2B0234611F0A8AB400B86B06 /* PlaybackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */; };
+		2B2CDFBF1F5B008300F3793E /* ExtendedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2CDFBE1F5B008300F3793E /* ExtendedViewController.swift */; };
+		2B2CDFC01F5B063800F3793E /* Li5PlayerUISlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B7551931CCE7433007FAF67 /* Li5PlayerUISlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA01E43F4A9006C3A9F /* ProductPageViews.storyboard */; };
 		2B44F4F01EBAC4CF00AB18A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44F4EF1EBAC4CF00AB18A0 /* AppDelegate.swift */; };
 		2B44F4F21EBAC4CF00AB18A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44F4F11EBAC4CF00AB18A0 /* ViewController.swift */; };
@@ -150,6 +152,7 @@
 		1053B67F6FFB4C6C85CE982F /* Pods-DemoSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoSDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoSDK/Pods-DemoSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndexedProtocol.swift; sourceTree = "<group>"; };
 		2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackDelegate.swift; path = Player/PlaybackDelegate.swift; sourceTree = "<group>"; };
+		2B2CDFBE1F5B008300F3793E /* ExtendedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedViewController.swift; sourceTree = "<group>"; };
 		2B44F4ED1EBAC4CF00AB18A0 /* DemoSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B44F4EF1EBAC4CF00AB18A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B44F4F11EBAC4CF00AB18A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -835,6 +838,7 @@
 				78A4DD851F46686C00788FB5 /* TrailerViewController.swift */,
 				5B22CB7D1E84327B00DC8399 /* DetailsHTMLViewController.swift */,
 				7818CA911F451FBC00595173 /* PlayerView.swift */,
+				2B2CDFBE1F5B008300F3793E /* ExtendedViewController.swift */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -925,6 +929,7 @@
 			files = (
 				2B5A00231EEB80B6000E4F71 /* Li5View.h in Headers */,
 				2BA594311EB42DA70065FDD9 /* IndexedViewController.h in Headers */,
+				2B2CDFC01F5B063800F3793E /* Li5PlayerUISlider.h in Headers */,
 				2B5A00241EEB8401000E4F71 /* Li5VolumeView.h in Headers */,
 				2BA594301EB42D920065FDD9 /* ShapesHelper.h in Headers */,
 				2BA5942F1EB42D820065FDD9 /* ProductPageProtocol.h in Headers */,
@@ -1210,6 +1215,7 @@
 				2BA593ED1EB4275D0065FDD9 /* ImageHelper.m in Sources */,
 				78A4DD861F46686C00788FB5 /* TrailerViewController.swift in Sources */,
 				7818CA7E1F450FE000595173 /* Asset.swift in Sources */,
+				2B2CDFBF1F5B008300F3793E /* ExtendedViewController.swift in Sources */,
 				2BA593EE1EB4275D0065FDD9 /* DeviceManager.swift in Sources */,
 				7818CA8A1F45185100595173 /* PlayerProtocol.swift in Sources */,
 				2B84CD141EE837DC0011F061 /* PaginatorViewControllerDataSource.swift in Sources */,

@@ -26,5 +26,6 @@ FOUNDATION_EXPORT const unsigned char Li5SDKVersionString[];
 #import "Li5PlayerTimer.h"
 #import "ProductPageActionsView.h"
 #import "Li5VolumeView.h"
+#import "Li5PlayerUISlider.h"
 
 #import "UIViewController+Indexed.h"
