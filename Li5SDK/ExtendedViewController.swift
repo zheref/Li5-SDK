@@ -45,12 +45,10 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var topView: UIView!
     
-    @IBOutlet weak var seekSlider: Li5PlayerUISlider!
     @IBOutlet weak var actionsView: ProductPageActionsView!
     @IBOutlet weak var muteButton: UIButton!
     @IBOutlet weak var arrowImageView: UIImageView!
     
-    @IBOutlet weak var castButton: UIButton!
     @IBOutlet weak var moreLabel: UILabel!
     
     @IBOutlet weak var embedSliderView: UIView!
@@ -110,7 +108,7 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         view.layer.mask = dot
         
         setupGestureRecognizers()
-        renderAnimations()
+        renderControlsWithAnimation()
         renderMore()
         
         waveView = Wave(withView: self.view)
@@ -205,7 +203,7 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         simpleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSimpleTap))
         view.addGestureRecognizer(simpleTapGestureRecognizer!)
         
-        lockPanGestureRecognzier = UIPanGestureRecognizer(target: self, action: #selector(handleLockTap))
+        lockPanGestureRecognzier = UIPanGestureRecognizer(target: self, action: #selector(handleLockTap(_:)))
         lockPanGestureRecognzier?.delegate = self
         lockPanGestureRecognzier?.cancelsTouchesInView = false
         lockPanGestureRecognzier?.maximumNumberOfTouches = 1
@@ -214,26 +212,16 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         view.addGestureRecognizer(lockPanGestureRecognzier!)
     }
     
-    private func renderAnimations() {
+    private func renderControlsWithAnimation() {
         if renderingAnimations == false {
-            if seekSlider.isHidden || actionsView.isHidden {
-                seekSlider.isHidden = false
-                actionsView.isHidden = false
+            if muteButton.isHidden {
                 muteButton.isHidden = false
-                
-                castButton.isHidden = false
                 
                 renderingAnimations = true
                 
                 UIView.animate(withDuration: 0.5, animations: { [unowned self] in
-                    self.seekSlider.center = __CGPointApplyAffineTransform(self.seekSlider.center,
-                                                                           CGAffineTransform(translationX: 0, y: 2 * self.sliderHeight))
-                    self.actionsView.center = __CGPointApplyAffineTransform(self.actionsView.center,
-                                                                            CGAffineTransform(translationX: -100, y: 0))
                     self.muteButton.center = __CGPointApplyAffineTransform(self.muteButton.center,
                                                                            CGAffineTransform(translationX: 100, y: 0))
-                    self.castButton.center = __CGPointApplyAffineTransform(self.castButton.center,
-                                                                           CGAffineTransform(translationX: -100, y: 0))
                 }) { [weak self] (finished: Bool) in
                     self?.renderingAnimations = false
                 }
@@ -245,23 +233,16 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
     
     @objc private func removeAnimations() {
         if renderingAnimations == false {
-            if seekSlider.isHidden == false || actionsView.isHidden == false {
+            if muteButton.isHidden == false {
+                
                 renderingAnimations = true
                 
                 UIView.animate(withDuration: 0.5, animations: { [unowned self] in
-                    self.seekSlider.center = __CGPointApplyAffineTransform(self.seekSlider.center,
-                                                                           CGAffineTransform(translationX: 0, y: -2 * self.sliderHeight))
-                    self.actionsView.center = __CGPointApplyAffineTransform(self.actionsView.center,
-                                                                            CGAffineTransform(translationX: 100, y: 0))
                     self.muteButton.center = __CGPointApplyAffineTransform(self.muteButton.center,
                                                                            CGAffineTransform(translationX: -100, y: 0))
-                    self.castButton.center = __CGPointApplyAffineTransform(self.castButton.center,
-                                                                           CGAffineTransform(translationX: 100, y: 0))
                 }) { [weak self] (finished: Bool) in
-                    self?.seekSlider.isHidden = finished
-                    self?.actionsView.isHidden = finished
                     self?.muteButton.isHidden = finished
-                    self?.castButton.isHidden = finished
+                    self?.actionsView.isHidden = finished
                     self?.renderingAnimations = false
                 }
                 
@@ -285,12 +266,10 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
     }
     
     private func setupControls() {
-        seekSlider.isHidden = true
-        castButton.isHidden = true
         embedShareButton.isHidden = false
         
-        muteButton.setImage(UIImage(named: "muted"), for: .normal)
-        muteButton.setImage(UIImage(named: "unmuted"), for: .selected)
+        muteButton.setImage(UIImage(named: "muted", in: Bundle(for: ExtendedViewController.self), compatibleWith: nil), for: .normal)
+        muteButton.setImage(UIImage(named: "unmuted", in: Bundle(for: ExtendedViewController.self), compatibleWith: nil), for: .selected)
         moreLabel.isHidden = true
         
         if hasDetails == false {
@@ -317,12 +296,12 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         if player.status == .readyToPlay {
             waveView.stopAnimating()
             
-            seekSlider.player = player
+            embedSlider.player = player
             
             if hasAppeared {
                 player.play()
                 setupObservers()
-                renderAnimations()
+                renderControlsWithAnimation()
             }
         } else {
             waveView.startAnimating()
@@ -337,7 +316,7 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
                 self?.player.isMuted = true
                 self?.muteButton.isSelected = true
                 self?.player.play()
-                self?.renderAnimations()
+                self?.renderControlsWithAnimation()
             })
         }
         
@@ -355,7 +334,7 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
     
     private func exitView(_ gr: UIPanGestureRecognizer) {
         waveView.stopAnimating()
-        parent?.performSelector(onMainThread: #selector(handleLockTap), with: gr, waitUntilDone: false)
+        parent?.performSelector(onMainThread: #selector(handleLockTap(_:)), with: gr, waitUntilDone: false)
         player.seek(to: kCMTimeZero)
         muteButton.isSelected = false
         embedPlayButton.isSelected = false
@@ -420,6 +399,32 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         return animation
     }
     
+    // MARK: - ACTIONS
+    
+    @IBAction func userDidTouchUpInsideMuteButton(_ sender: Any) {
+        removeTimers()
+        let currentState = muteButton.isSelected
+        player.isMuted = !currentState
+        muteButton.isSelected = !currentState
+        setupTimers()
+    }
+    
+    @IBAction func userDidTouchUpInsidePlayPauseButton(_ sender: Any) {
+        removeTimers()
+        let currentState = embedPlayButton.isSelected
+        
+        if embedPlayButton.isSelected {
+            player.play()
+        } else {
+            player.pause()
+        }
+        
+        embedPlayButton.isSelected = !currentState
+        setupTimers()
+    }
+    
+    @IBAction func userDidTouchUpInsideShareButton(_ sender: Any) {}
+    
     // MARK: - GESTURE RECOGNIZERS
     
     @objc private func handleLockTap(_ gr: UIPanGestureRecognizer) {
@@ -467,8 +472,8 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
     
     @objc private func handleSimpleTap(_ sender: UIGestureRecognizer) {
         if sender.state == .ended {
-            if actionsView.isHidden {
-                renderAnimations()
+            if muteButton.isHidden {
+                renderControlsWithAnimation()
             } else {
                 removeAnimations()
             }

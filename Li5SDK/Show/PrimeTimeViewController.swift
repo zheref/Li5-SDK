@@ -198,10 +198,21 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         
         if let xvc = extendedViewController {
             auxiliarContainer.addSubview(xvc.view)
+            player.pause()
             addChildViewController(xvc)
             auxiliarContainer.isHidden = false
             leftButton.isUserInteractionEnabled = false
             rightButton.isUserInteractionEnabled = false
+        }
+    }
+    
+    private func dismissExtended() {
+        if let xvc = extendedViewController {
+            auxiliarContainer.isHidden = true
+            xvc.view.removeFromSuperview()
+            xvc.removeFromParentViewController()
+            player.goToZero()
+            player.play()
         }
     }
     
@@ -248,6 +259,12 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
             setupExtended(withInitialPoint: recognizer.location(in: currentController.view))
             presentExtended()
         }
+    }
+    
+    // MARK: - GESTURE RECOGNIZERS
+    
+    @objc private func handleLockTap(_ gr: UIPanGestureRecognizer) {
+        dismissExtended()
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
