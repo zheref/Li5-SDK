@@ -10,7 +10,13 @@ import UIKit
 import AVFoundation
 
 protocol PrimeTimeViewControllerProtocol {
-    
+    func setup(products: [ProductModel],
+               eop: EndOfPrimeTime?,
+               eos: EndOfShow?,
+               player: PlayerProtocol,
+               manager: PreloadingManagerProtocol,
+               bufferer: BufferPreloaderProtocol,
+               downloader: DownloadPreloaderProtocol?)
 }
 
 class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol {
@@ -21,39 +27,52 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
-    @IBOutlet weak var middleButton: UIButton!
-    @IBOutlet weak var activityLayer: UIView!
+    
+    @IBOutlet weak var auxiliarContainer: UIView!
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var activityLayerAppName: UILabel!
+    
     @IBOutlet weak var lastPageContainer: UIView!
+    
+    // MARK: Subviewcontrollers
     
     private var currentController: PlayPageViewController!
     fileprivate var lastpageViewController: LastPageViewController?
+    private var extendedViewController: ExtendedViewController?
+    
+    // MARK: Models
     
     private var products = [ProductModel]()
     private var eop: EndOfPrimeTime?
     private var eos: EndOfShow?
+    
+    // MARK: Playback
     
     private var player: PlayerProtocol!
     private var manager: PreloadingManagerProtocol!
     
     // MARK: Computed Properties
     
-    var playerLayer: AVPlayerLayer? {
+    private var playerLayer: AVPlayerLayer? {
         return currentController.trailerVC.layer
+    }
+    
+    fileprivate var currentProduct: ProductModel {
+        return products[player.currentIndex]
     }
     
     // MARK: - INSTANCE OPERATIONS
     
     // MARK: Exposed Operations
     
-    internal func setup(products: [ProductModel],
-                        eop: EndOfPrimeTime?,
-                        eos: EndOfShow?,
-                        player: PlayerProtocol,
-                        manager: PreloadingManagerProtocol,
-                        bufferer: BufferPreloaderProtocol,
-                        downloader: DownloadPreloaderProtocol?) {
+    func setup(products: [ProductModel],
+               eop: EndOfPrimeTime?,
+               eos: EndOfShow?,
+               player: PlayerProtocol,
+               manager: PreloadingManagerProtocol,
+               bufferer: BufferPreloaderProtocol,
+               downloader: DownloadPreloaderProtocol?) {
         
         self.products = products
         self.eop = eop
@@ -72,7 +91,6 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         setupLastPageViewController()
         
         let gestureRecorgnizer = UILongPressGestureRecognizer(target: self, action: #selector(userDidHoldMiddleActiveSection))
-        //middleButton.addGestureRecognizer()
         view.addGestureRecognizer(gestureRecorgnizer)
     }
     
@@ -147,7 +165,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     }
     
     private func presentActivityIndicator() {
-        activityLayer.isHidden = false
+        auxiliarContainer.isHidden = false
         activityIndicator.startAnimating()
         activityLayerAppName.text = Bundle.main.infoDictionary?["CFBundleName"] as? String
         leftButton.isUserInteractionEnabled = false
@@ -155,10 +173,36 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     }
     
     fileprivate func dismissActivityIndicator() {
-        activityLayer.isHidden = true
+        auxiliarContainer.isHidden = true
         activityIndicator.stopAnimating()
         leftButton.isUserInteractionEnabled = true
         rightButton.isUserInteractionEnabled = true
+    }
+    
+    private func setupExtended(withInitialPoint initialPoint: CGPoint) {
+        extendedViewController = ExtendedViewController.create(product: currentProduct)
+        
+        extendedViewController?.initialPoint = initialPoint
+        
+        extendedViewController?.providesPresentationContextTransitionStyle = true
+        extendedViewController?.definesPresentationContext = true
+        extendedViewController?.modalPresentationStyle = .fullScreen
+        
+        extendedViewController?.view.frame = auxiliarContainer.bounds
+    }
+    
+    private func presentExtended() {
+        for view in auxiliarContainer.subviews {
+            view.removeFromSuperview()
+        }
+        
+        if let xvc = extendedViewController {
+            auxiliarContainer.addSubview(xvc.view)
+            addChildViewController(xvc)
+            auxiliarContainer.isHidden = false
+            leftButton.isUserInteractionEnabled = false
+            rightButton.isUserInteractionEnabled = false
+        }
     }
     
     // MARK: Actions
@@ -201,7 +245,8 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     func userDidHoldMiddleActiveSection(_ recognizer: UILongPressGestureRecognizer) {
         if recognizer.state == UIGestureRecognizerState.began {
-            print("Hold!!!")
+            setupExtended(withInitialPoint: recognizer.location(in: currentController.view))
+            presentExtended()
         }
     }
     

@@ -11,7 +11,7 @@ import AVFoundation
 
 protocol ExtendedViewControllerProtocol {
     var initialPoint: CGPoint! { get set }
-    func create(product: ProductModel) -> ExtendedViewControllerProtocol!
+    static func create(product: ProductModel) -> ExtendedViewController!
 }
 
 
@@ -75,7 +75,7 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         super.init(coder: aDecoder)
     }
     
-    func create(product: ProductModel) -> ExtendedViewControllerProtocol! {
+    static func create(product: ProductModel) -> ExtendedViewController! {
         let storyboard = UIStoryboard(name: KUI.SB.ProductPageViews.rawValue,
                                       bundle: Bundle(for: ExtendedViewController.self))
         

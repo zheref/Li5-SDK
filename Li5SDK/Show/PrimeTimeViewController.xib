@@ -14,11 +14,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PrimeTimeViewController" customModule="Li5SDK" customModuleProvider="target">
             <connections>
                 <outlet property="activityIndicator" destination="QkH-nm-1p5" id="L0X-7Q-479"/>
-                <outlet property="activityLayer" destination="iwn-t1-3s8" id="l3m-pe-K9R"/>
                 <outlet property="activityLayerAppName" destination="SqL-Fl-i0x" id="31n-xk-A9z"/>
+                <outlet property="auxiliarContainer" destination="iwn-t1-3s8" id="bvN-Ci-1rh"/>
                 <outlet property="lastPageContainer" destination="7tz-XW-8th" id="owd-6O-3Nf"/>
                 <outlet property="leftButton" destination="SeO-DA-YCE" id="bMF-X3-l84"/>
-                <outlet property="middleButton" destination="k5P-lf-pW1" id="89K-yN-UUa"/>
                 <outlet property="rightButton" destination="Lcp-o3-NKo" id="goC-cO-Sci"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="8Id-4k-fYT"/>
             </connections>
@@ -37,9 +36,6 @@
                     <connections>
                         <action selector="userDidTapLeftActiveSection:" destination="-1" eventType="touchUpInside" id="Geh-ek-vrs"/>
                     </connections>
-                </button>
-                <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5P-lf-pW1">
-                    <rect key="frame" x="121" y="170" width="133" height="321"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lcp-o3-NKo">
                     <rect key="frame" x="262" y="50" width="113" height="527"/>
@@ -73,14 +69,11 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="7tz-XW-8th" secondAttribute="trailing" id="9C0-H9-bJR"/>
                 <constraint firstAttribute="bottom" secondItem="7tz-XW-8th" secondAttribute="bottom" id="9L6-27-dFJ"/>
-                <constraint firstItem="k5P-lf-pW1" firstAttribute="bottom" secondItem="SeO-DA-YCE" secondAttribute="bottom" constant="-86" id="9yj-DS-Mb7"/>
                 <constraint firstAttribute="bottom" secondItem="iwn-t1-3s8" secondAttribute="bottom" id="DB7-Kq-pLT"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.3" id="DNw-F3-lCJ"/>
                 <constraint firstAttribute="trailing" secondItem="iwn-t1-3s8" secondAttribute="trailing" id="Dqa-qp-Yh6"/>
-                <constraint firstItem="Lcp-o3-NKo" firstAttribute="leading" secondItem="k5P-lf-pW1" secondAttribute="trailing" constant="8" symbolic="YES" id="FWr-Pj-aNA"/>
                 <constraint firstAttribute="trailing" secondItem="Lcp-o3-NKo" secondAttribute="trailing" id="FdO-rm-yAa"/>
                 <constraint firstItem="7tz-XW-8th" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Hoo-hk-jle"/>
-                <constraint firstItem="k5P-lf-pW1" firstAttribute="leading" secondItem="SeO-DA-YCE" secondAttribute="trailing" constant="8" symbolic="YES" id="Mh6-FO-v6m"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="baseline" secondItem="Lcp-o3-NKo" secondAttribute="baseline" id="QeT-Zl-YSP"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="bottom" secondItem="Lcp-o3-NKo" secondAttribute="bottom" id="SQd-Nn-tio"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="UDl-ew-gRj"/>
@@ -90,7 +83,6 @@
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="o3m-4R-oV9"/>
                 <constraint firstAttribute="bottom" secondItem="SeO-DA-YCE" secondAttribute="bottom" constant="90" id="qNY-pA-oYJ"/>
                 <constraint firstItem="iwn-t1-3s8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qTA-51-oKP"/>
-                <constraint firstItem="k5P-lf-pW1" firstAttribute="top" secondItem="SeO-DA-YCE" secondAttribute="top" constant="120" id="uKF-5D-Y9s"/>
                 <constraint firstItem="SeO-DA-YCE" firstAttribute="firstBaseline" secondItem="Lcp-o3-NKo" secondAttribute="firstBaseline" id="uQM-4u-mbz"/>
                 <constraint firstItem="7tz-XW-8th" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ugu-u3-Ci0"/>
             </constraints>
