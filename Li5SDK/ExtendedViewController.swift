@@ -101,8 +101,6 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         setupPoster()
         setupPlayerZone()
         
-        //actionsView.setProduct(<#T##product: Product!##Product!#>, animate: false)
-        
         setupDot()
         
         view.layer.mask = dot
@@ -189,10 +187,10 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         dot.anchorPoint = CGPoint.zero
         dot.contentsScale = UIScreen.main.scale
         dot.shouldRasterize = true
-        dot.backgroundColor = UIColor.clear.cgColor
+        dot.backgroundColor = UIColor.red.cgColor
         dot.path = mainPath(forRect: rect).cgPath
         dot.shadowRadius = 5
-        dot.shadowColor = view.backgroundColor?.cgColor
+        dot.shadowColor = UIColor.red.cgColor
         dot.shadowOpacity = 1
         dot.shadowOffset = CGSize.zero
         dot.shadowPath = shadowPath(forRect: rect).cgPath
@@ -215,13 +213,24 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
     private func renderControlsWithAnimation() {
         if renderingAnimations == false {
             if muteButton.isHidden {
+                actionsView.isHidden = true
+                
+                embedSlider.isHidden = false
                 muteButton.isHidden = false
+                embedPlayButton.isHidden = false
+                embedShareButton.isHidden = false
                 
                 renderingAnimations = true
                 
                 UIView.animate(withDuration: 0.5, animations: { [unowned self] in
                     self.muteButton.center = __CGPointApplyAffineTransform(self.muteButton.center,
                                                                            CGAffineTransform(translationX: 100, y: 0))
+                    self.embedShareButton.center = __CGPointApplyAffineTransform(self.embedShareButton.center,
+                                                                                 CGAffineTransform(translationX: -100, y: 0))
+                    self.embedPlayButton.center = __CGPointApplyAffineTransform(self.embedPlayButton.center,
+                                                                                CGAffineTransform(translationX: 0, y: -100))
+                    self.embedSlider.center = __CGPointApplyAffineTransform(self.embedSlider.center,
+                                                                            CGAffineTransform(translationX: 0, y: 100))
                 }) { [weak self] (finished: Bool) in
                     self?.renderingAnimations = false
                 }
@@ -240,8 +249,18 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
                 UIView.animate(withDuration: 0.5, animations: { [unowned self] in
                     self.muteButton.center = __CGPointApplyAffineTransform(self.muteButton.center,
                                                                            CGAffineTransform(translationX: -100, y: 0))
+                    self.embedShareButton.center = __CGPointApplyAffineTransform(self.embedShareButton.center,
+                                                                           CGAffineTransform(translationX: 100, y: 0))
+                    self.embedPlayButton.center = __CGPointApplyAffineTransform(self.embedPlayButton.center,
+                                                                           CGAffineTransform(translationX: 0, y: 100))
+                    self.embedSlider.center = __CGPointApplyAffineTransform(self.embedSlider.center,
+                                                                           CGAffineTransform(translationX: 0, y: -100))
                 }) { [weak self] (finished: Bool) in
+                    self?.embedSlider.isHidden = finished
                     self?.muteButton.isHidden = finished
+                    self?.embedPlayButton.isHidden = finished
+                    self?.embedShareButton.isHidden = finished
+                    
                     self?.actionsView.isHidden = finished
                     self?.renderingAnimations = false
                 }
@@ -272,9 +291,11 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         muteButton.setImage(UIImage(named: "unmuted", in: Bundle(for: ExtendedViewController.self), compatibleWith: nil), for: .selected)
         moreLabel.isHidden = true
         
+        arrowImageView.isHidden = true
+        actionsView.isHidden = true
+        
         if hasDetails == false {
             moreLabel.isHidden = true
-            arrowImageView.isHidden = true
         }
     }
     
