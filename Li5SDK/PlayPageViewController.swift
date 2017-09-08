@@ -20,6 +20,7 @@ protocol PlayPageViewControllerProtocol {
 protocol PlayPageViewControllerDelegate : class {
     func readyForPlayback()
     var visibleToPlay: Bool { get }
+    var options: Li5SDKOptionsProtocol { get }
 }
 
 class PlayPageViewController : PaginatorViewController, PlayPageViewControllerProtocol {
@@ -54,6 +55,8 @@ class PlayPageViewController : PaginatorViewController, PlayPageViewControllerPr
         htmlVC = DetailsHTMLViewController(withProduct: product)
         
         super.init(withDirection: .Vertical)
+        
+        trailerVC.delegate = self
         
         preloadedViewControllers = [trailerVC, htmlVC]
     }
@@ -154,6 +157,14 @@ extension PlayPageViewController : PreloadingManagerDelegate {
     
     var playingIndex: Int {
         return player.currentIndex
+    }
+    
+}
+
+extension PlayPageViewController : TrailerViewControllerDelegate {
+    
+    var options: Li5SDKOptionsProtocol? {
+        return delegate?.options
     }
     
 }

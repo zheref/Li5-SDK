@@ -47,6 +47,8 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     private var eop: EndOfPrimeTime?
     private var eos: EndOfShow?
     
+    var options: Li5SDKOptionsProtocol = Li5SDKOptions()
+    
     // MARK: Playback
     
     private var player: PlayerProtocol!
@@ -167,7 +169,9 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     private func presentActivityIndicator() {
         auxiliarContainer.isHidden = false
         activityIndicator.startAnimating()
-        activityLayerAppName.text = Bundle.main.infoDictionary?["CFBundleName"] as? String
+        
+        activityLayerAppName.text = options.appName ?? Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Loading"
+        
         leftButton.isUserInteractionEnabled = false
         rightButton.isUserInteractionEnabled = false
     }

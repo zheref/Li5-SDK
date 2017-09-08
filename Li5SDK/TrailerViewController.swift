@@ -13,6 +13,10 @@ protocol TrailerViewControllerProtocol {
     func set(player: AVPlayer)
 }
 
+protocol TrailerViewControllerDelegate {
+    var options: Li5SDKOptionsProtocol? { get }
+}
+
 class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     var product: ProductModel! {
@@ -50,6 +54,8 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         return product.detailsUrl != nil
     }
     
+    var delegate: TrailerViewControllerDelegate?
+    
     fileprivate var productId: String {
         return "\(product.id)"
     }
@@ -85,6 +91,8 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         super.init(coder: aDecoder)
     }
     
+    // MARK: LIFECYCLE AND OVERRIDES
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -112,6 +120,8 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
             progressView.player = nil
         }
     }
+    
+    // MARK: - SETUPS
     
     func set(player: AVPlayer) {
         playerView.player = player
@@ -142,6 +152,7 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         }
         
         setupProgressColor()
+        setupMoreCaption()
         toggleMoreCaptionDisplay(into: product.detailsUrl != nil)
     }
     
@@ -173,6 +184,15 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
                 let image = UIImage(data: data) {
                 posterImageView.image = image
             }
+        }
+    }
+    
+    private func setupMoreCaption() {
+        if let delegate = delegate,
+            let options = delegate.options,
+            moreLabel != nil {
+            
+            moreLabel.text = options.contentCTACaption.uppercased()
         }
     }
     

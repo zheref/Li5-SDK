@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Li5SDK.shared.config(apiKey: "test_key_li5_producer", forApp: "DemoSDK")
+        Li5SDK.shared.options.appName = "Custom App Name"
+        Li5SDK.shared.options.contentCTACaption = "see more"
+        
         setupFabric()
         return true
     }

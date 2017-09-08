@@ -16,6 +16,9 @@ let log = SwiftyBeaver.self
 
 public protocol Li5SDKProtocol {
     static var shared: Li5SDKProtocol { get }
+    
+    var options: Li5SDKOptionsProtocol { get set }
+    
     func config(apiKey: String, forApp appId: String)
     func present()
 }
@@ -31,6 +34,8 @@ public class Li5SDK : Li5SDKProtocol {
     public static var shared: Li5SDKProtocol = {
         return Li5SDK()
     }()
+    
+    public var options: Li5SDKOptionsProtocol = Li5SDKOptions()
     
     /// Prepares SDK for later calling by logging in associated registered user
     /// which holds the info and media to be managed by it.
@@ -98,6 +103,8 @@ public class Li5SDK : Li5SDKProtocol {
                              manager: manager,
                              bufferer: bufferer,
                              downloader: downloader)
+        
+        viewController.options = options
         
         guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {
             return
