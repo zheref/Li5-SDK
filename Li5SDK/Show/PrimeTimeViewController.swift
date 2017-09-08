@@ -213,6 +213,8 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
             xvc.removeFromParentViewController()
             player.goToZero()
             player.play()
+            leftButton.isUserInteractionEnabled = true
+            rightButton.isUserInteractionEnabled = true
         }
     }
     

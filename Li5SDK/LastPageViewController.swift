@@ -218,7 +218,7 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
     }
     
     fileprivate func play() {
-        if isBeingDisplayed, let player = player {
+        if lastVideoUrl != nil, isBeingDisplayed, let player = player {
             player.seek(to: kCMTimeZero)
             player.play()
         } else {
