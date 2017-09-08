@@ -444,6 +444,10 @@ class ExtendedViewController : UIViewController, ExtendedViewControllerProtocol 
         setupTimers()
     }
     
+    @IBAction func userDidTouchUpInsideCloseButton(_ sender: Any) {
+        parent?.performSelector(onMainThread: #selector(handleLockTap(_:)), with: nil, waitUntilDone: false)
+    }
+    
     @IBAction func userDidTouchUpInsideShareButton(_ sender: Any) {}
     
     // MARK: - GESTURE RECOGNIZERS
