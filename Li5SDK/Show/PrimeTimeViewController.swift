@@ -258,8 +258,10 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     func userDidHoldMiddleActiveSection(_ recognizer: UILongPressGestureRecognizer) {
         if recognizer.state == UIGestureRecognizerState.began {
-            setupExtended(withInitialPoint: recognizer.location(in: currentController.view))
-            presentExtended()
+            if let _ = currentProduct.extendedUrl {
+                setupExtended(withInitialPoint: recognizer.location(in: currentController.view))
+                presentExtended()
+            }
         }
     }
     
