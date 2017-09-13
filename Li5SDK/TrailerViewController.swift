@@ -158,10 +158,13 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
     private func setupProgressColor() {
         if progressView != nil {
+            let unlockableColor = delegate?.options?.extendablePlaybackProgressColor ?? UIColor.red
+            let limitedColor = delegate?.options?.playbackProgressColor ?? UIColor.white
+            
             if unlockable {
-                progressView.overlayColor = UIColor.red
+                progressView.overlayColor = unlockableColor
             } else {
-                progressView.overlayColor = UIColor.white
+                progressView.overlayColor = limitedColor
             }
         }
     }

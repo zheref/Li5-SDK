@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Li5SDK.shared.config(apiKey: "test_key_li5_producer", forApp: "DemoSDK")
         Li5SDK.shared.options.appName = "Custom App Name"
         Li5SDK.shared.options.contentCTACaption = "see more"
+        Li5SDK.shared.options.playbackProgressColor = UIColor.yellow
+        Li5SDK.shared.options.extendablePlaybackProgressColor = UIColor.orange
         
         setupFabric()
         return true
