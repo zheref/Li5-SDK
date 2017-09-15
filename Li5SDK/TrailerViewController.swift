@@ -19,6 +19,13 @@ protocol TrailerViewControllerDelegate {
 
 class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     
+    // MARK: VALUES
+    
+    var startPositionX: CGFloat = 0.0
+    var endPositionX: CGFloat = 0.0
+    
+    // MARK: MODEL
+    
     var product: ProductModel! {
         didSet {
             setupPoster()
@@ -28,7 +35,7 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         }
     }
     
-    var waveView: Wave?
+    // MARK: OUTLETS
     
     @IBOutlet weak var playerView: L5PlayerView!
     @IBOutlet weak var posterImageView: UIImageView!
@@ -42,6 +49,10 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var headerView: UIView!
     
+    // MARK: PROGRAMMATIC UI
+    
+    var waveView: Wave?
+    
     var layer: AVPlayerLayer {
         return playerView.playerLayer
     }
@@ -54,13 +65,17 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         return product.detailsUrl != nil
     }
     
+    // MARK: REFERENCES
+    
     var delegate: TrailerViewControllerDelegate?
+    
+    // MARK: COMPUTED PROPERTIES
     
     fileprivate var productId: String {
         return "\(product.id)"
     }
     
-    // MARK: - Initializers
+    // MARK: - INITIALIZERS
     
     private init() {
         super.init(nibName: nil, bundle: nil)
@@ -121,6 +136,13 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        startPositionX = (view.bounds.size.width / 2) - (categoryLabel.bounds.size.width / 2)
+        endPositionX = categoryLabel.layer.position.x
+    }
+    
     // MARK: - SETUPS
     
     func set(player: AVPlayer) {
@@ -173,8 +195,10 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         if categoryLabel != nil {
             if let categoryName = product.categoryName {
                 categoryLabel.text = categoryName.uppercased()
+                setupCategoryAnimation()
             } else {
                 categoryLabel.text = ""
+                categoryLabel.isHidden = true
             }
         }
     }
@@ -203,7 +227,48 @@ class TrailerViewController : UIViewController, TrailerViewControllerProtocol {
         if moreLabel != nil, arrowImageView != nil {
             moreLabel.isHidden = !show
             arrowImageView.isHidden = !show
+            
+            if show {
+                setupMoreAnimation()
+            }
         }
+    }
+    
+    private func setupMoreAnimation() {
+        let trans = CAKeyframeAnimation(keyPath: "position.y")
+        trans.values = [0, 5, -2, 3, 0]
+        trans.keyTimes = [0.0, 0.35, 0.7, 0.9, 1]
+        trans.timingFunction = CAMediaTimingFunction(controlPoints: 0.5, 1.8, 1, 1)
+        trans.duration = 2.0
+        trans.isAdditive = true
+        trans.repeatCount = Float.infinity
+        trans.beginTime = CACurrentMediaTime() + 2.0
+        trans.isRemovedOnCompletion = false
+        trans.fillMode = kCAFillModeForwards
+        arrowImageView.layer.add(trans, forKey: "bouncing")
+    }
+    
+    private func setupCategoryAnimation() {
+        let totalDuration: Double = 1.2
+        
+        var currentPosition: CGPoint = categoryLabel.layer.position
+        currentPosition.x = startPositionX
+        
+        var startFrame = categoryLabel.frame
+        let endFrame = startFrame
+        startFrame.size.width = 0
+        categoryLabel.frame = startFrame
+        
+        UIView.animateKeyframes(withDuration: totalDuration,
+                                delay: 0.0,
+                                options: UIViewKeyframeAnimationOptions.calculationModeLinear,
+                                animations: {
+                                    UIView.addKeyframe(withRelativeStartTime: 0.7,
+                                                       relativeDuration: 0.3, animations: { [unowned self] in
+                                                        self.categoryLabel.alpha = 1.0
+                                                        self.categoryLabel.frame = endFrame
+                                    })
+        }, completion: nil)
     }
     
 }
