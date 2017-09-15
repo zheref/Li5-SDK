@@ -316,10 +316,10 @@
                                         <rect key="frame" x="20" y="259" width="335" height="150"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Px5-R7-sMN">
-                                                <rect key="frame" x="28.5" y="25" width="278.5" height="100"/>
+                                                <rect key="frame" x="29" y="25" width="278.5" height="100"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Esquire_logo" translatesAutoresizingMaskIntoConstraints="NO" id="ZxV-YB-o7f">
-                                                        <rect key="frame" x="18.5" y="0.0" width="240" height="61"/>
+                                                        <rect key="frame" x="19" y="0.0" width="240" height="61"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
@@ -404,6 +404,7 @@
                         <outlet property="dropDownArrow" destination="3NF-ej-deS" id="ZFb-SO-36O"/>
                         <outlet property="endOfShowVideoView" destination="aoi-fU-uJl" id="nSh-ap-ndm"/>
                         <outlet property="endOfShowView" destination="1t6-qN-SOc" id="54H-mp-W6g"/>
+                        <outlet property="eosText" destination="iR1-G4-zpG" id="aXu-ca-fRt"/>
                         <outlet property="showLogo" destination="ZxV-YB-o7f" id="fxc-SD-oUC"/>
                         <outlet property="staticView" destination="O3G-Aw-DXx" id="JC9-QR-tuU"/>
                         <outlet property="swipeDownView" destination="cY4-rt-55o" id="FLb-Ow-3FZ"/>

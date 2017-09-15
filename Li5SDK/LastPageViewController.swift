@@ -9,6 +9,9 @@
 import Foundation
 import Crashlytics
 
+protocol LastPageViewControllerDelegate : class {
+    var options: Li5SDKOptionsProtocol { get }
+}
 
 protocol LastPageViewControllerProtocol {
     
@@ -17,9 +20,12 @@ protocol LastPageViewControllerProtocol {
 }
 
 
+// Requires urgent presenter
 class LastPageViewController : PaginatorViewController, LastPageViewControllerProtocol {
     
     var isBeingDisplayed = false
+    
+    weak var delegate: PlayPageViewControllerDelegate?
     
     var content: EndOfPrimeTime
     var player: AVPlayer?
@@ -34,6 +40,7 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var staticView: UIView!
     @IBOutlet weak var showLogo: UIImageView!
+    @IBOutlet weak var eosText: UILabel!
     @IBOutlet weak var endOfShowVideoView: UIView!
     @IBOutlet weak var swipeDownView: UIView!
     @IBOutlet weak var turnOnNotifications: UIButton!
@@ -163,14 +170,14 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         } else {
             log.error("Could not get URL for resource end_of_show.mp4 in LastPageViewController")
         }
+        
+        setupBrandingForEOS()
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNotificationsView()
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         log.verbose("LastPageViewController did appear")
@@ -179,7 +186,6 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         play()
         setupObservers()
     }
-    
     
     override func viewDidDisappear(_ animated: Bool) {
         log.verbose("LastPageViewController did disappear")
@@ -190,6 +196,29 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         clearObservers()
         staticView.isHidden = player != nil
     }
+    
+    // MARK: SETUPS
+    
+    private func setupBrandingForEOS() {
+        if let delegate = delegate {
+            if let image = delegate.options.logoImage {
+                showLogo.image = image
+                
+                if let eosStr = delegate.options.eosText {
+                    eosText.text = eosStr
+                } else {
+                    eosText.isHidden = true
+                }
+                
+                return
+            }
+        }
+        
+        showLogo.isHidden = true
+        eosText.isHidden = true
+    }
+    
+    // MARK: SELECTORS
     
     @objc private func updateNotificationsView() {
         log.verbose("Updating notifications view")

@@ -143,6 +143,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
             lastpageViewController = LastPageViewController.instance(withEOP: eop)
             lastpageViewController?.lastVideoUrl = eop
             lastpageViewController?.endOfShow = eos
+            lastpageViewController?.delegate = self
             lastpageViewController?.view.frame = lastPageContainer.bounds
         }
     }
@@ -289,5 +290,9 @@ extension PrimeTimeViewController : PlayPageViewControllerDelegate {
     func readyForPlayback() {
         dismissActivityIndicator()
     }
+    
+}
+
+extension PrimeTimeViewController : LastPageViewControllerDelegate {
     
 }
