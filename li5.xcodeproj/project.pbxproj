@@ -33,6 +33,16 @@
 		2B84CD181EE838800011F061 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B84CD171EE838800011F061 /* UIKit.framework */; };
 		2B84CD1A1EE842A90011F061 /* PaginatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B84CD191EE842A90011F061 /* PaginatorViewController.xib */; };
 		2B84CD1C1EE8C6C70011F061 /* Displayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD1B1EE8C6C70011F061 /* Displayable.swift */; };
+		2B8D90111F6BADA5000C3E0E /* Rubik-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6937A1CF4C63C00445439 /* Rubik-Black.ttf */; };
+		2B8D90121F6BADA5000C3E0E /* Rubik-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6937B1CF4C63C00445439 /* Rubik-BlackItalic.ttf */; };
+		2B8D90131F6BADA5000C3E0E /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6937C1CF4C63C00445439 /* Rubik-Bold.ttf */; };
+		2B8D90141F6BADA5000C3E0E /* Rubik-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6937D1CF4C63C00445439 /* Rubik-BoldItalic.ttf */; };
+		2B8D90151F6BADA5000C3E0E /* Rubik-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6937E1CF4C63C00445439 /* Rubik-Italic.ttf */; };
+		2B8D90161F6BADA5000C3E0E /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6937F1CF4C63C00445439 /* Rubik-Light.ttf */; };
+		2B8D90171F6BADA5000C3E0E /* Rubik-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693801CF4C63C00445439 /* Rubik-LightItalic.ttf */; };
+		2B8D90181F6BADA5000C3E0E /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693811CF4C63C00445439 /* Rubik-Medium.ttf */; };
+		2B8D90191F6BADA5000C3E0E /* Rubik-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693821CF4C63C00445439 /* Rubik-MediumItalic.ttf */; };
+		2B8D901A1F6BADA5000C3E0E /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693831CF4C63C00445439 /* Rubik-Regular.ttf */; };
 		2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613D851E43F459006C3A9F /* DiscoverViews.storyboard */; };
 		2B9E31181F622168006BC358 /* Li5SDKOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E31171F622168006BC358 /* Li5SDKOptions.swift */; };
 		2BA593481EB4258E0065FDD9 /* Li5SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA5933A1EB4258D0065FDD9 /* Li5SDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1058,11 +1068,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B84CD1A1EE842A90011F061 /* PaginatorViewController.xib in Resources */,
+				2B8D90161F6BADA5000C3E0E /* Rubik-Light.ttf in Resources */,
+				2B8D90131F6BADA5000C3E0E /* Rubik-Bold.ttf in Resources */,
 				7865AC4F1F0C42DE00544264 /* PrimeTimeViewController.xib in Resources */,
 				2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */,
+				2B8D90111F6BADA5000C3E0E /* Rubik-Black.ttf in Resources */,
+				2B8D90141F6BADA5000C3E0E /* Rubik-BoldItalic.ttf in Resources */,
+				2B8D90191F6BADA5000C3E0E /* Rubik-MediumItalic.ttf in Resources */,
+				2B8D90171F6BADA5000C3E0E /* Rubik-LightItalic.ttf in Resources */,
+				2B8D901A1F6BADA5000C3E0E /* Rubik-Regular.ttf in Resources */,
+				2B8D90151F6BADA5000C3E0E /* Rubik-Italic.ttf in Resources */,
 				2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */,
 				2BEDFBE01F4A77F7008FB4B8 /* Assets.xcassets in Resources */,
+				2B8D90121F6BADA5000C3E0E /* Rubik-BlackItalic.ttf in Resources */,
 				2B477EC11EC6C38200C9F10D /* ProductPageActionsView.xib in Resources */,
+				2B8D90181F6BADA5000C3E0E /* Rubik-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

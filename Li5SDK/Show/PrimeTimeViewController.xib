@@ -10,10 +10,15 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Rubik-Regular.ttf">
+            <string>Rubik-Regular</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PrimeTimeViewController" customModule="Li5SDK" customModuleProvider="target">
             <connections>
-                <outlet property="activityIndicator" destination="QkH-nm-1p5" id="L0X-7Q-479"/>
+                <outlet property="activityIndicator" destination="ODL-6n-Drl" id="qHg-K5-g3H"/>
                 <outlet property="activityLayerAppName" destination="SqL-Fl-i0x" id="31n-xk-A9z"/>
                 <outlet property="auxiliarContainer" destination="iwn-t1-3s8" id="bvN-Ci-1rh"/>
                 <outlet property="lastPageContainer" destination="7tz-XW-8th" id="owd-6O-3Nf"/>
@@ -46,22 +51,27 @@
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iwn-t1-3s8">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
-                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="QkH-nm-1p5">
-                            <rect key="frame" x="178" y="309" width="20" height="20"/>
-                        </activityIndicatorView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SqL-Fl-i0x">
-                            <rect key="frame" x="148" y="336" width="80" height="22"/>
-                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                            <rect key="frame" x="149.5" y="336" width="77" height="19"/>
+                            <fontDescription key="fontDescription" name="Rubik-Regular" family="Rubik" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ODL-6n-Drl" customClass="SpinnerView" customModule="Li5SDK" customModuleProvider="target">
+                            <rect key="frame" x="175" y="295" width="25" height="25"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="25" id="6Uq-gU-rzM"/>
+                                <constraint firstAttribute="height" constant="25" id="wcY-Vd-DpO"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="QkH-nm-1p5" firstAttribute="centerX" secondItem="iwn-t1-3s8" secondAttribute="centerX" id="75e-vm-W89"/>
-                        <constraint firstItem="SqL-Fl-i0x" firstAttribute="centerX" secondItem="QkH-nm-1p5" secondAttribute="centerX" id="Wv1-4b-mAK"/>
-                        <constraint firstItem="QkH-nm-1p5" firstAttribute="centerY" secondItem="iwn-t1-3s8" secondAttribute="centerY" constant="-15" id="cMA-bA-2PO"/>
-                        <constraint firstItem="SqL-Fl-i0x" firstAttribute="top" secondItem="QkH-nm-1p5" secondAttribute="bottom" constant="7.5" id="tZh-Gw-hY8"/>
+                        <constraint firstItem="SqL-Fl-i0x" firstAttribute="centerX" secondItem="iwn-t1-3s8" secondAttribute="centerX" id="0TL-gR-sha"/>
+                        <constraint firstItem="ODL-6n-Drl" firstAttribute="top" secondItem="SqL-Fl-i0x" secondAttribute="bottom" constant="-60" id="DUP-oP-r2u"/>
+                        <constraint firstItem="SqL-Fl-i0x" firstAttribute="top" secondItem="iwn-t1-3s8" secondAttribute="top" constant="336" id="rkt-IJ-Ba7"/>
+                        <constraint firstItem="ODL-6n-Drl" firstAttribute="centerX" secondItem="iwn-t1-3s8" secondAttribute="centerX" id="sM6-Xt-cF0"/>
                     </constraints>
                 </view>
             </subviews>

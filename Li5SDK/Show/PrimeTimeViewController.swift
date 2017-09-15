@@ -30,7 +30,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     @IBOutlet weak var auxiliarContainer: UIView!
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var activityIndicator: SpinnerView!
     @IBOutlet weak var activityLayerAppName: UILabel!
     
     @IBOutlet weak var lastPageContainer: UIView!
@@ -169,7 +169,8 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     private func presentActivityIndicator() {
         auxiliarContainer.isHidden = false
-        activityIndicator.startAnimating()
+        //activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
         
         activityLayerAppName.text = options.appName ?? Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Loading"
         
@@ -179,7 +180,8 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     fileprivate func dismissActivityIndicator() {
         auxiliarContainer.isHidden = true
-        activityIndicator.stopAnimating()
+        //activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
         leftButton.isUserInteractionEnabled = true
         rightButton.isUserInteractionEnabled = true
     }
