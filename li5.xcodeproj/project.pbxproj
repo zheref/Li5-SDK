@@ -43,6 +43,7 @@
 		2B8D90181F6BADA5000C3E0E /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693811CF4C63C00445439 /* Rubik-Medium.ttf */; };
 		2B8D90191F6BADA5000C3E0E /* Rubik-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693821CF4C63C00445439 /* Rubik-MediumItalic.ttf */; };
 		2B8D901A1F6BADA5000C3E0E /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE693831CF4C63C00445439 /* Rubik-Regular.ttf */; };
+		2B8D901D1F6BB23B000C3E0E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BA5933B1EB4258D0065FDD9 /* Info.plist */; };
 		2B9CEDC31EC7D29700B6BA73 /* DiscoverViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613D851E43F459006C3A9F /* DiscoverViews.storyboard */; };
 		2B9E31181F622168006BC358 /* Li5SDKOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E31171F622168006BC358 /* Li5SDKOptions.swift */; };
 		2BA593481EB4258E0065FDD9 /* Li5SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA5933A1EB4258D0065FDD9 /* Li5SDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1077,6 +1078,7 @@
 				2B8D90191F6BADA5000C3E0E /* Rubik-MediumItalic.ttf in Resources */,
 				2B8D90171F6BADA5000C3E0E /* Rubik-LightItalic.ttf in Resources */,
 				2B8D901A1F6BADA5000C3E0E /* Rubik-Regular.ttf in Resources */,
+				2B8D901D1F6BB23B000C3E0E /* Info.plist in Resources */,
 				2B8D90151F6BADA5000C3E0E /* Rubik-Italic.ttf in Resources */,
 				2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */,
 				2BEDFBE01F4A77F7008FB4B8 /* Assets.xcassets in Resources */,

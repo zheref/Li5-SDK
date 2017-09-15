@@ -172,6 +172,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         //activityIndicator.startAnimating()
         activityIndicator.isHidden = false
         
+        activityLayerAppName.font = UIFont(name: "Rubik-Medium", size: 16)
         activityLayerAppName.text = options.appName ?? Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Loading"
         
         leftButton.isUserInteractionEnabled = false
