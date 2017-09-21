@@ -101,6 +101,7 @@
 		2BC4EF231EECB3CA00ACAC26 /* LastPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */; };
 		2BC4EF251EECB78200ACAC26 /* KUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4EF241EECB78200ACAC26 /* KUI.swift */; };
 		2BC4EF2B1EEEE67E00ACAC26 /* KVOController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */; };
+		2BD0CF7D1F7369EE003D72CC /* PrimeTimePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0CF7C1F7369EE003D72CC /* PrimeTimePresenter.swift */; };
 		2BEDFBE01F4A77F7008FB4B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BB4AACC1C4D60B9002C22C8 /* Assets.xcassets */; };
 		2BF2668E1F09411D00CB9461 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */; };
 		47E94876B22D27145C73BD37 /* Pods_DemoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1CFBE72CE680C7BEC8F4E9 /* Pods_DemoSDK.framework */; };
@@ -202,6 +203,7 @@
 		2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastPageViewController.swift; sourceTree = "<group>"; };
 		2BC4EF241EECB78200ACAC26 /* KUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KUI.swift; sourceTree = "<group>"; };
 		2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KVOController.framework; path = Carthage/Build/iOS/KVOController.framework; sourceTree = "<group>"; };
+		2BD0CF7C1F7369EE003D72CC /* PrimeTimePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrimeTimePresenter.swift; path = Show/PrimeTimePresenter.swift; sourceTree = "<group>"; };
 		2BF2668D1F09411D00CB9461 /* PlaybackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackManager.swift; path = Player/PlaybackManager.swift; sourceTree = "<group>"; };
 		5B06F3C21CFA410A007FA3AB /* NSObject+Li5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Li5.h"; sourceTree = "<group>"; };
 		5B06F3C31CFA410A007FA3AB /* NSObject+Li5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Li5.m"; sourceTree = "<group>"; };
@@ -472,6 +474,24 @@
 				2BA593471EB4258E0065FDD9 /* Info.plist */,
 			);
 			path = Li5SDKTests;
+			sourceTree = "<group>";
+		};
+		2BD0CF7B1F7369C5003D72CC /* PrimeTime */ = {
+			isa = PBXGroup;
+			children = (
+				7865AC4D1F0C42DE00544264 /* PrimeTimeViewController.xib */,
+				7865AC4C1F0C42DE00544264 /* PrimeTimeViewController.swift */,
+				2BD0CF7C1F7369EE003D72CC /* PrimeTimePresenter.swift */,
+			);
+			name = PrimeTime;
+			sourceTree = "<group>";
+		};
+		2BD0CF7E1F7370DF003D72CC /* PlayPage */ = {
+			isa = PBXGroup;
+			children = (
+				7818CA8F1F451F9300595173 /* PlayPageViewController.swift */,
+			);
+			name = PlayPage;
 			sourceTree = "<group>";
 		};
 		3F42F740CE8663DBD2D0DCE6 /* Frameworks */ = {
@@ -882,9 +902,8 @@
 		7865AC491F0C423400544264 /* Show */ = {
 			isa = PBXGroup;
 			children = (
-				7865AC4C1F0C42DE00544264 /* PrimeTimeViewController.swift */,
-				7865AC4D1F0C42DE00544264 /* PrimeTimeViewController.xib */,
-				7818CA8F1F451F9300595173 /* PlayPageViewController.swift */,
+				2BD0CF7B1F7369C5003D72CC /* PrimeTime */,
+				2BD0CF7E1F7370DF003D72CC /* PlayPage */,
 				2BC4EF221EECB3CA00ACAC26 /* LastPageViewController.swift */,
 			);
 			name = Show;
@@ -1262,6 +1281,7 @@
 				2BA594031EB4275D0065FDD9 /* CardUICollectionViewCell.m in Sources */,
 				2BA594051EB4275D0065FDD9 /* CardUIView.m in Sources */,
 				787B5A7A1F47B2F900BAC786 /* KCore.swift in Sources */,
+				2BD0CF7D1F7369EE003D72CC /* PrimeTimePresenter.swift in Sources */,
 				7818CA841F45126B00595173 /* CommonPreloadingManager.swift in Sources */,
 				2BA594071EB4275D0065FDD9 /* Li5View.m in Sources */,
 				2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */,

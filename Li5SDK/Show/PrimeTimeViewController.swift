@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-protocol PrimeTimeViewControllerProtocol {
+protocol PrimeTimeViewControllerProtocol : class {
     func setup(products: [ProductModel],
                eop: EndOfPrimeTime?,
                eos: EndOfShow?,
@@ -34,6 +34,9 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     @IBOutlet weak var activityLayerAppName: UILabel!
     
     @IBOutlet weak var lastPageContainer: UIView!
+    
+    @IBOutlet weak var leftButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var rightButtonWidthConstraint: NSLayoutConstraint!
     
     // MARK: Subviewcontrollers
     
@@ -292,6 +295,16 @@ extension PrimeTimeViewController : PlayPageViewControllerDelegate {
     
     func readyForPlayback() {
         dismissActivityIndicator()
+    }
+    
+    func didChangeToTrailer() {
+        leftButtonWidthConstraint.constant = leftButtonWidthConstraint.constant * 2
+        rightButtonWidthConstraint.constant = rightButtonWidthConstraint.constant * 2
+    }
+    
+    func didChangeToContent() {
+        leftButtonWidthConstraint.constant = leftButtonWidthConstraint.constant / 2
+        rightButtonWidthConstraint.constant = rightButtonWidthConstraint.constant / 2
     }
     
 }

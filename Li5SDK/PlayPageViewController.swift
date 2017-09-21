@@ -21,6 +21,9 @@ protocol PlayPageViewControllerDelegate : class {
     func readyForPlayback()
     var visibleToPlay: Bool { get }
     var options: Li5SDKOptionsProtocol { get }
+    
+    func didChangeToTrailer()
+    func didChangeToContent()
 }
 
 class PlayPageViewController : PaginatorViewController, PlayPageViewControllerProtocol {
@@ -83,12 +86,14 @@ class PlayPageViewController : PaginatorViewController, PlayPageViewControllerPr
     override func moveTo(pageIndex targetPageIndex: Int) {
         if targetPageIndex == 1 {
             player.pause()
+            delegate?.didChangeToContent()
         } else {
             if let cp = player.currentPlayer {
                 if cp.isPlaying == false {
                     player.play()
                 }
             }
+            delegate?.didChangeToTrailer()
         }
         
         super.moveTo(pageIndex: targetPageIndex)
