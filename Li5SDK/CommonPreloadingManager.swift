@@ -96,12 +96,12 @@ public class CommonPreloadingManager : CommonPreloadingManagerProtocol {
     public func startPreloading() {
         if ready {
             delegate?.managerIsReadyForPlayback()
-            return
+        } else {
+            for asset in assets {
+                delegate?.player?.append(asset: asset)
+            }
         }
         
-        for asset in assets {
-            delegate?.player?.append(asset: asset)
-        }
         for i in 0...(self.simultaneousBufferAmount-1) {
             preload(index: i)
         }

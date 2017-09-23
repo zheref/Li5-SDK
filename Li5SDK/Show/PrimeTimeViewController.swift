@@ -135,7 +135,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        player.pause()
+        player.goToFirst(startPlaying: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {

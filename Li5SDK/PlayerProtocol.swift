@@ -30,9 +30,13 @@ public protocol PlayerProtocol : class {
     
     func pause()
     
+    func goToFirst(startPlaying: Bool)
+    
     func goNext(startPlaying: Bool)
     
     func goPrevious(startPlaying: Bool)
+    
+    func goToFirst()
     
     func goNext()
     

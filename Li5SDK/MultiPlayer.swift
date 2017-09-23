@@ -43,6 +43,8 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
     /// The index of the item currently being played
     public var currentIndex: Int = 0
     
+    public var observersSettled = false
+    
     internal var currentAsset: Asset? {
         if enqueuedItems.count > currentIndex {
             return enqueuedItems[currentIndex]
@@ -110,6 +112,23 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
         return currentPlayer?.status ?? .unknown
     }
     
+    public func goToFirst() {
+        goToFirst(startPlaying: true)
+    }
+    
+    public func goToFirst(startPlaying: Bool) {
+        pause()
+        
+        let lastItem = currentItem
+        currentIndex = 0
+        currentItem?.seek(to: kCMTimeZero)
+        
+        if startPlaying { play() }
+        
+        lastItem?.seek(to: kCMTimeZero)
+        automaticallyReplay = true
+    }
+    
     public func goPrevious() {
         goPrevious(startPlaying: true)
     }
@@ -146,19 +165,25 @@ public class MultiPlayer: NSObject, MultiPlayerProtocol {
     }
     
     public func settle() {
-        addObserver(self, forKeyPath: #keyPath(currentItem.status),
-                    options: [.new, .initial], context: &queuePlayerViewKVOContext)
-        addObserver(self, forKeyPath: #keyPath(currentItem),
-                    options: [.new, .initial], context: &queuePlayerViewKVOContext)
+        if observersSettled == false {
+            addObserver(self, forKeyPath: #keyPath(currentItem.status),
+                        options: [.new, .initial], context: &queuePlayerViewKVOContext)
+            addObserver(self, forKeyPath: #keyPath(currentItem),
+                        options: [.new, .initial], context: &queuePlayerViewKVOContext)
+            observersSettled = true
+        }
     }
     
     
     public func loosen() {
-        removeObserver(self, forKeyPath: #keyPath(currentItem.status),
-                       context: &queuePlayerViewKVOContext)
-        
-        removeObserver(self, forKeyPath: #keyPath(currentItem),
-                       context: &queuePlayerViewKVOContext)
+        if observersSettled {
+            removeObserver(self, forKeyPath: #keyPath(currentItem.status),
+                           context: &queuePlayerViewKVOContext)
+            
+            removeObserver(self, forKeyPath: #keyPath(currentItem),
+                           context: &queuePlayerViewKVOContext)
+            observersSettled = false
+        }
     }
     
     
