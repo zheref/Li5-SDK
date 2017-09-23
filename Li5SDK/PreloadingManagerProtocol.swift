@@ -23,6 +23,8 @@ public protocol PreloadingManagerProtocol : PreloaderDelegate {
     
     var currentAsset: Asset? { get }
     
+    var ready: Bool { get set }
+    
     var delegate: PreloadingManagerDelegate? { get set }
     
     func setup(bufferer: BufferPreloaderProtocol?, downloader: DownloadPreloaderProtocol?)

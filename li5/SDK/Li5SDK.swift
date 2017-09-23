@@ -26,7 +26,17 @@ public protocol Li5SDKProtocol {
 /// SDK class which will be the access point to the presentation and configuration of SDK
 public class Li5SDK : Li5SDKProtocol {
     
-    private var viewController: PrimeTimeViewController!
+    fileprivate var viewController: PrimeTimeViewController!
+    
+    fileprivate lazy var player: MultiPlayer = {
+        return MultiPlayer()
+    }()
+    
+    fileprivate var manager: CommonPreloadingManager?
+    
+    fileprivate var bufferer: PreemptiveBufferPreloader?
+    
+    fileprivate var downloader: PlayerDownloadPreloader?
     
     fileprivate init() {}
     
@@ -67,11 +77,11 @@ public class Li5SDK : Li5SDKProtocol {
         if viewController == nil {
             viewController = PrimeTimeViewController(nibName: KUI.XIB.PrimeTimeViewController.rawValue,
                                                     bundle: Bundle(for: Li5SDK.self))
-            
-            ProductsDataStore.shared.asynchronouslyLoadProducts({ [weak self] (products, eop, eos) in
-                self?.render(withProducts: products, eop: eop, eos: eos)
-            })
         }
+        
+        ProductsDataStore.shared.asynchronouslyLoadProducts({ [weak self] (products, eop, eos) in
+            self?.render(withProducts: products, eop: eop, eos: eos)
+        })
     }
     
     /// Sets logger up for custom log printing
@@ -87,30 +97,49 @@ public class Li5SDK : Li5SDKProtocol {
             return model.asAsset!
         })
         
-        let manager = CommonPreloadingManager(assets: assets,
+        if manager == nil {
+            manager = CommonPreloadingManager(assets: assets,
                                               sameTimeBufferAmount: 1,
                                               minimumBufferedVideosToStartPlaying: 2)
-        
-        let bufferer = PreemptiveBufferPreloader(delegate: manager)
-        let downloader = PlayerDownloadPreloader(delegate: manager)
-        
-        manager.setup(bufferer: bufferer, downloader: downloader)
+            
+            if bufferer == nil {
+                bufferer = PreemptiveBufferPreloader(delegate: manager!)
+            }
+            
+            if downloader == nil {
+                downloader = PlayerDownloadPreloader(delegate: manager!)
+            }
+            
+            manager?.setup(bufferer: bufferer!, downloader: downloader!)
+        }
         
         viewController.setup(products: products,
                              eop: eop,
                              eos: eos,
-                             player: MultiPlayer(),
-                             manager: manager,
-                             bufferer: bufferer,
-                             downloader: downloader)
+                             player: player,
+                             manager: manager!,
+                             bufferer: bufferer!,
+                             downloader: downloader!)
         
         viewController.options = options
+        viewController.delegate = self
+        
+        let storyboard = UIStoryboard(name: KUI.SB.DiscoverViews.rawValue,
+                                      bundle: Bundle(for: Li5SDK.self))
+        
+        let mantleVC = storyboard.instantiateViewController(withIdentifier: KUI.VC.MantleViewController.rawValue) as! RCMantleViewController
+        
+        viewController.mantleDelegate = mantleVC
+        
+        mantleVC.setUpScrollView()
+        
+        mantleVC.addToScrollViewNewController(controller: viewController)
         
         guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {
             return
         }
         
-        rootVC.present(viewController, animated: false, completion: nil)
+        rootVC.present(mantleVC, animated: true, completion: nil)
     }
     
     
@@ -125,4 +154,10 @@ public class Li5SDK : Li5SDKProtocol {
         }
     }
     
+}
+
+extension Li5SDK : PrimeTimeViewControllerDelegate {
+    func primeTimeWasDismissed() {
+        
+    }
 }

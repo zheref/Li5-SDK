@@ -101,13 +101,13 @@ class PlayPageViewController : PaginatorViewController, PlayPageViewControllerPr
     
     func startPreloading() {
         manager.delegate = self
+        
+        trailerVC.showLoadingScreen()
         manager.startPreloading()
         
         if let currentPlayer = player.currentPlayer {
             trailerVC.set(player: currentPlayer)
         }
-        
-        trailerVC.showLoadingScreen()
     }
     
     private func setHTMLDetails() {

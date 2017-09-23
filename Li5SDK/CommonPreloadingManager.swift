@@ -41,6 +41,8 @@ public class CommonPreloadingManager : CommonPreloadingManagerProtocol {
     /// The minimum amount of videos that must be successfully buffered before starting playback
     var minimumBufferedVideosToStart: Int
     
+    public var ready: Bool = false
+    
     // MARK: - COMPUTED PROPERTIES
     
     public var currentAsset: Asset? {
@@ -92,6 +94,11 @@ public class CommonPreloadingManager : CommonPreloadingManagerProtocol {
     
     /// Starts preloading videos by buffering and/or caching according to the configuration
     public func startPreloading() {
+        if ready {
+            delegate?.managerIsReadyForPlayback()
+            return
+        }
+        
         for asset in assets {
             delegate?.player?.append(asset: asset)
         }
@@ -131,6 +138,7 @@ public class CommonPreloadingManager : CommonPreloadingManagerProtocol {
             let alreadyBufferedAssets = self.assets.filter { $0.bufferStatus == .buffered }
             
             if self.isEnough(bufferedAssetsAmount: alreadyBufferedAssets.count) {
+                self.ready = true
                 self.delegate?.managerIsReadyForPlayback()
             }
         }

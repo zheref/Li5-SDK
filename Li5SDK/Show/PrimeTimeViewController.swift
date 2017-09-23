@@ -19,6 +19,12 @@ protocol PrimeTimeViewControllerProtocol : class {
                downloader: DownloadPreloaderProtocol?)
 }
 
+protocol PrimeTimeViewControllerDelegate : class {
+    
+    func primeTimeWasDismissed()
+    
+}
+
 class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol {
     
     // MARK: - PROPERTIES
@@ -52,9 +58,14 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     var options: Li5SDKOptionsProtocol = Li5SDKOptions()
     
+    // MARK: Delegates
+    
+    weak var mantleDelegate: RCMantleViewDelegate?
+    weak var delegate: PrimeTimeViewControllerDelegate?
+    
     // MARK: Playback
     
-    private var player: PlayerProtocol!
+    private weak var player: PlayerProtocol!
     private var manager: PreloadingManagerProtocol!
     
     // MARK: Computed Properties
@@ -82,9 +93,14 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         self.products = products
         self.eop = eop
         self.eos = eos
-        self.player = player
         
-        self.manager = manager
+        if self.player == nil {
+            self.player = player
+        }
+        
+        if self.manager == nil {
+            self.manager = manager
+        }
     }
     
     // MARK: Lifecycle
@@ -108,16 +124,18 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         
         player.settle()
         
-        currentController.startPreloading()
-        
         presentActivityIndicator()
+        currentController.startPreloading()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         player.pause()
-        player.loosen()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -285,6 +303,15 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
+    
+    // MARK: - RELEASE MEMORY
+    
+    fileprivate func releaseAllocations() {
+        products = []
+        eos = nil
+        eop = nil
+    }
+    
 }
 
 extension PrimeTimeViewController : PlayPageViewControllerDelegate {
@@ -310,5 +337,17 @@ extension PrimeTimeViewController : PlayPageViewControllerDelegate {
 }
 
 extension PrimeTimeViewController : LastPageViewControllerDelegate {
+    
+}
+
+extension PrimeTimeViewController : RCMantleViewListener {
+    
+    func mantleWillClose() {
+        releaseAllocations()
+    }
+    
+    func mantleDidClose() {
+        delegate?.primeTimeWasDismissed()
+    }
     
 }

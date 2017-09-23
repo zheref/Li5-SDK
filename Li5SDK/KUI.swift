@@ -24,6 +24,7 @@ class KUI {
         case TeaserView
         case LastPage
         case UnlockedView
+        case MantleViewController
     }
     
 }
