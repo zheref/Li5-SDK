@@ -106,11 +106,32 @@ public class Li5SDK : Li5SDKProtocol {
         
         viewController.options = options
         
+        viewController.dismissBlock = { [weak self] in
+            UIView.animate(withDuration: 0.2, animations: { [weak self] in
+                //self?.blurSampleImageView.alpha = 0
+            }) { [weak self] _ in
+                PrimeTimeConfig.shared.backgroundEffect = ShadowEffect.default
+                PrimeTimeConfig.shared.dismissableHeightPercentage = 0.35
+//                self?.update()
+            }
+        }
+        
+        let nav = UINavigationController(rootViewController: viewController)
+        
+        PrimeTimeConfig.shared.backgroundEffect = BlurEffect.light
+        PrimeTimeConfig.shared.dismissableHeightPercentage = 0.6
+        
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            //self?.blurSampleImageView.alpha = 1.0
+        })
+        
+        nav.modalPresentationStyle = .overCurrentContext
+        
         guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {
             return
         }
         
-        rootVC.present(viewController, animated: false, completion: nil)
+        rootVC.present(nav, animated: true, completion: nil)
     }
     
     

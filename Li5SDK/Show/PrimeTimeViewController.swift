@@ -19,6 +19,18 @@ protocol PrimeTimeViewControllerProtocol : class {
                downloader: DownloadPreloaderProtocol?)
 }
 
+class PrimeTimeConfig {
+    static let shared: PrimeTimeConfig = PrimeTimeConfig()
+    
+    var backgroundEffect: BackgroundEffect? = ShadowEffect.default
+    var dismissableHeightPercentage: CGFloat = PullToDismiss.Defaults.dismissableHeightPercentage
+    
+    func adaptSetting(pullToDismiss: PullToDismiss?) {
+        pullToDismiss?.backgroundEffect = backgroundEffect
+        pullToDismiss?.dismissableHeightPercentage = dismissableHeightPercentage
+    }
+}
+
 class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol {
     
     // MARK: - PROPERTIES
@@ -51,6 +63,9 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     private var eos: EndOfShow?
     
     var options: Li5SDKOptionsProtocol = Li5SDKOptions()
+    
+    var dismissBlock: (() -> Void)?
+    var pullToDismiss: PullToDismiss?
     
     // MARK: Playback
     
@@ -97,6 +112,13 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         
         let gestureRecorgnizer = UILongPressGestureRecognizer(target: self, action: #selector(userDidHoldMiddleActiveSection))
         view.addGestureRecognizer(gestureRecorgnizer)
+        
+        pullToDismiss = PullToDismiss(scrollView: currentController.containerScrollView)
+        PrimeTimeConfig.shared.adaptSetting(pullToDismiss: pullToDismiss)
+        pullToDismiss?.dismissAction = { [weak self] in
+            self?.dismiss(nil)
+        }
+        pullToDismiss?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -276,6 +298,12 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         }
     }
     
+    @objc func dismiss(_: AnyObject?) {
+        dismiss(animated: true) { [weak self] in
+            self?.dismissBlock?()
+        }
+    }
+    
     // MARK: - GESTURE RECOGNIZERS
     
     @objc private func handleLockTap(_ gr: UIPanGestureRecognizer) {
@@ -311,4 +339,10 @@ extension PrimeTimeViewController : PlayPageViewControllerDelegate {
 
 extension PrimeTimeViewController : LastPageViewControllerDelegate {
     
+}
+
+extension PrimeTimeViewController : UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
 }

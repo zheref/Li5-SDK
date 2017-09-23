@@ -10,6 +10,15 @@
 		28544A62245B9F3093B0C879 /* Pods_Li5SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E898E5E76AA7BABBE01F9E /* Pods_Li5SDK.framework */; };
 		2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */; };
 		2B0234611F0A8AB400B86B06 /* PlaybackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */; };
+		2B09F55B1F75EB32000B5F99 /* PullToDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09F5521F75EB32000B5F99 /* PullToDismiss.swift */; };
+		2B09F55C1F75EB32000B5F99 /* BackgroundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09F5531F75EB32000B5F99 /* BackgroundEffect.swift */; };
+		2B09F55D1F75EB32000B5F99 /* CustomBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09F5541F75EB32000B5F99 /* CustomBlurView.swift */; };
+		2B09F55E1F75EB32000B5F99 /* EdgeShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09F5551F75EB32000B5F99 /* EdgeShadow.swift */; };
+		2B09F55F1F75EB32000B5F99 /* UIView+EdgeShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09F5561F75EB32000B5F99 /* UIView+EdgeShadow.swift */; };
+		2B09F5601F75EB32000B5F99 /* DelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B09F5571F75EB32000B5F99 /* DelegateProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B09F5611F75EB32000B5F99 /* DelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B09F5581F75EB32000B5F99 /* DelegateProxy.m */; };
+		2B09F5621F75EB32000B5F99 /* ScrollViewDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09F5591F75EB32000B5F99 /* ScrollViewDelegateProxy.swift */; };
+		2B09F5631F75EB32000B5F99 /* Unavailable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09F55A1F75EB32000B5F99 /* Unavailable.swift */; };
 		2B2CDFBF1F5B008300F3793E /* ExtendedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2CDFBE1F5B008300F3793E /* ExtendedViewController.swift */; };
 		2B2CDFC01F5B063800F3793E /* Li5PlayerUISlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B7551931CCE7433007FAF67 /* Li5PlayerUISlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA01E43F4A9006C3A9F /* ProductPageViews.storyboard */; };
@@ -165,6 +174,15 @@
 		1053B67F6FFB4C6C85CE982F /* Pods-DemoSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoSDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoSDK/Pods-DemoSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndexedProtocol.swift; sourceTree = "<group>"; };
 		2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackDelegate.swift; path = Player/PlaybackDelegate.swift; sourceTree = "<group>"; };
+		2B09F5521F75EB32000B5F99 /* PullToDismiss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToDismiss.swift; sourceTree = "<group>"; };
+		2B09F5531F75EB32000B5F99 /* BackgroundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundEffect.swift; sourceTree = "<group>"; };
+		2B09F5541F75EB32000B5F99 /* CustomBlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBlurView.swift; sourceTree = "<group>"; };
+		2B09F5551F75EB32000B5F99 /* EdgeShadow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeShadow.swift; sourceTree = "<group>"; };
+		2B09F5561F75EB32000B5F99 /* UIView+EdgeShadow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+EdgeShadow.swift"; sourceTree = "<group>"; };
+		2B09F5571F75EB32000B5F99 /* DelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateProxy.h; sourceTree = "<group>"; };
+		2B09F5581F75EB32000B5F99 /* DelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelegateProxy.m; sourceTree = "<group>"; };
+		2B09F5591F75EB32000B5F99 /* ScrollViewDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewDelegateProxy.swift; sourceTree = "<group>"; };
+		2B09F55A1F75EB32000B5F99 /* Unavailable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unavailable.swift; sourceTree = "<group>"; };
 		2B2CDFBE1F5B008300F3793E /* ExtendedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedViewController.swift; sourceTree = "<group>"; };
 		2B44F4ED1EBAC4CF00AB18A0 /* DemoSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B44F4EF1EBAC4CF00AB18A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -382,6 +400,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B09F5511F75EAF8000B5F99 /* PullToDismiss */ = {
+			isa = PBXGroup;
+			children = (
+				2B09F5521F75EB32000B5F99 /* PullToDismiss.swift */,
+				2B09F5531F75EB32000B5F99 /* BackgroundEffect.swift */,
+				2B09F5541F75EB32000B5F99 /* CustomBlurView.swift */,
+				2B09F5551F75EB32000B5F99 /* EdgeShadow.swift */,
+				2B09F5561F75EB32000B5F99 /* UIView+EdgeShadow.swift */,
+				2B09F5571F75EB32000B5F99 /* DelegateProxy.h */,
+				2B09F5581F75EB32000B5F99 /* DelegateProxy.m */,
+				2B09F5591F75EB32000B5F99 /* ScrollViewDelegateProxy.swift */,
+				2B09F55A1F75EB32000B5F99 /* Unavailable.swift */,
+			);
+			name = PullToDismiss;
+			sourceTree = "<group>";
+		};
 		2B44F4EE1EBAC4CF00AB18A0 /* DemoSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,6 +496,7 @@
 				2B9CEDC41EC7D73500B6BA73 /* Core */,
 				78FC0C1F1F04C369004AF0D8 /* Player */,
 				7818CA791F45066200595173 /* Misc */,
+				2B09F5511F75EAF8000B5F99 /* PullToDismiss */,
 				2BA5933B1EB4258D0065FDD9 /* Info.plist */,
 			);
 			path = Li5SDK;
@@ -960,6 +995,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B09F5601F75EB32000B5F99 /* DelegateProxy.h in Headers */,
 				2B5A00231EEB80B6000E4F71 /* Li5View.h in Headers */,
 				2BA594311EB42DA70065FDD9 /* IndexedViewController.h in Headers */,
 				2B2CDFC01F5B063800F3793E /* Li5PlayerUISlider.h in Headers */,
@@ -1223,12 +1259,14 @@
 				2BA593711EB4275D0065FDD9 /* SinnerView.swift in Sources */,
 				787B5A761F4798D300BAC786 /* ProductsDataStore.swift in Sources */,
 				2BA5938F1EB4275D0065FDD9 /* ProductsListView.m in Sources */,
+				2B09F5611F75EB32000B5F99 /* DelegateProxy.m in Sources */,
 				2BA593911EB4275D0065FDD9 /* ProductsCollectionViewCell.m in Sources */,
 				7818CA8C1F4518BD00595173 /* MultiPlayer.swift in Sources */,
 				2BA593931EB4275D0065FDD9 /* HorizontalUICollectionViewFlowLayout.m in Sources */,
 				2BA5939A1EB4275D0065FDD9 /* ProductPageActionsView.m in Sources */,
 				7818CA7C1F450F3E00595173 /* PreemptiveBufferPreloader.swift in Sources */,
 				2BA5939C1EB4275D0065FDD9 /* Heart.m in Sources */,
+				2B09F5631F75EB32000B5F99 /* Unavailable.swift in Sources */,
 				7818CA901F451F9300595173 /* PlayPageViewController.swift in Sources */,
 				2BA5939D1EB4275D0065FDD9 /* HeartAnimationView.swift in Sources */,
 				787B5A781F47B24500BAC786 /* CommonAliases.swift in Sources */,
@@ -1238,8 +1276,10 @@
 				2BA593A31EB4275D0065FDD9 /* ShareExplainerUIViewController.m in Sources */,
 				783D81E61F0C301600EDAF64 /* AVPlayer.swift in Sources */,
 				2BA593B01EB4275D0065FDD9 /* SliderFluidView.m in Sources */,
+				2B09F55D1F75EB32000B5F99 /* CustomBlurView.swift in Sources */,
 				2BA593B21EB4275D0065FDD9 /* BAFluidView.m in Sources */,
 				2BA593B51EB4275D0065FDD9 /* UIColor+ColorWithHex.m in Sources */,
+				2B09F55B1F75EB32000B5F99 /* PullToDismiss.swift in Sources */,
 				2BA593B71EB4275D0065FDD9 /* Li5PlayerUISlider.m in Sources */,
 				2BC4EF231EECB3CA00ACAC26 /* LastPageViewController.swift in Sources */,
 				2BA593B91EB4275D0065FDD9 /* Li5PlayerTimer.m in Sources */,
@@ -1261,6 +1301,7 @@
 				78A4DD861F46686C00788FB5 /* TrailerViewController.swift in Sources */,
 				7818CA7E1F450FE000595173 /* Asset.swift in Sources */,
 				2B2CDFBF1F5B008300F3793E /* ExtendedViewController.swift in Sources */,
+				2B09F55C1F75EB32000B5F99 /* BackgroundEffect.swift in Sources */,
 				2BA593EE1EB4275D0065FDD9 /* DeviceManager.swift in Sources */,
 				7818CA8A1F45185100595173 /* PlayerProtocol.swift in Sources */,
 				2B84CD141EE837DC0011F061 /* PaginatorViewControllerDataSource.swift in Sources */,
@@ -1276,15 +1317,18 @@
 				2BA593FA1EB4275D0065FDD9 /* UILabel+Li5.m in Sources */,
 				2BA593FC1EB4275D0065FDD9 /* UIView+Li5.m in Sources */,
 				2BA593FE1EB4275D0065FDD9 /* UIViewController+Indexed.m in Sources */,
+				2B09F5621F75EB32000B5F99 /* ScrollViewDelegateProxy.swift in Sources */,
 				2BA594001EB4275D0065FDD9 /* UIBezierPath+UIImage.m in Sources */,
 				2BA594011EB4275D0065FDD9 /* CardStackUICollectionViewLayout.swift in Sources */,
 				2BA594031EB4275D0065FDD9 /* CardUICollectionViewCell.m in Sources */,
 				2BA594051EB4275D0065FDD9 /* CardUIView.m in Sources */,
 				787B5A7A1F47B2F900BAC786 /* KCore.swift in Sources */,
+				2B09F55E1F75EB32000B5F99 /* EdgeShadow.swift in Sources */,
 				2BD0CF7D1F7369EE003D72CC /* PrimeTimePresenter.swift in Sources */,
 				7818CA841F45126B00595173 /* CommonPreloadingManager.swift in Sources */,
 				2BA594071EB4275D0065FDD9 /* Li5View.m in Sources */,
 				2BA594091EB4275D0065FDD9 /* Li5GradientView.m in Sources */,
+				2B09F55F1F75EB32000B5F99 /* UIView+EdgeShadow.swift in Sources */,
 				7818CA801F45100800595173 /* AssetStatus.swift in Sources */,
 				2BA5940B1EB4275D0065FDD9 /* Li5BlurredView.m in Sources */,
 				2BA5940D1EB4275D0065FDD9 /* Li5VolumeView.m in Sources */,

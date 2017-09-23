@@ -27,5 +27,5 @@ FOUNDATION_EXPORT const unsigned char Li5SDKVersionString[];
 #import "ProductPageActionsView.h"
 #import "Li5VolumeView.h"
 #import "Li5PlayerUISlider.h"
-
+#import "DelegateProxy.h"
 #import "UIViewController+Indexed.h"
