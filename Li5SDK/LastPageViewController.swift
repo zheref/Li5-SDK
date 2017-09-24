@@ -11,6 +11,7 @@ import Crashlytics
 
 protocol LastPageViewControllerDelegate : class {
     var options: Li5SDKOptionsProtocol { get }
+    func didReachEndOfShow()
 }
 
 protocol LastPageViewControllerProtocol {
@@ -25,7 +26,7 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
     
     var isBeingDisplayed = false
     
-    weak var delegate: PlayPageViewControllerDelegate?
+    weak var delegate: LastPageViewControllerDelegate?
     
     var content: EndOfPrimeTime
     var player: AVPlayer?
@@ -314,6 +315,8 @@ class LastPageViewController : PaginatorViewController, LastPageViewControllerPr
         showPlayer?.isMuted = false
         showPlayer?.play()
         setupObservers()
+        
+        delegate?.didReachEndOfShow()
     }
     
     

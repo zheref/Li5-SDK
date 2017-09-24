@@ -23,6 +23,8 @@ protocol PrimeTimeViewControllerDelegate : class {
     
     func primeTimeWasDismissed()
     
+    func endOfShowWasReached()
+    
 }
 
 class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol {
@@ -337,6 +339,10 @@ extension PrimeTimeViewController : PlayPageViewControllerDelegate {
 }
 
 extension PrimeTimeViewController : LastPageViewControllerDelegate {
+    
+    func didReachEndOfShow() {
+        delegate?.endOfShowWasReached()
+    }
     
 }
 

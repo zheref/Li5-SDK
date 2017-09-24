@@ -14,6 +14,10 @@ import AVFoundation
 import SwiftyBeaver
 let log = SwiftyBeaver.self
 
+public protocol Li5SDKDelegate : class {
+    func li5SDKDidReachEndOfShow()
+}
+
 public protocol Li5SDKProtocol {
     static var shared: Li5SDKProtocol { get }
     
@@ -46,6 +50,8 @@ public class Li5SDK : Li5SDKProtocol {
     }()
     
     public var options: Li5SDKOptionsProtocol = Li5SDKOptions()
+    
+    public weak var delegate: Li5SDKDelegate?
     
     /// Prepares SDK for later calling by logging in associated registered user
     /// which holds the info and media to be managed by it.
@@ -159,5 +165,9 @@ public class Li5SDK : Li5SDKProtocol {
 extension Li5SDK : PrimeTimeViewControllerDelegate {
     func primeTimeWasDismissed() {
         
+    }
+    
+    func endOfShowWasReached() {
+        delegate?.li5SDKDidReachEndOfShow()
     }
 }
