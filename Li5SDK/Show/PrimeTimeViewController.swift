@@ -192,7 +192,6 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     private func presentActivityIndicator() {
         auxiliarContainer.isHidden = false
-        //activityIndicator.startAnimating()
         activityIndicator.isHidden = false
         
         activityLayerAppName.font = UIFont(name: "Rubik-Medium", size: 16)
@@ -204,7 +203,6 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
     
     fileprivate func dismissActivityIndicator() {
         auxiliarContainer.isHidden = true
-        //activityIndicator.stopAnimating()
         activityIndicator.isHidden = true
         leftButton.isUserInteractionEnabled = true
         rightButton.isUserInteractionEnabled = true
@@ -228,6 +226,7 @@ class PrimeTimeViewController: UIViewController, PrimeTimeViewControllerProtocol
         }
         
         if let xvc = extendedViewController {
+            auxiliarContainer.backgroundColor = UIColor.clear
             auxiliarContainer.addSubview(xvc.view)
             player.pause()
             addChildViewController(xvc)
