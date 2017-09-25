@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 
 public enum PaginationDirection {
@@ -199,6 +200,10 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
         pageLength = direction == .Vertical ? view.bounds.size.height : view.bounds.size.width
         
         view.addSubview(containerScrollView)
+        
+        containerScrollView.snp.makeConstraints { (make) in
+            make.size.equalToSuperview()
+        }
     }
     
     
@@ -542,14 +547,12 @@ internal class PaginatorViewController : UIViewController, PaginatorViewControll
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        containerScrollView.frame = view.bounds
         currentViewController?.beginAppearanceTransition(true, animated: animated)
     }
     
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         currentViewController?.endAppearanceTransition()
     }
     
