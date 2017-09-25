@@ -11,6 +11,7 @@
 		2B02345F1F0954FD00B86B06 /* PageIndexedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */; };
 		2B0234611F0A8AB400B86B06 /* PlaybackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */; };
 		2B09F5651F76145D000B5F99 /* RCMantleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09F5641F76145D000B5F99 /* RCMantleViewController.swift */; };
+		2B09F5671F78A62F000B5F99 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B09F5661F78A62F000B5F99 /* SnapKit.framework */; };
 		2B2CDFBF1F5B008300F3793E /* ExtendedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2CDFBE1F5B008300F3793E /* ExtendedViewController.swift */; };
 		2B2CDFC01F5B063800F3793E /* Li5PlayerUISlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B7551931CCE7433007FAF67 /* Li5PlayerUISlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B404C711EC6111C00C2BA1D /* ProductPageViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA01E43F4A9006C3A9F /* ProductPageViews.storyboard */; };
@@ -167,6 +168,7 @@
 		2B02345E1F0954FD00B86B06 /* PageIndexedProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndexedProtocol.swift; sourceTree = "<group>"; };
 		2B0234601F0A8AB400B86B06 /* PlaybackDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackDelegate.swift; path = Player/PlaybackDelegate.swift; sourceTree = "<group>"; };
 		2B09F5641F76145D000B5F99 /* RCMantleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RCMantleViewController.swift; sourceTree = "<group>"; };
+		2B09F5661F78A62F000B5F99 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		2B2CDFBE1F5B008300F3793E /* ExtendedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedViewController.swift; sourceTree = "<group>"; };
 		2B44F4ED1EBAC4CF00AB18A0 /* DemoSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B44F4EF1EBAC4CF00AB18A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BC4EF2B1EEEE67E00ACAC26 /* KVOController.framework in Frameworks */,
+				2B09F5671F78A62F000B5F99 /* SnapKit.framework in Frameworks */,
 				2B84CD181EE838800011F061 /* UIKit.framework in Frameworks */,
 				28544A62245B9F3093B0C879 /* Pods_Li5SDK.framework in Frameworks */,
 			);
@@ -500,6 +503,7 @@
 		3F42F740CE8663DBD2D0DCE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B09F5661F78A62F000B5F99 /* SnapKit.framework */,
 				2BC4EF2A1EEEE67E00ACAC26 /* KVOController.framework */,
 				2B84CD171EE838800011F061 /* UIKit.framework */,
 				2B44F53B1EBB539200AB18A0 /* AMPopTip.framework */,
@@ -1016,6 +1020,7 @@
 				2BA593361EB4258D0065FDD9 /* Resources */,
 				2B44F5391EBB533100AB18A0 /* CopyFiles */,
 				BC7FFDDA7D3FC4E7FBDDC55D /* [CP] Copy Pods Resources */,
+				2B09F5681F78A681000B5F99 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1142,6 +1147,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		2B09F5681F78A681000B5F99 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KVOController.framework",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SnapKit.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/KVOController.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		2B8BEBEF1EDB173C0037632A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

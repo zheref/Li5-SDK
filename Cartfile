@@ -1,1 +1,2 @@
 github "facebook/KVOController"
+github "SnapKit/SnapKit" ~> 3.0.0
