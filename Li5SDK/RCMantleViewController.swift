@@ -60,7 +60,8 @@ public class RCMantleViewController: UIViewController, RCMantleViewDelegate, UIS
     
     // setup initialization
     public func setUpScrollView(){
-        self.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        self.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        self.modalTransitionStyle = .coverVertical
         
         glassScreens = 1
         if bottomDismissible && topDismissable {
@@ -253,6 +254,14 @@ public class RCMantleViewController: UIViewController, RCMantleViewDelegate, UIS
                 listener.mantleWillClose()
             }
         }
+    }
+    
+    public override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
     }
     
     private func notifyDidDismiss() {
