@@ -326,13 +326,13 @@ extension PrimeTimeViewController : PlayPageViewControllerDelegate {
     }
     
     func didChangeToTrailer() {
-        leftButtonWidthConstraint.constant = leftButtonWidthConstraint.constant * 2
-        rightButtonWidthConstraint.constant = rightButtonWidthConstraint.constant * 2
+        leftButton.isHidden = false
+        rightButton.isHidden = false
     }
     
     func didChangeToContent() {
-        leftButtonWidthConstraint.constant = leftButtonWidthConstraint.constant / 2
-        rightButtonWidthConstraint.constant = rightButtonWidthConstraint.constant / 2
+        leftButton.isHidden = true
+        rightButton.isHidden = true
     }
     
 }
