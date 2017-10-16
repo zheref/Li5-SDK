@@ -1,0 +1,6 @@
+framework module Pods_QVC {
+  umbrella header "Pods-QVC-umbrella.h"
+
+  export *
+  module * { export * }
+}
