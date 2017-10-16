@@ -63,6 +63,7 @@
 		2B6063221F9506EF00D19607 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B60631E1F9506D900D19607 /* ImageIO.framework */; };
 		2B6063231F9506F600D19607 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B60631E1F9506D900D19607 /* ImageIO.framework */; };
 		2B6063251F95100600D19607 /* EBAY.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2B6063241F95100600D19607 /* EBAY.gif */; };
+		2B6063271F9518F800D19607 /* QVC.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2B6063261F9518F800D19607 /* QVC.gif */; };
 		2B84CD0D1EE835BE0011F061 /* PaginatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD0C1EE835BE0011F061 /* PaginatorViewController.swift */; };
 		2B84CD141EE837DC0011F061 /* PaginatorViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD131EE837DC0011F061 /* PaginatorViewControllerDataSource.swift */; };
 		2B84CD161EE838680011F061 /* PaginatorViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84CD151EE838680011F061 /* PaginatorViewControllerDelegate.swift */; };
@@ -301,6 +302,7 @@
 		2B6063171F95015D00D19607 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
 		2B60631E1F9506D900D19607 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2B6063241F95100600D19607 /* EBAY.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = EBAY.gif; sourceTree = "<group>"; };
+		2B6063261F9518F800D19607 /* QVC.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = QVC.gif; sourceTree = "<group>"; };
 		2B7E48791F0DDBFA0053B5EC /* PlaybackAssetsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackAssetsManager.swift; path = Player/PlaybackAssetsManager.swift; sourceTree = "<group>"; };
 		2B7E487C1F0DE8970053B5EC /* PlaybackAssetsDownloadHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackAssetsDownloadHandler.swift; path = Player/PlaybackAssetsDownloadHandler.swift; sourceTree = "<group>"; };
 		2B7E487E1F0DE8B90053B5EC /* Li5Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Li5Asset.swift; path = Player/Li5Asset.swift; sourceTree = "<group>"; };
@@ -571,6 +573,7 @@
 				2B6062C91F94550400D19607 /* Assets.xcassets */,
 				2B6062CB1F94550400D19607 /* LaunchScreen.storyboard */,
 				2B6062CE1F94550400D19607 /* Info.plist */,
+				2B6063261F9518F800D19607 /* QVC.gif */,
 			);
 			path = QVC;
 			sourceTree = "<group>";
@@ -1412,6 +1415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B6062CD1F94550400D19607 /* LaunchScreen.storyboard in Resources */,
+				2B6063271F9518F800D19607 /* QVC.gif in Resources */,
 				2B6062CA1F94550400D19607 /* Assets.xcassets in Resources */,
 				2B6062C81F94550400D19607 /* Main.storyboard in Resources */,
 			);

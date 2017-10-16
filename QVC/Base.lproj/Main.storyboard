@@ -34,19 +34,32 @@
                                     <action selector="userDidTapHolidayGifts:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FnA-OC-7LB"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oGj-GL-e1F">
+                                <rect key="frame" x="135" y="283" width="104" height="101"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="104" id="ILj-tC-euq"/>
+                                    <constraint firstAttribute="height" constant="101" id="jlI-Tn-wW7"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="RbW-i5-nvx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="7yq-gu-x3V"/>
+                            <constraint firstItem="oGj-GL-e1F" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Bc2-ut-9ln"/>
                             <constraint firstItem="x3Y-7m-Gls" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="467" id="Ome-7c-m2g"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="x3Y-7m-Gls" secondAttribute="bottom" constant="99" id="Vfp-Ba-5cf"/>
                             <constraint firstItem="RbW-i5-nvx" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="nGv-zR-UUA"/>
+                            <constraint firstItem="oGj-GL-e1F" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oMM-Y5-FDc"/>
                             <constraint firstAttribute="trailing" secondItem="RbW-i5-nvx" secondAttribute="trailing" id="oYq-88-GE5"/>
                             <constraint firstItem="x3Y-7m-Gls" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="vGw-zS-2y9"/>
                             <constraint firstItem="RbW-i5-nvx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="vU5-rh-rR1"/>
                         </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="animationImageView" destination="oGj-GL-e1F" id="QRB-qN-7e3"/>
+                        <outlet property="backgroundImageView" destination="RbW-i5-nvx" id="R67-7g-ZnA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

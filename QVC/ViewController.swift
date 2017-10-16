@@ -10,10 +10,24 @@ import UIKit
 import Li5SDK
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var animationImageView: UIImageView!
+    @IBOutlet weak var backgroundImageView: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        if let url = Bundle.main.url(forResource: "QVC", withExtension: "gif") {
+            animationImageView.image = UIImage.animatedImage(withAnimatedGIFURL: url)
+            backgroundImageView.isHidden = true
+            animationImageView.isHidden = false
+        }
+        
+        let when = DispatchTime.now() + 3
+        DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
+            self?.animationImageView.isHidden = true
+            self?.backgroundImageView.isHidden = false
+        }
     }
 
     override func didReceiveMemoryWarning() {
