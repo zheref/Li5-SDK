@@ -1,14 +1,6 @@
 iOS
 =======
 
-The following will guide you through the Android Li5 SDK Installation process
-via Gradle.
-
-Add the SDK to Gradle
----------------------
-
-TODO
-
 Add your API key
 ----------------
 
