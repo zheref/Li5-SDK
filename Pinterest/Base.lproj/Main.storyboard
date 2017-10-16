@@ -22,16 +22,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jX1-Eh-3Ev">
-                                <rect key="frame" x="137" y="283" width="100" height="100"/>
+                                <rect key="frame" x="147" y="293" width="80" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="ao8-Ch-gDA"/>
+                                    <constraint firstAttribute="height" constant="80" id="RDe-8E-DcZ"/>
+                                    <constraint firstAttribute="width" constant="80" id="ao8-Ch-gDA"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="jX1-Eh-3Ev" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="0ET-Pf-4DE"/>
-                            <constraint firstItem="jX1-Eh-3Ev" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="263" id="SdH-Wi-8z9"/>
                             <constraint firstItem="jX1-Eh-3Ev" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="o53-W1-QZT"/>
                         </constraints>
                     </view>

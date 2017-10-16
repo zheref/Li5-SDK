@@ -303,6 +303,7 @@
 		2B60631E1F9506D900D19607 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2B6063241F95100600D19607 /* EBAY.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = EBAY.gif; sourceTree = "<group>"; };
 		2B6063261F9518F800D19607 /* QVC.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = QVC.gif; sourceTree = "<group>"; };
+		2B6063281F952ECB00D19607 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B7E48791F0DDBFA0053B5EC /* PlaybackAssetsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackAssetsManager.swift; path = Player/PlaybackAssetsManager.swift; sourceTree = "<group>"; };
 		2B7E487C1F0DE8970053B5EC /* PlaybackAssetsDownloadHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaybackAssetsDownloadHandler.swift; path = Player/PlaybackAssetsDownloadHandler.swift; sourceTree = "<group>"; };
 		2B7E487E1F0DE8B90053B5EC /* Li5Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Li5Asset.swift; path = Player/Li5Asset.swift; sourceTree = "<group>"; };
@@ -992,6 +993,7 @@
 		5BB4AAB41C4D60B9002C22C8 = {
 			isa = PBXGroup;
 			children = (
+				2B6063281F952ECB00D19607 /* README.md */,
 				2BA593391EB4258D0065FDD9 /* Li5SDK */,
 				5BB4AABF1C4D60B9002C22C8 /* li5 */,
 				2BA593441EB4258E0065FDD9 /* Li5SDKTests */,
