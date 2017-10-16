@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Li5" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="QVCMockedUI" translatesAutoresizingMaskIntoConstraints="NO" id="RbW-i5-nvx">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x3Y-7m-Gls">
+                                <rect key="frame" x="252" y="487" width="107" height="81"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="107" id="la5-5h-OB4"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="userDidTapHolidayGifts:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FnA-OC-7LB"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oGj-GL-e1F">
+                                <rect key="frame" x="135" y="283" width="104" height="101"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="104" id="ILj-tC-euq"/>
+                                    <constraint firstAttribute="height" constant="101" id="jlI-Tn-wW7"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="RbW-i5-nvx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="7yq-gu-x3V"/>
+                            <constraint firstItem="oGj-GL-e1F" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Bc2-ut-9ln"/>
+                            <constraint firstItem="x3Y-7m-Gls" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="467" id="Ome-7c-m2g"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="x3Y-7m-Gls" secondAttribute="bottom" constant="99" id="Vfp-Ba-5cf"/>
+                            <constraint firstItem="RbW-i5-nvx" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="nGv-zR-UUA"/>
+                            <constraint firstItem="oGj-GL-e1F" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oMM-Y5-FDc"/>
+                            <constraint firstAttribute="trailing" secondItem="RbW-i5-nvx" secondAttribute="trailing" id="oYq-88-GE5"/>
+                            <constraint firstItem="x3Y-7m-Gls" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="vGw-zS-2y9"/>
+                            <constraint firstItem="RbW-i5-nvx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="vU5-rh-rR1"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="animationImageView" destination="oGj-GL-e1F" id="QRB-qN-7e3"/>
+                        <outlet property="backgroundImageView" destination="RbW-i5-nvx" id="R67-7g-ZnA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="140" y="127.28635682158921"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="QVCMockedUI" width="576" height="1024"/>
+    </resources>
+</document>
