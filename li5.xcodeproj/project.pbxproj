@@ -1357,7 +1357,7 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = B64365EYZ4;
 						LastSwiftMigration = 0830;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					2B6062F11F94DFCF00D19607 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -2171,6 +2171,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.li5.demo.Pinterest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d40c25a9-dad9-4543-beb7-140b303ebb2c";
+				PROVISIONING_PROFILE_SPECIFIER = "Dev profile for demo 2017-10-15";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "Li5SDK/Pinterest-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2189,13 +2191,15 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = B64365EYZ4;
 				INFOPLIST_FILE = Pinterest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.li5.demo.Pinterest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3a808088-f151-4a31-8386-c8222d76ab8b";
+				PROVISIONING_PROFILE_SPECIFIER = "Dist demo app profile 2017-10-15";
 				SWIFT_OBJC_BRIDGING_HEADER = "Li5SDK/Pinterest-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

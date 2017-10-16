@@ -22,15 +22,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hH5-Cs-IuZ">
-                                <rect key="frame" x="0.0" y="238" width="375" height="190"/>
+                                <rect key="frame" x="48" y="264" width="278" height="139"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="278" id="dMb-3E-yo5"/>
+                                    <constraint firstAttribute="height" constant="139" id="kZx-gd-cCE"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="hH5-Cs-IuZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="218" id="DGT-cb-Aty"/>
-                            <constraint firstAttribute="trailing" secondItem="hH5-Cs-IuZ" secondAttribute="trailing" id="HJq-Pm-ReY"/>
-                            <constraint firstItem="hH5-Cs-IuZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="rZt-jZ-Pc9"/>
-                            <constraint firstItem="hH5-Cs-IuZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="yxm-ud-WR7"/>
+                            <constraint firstItem="hH5-Cs-IuZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="zQc-FV-XQ7"/>
+                            <constraint firstItem="hH5-Cs-IuZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zWJ-HW-mGQ"/>
                         </constraints>
                     </view>
                     <connections>

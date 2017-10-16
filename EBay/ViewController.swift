@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let url = Bundle.main.url(forResource: "EBAY", withExtension: "gif") {
+        if let url = Bundle.main.url(forResource: "eBAY", withExtension: "gif") {
             animationImageView.image = UIImage.animatedImage(withAnimatedGIFURL: url)
         }
     }
