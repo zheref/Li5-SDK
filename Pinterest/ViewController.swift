@@ -10,18 +10,24 @@ import UIKit
 import Li5SDK
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var animationImageView: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        if let url = Bundle.main.url(forResource: "PINTEREST", withExtension: "gif") {
+            animationImageView.image = UIImage.animatedImage(withAnimatedGIFURL: url)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         let when = DispatchTime.now() + 3
-        DispatchQueue.main.asyncAfter(deadline: when) {
+        DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
             Li5SDK.shared.present()
+            self?.animationImageView.isHidden = true
         }
     }
 
