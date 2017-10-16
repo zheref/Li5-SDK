@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Li5SDK
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,8 +18,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        Li5SDK.shared.config(apiKey: "test_key_li5_producer", forApp: "Pinterest")
+        Li5SDK.shared.options.appName = "Pinterest"
+        Li5SDK.shared.options.contentCTACaption = "see more"
+        Li5SDK.shared.options.playbackProgressColor = UIColor.white
+        Li5SDK.shared.options.extendablePlaybackProgressColor = UIColor.red
+        
+        setupFabric()
         return true
+    }
+    
+    func setupFabric() {
+        SDKLogger.shared.info("Setting up Fabric/Crashlytics")
+        Crashlytics().debugMode = true
+        Fabric.with([Crashlytics.self])
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
