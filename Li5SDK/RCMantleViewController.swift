@@ -22,6 +22,8 @@ protocol RCMantleViewDelegate : class {
 
 public class RCMantleViewController: UIViewController, RCMantleViewDelegate, UIScrollViewDelegate {
     
+    private let minimumDraggedPercentageToDismiss: CGFloat = 0.25
+    
     public var scrollView: UIScrollView!
     private var contentView: UIView!
     
@@ -204,8 +206,8 @@ public class RCMantleViewController: UIViewController, RCMantleViewDelegate, UIS
     
     // close view or not
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let currentHorizontalPage = floor(scrollView.contentOffset.x / scrollView.bounds.size.width + 0.5);
-        let currentPage = floor(scrollView.contentOffset.y / scrollView.bounds.size.height + 0.5);
+        let currentHorizontalPage = floor(scrollView.contentOffset.x / scrollView.bounds.size.width + minimumDraggedPercentageToDismiss);
+        let currentPage = floor(scrollView.contentOffset.y / scrollView.bounds.size.height + minimumDraggedPercentageToDismiss);
         // let lastPage = floor(contentView.frame.height / scrollView.bounds.size.height - 1);
         
         if(draggableToSides && (currentHorizontalPage == 0 || currentHorizontalPage == 2)){
@@ -220,11 +222,12 @@ public class RCMantleViewController: UIViewController, RCMantleViewDelegate, UIS
     }
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        let currentPage = floor(scrollView.contentOffset.y / scrollView.bounds.size.height + 0.5);
+        let currentPage = floor(scrollView.contentOffset.y / scrollView.bounds.size.height + minimumDraggedPercentageToDismiss);
         if currentPage != CGFloat(mainView) {
             dismissView(animated: false)
         } else {
             scrollView.isScrollEnabled = true
+            
         }
     }
     
