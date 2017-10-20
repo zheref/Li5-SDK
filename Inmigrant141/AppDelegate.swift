@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        Li5SDK.shared.config(apiKey: "test_key_li5_producer", forApp: "Inmigrant141")
-        Li5SDK.shared.options.appName = "Inmigrant 141"
+        Li5SDK.shared.config(apiKey: "test_key_li5_producer", forApp: "Immigrant141")
+        Li5SDK.shared.options.appName = "Immigrant 141"
         Li5SDK.shared.options.contentCTACaption = "see more"
         Li5SDK.shared.options.playbackProgressColor = UIColor.orange
         Li5SDK.shared.options.extendablePlaybackProgressColor = UIColor.red
