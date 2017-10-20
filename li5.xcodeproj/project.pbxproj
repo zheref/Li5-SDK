@@ -330,7 +330,7 @@
 		2B6063241F95100600D19607 /* EBAY.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = EBAY.gif; sourceTree = "<group>"; };
 		2B6063261F9518F800D19607 /* QVC.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = QVC.gif; sourceTree = "<group>"; };
 		2B6063281F952ECB00D19607 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		2B60632D1F96EC4200D19607 /* Inmigrant141.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inmigrant141.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B60632D1F96EC4200D19607 /* Immigrant141.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Immigrant141.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B60632F1F96EC4200D19607 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B6063311F96EC4200D19607 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2B6063341F96EC4200D19607 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -652,7 +652,7 @@
 			path = EBay;
 			sourceTree = "<group>";
 		};
-		2B60632E1F96EC4200D19607 /* Inmigrant141 */ = {
+		2B60632E1F96EC4200D19607 /* Immigrant141 */ = {
 			isa = PBXGroup;
 			children = (
 				2B60632F1F96EC4200D19607 /* AppDelegate.swift */,
@@ -662,6 +662,7 @@
 				2B6063381F96EC4200D19607 /* LaunchScreen.storyboard */,
 				2B60633B1F96EC4200D19607 /* Info.plist */,
 			);
+			name = Immigrant141;
 			path = Inmigrant141;
 			sourceTree = "<group>";
 		};
@@ -1060,7 +1061,7 @@
 				2B6062C11F94550400D19607 /* QVC */,
 				2B6062D71F94551400D19607 /* Pinterest */,
 				2B6062F31F94DFCF00D19607 /* EBay */,
-				2B60632E1F96EC4200D19607 /* Inmigrant141 */,
+				2B60632E1F96EC4200D19607 /* Immigrant141 */,
 				5BB4AABE1C4D60B9002C22C8 /* Products */,
 				3F42F740CE8663DBD2D0DCE6 /* Frameworks */,
 				FB0AFBF8E94E01415951E979 /* Pods */,
@@ -1075,7 +1076,7 @@
 				2B6062C01F94550400D19607 /* QVC.app */,
 				2B6062D61F94551400D19607 /* Pinterest.app */,
 				2B6062F21F94DFCF00D19607 /* EBay.app */,
-				2B60632D1F96EC4200D19607 /* Inmigrant141.app */,
+				2B60632D1F96EC4200D19607 /* Immigrant141.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1372,9 +1373,9 @@
 			productReference = 2B6062F21F94DFCF00D19607 /* EBay.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2B60632C1F96EC4200D19607 /* Inmigrant141 */ = {
+		2B60632C1F96EC4200D19607 /* Immigrant141 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2B60633C1F96EC4200D19607 /* Build configuration list for PBXNativeTarget "Inmigrant141" */;
+			buildConfigurationList = 2B60633C1F96EC4200D19607 /* Build configuration list for PBXNativeTarget "Immigrant141" */;
 			buildPhases = (
 				AAF6F0EE530242BE9D41FB52 /* [CP] Check Pods Manifest.lock */,
 				2B6063291F96EC4200D19607 /* Sources */,
@@ -1390,9 +1391,9 @@
 			dependencies = (
 				2B6063431F96EF0F00D19607 /* PBXTargetDependency */,
 			);
-			name = Inmigrant141;
+			name = Immigrant141;
 			productName = Inmigrant141;
-			productReference = 2B60632D1F96EC4200D19607 /* Inmigrant141.app */;
+			productReference = 2B60632D1F96EC4200D19607 /* Immigrant141.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2BA593371EB4258D0065FDD9 /* Li5SDK */ = {
@@ -1487,7 +1488,7 @@
 				2B6062BF1F94550400D19607 /* QVC */,
 				2B6062D51F94551400D19607 /* Pinterest */,
 				2B6062F11F94DFCF00D19607 /* EBay */,
-				2B60632C1F96EC4200D19607 /* Inmigrant141 */,
+				2B60632C1F96EC4200D19607 /* Immigrant141 */,
 			);
 		};
 /* End PBXProject section */
@@ -2747,7 +2748,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2B60633C1F96EC4200D19607 /* Build configuration list for PBXNativeTarget "Inmigrant141" */ = {
+		2B60633C1F96EC4200D19607 /* Build configuration list for PBXNativeTarget "Immigrant141" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2B60633D1F96EC4200D19607 /* Debug */,
